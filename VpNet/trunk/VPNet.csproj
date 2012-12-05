@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Interfaces\IInstance.cs" />
+    <Compile Include="Core\EventData\ObjectChangeCallbackArgs.cs" />
+    <Compile Include="Core\EventData\ObjectCreateCallbackArgs.cs" />
+    <Compile Include="Core\EventData\ObjectDeleteCallbackArgs.cs" />
     <Compile Include="Core\Structs\Color.cs" />
     <Compile Include="Core\Structs\VpObject.cs" />
     <Compile Include="Core\EventData\World.cs" />
@@ -51,6 +54,7 @@
     <Compile Include="Core\EventData\Chat.cs" />
     <Compile Include="Core\Structs\IVector3.cs" />
     <Compile Include="NativeApi\Attribute.cs" />
+    <Compile Include="NativeApi\Callbacks.cs" />
     <Compile Include="NativeApi\Delegates.cs" />
     <Compile Include="NativeApi\Events.cs" />
     <Compile Include="NativeApi\Functions.cs" />

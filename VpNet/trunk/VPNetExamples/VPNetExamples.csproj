@@ -156,6 +156,7 @@
     <Compile Include="TextRotatorBot\TextRotatorBot.cs" />
     <Compile Include="TextRotatorBot\TextRotatorConfig.cs" />
     <Compile Include="TextRotatorBot\TextRotatorConfigItem.cs" />
+    <Compile Include="UnitTestsBot\UnitTestsBot.cs" />
     <Compile Include="WeatherBot\CurrentWeather.cs" />
     <Compile Include="WeatherBot\WeatherBot.cs" />
   </ItemGroup>

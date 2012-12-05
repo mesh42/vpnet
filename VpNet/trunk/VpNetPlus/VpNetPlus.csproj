@@ -45,6 +45,15 @@
     <Compile Include="..\Core\EventData\Chat.cs">
       <Link>Core\EventData\Chat.cs</Link>
     </Compile>
+    <Compile Include="..\Core\EventData\ObjectChangeCallbackArgs.cs">
+      <Link>Core\EventData\ObjectChangeCallbackArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\EventData\ObjectCreateCallbackArgs.cs">
+      <Link>Core\EventData\ObjectCreateCallbackArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Core\EventData\ObjectDeleteCallbackArgs.cs">
+      <Link>Core\EventData\ObjectDeleteCallbackArgs.cs</Link>
+    </Compile>
     <Compile Include="..\Core\EventData\World.cs">
       <Link>Core\EventData\World.cs</Link>
     </Compile>
@@ -71,6 +80,9 @@
     </Compile>
     <Compile Include="..\NativeAPI\Attribute.cs">
       <Link>NativeApi\Attribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NativeAPI\Callbacks.cs">
+      <Link>NativeApi\Callbacks.cs</Link>
     </Compile>
     <Compile Include="..\NativeAPI\Delegates.cs">
       <Link>NativeApi\Delegates.cs</Link>

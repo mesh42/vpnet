@@ -4,10 +4,10 @@ namespace VpNet.Core.Structs
 {
     public class VpObject
     {
-        public int Id { get; set; }
+        public int Id { get; internal set; }
         public int Type { get; set; }
         public DateTime Time { get; set; }
-        public int Owner { get; set; }
+        public int Owner { get; internal set; }
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public float Angle { get; set; }
@@ -35,6 +35,7 @@ namespace VpNet.Core.Structs
         public VpObject()
         {
             Angle = float.MaxValue;
+            Time = DateTime.UtcNow;
         }
     }
 }
