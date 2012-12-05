@@ -5,6 +5,7 @@ using VpNet.Core.Interfaces;
 using VpNet.Core.Structs;
 using VpNet.NativeApi;
 using Attribute = VpNet.NativeApi.Attribute;
+using System.Collections.Generic;
 
 namespace VpNet.Core
 {
@@ -12,6 +13,20 @@ namespace VpNet.Core
     {
         static bool _isInitialized;
         readonly IntPtr _instance;
+        private int _reference = int.MinValue;
+        private System.Collections.Generic.Dictionary<int, VpObject> _objectReferences = new Dictionary<int, VpObject>();
+
+        private int getNextReference()
+        {
+            lock (this)
+            {
+                if (_reference < int.MaxValue)
+                    _reference++;
+                else
+                    _reference = int.MinValue;
+                return _reference;
+            }
+        }
 
         public Instance()
         {
@@ -37,6 +52,11 @@ namespace VpNet.Core
             SetNativeEvent(Events.QueryCellEnd, OnQueryCellEnd);
             SetNativeEvent(Events.UniverseDisconnect, OnUniverseDisconnect);
             SetNativeEvent(Events.WorldDisconnect, OnWorldDisconnect);
+
+            SetNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallback);
+            SetNativeCallback(Callbacks.ObjectChange, OnObjectChangeCallback);
+            SetNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallback);
+
         }
 
         ~Instance()
@@ -172,11 +192,31 @@ namespace VpNet.Core
             }
         }
 
-        public void ChangeObject(VpObject vpObject)
+        public void DeleteObject(VpObject vpObject)
         {
             int rc;
+            var referenceNumber = getNextReference();
             lock (this)
             {
+                _objectReferences.Add(referenceNumber, vpObject);
+                Functions.vp_int_set(_instance, Attribute.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
+                rc = Functions.vp_object_delete(_instance);
+            }
+            if (rc != 0)
+            {
+                _objectReferences.Remove(referenceNumber);
+                throw new VpException((ReasonCode)rc);
+            }
+        }
+
+        public void AddObject(VpObject vpObject) {
+            int rc;
+            var referenceNumber = getNextReference();
+            lock (this)
+            {
+                _objectReferences.Add(referenceNumber, vpObject);
+                Functions.vp_int_set(_instance, Attribute.ReferenceNumber, referenceNumber);
                 Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
                 Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
                 Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
@@ -188,12 +228,41 @@ namespace VpNet.Core
                 Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
                 Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
                 Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
+                rc = Functions.vp_object_add(_instance);
+            }
+            if (rc != 0)
+            {
+                _objectReferences.Remove(referenceNumber);
+                throw new VpException((ReasonCode)rc);
+            }
+        }
 
+        public void ChangeObject(VpObject vpObject)
+        {
+            int rc;
+            var referenceNumber = getNextReference();
+            lock (this)
+            {
+                _objectReferences.Add(referenceNumber, vpObject);
+                Functions.vp_int_set(_instance, Attribute.ReferenceNumber, referenceNumber); 
+                Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
+                Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
+                Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
+                Functions.vp_string_set(_instance, Attribute.ObjectModel, vpObject.Model);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
+                Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.Position.X);
+                Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
+                Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
                 rc = Functions.vp_object_change(_instance);
             }
             if (rc != 0)
             {
+                _objectReferences.Remove(referenceNumber);
                 throw new VpException((ReasonCode)rc);
+
             }
         }
 
@@ -201,9 +270,17 @@ namespace VpNet.Core
         #region Events
         
         private Dictionary<Events, EventDelegate> _nativeEvents = new Dictionary<Events, EventDelegate>();
-        private void SetNativeEvent(Events eventType, EventDelegate eventFunction) {
+        private Dictionary<Callbacks, CallbackDelegate> _nativeCallbacks = new Dictionary<Callbacks, CallbackDelegate>();
+        private void SetNativeEvent(Events eventType, EventDelegate eventFunction)
+        {
             _nativeEvents[eventType] = eventFunction;
             Functions.vp_event_set(_instance, (int)eventType, eventFunction);
+        }
+
+        private void SetNativeCallback(Callbacks callbackType, CallbackDelegate callbackFunction)
+        {
+            _nativeCallbacks[callbackType] = callbackFunction;
+            Functions.vp_callback_set(_instance, (int)callbackType, callbackFunction);
         }
 
         public delegate void Event(Instance sender);
@@ -217,6 +294,10 @@ namespace VpNet.Core
         public delegate void ObjectDeleteEvent(Instance sender, int sessionId, int objectId);
         public delegate void ObjectClickEvent(Instance sender, int sessionId, int objectId);
 
+        public delegate void ObjectCreateCallback(Instance sender, ObjectCreateCallbackArgs args);
+        public delegate void ObjectChangeCallback(Instance sender, ObjectChangeCallbackArgs args); 
+        public delegate void ObjectDeleteCallback(Instance sender, ObjectDeleteCallbackArgs args);
+
         public delegate void QueryCellResult(Instance sender, VpObject objectData);
         public delegate void QueryCellEnd(Instance sender, int x, int z);
 
@@ -227,7 +308,11 @@ namespace VpNet.Core
         public event ObjectChangeEvent EventObjectCreate;
         public event ObjectChangeEvent EventObjectChange;
         public event ObjectDeleteEvent EventObjectDelete;
-        public event ObjectClickEvent EventObjectClick; 
+        public event ObjectClickEvent EventObjectClick;
+
+        public event ObjectCreateCallback EventObjectCreateCallback;
+        public event ObjectDeleteCallback EventObjectDeleteCallback;
+        public event ObjectChangeCallback EventObjectChangeCallback;
        
         public event WorldListEvent EventWorldList;
         public event Event EventWorldSetting;
@@ -240,7 +325,57 @@ namespace VpNet.Core
         public event QueryCellResult EventQueryCellResult;
         public event QueryCellEnd EventQueryCellEnd;
 
+
+
         #endregion
+
+        #region CallbackHandlers
+
+        private void OnObjectCreateCallback(IntPtr sender, int rc, int reference)
+        {
+            lock (this)
+            {
+                var vpObject = _objectReferences[reference];
+                _objectReferences.Remove(reference); 
+                if (EventObjectCreateCallback != null)
+                {
+                    vpObject.Id = Functions.vp_int(sender, Attribute.ObjectId);
+                    EventObjectCreateCallback(this, new ObjectCreateCallbackArgs(rc, vpObject));
+                }
+            }
+        }
+
+        private void OnObjectChangeCallback(IntPtr sender, int rc, int reference)
+        {
+            lock (this)
+            {
+                var vpObject = _objectReferences[reference];
+                _objectReferences.Remove(reference);
+
+                if (EventObjectChangeCallback != null)
+                {
+                    vpObject.Id = Functions.vp_int(sender, Attribute.ObjectId);
+                    EventObjectChangeCallback(this, new ObjectChangeCallbackArgs(rc, vpObject));
+                }
+            }
+        }
+
+        private void OnObjectDeleteCallback(IntPtr sender, int rc, int reference)
+        {
+            lock (this)
+            {
+                var vpObject = _objectReferences[reference];
+                _objectReferences.Remove(reference);
+
+                if (EventObjectDeleteCallback != null)
+                {
+                    EventObjectDeleteCallback(this, new ObjectDeleteCallbackArgs(rc, vpObject));
+                }
+            }
+        }
+
+        #endregion
+
         #region Event handlers
         private void OnChat(IntPtr sender)
         {
@@ -386,7 +521,6 @@ namespace VpNet.Core
                                    Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
                                    Position = new Vector3(Functions.vp_float(sender, Attribute.ObjectX),Functions.vp_float(sender, Attribute.ObjectY),Functions.vp_float(sender, Attribute.ObjectZ)),                                 
                                    Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle),
-
                                };
                 sessionId = Functions.vp_int(sender, Attribute.AvatarSession);
             }

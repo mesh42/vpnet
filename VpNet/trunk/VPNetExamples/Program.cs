@@ -23,7 +23,9 @@ menu:
                 Console.WriteLine("4. Event Display Bot");
                 Console.WriteLine("5. Text Rotator Bot");
                 Console.WriteLine("6. Query Bot");
-                Console.WriteLine("7. Weather Bot"); 
+                Console.WriteLine("7. Weather Bot");
+                Console.WriteLine("---- UNIT TESTS ---");
+                Console.WriteLine("A. Create Object Reference Number Test.");
                 Console.Write("Please enter a numer (0-7): ");
                 string read = Console.ReadLine();
 
@@ -58,12 +60,25 @@ menu:
                     case "7":
                         _bot = new WeatherBot.WeatherBot();
                         break;
+                    case "A" :
+                        _bot = new EventDisplayBot();
+                        _bot.AttachBot<UnitTestsBot.UnitTestsBot>();
+                        break;
                     default:
                         Console.WriteLine("Please enter an existing number");
                         goto menu;
                 }
                 _bot.Initialize();
-                Console.WriteLine(string.Format("Running Example {0}. Press Enter to exit and choose another example.",read));
+                var unitTestBot = _bot.GetAttachedBot<UnitTestsBot.UnitTestsBot>();
+                Console.WriteLine(string.Format("Running Example {0}. Press Enter to exit and choose another example.", read));
+                if (unitTestBot != null)
+                {
+                    Console.WriteLine(string.Format("Press enter to Execute Unit Tests.", read));
+                    Console.ReadLine();
+                    unitTestBot.UnitTestA();
+                    Console.ReadLine();
+                    Console.ReadLine();
+                }
                 Console.ReadLine();
                 _bot.Dispose();
                 goto menu;

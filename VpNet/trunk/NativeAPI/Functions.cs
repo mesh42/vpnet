@@ -43,6 +43,9 @@ namespace VpNet.NativeApi
         [DllImport("vpsdk", CallingConvention=CallingConvention.Cdecl)]
         public static extern int vp_event_set(IntPtr instance, int eventName, [MarshalAs(UnmanagedType.FunctionPtr)]EventDelegate eventFunction);
 
+        [DllImport("vpsdk", CallingConvention=CallingConvention.Cdecl)]
+        public static extern int vp_callback_set(IntPtr instance, int callbackname, [MarshalAs(UnmanagedType.FunctionPtr)]CallbackDelegate callbackFunction);
+
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr vp_user_data(IntPtr instance);
         

@@ -51,6 +51,16 @@ namespace VPNetExamples.Common
             EnterUniverse();
         }
 
+        public T GetAttachedBot<T>() where T : BaseExampleBot, new()
+        {
+            foreach (var bot in _attachedBots)
+            {
+                if (bot.GetType() == typeof(T))
+                    return bot as T;
+            }
+            return null;
+        }
+
         void EnterUniverse()
         {
             if (_instance==null)

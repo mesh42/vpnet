@@ -22,11 +22,17 @@ namespace VpNet.Core.Interfaces
         void QueryCell(int cellX, int cellZ);
         void Say(string message);
         void ChangeObject(VpObject vpObject);
+        void AddObject(VpObject vpObject);
+        void DeleteObject(VpObject vpObject);
+
         event Instance.ChatEvent EventChat;
         event Instance.AvatarEvent EventAvatarAdd;
         event Instance.AvatarEvent EventAvatarChange;
         event Instance.AvatarEvent EventAvatarDelete;
         event Instance.ObjectChangeEvent EventObjectCreate;
+        event Instance.ObjectCreateCallback EventObjectCreateCallback;
+        event Instance.ObjectChangeCallback EventObjectChangeCallback;
+        event Instance.ObjectDeleteCallback EventObjectDeleteCallback; 
         event Instance.ObjectChangeEvent EventObjectChange;
         event Instance.ObjectDeleteEvent EventObjectDelete;
         event Instance.ObjectClickEvent EventObjectClick;
@@ -38,6 +44,7 @@ namespace VpNet.Core.Interfaces
         event Instance.Event EventUniverseDisconnect;
         event Instance.Event EventUserAttributes;
         event Instance.QueryCellResult EventQueryCellResult;
+
         void ReleaseEvents();
         void Dispose();
     }

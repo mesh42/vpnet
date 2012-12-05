@@ -20,6 +20,7 @@ namespace VPNetExamples
         {
             Instance.EventAvatarAdd += Instance_EventAvatarAdd;
             Instance.EventAvatarDelete += EventAvatarDelete;
+            Instance.EventAvatarChange += new VpNet.Core.Instance.AvatarEvent(Instance_EventAvatarChange);
             Instance.EventChat += EventChat;
             Instance.EventFriend += EventFriend;
             Instance.EventObjectClick += EventObjectClick;
@@ -29,6 +30,11 @@ namespace VPNetExamples
             Instance.EventWorldList += EventWorldList;
             Instance.EventUniverseDisconnect += EventUniverseDisconnect;
             Instance.EventWorldDisconnect += EventWorldDisconnect;
+        }
+
+        void Instance_EventAvatarChange(Instance sender, Avatar eventData)
+        {
+            //Console.WriteLine("{0} {1} {2} changed.", eventData.Name, eventData.X,eventData.Z);
         }
 
         void Instance_EventAvatarAdd(Instance sender, Avatar eventData)
