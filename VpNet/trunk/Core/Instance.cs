@@ -266,6 +266,11 @@ namespace VpNet.Core
             }
         }
 
+        public void TeleportAvatar(int targetSession, string world, float x, float y, float z, float yaw, float pitch)
+        {
+            Functions.vp_teleport_avatar(_instance,targetSession,world,x,y,z,yaw,pitch);
+        }
+
         #endregion
         #region Events
         

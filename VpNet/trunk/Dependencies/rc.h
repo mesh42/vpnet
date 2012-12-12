@@ -20,6 +20,7 @@ enum VPReturnCode
 	VP_RC_DATABASE_ERROR,
 	VP_RC_NO_SUCH_USER,
 	VP_RC_TIMEOUT,
+    VP_RC_NOT_IN_UNIVERSE,
 };
 
 #endif
