@@ -153,6 +153,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="TeleportBot\TeleportBot.cs" />
     <Compile Include="TextRotatorBot\TextRotatorBot.cs" />
     <Compile Include="TextRotatorBot\TextRotatorConfig.cs" />
     <Compile Include="TextRotatorBot\TextRotatorConfigItem.cs" />
