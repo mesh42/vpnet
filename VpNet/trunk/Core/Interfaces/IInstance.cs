@@ -24,6 +24,8 @@ namespace VpNet.Core.Interfaces
         void ChangeObject(VpObject vpObject);
         void AddObject(VpObject vpObject);
         void DeleteObject(VpObject vpObject);
+        void TeleportAvatar(int targetSession, string world, float x, float y, float z, float yaw, float pitch);
+
 
         event Instance.ChatEvent EventChat;
         event Instance.AvatarEvent EventAvatarAdd;

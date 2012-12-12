@@ -66,6 +66,7 @@ typedef enum VPEvent
  *  - #VP_AVATAR_ROTATION_PITCH
  *  - #VP_AVATAR_ROTATION_YAW
  *  - #VP_AVATAR_TYPE
+ *  - #VP_USER_ID
  */
 	VP_EVENT_AVATAR_ADD,
 /**
@@ -201,6 +202,25 @@ typedef enum VPEvent
 	 *  - #VP_TERRAIN_TILE_Z
 	 */
     VP_EVENT_TERRAIN_NODE,
+    
+    /**
+     *  Attributes:
+     *  - VP_AVATAR_SESSION
+     *  - VP_CLICKED_SESSION
+     */
+    VP_EVENT_AVATAR_CLICK,
+    
+    /**
+     *  Attributes:
+     *  - VP_AVATAR_SESSION
+     *  - VP_TELEPORT_X
+     *  - VP_TELEPORT_Y
+     *  - VP_TELEPORT_Z
+     *  - VP_TELEPORT_YAW
+     *  - VP_TELEPORT_PITCH
+     *  - VP_TELEPORT_WORLD
+     */
+    VP_EVENT_TELEPORT,
 	
 	VP_HIGHEST_EVENT
 } VPEvent;
@@ -260,6 +280,8 @@ typedef enum VPIntegerProperty
     VP_TERRAIN_NODE_X,
     VP_TERRAIN_NODE_Z,
     VP_TERRAIN_NODE_REVISION,
+    
+    VP_CLICKED_SESSION,
 	
 	VP_HIGHEST_INT
 } VPIntegerProperty;
@@ -301,6 +323,12 @@ typedef enum VPFloatProperty
 	 */
 	VP_OBJECT_ROLL = VP_OBJECT_ROTATION_Z,
 	VP_OBJECT_ROTATION_ANGLE,
+    
+    VP_TELEPORT_X,
+    VP_TELEPORT_Y,
+    VP_TELEPORT_Z,
+    VP_TELEPORT_YAW,
+    VP_TELEPORT_PITCH,
 	
 	VP_HIGHEST_FLOAT
 } VPFloatProperty;
@@ -325,6 +353,8 @@ typedef enum VPStringProperty
 	
 	VP_FRIEND_NAME,
 	VP_PROXY_HOST,
+    
+    VP_TELEPORT_WORLD,
 	
 	VP_HIGHEST_STRING
 } VPStringProperty;
@@ -499,7 +529,7 @@ VPSDK_API int vp_world_list(VPInstance instance, int time);
 /**
  *  Request user attributes by user ID.
  *  The user attributes will be returned in the #VP_EVENT_USER_ATTRIBUTES event.
- *  \return Zero when successful, otherwise nonzero. This value will return the result
+ *  \return Zero when successful, otherwise nonzero
  */
 VPSDK_API int vp_user_attributes_by_id(VPInstance instance, int user_id);
 
@@ -517,5 +547,21 @@ VPSDK_API int vp_terrain_node_set(VPInstance instance,
                                   int tile_x, int tile_z, 
                                   int node_x, int node_z, 
                                   struct vp_terrain_cell_t* cells);
+
+/**
+ *  Send an avatar click event to other users in the world
+ *  \param avatar_session The session id of the clicked avatar
+ *  \return Zero when successful, otherwise nonzero
+ */
+VPSDK_API int vp_avatar_click(VPInstance instance, int avatar_session);
+
+/**
+ *  Request that another avatar teleports to a new location.
+ */
+VPSDK_API int vp_teleport_avatar(VPInstance instance,
+                                 int target_session,
+                                 const char* world,
+                                 float x, float y, float z,
+                                 float yaw, float pitch);
 
 #endif

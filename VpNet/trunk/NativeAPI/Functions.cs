@@ -5,6 +5,7 @@ namespace VpNet.NativeApi
 {
     public class Functions
     {
+
         
         [DllImport("vpsdk", CallingConvention=CallingConvention.Cdecl)]
         public static extern int vp_init(int build);
@@ -129,5 +130,8 @@ namespace VpNet.NativeApi
             Marshal.Copy(ptr, result, 0, length);
             return result;
         }
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int vp_teleport_avatar(IntPtr instance, int target_session, string world, float x, float y, float z, float yaw, float pitch);
     }
 }

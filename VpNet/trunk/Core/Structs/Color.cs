@@ -10,12 +10,12 @@ namespace VpNet.Core.EventData
         
         public static Color FromName(string name)
         {
-            throw new NotImplementedException();
+            return new Color(); ;
         }
 
         public static Color FromHtml(string hex)
         {
-            throw new NotImplementedException();            
+            return new Color();        
         }
     }
 }
