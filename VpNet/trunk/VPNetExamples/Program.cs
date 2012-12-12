@@ -24,6 +24,7 @@ menu:
                 Console.WriteLine("5. Text Rotator Bot");
                 Console.WriteLine("6. Query Bot");
                 Console.WriteLine("7. Weather Bot");
+                Console.WriteLine("8. Teleport Bot");
                 Console.WriteLine("---- UNIT TESTS ---");
                 Console.WriteLine("A. Create Object Reference Number Test.");
                 Console.Write("Please enter a numer (0-7): ");
@@ -59,6 +60,9 @@ menu:
                         break;
                     case "7":
                         _bot = new WeatherBot.WeatherBot();
+                        break;
+                    case "8":
+                        _bot = new TeleportBot.TeleportBot(); 
                         break;
                     case "A" :
                         _bot = new EventDisplayBot();
