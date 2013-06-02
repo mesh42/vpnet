@@ -31,7 +31,7 @@ namespace VpNet.Examples
     {
         static void Main(string[] args)
         {
-            var bot = new InstanceTemplating("cube3", "VP!1", "HelloWorld", "cube3");
+            var bot = new InstanceTemplating("", "", "HelloWorld", "");
             Console.ReadLine();
         }
     }
