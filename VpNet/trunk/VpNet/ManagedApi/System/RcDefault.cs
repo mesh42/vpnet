@@ -29,6 +29,22 @@ namespace VpNet
     {
         public RcDefault(){}
 
+        private int _rc;
+
+        public override int Rc
+        {
+            get
+            {
+                {return _rc;}
+            }
+            set
+            {
+                _rc = value;
+                if (value != 0)
+                    throw Exception;
+            }
+        }
+
         public RcDefault(int rc) : base(rc)
         {
             if (rc != 0)
