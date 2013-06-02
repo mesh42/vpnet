@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DBE501A7-0176-473F-B2E8-F4ADA721917F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VpNet</RootNamespace>
+    <AssemblyName>VpNet</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ManagedApi\Events\Avatar\AvatarArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\Events\Cell\QueryCellEndArgsT.cs" />
+    <Compile Include="ManagedApi\Events\Cell\QueryCellResultArgsT.cs" />
+    <Compile Include="ManagedApi\Events\Chat\ChatArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\Events\Friend\FriendArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\Events\Terrain\TerrainArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\Events\Universe\UniverseArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\Events\User\Abstract\BaseUserEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\User\Interfaces\IUserAttributesEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\ObjectArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\Events\World\WorldArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\System\InstanceT0.cs" />
+    <Compile Include="ManagedApi\System\InstanceT1.cs" />
+    <Compile Include="ManagedApi\System\Abstract\BaseInstanceT.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\Interfaces\IAvatarEnterEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\Interfaces\IAvatarLeaveEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\Interfaces\IAvatarChangeEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Cell\Interfaces\IQueryCellEndArgs.cs" />
+    <Compile Include="ManagedApi\Events\Cell\Interfaces\IQueryCellResultArgs.cs" />
+    <Compile Include="ManagedApi\Events\Chat\Interfaces\IBaseChatMessageEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Friend\Abstract\BaseFriendAddCallbackEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Friend\Abstract\BaseFriendDeleteCallbackEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Friend\Interfaces\IFriendAddCallbackEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Friend\Interfaces\IFriendDeleteCallbackEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Friend\Interfaces\IFriendsGetCallbackEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Friend\FriendArgsImplementationMappings.cs" />
+    <Compile Include="ManagedApi\Events\Terrain\Interfaces\ITerrainNodeEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Universe\Interfaces\IUniverseDisconnectEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectClickArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectCreateArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectChangeCallbackArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectChangeArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectCreateCallbackArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectDeleteArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectDeleteCallbackArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\Interfaces\IWorldDisconnectEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\Interfaces\IWorldListEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\Interfaces\IWorldSettingsChangedEventArgs.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseTerrain.cs" />
+    <Compile Include="ManagedApi\System\InstanceT2.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IUniverseFunctions.cs" />
+    <Compile Include="ManagedApi\System\RcTolerant.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Interfaces\ITerrain.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Terrain.cs" />
+    <Compile Include="ManagedApi\Events\Terrain\TerrainArgsImplementationMappings.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IFriendFunctions.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\ITerrainFunctions.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseFriend.cs" />
+    <Compile Include="ManagedApi\Events\Friend\Abstract\BaseFriendsGetCallbackEventArgs.cs" />
+    <Compile Include="ManagedApi\Scene\Friend.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IFriend.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\TerrainTile.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Interfaces\ITerrainTile.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Abstract\BaseTerrainNode.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Interfaces\ITerrainNode.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\TerrainCell.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\TerrainNode.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Interfaces\ITerrainCell.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Enumerations\TerrainRotation.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Abstract\BaseTerrainTile.cs" />
+    <Compile Include="NativeApi\DataConverters.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseAvatarChangeEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseAvatarEnterEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseAvatarLeaveEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\AvatarArgsImplementationMappings.cs" />
+    <Compile Include="ManagedApi\Events\Cell\Abstract\BaseQueryCellEndArgs.cs" />
+    <Compile Include="ManagedApi\Events\Cell\Abstract\BaseQueryCellResultArgs.cs" />
+    <Compile Include="ManagedApi\Events\Cell\QueryCellEndArgs.cs" />
+    <Compile Include="ManagedApi\Events\Cell\QueryCellResultArgs.cs" />
+    <Compile Include="ManagedApi\Events\Chat\Abstract\BaseChatMessageEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Chat\ChatArgsImplementationMappings.cs" />
+    <Compile Include="ManagedApi\Events\Terrain\Abstract\BaseTerrainNodeEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Universe\UniverseArgsImplementationMappings.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseUniverse.cs" />
+    <Compile Include="ManagedApi\Events\Universe\Abstract\BaseUniverseDisconnectEventArgs.cs" />
+    <Compile Include="ManagedApi\Scene\Terrain\Abstract\BaseTerrainCell.cs" />
+    <Compile Include="ManagedApi\Scene\Universe.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IUniverse.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectClickArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectChangeArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectCreateArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectDeleteArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\ObjectArgsImplementationMappings.cs" />
+    <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldListEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldDisconnectEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldSettingsChangedEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\WorldArgsImplementationMappings.cs" />
+    <Compile Include="ManagedApi\Extensions\SerializableExtensions.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IAvatarFunctions.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseAvatar.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseCell.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseChatMessage.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseColor.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseWorld.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\ICell.cs" />
+    <Compile Include="ManagedApi\System\Abstract\BaseRc.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseVector2.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseVector3.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseVpObject.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseWorldAttributes.cs" />
+    <Compile Include="ManagedApi\Scene\Enumerations\WorldState.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IChatFunctions.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\IInstance.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\IInstanceT.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectChangeCallbackArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectCreateCallbackArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectDeleteCallbackArgs.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\IRc.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\ITeleportFunctions.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IVpObjectFunctions.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IWorld.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IWorldFunctions.cs" />
+    <Compile Include="ManagedApi\Scene\Cell.cs" />
+    <Compile Include="ManagedApi\Scene\ChatMessage.cs" />
+    <Compile Include="ManagedApi\Scene\Enumerations\ChatMessageTypes.cs" />
+    <Compile Include="ManagedApi\Scene\Color.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IColor.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IChatMessage.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IAvatar.cs" />
+    <Compile Include="Math\Interfaces\IVector2.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IVpObject.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IWorldAttributes.cs" />
+    <Compile Include="ManagedApi\System\RcDefault.cs" />
+    <Compile Include="Math\Vector2.cs" />
+    <Compile Include="ManagedApi\Scene\VpObject.cs" />
+    <Compile Include="ManagedApi\Scene\World.cs" />
+    <Compile Include="ManagedApi\Scene\WorldAttributes.cs" />
+    <Compile Include="ManagedApi\System\VpException.cs" />
+    <Compile Include="ManagedApi\Scene\Avatar.cs" />
+    <Compile Include="Math\Interfaces\IVector3.cs" />
+    <Compile Include="NativeApi\Attribute.cs" />
+    <Compile Include="NativeApi\Callbacks.cs" />
+    <Compile Include="NativeApi\Delegates.cs" />
+    <Compile Include="NativeApi\Events.cs" />
+    <Compile Include="NativeApi\Functions.cs" />
+    <Compile Include="NativeApi\ReasonCode.cs" />
+    <Compile Include="ManagedApi\Scene\Enumerations\TextEffectTypes.cs" />
+    <Compile Include="NativeApi\Utf8Marshaler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Math\Vector3.cs" />
+    <Compile Include="Rc.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rc.en-US.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Rc.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Rc.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ManagedApi\System\Enumerations\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
