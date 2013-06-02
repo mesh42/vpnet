@@ -30,7 +30,7 @@ namespace VpNet.Abstract
 {
     public abstract class BaseRc : IRc
     {
-        public int Rc { get; set; }
+        virtual public int Rc { get; set; }
 
         protected BaseRc(){}
 
