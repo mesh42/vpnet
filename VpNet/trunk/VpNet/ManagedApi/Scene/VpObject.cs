@@ -28,6 +28,7 @@ using VpNet.Interfaces;
 
 namespace VpNet
 {
+    [Serializable]
     public class VpObject<TVector3> : Abstract.BaseVpObject<TVector3>
         where TVector3 : class, IVector3, new()
     {
