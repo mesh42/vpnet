@@ -28,6 +28,7 @@ using System;
 namespace VpNet
 {
     [Obsolete("Currently unsupported")]
+    [Serializable]
     public class WorldAttributes : Abstract.BaseWorldAttributes
     {
     }

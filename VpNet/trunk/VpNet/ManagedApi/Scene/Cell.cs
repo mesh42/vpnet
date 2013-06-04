@@ -23,8 +23,11 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
+
 namespace VpNet
 {
+    [Serializable]
     public class Cell : Abstract.BaseCell
     {
         public Cell(int x, int z) : base(x,z){}
