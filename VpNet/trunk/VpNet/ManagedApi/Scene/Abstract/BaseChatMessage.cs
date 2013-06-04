@@ -33,7 +33,6 @@ namespace VpNet.Abstract
     {
         [XmlAttribute]
         public ChatMessageTypes Type { get; set; }
-        [XmlAttribute]
         public TColor Color { get; set; }
         [XmlAttribute]
         public TextEffectTypes TextEffectTypes { get; set; }
