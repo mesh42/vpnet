@@ -99,6 +99,14 @@ namespace VpNet.NativeApi
         /// </summary>
         TerrainNode=16,
         /// <summary>
+        /// Avatar click event
+        /// </summary>
+        AvatarClick=17,
+        /// <summary>
+        /// Teleport event
+        /// </summary>
+        Teleport=18,
+        /// <summary>
         /// Highest event
         /// </summary>
         Highest

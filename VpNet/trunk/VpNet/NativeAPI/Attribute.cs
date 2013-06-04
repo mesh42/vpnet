@@ -331,6 +331,14 @@ namespace VpNet.NativeApi
         /// </summary>
 	    FriendName,
         /// <summary>
+        /// The proxy host voor universe connections.
+        /// </summary>
+        ProxyHost,
+        /// <summary>
+        /// The world the avatar was teleported to.
+        /// </summary>
+        TeleportWorld,
+        /// <summary>
         /// String attribute highest
         /// </summary>
 	    StringAttributeHighest,

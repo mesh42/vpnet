@@ -31,7 +31,7 @@ namespace VpNet.Interfaces
 /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
         in TAvatar, in TColor, in TFriend, out TResult, TTerrainCell, TTerrainNode,
         in TTerrainTile, TVector3, in TVpObject, in TWorld, in TWorldAttributes,
-        in TCell,TChatMessage,TTerrain,TUniverse,
+        in TCell,TChatMessage,TTerrain,TUniverse,TTeleport,
 /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
         TAvatarChangeEventArgs, TAvatarEnterEventArgs, TAvatarLeaveEventArgs,
@@ -49,7 +49,9 @@ namespace VpNet.Interfaces
         TObjectChangeArgs, TObjectChangeCallbackArgs, TObjectClickArgs, TObjectCreateArgs,
         TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs,
         /* World Event Args */
-        TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg
+        TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
+        /* Teleport Event Args */
+        TTeleportEventArgs
         > :
 /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
@@ -62,6 +64,7 @@ namespace VpNet.Interfaces
         IWorldFunctions<TResult, TWorld, TWorldAttributes>,
         IUniverseFunctions<TResult> 
 /* Constraints ----------------------------------------------------------------------------------------------------------------------------------------------------*/
+        where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>
         where TUniverse : class, IUniverse, new()
         where TTerrain : class, ITerrain, new()
         where TCell : class, ICell, new()
@@ -76,6 +79,7 @@ namespace VpNet.Interfaces
         where TVpObject : class, IVpObject<TVector3>, new()
         where TVector3 : class, IVector3, new()
         where TWorldAttributes : class, IWorldAttributes, new()
+        where TTeleport : class, ITeleport<TWorld,TAvatar,TVector3> , new()
         where TImplementor : class, new()
     {
         TImplementor Implementor { get; set; }
