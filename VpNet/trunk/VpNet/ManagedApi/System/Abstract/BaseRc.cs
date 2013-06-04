@@ -23,14 +23,33 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
 using VpNet.Interfaces;
 using VpNet.NativeApi;
 
 namespace VpNet.Abstract
 {
+    /// <summary>
+    /// Abstract Vp Exception Implementation.
+    /// </summary>
     public abstract class BaseRc : IRc
     {
-        virtual public int Rc { get; set; }
+        private int _rc;
+
+        public delegate void VpExceptionDelegate(IRc sender, EventArgs args);
+
+        public static event VpExceptionDelegate OnVpException;
+
+        virtual public int Rc
+        {
+            get { return _rc; }
+            set
+            {
+                _rc = value;
+                if (OnVpException != null)
+                    OnVpException(this, null);
+            }
+        }
 
         protected BaseRc(){}
 
