@@ -31,7 +31,8 @@ namespace VpNet.Examples
     {
         static void Main(string[] args)
         {
-            var bot = new InstanceTemplating("", "", "HelloWorld", "");
+            // put your credentials here.
+            var bot = new HelloWorldExample("", "", "HelloWorld", "");
             Console.ReadLine();
         }
     }
