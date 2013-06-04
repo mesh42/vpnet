@@ -25,13 +25,32 @@ ____   ___.__         __               .__    __________                        
 
 namespace VpNet.Interfaces
 {
+    /// <summary>
+    /// Chat Message event arguments templated interface specifications.
+    /// </summary>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TChatMessage">The type of the chat message.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
+    /// <typeparam name="TColor">The type of the color.</typeparam>
     public interface IChatMessageEventArgs<TAvatar, TChatMessage,TVector3,TColor> 
         where TVector3 : class, IVector3, new()
         where TColor : class, IColor, new()
         where TAvatar : class, IAvatar<TVector3>, new() 
         where TChatMessage : class, IChatMessage<TColor>, new()
     {
+        /// <summary>
+        /// Gets or sets the avatar.
+        /// </summary>
+        /// <value>
+        /// The avatar.
+        /// </value>
         TAvatar Avatar { get; set; }
+        /// <summary>
+        /// Gets or sets the chat message.
+        /// </summary>
+        /// <value>
+        /// The chat message.
+        /// </value>
         TChatMessage ChatMessage { get; set; }
     }
 }

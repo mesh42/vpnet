@@ -25,10 +25,21 @@ ____   ___.__         __               .__    __________                        
 
 namespace VpNet.Interfaces
 {
+    /// <summary>
+    /// Avatar Change event arguments templated interface specifications.
+    /// </summary>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface IAvatarChangeEventArgs<TAvatar,TVector3> 
         where TVector3: class, IVector3, new()
         where TAvatar : class, IAvatar<TVector3>, new()
     {
+        /// <summary>
+        /// Gets or sets the avatar.
+        /// </summary>
+        /// <value>
+        /// The avatar.
+        /// </value>
         TAvatar Avatar { get; set; }
     }
 }

@@ -25,12 +25,30 @@ ____   ___.__         __               .__    __________                        
 
 namespace VpNet.Interfaces
 {
+    /// <summary>
+    /// Object Create event arguments templated interface specifications.
+    /// </summary>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVpObject">The type of the vp object.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface IObjectCreateArgs<TAvatar, TVpObject,TVector3>
         where TVector3 : class,IVector3, new()
         where TAvatar : class, IAvatar<TVector3>, new()
         where TVpObject : class, IVpObject<TVector3>, new()
     {
+        /// <summary>
+        /// Gets or sets the vp object.
+        /// </summary>
+        /// <value>
+        /// The vp object.
+        /// </value>
         TVpObject VpObject { get; set; }
+        /// <summary>
+        /// Gets or sets the avatar.
+        /// </summary>
+        /// <value>
+        /// The avatar.
+        /// </value>
         TAvatar Avatar { get; set; }
     }
 }

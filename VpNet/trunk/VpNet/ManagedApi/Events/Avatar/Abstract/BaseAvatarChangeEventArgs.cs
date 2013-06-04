@@ -28,6 +28,11 @@ using VpNet.Interfaces;
 
 namespace VpNet.Abstract
 {
+    /// <summary>
+    /// Abstract implementation
+    /// </summary>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     [Serializable]
     public abstract class BaseAvatarChangeEventArgs<TAvatar,TVector3> : EventArgs,IAvatarChangeEventArgs<TAvatar,TVector3>
         where TVector3 : class, IVector3, new()

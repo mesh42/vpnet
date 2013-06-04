@@ -64,7 +64,7 @@
     <Compile Include="ManagedApi\Events\Avatar\Interfaces\IAvatarChangeEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Cell\Interfaces\IQueryCellEndArgs.cs" />
     <Compile Include="ManagedApi\Events\Cell\Interfaces\IQueryCellResultArgs.cs" />
-    <Compile Include="ManagedApi\Events\Chat\Interfaces\IBaseChatMessageEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Chat\Interfaces\IChatMessageEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Friend\Abstract\BaseFriendAddCallbackEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Friend\Abstract\BaseFriendDeleteCallbackEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Friend\Interfaces\IFriendAddCallbackEventArgs.cs" />
