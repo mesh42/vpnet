@@ -12,6 +12,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.Examples", "VpNet.Examples\VpNet.Examples.csproj", "{D66218D0-E532-4D70-B592-A59F3E02DB57}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vp-linux-amd64", "vp-linux-amd64", "{B5EA62E4-B65E-4FC3-96A6-39BF496E9C5F}"
+	ProjectSection(SolutionItems) = preProject
+		Dependencies\vp-linux-amd64\libvpsdk.a = Dependencies\vp-linux-amd64\libvpsdk.a
+		Dependencies\vp-linux-amd64\rc.h = Dependencies\vp-linux-amd64\rc.h
+		Dependencies\vp-linux-amd64\VP.h = Dependencies\vp-linux-amd64\VP.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vp-linux-centos-x86_64", "vp-linux-centos-x86_64", "{BD066E75-E7D9-43FC-818D-38E7BE4AF77A}"
+	ProjectSection(SolutionItems) = preProject
+		Dependencies\vp-linux-centos-x86_64\libvpsdk.so = Dependencies\vp-linux-centos-x86_64\libvpsdk.so
+		Dependencies\vp-linux-centos-x86_64\rc.h = Dependencies\vp-linux-centos-x86_64\rc.h
+		Dependencies\vp-linux-centos-x86_64\VP.h = Dependencies\vp-linux-centos-x86_64\VP.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -33,5 +47,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B5EA62E4-B65E-4FC3-96A6-39BF496E9C5F} = {FD3C7436-CC7D-4470-8763-1897F8E3285C}
+		{BD066E75-E7D9-43FC-818D-38E7BE4AF77A} = {FD3C7436-CC7D-4470-8763-1897F8E3285C}
 	EndGlobalSection
 EndGlobal
