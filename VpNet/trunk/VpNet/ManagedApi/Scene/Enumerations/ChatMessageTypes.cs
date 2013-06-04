@@ -23,11 +23,14 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
+
 namespace VpNet
 {
     /// <summary>
     /// In World Chat Message Types
     /// </summary>
+    [Serializable]
     public enum ChatMessageTypes
     {
         /// <summary>
