@@ -52,6 +52,7 @@ namespace VpNet.Abstract
     /// <typeparam name="TChatMessage">The type of the chat message.</typeparam>
     /// <typeparam name="TTerrain">The type of the terrain.</typeparam>
     /// <typeparam name="TUniverse">The type of the universe.</typeparam>
+    /// <typeparam name="TTeleport">The type of the teleport.</typeparam>
     /// <typeparam name="TAvatarChangeEventArgs">The type of the avatar change event args.</typeparam>
     /// <typeparam name="TAvatarEnterEventArgs">The type of the avatar enter event args.</typeparam>
     /// <typeparam name="TAvatarLeaveEventArgs">The type of the avatar leave event args.</typeparam>
@@ -73,11 +74,12 @@ namespace VpNet.Abstract
     /// <typeparam name="TWorldDisconnectEventArg">The type of the world disconnect event arg.</typeparam>
     /// <typeparam name="TWorldListEventargs">The type of the world list eventargs.</typeparam>
     /// <typeparam name="TWorldSettingsChangedEventArg">The type of the world settings changed event arg.</typeparam>
+    /// <typeparam name="TTeleportEventArgs">The type of the teleport event args.</typeparam>
     [Serializable]
     public abstract class BaseInstanceT<T,
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
         TAvatar, TColor, TFriend, TResult, TTerrainCell, TTerrainNode,
-        TTerrainTile, TVector3, TVpObject, TWorld, TWorldAttributes,TCell,TChatMessage,TTerrain,TUniverse,
+        TTerrainTile, TVector3, TVpObject, TWorld, TWorldAttributes,TCell,TChatMessage,TTerrain,TUniverse,TTeleport,
 
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
@@ -96,7 +98,9 @@ namespace VpNet.Abstract
         TObjectChangeArgs, TObjectChangeCallbackArgs, TObjectClickArgs, TObjectCreateArgs,
         TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs,
         /* World Event Args */
-            TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg
+            TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
+          /* Teleport Event Args */
+        TTeleportEventArgs
         > :
         /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
@@ -124,8 +128,8 @@ namespace VpNet.Abstract
         where TVpObject : class, IVpObject<TVector3>, new()
         where TVector3 : class, IVector3, new()
         where TWorldAttributes : class, IWorldAttributes, new()
+        where TTeleport : class, ITeleport<TWorld,TAvatar,TVector3>, new()
         where T : class, new()
-
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
         where TAvatarChangeEventArgs : class, IAvatarChangeEventArgs<TAvatar,TVector3>, new()
@@ -156,6 +160,7 @@ namespace VpNet.Abstract
         where TWorldDisconnectEventArg : class, IWorldDisconnectEventArgs<TWorld>, new()
         where TWorldListEventargs : class, IWorldListEventArgs<TWorld>,new()
         where TWorldSettingsChangedEventArg : class,IWorldSettingsChangedEventArgs<TWorld>, new()
+        where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>, new()
 
     {
         readonly bool _isInitialized;
@@ -209,6 +214,7 @@ namespace VpNet.Abstract
             SetNativeEvent(Events.QueryCellEnd, OnQueryCellEndNative);
             SetNativeEvent(Events.UniverseDisconnect, OnUniverseDisconnectNative);
             SetNativeEvent(Events.WorldDisconnect, OnWorldDisconnectNative);
+            SetNativeEvent(Events.Teleport, OnTeleportNative);
             SetNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallbackNative);
             SetNativeCallback(Callbacks.ObjectChange, OnObjectChangeCallbackNative);
             SetNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallbackNative);
@@ -439,7 +445,7 @@ namespace VpNet.Abstract
         {
             return new TResult
             {
-                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world, avatar.Position.X, avatar.Position.Y, avatar.Position.Z, avatar.Rotation.Y, avatar.Rotation.X)
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world, position.X, position.Y, position.Z, rotation.Y, rotation.X)
             };
 
         }
@@ -448,7 +454,23 @@ namespace VpNet.Abstract
         {
             return new TResult
             {
-                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world.Name, avatar.Position.X, avatar.Position.Y, avatar.Position.Z, avatar.Rotation.Y, avatar.Rotation.X)
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world.Name, position.X, position.Y, position.Z, rotation.Y, rotation.X)
+            };
+        }
+
+        virtual public TResult TeleportAvatar(TAvatar avatar, TVector3 position, TVector3 rotation)
+        {
+            return new TResult
+            {
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, string.Empty, position.X, position.Y, position.Z, rotation.Y, rotation.X)
+            };
+        }
+
+        virtual public TResult TeleportAvatar(TAvatar avatar)
+        {
+            return new TResult
+            {
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, string.Empty, avatar.Position.X, avatar.Position.Y, avatar.Position.Z, avatar.Rotation.Y, avatar.Rotation.X)
             };
         }
 
@@ -574,6 +596,8 @@ namespace VpNet.Abstract
         public delegate void AvatarEnterDelegate(T sender, TAvatarEnterEventArgs args);
         public delegate void AvatarLeaveDelegate(T sender, TAvatarLeaveEventArgs args);
 
+        public delegate void TeleportDelegate(T sender, TTeleportEventArgs args);
+
         public delegate void WorldListEventDelegate(T sender, TWorldListEventargs args);
 
         public delegate void ObjectCreateDelegate(T sender, TObjectCreateArgs args);
@@ -602,6 +626,8 @@ namespace VpNet.Abstract
         public event AvatarEnterDelegate OnAvatarEnter;
         public event AvatarChangeDelegate OnAvatarChange;
         public event AvatarLeaveDelegate OnAvatarLeave;
+
+        public event TeleportDelegate OnTeleport;
 
         public event ObjectCreateDelegate OnObjectCreate;
         public event ObjectChangeDelegate OnObjectChange;
@@ -675,6 +701,35 @@ namespace VpNet.Abstract
 
         #region Event handlers
 
+        private void OnTeleportNative(IntPtr sender)
+        {
+            if (OnTeleport == null)
+                return;
+            TTeleport teleport;
+            lock (this)
+            {
+                teleport = new TTeleport
+                    {
+                        Avatar = GetAvatar(Functions.vp_int(_instance, Attribute.AvatarSession)),
+                        Position = new TVector3
+                            {
+                                X = Functions.vp_float(_instance, Attribute.TeleportX),
+                                Y = Functions.vp_float(_instance, Attribute.TeleportY),
+                                Z = Functions.vp_float(_instance, Attribute.TeleportZ)
+                            },
+                        Rotation = new TVector3
+                            {
+                                X = Functions.vp_float(_instance, Attribute.TeleportPitch),
+                                Y = Functions.vp_float(_instance, Attribute.TeleportYaw),
+                                Z = 0 /* Roll not implemented yet */
+                            },
+                            // TODO: maintain user count and world state statistics.
+                        World = new TWorld { Name = Functions.vp_string(_instance, Attribute.TeleportWorld),State = WorldState.Unknown, UserCount=-1 }
+
+                    };
+            }
+            OnTeleport(Implementor, new TTeleportEventArgs{Teleport = teleport});
+        }
 
         private void OnGetFriendsCallbackNative(IntPtr sender, int rc, int reference)
         {
@@ -696,12 +751,12 @@ namespace VpNet.Abstract
 
         private void OnFriendDeleteCallbackNative(IntPtr sender, int rc, int reference)
         {
-            throw new NotImplementedException();
+            // todo: implement this.
         }
 
         private void OnFriendAddCallbackNative(IntPtr sender, int rc, int reference)
         {
-            throw new NotImplementedException();
+            // todo: implement this.
         }
 
 
@@ -864,7 +919,7 @@ namespace VpNet.Abstract
                 return _avatars[session];
             var avatar = new TAvatar { Session = session };
             _avatars.Add(session, avatar);
-            return avatar;
+            return avatar.Copy();
         }
 
         private void setAvatar(Avatar<Vector3> avatar)

@@ -44,6 +44,7 @@
     <Compile Include="Bots\BasicExamples\EventsExample.cs" />
     <Compile Include="Bots\BasicExamples\GreeterExample.cs" />
     <Compile Include="Bots\BasicExamples\HelloWorldExample.cs" />
+    <Compile Include="Bots\BasicExamples\TeleportExample.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

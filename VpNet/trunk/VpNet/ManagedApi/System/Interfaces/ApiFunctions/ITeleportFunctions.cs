@@ -99,5 +99,19 @@ namespace VpNet.Interfaces
         /// <param name="rotation">The rotation.</param>
         /// <returns></returns>
         TRc TeleportAvatar(TAvatar avatar, TWorld world, TVector3 position, TVector3 rotation);
+        /// <summary>
+        /// Teleports the avatar within the current world.
+        /// </summary>
+        /// <param name="avatar">The avatar.</param>
+        /// <param name="position">The position.</param>
+        /// <param name="rotation">The rotation.</param>
+        /// <returns></returns>
+        TRc TeleportAvatar(TAvatar avatar, TVector3 position, TVector3 rotation);
+        /// <summary>
+        /// Teleports the avatar within the current world b previously having changed the avatar position and rotation properties
+        /// </summary>
+        /// <param name="avatar">The avatar.</param>
+        /// <returns></returns>
+        TRc TeleportAvatar(TAvatar avatar);
     }
 }

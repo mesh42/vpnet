@@ -19,6 +19,7 @@ namespace VpNet
         ChatMessage,
         Terrain,
         Universe,
+        Teleport<World,Avatar<TVector3>,TVector3>, 
 
         AvatarChangeEventArgsT<Avatar<TVector3>,TVector3>,
         AvatarEnterEventArgsT<Avatar<TVector3>,TVector3>,
@@ -40,12 +41,10 @@ namespace VpNet
         ObjectDeleteCallbackArgsT<TResult, VpObject<TVector3>, TVector3>,
         WorldDisconnectEventArgs,
         WorldListEventArgs,
-        WorldSettingsChangedEventArgs
-        >
-
+        WorldSettingsChangedEventArgs,
+        TeleportEventArgsT<Teleport<World,Avatar<TVector3>,TVector3>,World,Avatar<TVector3>,TVector3>>
          where TVector3 : class, IVector3, new()
          where TResult : class, IRc, new()
-       
     {
         public Instance()
         {
