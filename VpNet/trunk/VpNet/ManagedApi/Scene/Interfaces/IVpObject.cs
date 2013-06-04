@@ -3,6 +3,10 @@ using System.Xml.Serialization;
 
 namespace VpNet.Interfaces
 {
+    /// <summary>
+    /// VpObject templated interface specifications.
+    /// </summary>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface IVpObject<TVector3>
         where TVector3 : IVector3,new()
     {

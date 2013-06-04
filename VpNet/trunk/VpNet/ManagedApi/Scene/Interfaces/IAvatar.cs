@@ -9,19 +9,49 @@ namespace VpNet.Interfaces
     public interface IAvatar<TVector3>
         where TVector3 : IVector3, new()
     {
+        /// <summary>
+        /// Gets or sets the user id.
+        /// </summary>
+        /// <value>
+        /// The user id.
+        /// </value>
         [XmlAttribute]
         int UserId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         [XmlAttribute]
         string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the session.
+        /// </summary>
+        /// <value>
+        /// The session.
+        /// </value>
         [XmlIgnore]
         int Session { get; set; }
 
         [XmlAttribute]
         int AvatarType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
+        /// <value>
+        /// The position.
+        /// </value>
         TVector3 Position { get; set; }
+        /// <summary>
+        /// Gets or sets the rotation.
+        /// </summary>
+        /// <value>
+        /// The rotation.
+        /// </value>
         TVector3 Rotation { get; set; }
     }
 }
