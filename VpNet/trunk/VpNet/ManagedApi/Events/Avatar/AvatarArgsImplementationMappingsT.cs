@@ -28,23 +28,29 @@ using VpNet.Interfaces;
 namespace VpNet
 {
     /// <summary>
-    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
+    /// Templated Event Arguments implementation.
     /// </summary>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public class AvatarChangeEventArgsT<TAvatar,TVector3> : Abstract.BaseAvatarChangeEventArgs<TAvatar,TVector3>
        where TVector3 : class, IVector3,new()
        where TAvatar : class, IAvatar<TVector3>, new()
     { }
 
     /// <summary>
-    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
+    /// Templated Event Arguments implementation
     /// </summary>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public class AvatarEnterEventArgsT<TAvatar,TVector3> : Abstract.BaseAvatarEnterEventArgs<TAvatar,TVector3>
        where TVector3 : class, IVector3,new()
        where TAvatar : class, IAvatar<TVector3>, new()
     { }
     /// <summary>
-    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
+    /// Templated Event Arguments implementation
     /// </summary>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public class AvatarLeaveEventArgsT<TAvatar, TVector3> : Abstract.BaseAvatarLeaveEventArgs<TAvatar, TVector3>
        where TVector3 : class, IVector3,new()
        where TAvatar : class, IAvatar<TVector3>, new()

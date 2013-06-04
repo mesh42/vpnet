@@ -25,12 +25,25 @@ ____   ___.__         __               .__    __________                        
 
 namespace VpNet.Interfaces
 {
+    /// <summary>
+    /// Teleport event arguments templated interface specifications.
+    /// </summary>
+    /// <typeparam name="TTeleport">The type of the teleport.</typeparam>
+    /// <typeparam name="TWorld">The type of the world.</typeparam>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface ITeleportEventArgs<TTeleport, TWorld, TAvatar,TVector3>
         where TWorld : class, IWorld, new()
         where TVector3 : class, IVector3, new()
         where TAvatar : class, IAvatar<TVector3>,  new()
         where TTeleport : class, ITeleport<TWorld, TAvatar, TVector3>, new()
     {
+        /// <summary>
+        /// Gets or sets the teleport.
+        /// </summary>
+        /// <value>
+        /// The teleport.
+        /// </value>
         TTeleport Teleport { get; set; }
     }
 }
