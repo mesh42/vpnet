@@ -47,6 +47,8 @@ namespace VpNet.Examples
             vp.UpdateAvatar();
 
             // Register to VP events
+            vp.OnAvatarLeave += vp_OnAvatarLeave;
+            vp.OnAvatarEnter += vp_OnAvatarEnter;
 
             Console.WriteLine("Press any key to stop");
             do
@@ -58,6 +60,16 @@ namespace VpNet.Examples
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
 
 
+        }
+
+        void vp_OnAvatarEnter(Instance sender, AvatarEnterEventArgsT<Avatar<Vector3>, Vector3> args)
+        {
+            sender.ConsoleMessage(string.Format("*** {0} enters.", args.Avatar.Name), new Color(0, 0, 128));
+        }
+
+        void vp_OnAvatarLeave(Instance sender, AvatarLeaveEventArgsT<Avatar<Vector3>, Vector3> args)
+        {
+            sender.ConsoleMessage(string.Format("*** {0} left.", args.Avatar.Name), new Color(0, 0, 128));
         }
 
     }
