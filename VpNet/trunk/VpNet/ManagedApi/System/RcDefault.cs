@@ -25,12 +25,24 @@ ____   ___.__         __               .__    __________                        
 
 namespace VpNet
 {
+    /// <summary>
+    /// Default Vp Exception implementation. Throws an Exception if an RC code is not 0.
+    /// </summary>
     public class RcDefault : Abstract.BaseRc
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RcDefault"/> class.
+        /// </summary>
         public RcDefault(){}
 
         private int _rc;
 
+        /// <summary>
+        /// Gets or sets the rc.
+        /// </summary>
+        /// <value>
+        /// The rc.
+        /// </value>
         public override int Rc
         {
             get
@@ -40,11 +52,16 @@ namespace VpNet
             set
             {
                 _rc = value;
+                base.Rc = value;
                 if (value != 0)
                     throw Exception;
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RcDefault"/> class.
+        /// </summary>
+        /// <param name="rc">The rc.</param>
         public RcDefault(int rc) : base(rc)
         {
             if (rc != 0)

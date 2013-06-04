@@ -25,10 +25,20 @@ ____   ___.__         __               .__    __________                        
 
 namespace VpNet
 {
+    /// <summary>
+    /// A tolerant exception implementation. Does not throw an exception when RC not equals 0
+    /// </summary>
     public class RcTolerant : Abstract.BaseRc
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RcTolerant"/> class.
+        /// </summary>
         public RcTolerant(){}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RcTolerant"/> class.
+        /// </summary>
+        /// <param name="rc">The rc.</param>
         public RcTolerant(int rc) : base(rc)
         {
         }
