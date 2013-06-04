@@ -23,8 +23,11 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
+
 namespace VpNet
 {
+    [Serializable]
     public class ChatMessage : Abstract.ChatMessage<Color>
     {
         public ChatMessage(string message) : base(message)

@@ -23,10 +23,12 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
 using VpNet.Abstract;
 
 namespace VpNet
 {
+    [Serializable]
     public class Friend : BaseFriend
     {
     }
