@@ -49,6 +49,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Dependencies\vp-linux-amd64\libvpsdk.a">
+      <Link>libvpsdk.a</Link>
+    </None>
+    <None Include="..\Dependencies\vp-linux-centos-x86_64\libvpsdk.so">
+      <Link>libvpsdk.so</Link>
+    </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
