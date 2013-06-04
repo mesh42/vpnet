@@ -2,6 +2,9 @@ using System;
 
 namespace VpNet.Interfaces
 {
+    /// <summary>
+    /// World Attributes interface specifications
+    /// </summary>
     public interface IWorldAttributes
     {
         /// <summary>

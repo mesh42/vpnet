@@ -25,14 +25,44 @@ ____   ___.__         __               .__    __________                        
 
 namespace VpNet.Interfaces
 {
+    /// <summary>
+    /// Teleport templated interface specifications.
+    /// </summary>
+    /// <typeparam name="TWorld">The type of the world.</typeparam>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface ITeleport<TWorld, TAvatar,TVector3>
         where TWorld : class, IWorld, new()
         where TVector3 : class, IVector3, new()
         where TAvatar : class, IAvatar<TVector3>,new()
     {
+        /// <summary>
+        /// Gets or sets the world.
+        /// </summary>
+        /// <value>
+        /// The world.
+        /// </value>
         TWorld World { get; set; }
+        /// <summary>
+        /// Gets or sets the avatar.
+        /// </summary>
+        /// <value>
+        /// The avatar.
+        /// </value>
         TAvatar Avatar { get; set; }
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
+        /// <value>
+        /// The position.
+        /// </value>
         TVector3 Position { get; set; }
+        /// <summary>
+        /// Gets or sets the rotation.
+        /// </summary>
+        /// <value>
+        /// The rotation.
+        /// </value>
         TVector3 Rotation { get; set; }
     }
 }
