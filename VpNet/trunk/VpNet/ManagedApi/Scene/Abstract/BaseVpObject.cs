@@ -33,6 +33,9 @@ namespace VpNet.Abstract
     public abstract class BaseVpObject<TVector3> : IVpObject<TVector3>
         where TVector3 : IVector3,new()
     {
+        private TVector3 _position;
+        private Cell _cell;
+
         [XmlAttribute]
         public int Id { get; set; }
         [XmlAttribute]
@@ -41,7 +44,16 @@ namespace VpNet.Abstract
         public DateTime Time { get; set; }
         [XmlAttribute]
         public int Owner { get; set; }
-        public TVector3 Position { get; set; }
+
+        public TVector3 Position
+        {
+            get { return _position; }
+            set
+            {
+                _cell = null;
+                _position = value;
+            }
+        }
         public TVector3 Rotation { get; set; }
         [XmlAttribute]
         public float Angle { get; set; }
@@ -75,6 +87,10 @@ namespace VpNet.Abstract
         {
             Angle = float.MaxValue;
             Time = DateTime.UtcNow;
+        }
+
+        public Cell Cell { 
+            get { return _cell ?? (_cell = new Cell((int) (Math.Floor(Position.X)/10), (int) (Math.Floor(Position.Z)/10))); }
         }
     }
 }
