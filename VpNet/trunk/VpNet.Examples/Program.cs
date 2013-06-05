@@ -27,8 +27,15 @@ using System;
 
 namespace VpNet.Examples
 {
+    /// <summary>
+    /// VpNet Examples Console Application.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Mains entry point of the VpNet Examples.
+        /// </summary>
+        /// <param name="args">The args.</param>
         static void Main(string[] args)
         {
             // put your credentials here.

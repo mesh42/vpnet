@@ -24,14 +24,17 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using VpNet.Extensions;
 
 namespace VpNet.Examples
 {
+    /// <summary>
+    /// The events example shows how to receive events from the world and universe server.
+    /// </summary>
     public class EventsExample
     {
-                /// <summary>
+        /// <summary>
         /// Initializes a new instance of the <see cref="HelloWorldExample"/> class.
-        /// The events example shows how to receive events from the world and universe server.
         /// </summary>
         /// <param name="user">The user name.</param>
         /// <param name="password">The password.</param>
@@ -47,6 +50,7 @@ namespace VpNet.Examples
             vp.UpdateAvatar();
             // Register to VP events
             vp.OnObjectChange += vp_OnObjectChange;
+            vp.OnChatMessage += vp_OnChatMessage;
 
             Console.WriteLine("Press any key to stop");
             do
@@ -60,9 +64,31 @@ namespace VpNet.Examples
 
         }
 
+        /// <summary>
+        /// Called when a chat message arrives.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        void vp_OnChatMessage(Instance sender, ChatMessageEventArgsT<Avatar<Vector3>, ChatMessage, Vector3, Color> args)
+        {
+            // Write a serialized version showing all the data of the chat message event using VpNet.Extension methods.
+            Console.WriteLine("Chat message received.\r\n{0}",args.Serialize());
+            if (args.ChatMessage.Message.ToLower().StartsWith("!consoletest"))
+            {
+                // test a console message in pretty pink :)
+                sender.ConsoleMessage("Hello", "World",new Color(255,64,128));
+            }
+        }
+
+        /// <summary>
+        /// Called when an object is changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         void vp_OnObjectChange(Instance sender, ObjectChangeArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
-            Console.WriteLine("object {0} changed by {1}", args.VpObject.Id, args.Avatar.Name);
+            // Write a serialized version showing all the data of object changed event using VpNet.Extension methods.
+            Console.WriteLine("Object changed received.\r\n{0}", args.Serialize());
         }
     }
 }
