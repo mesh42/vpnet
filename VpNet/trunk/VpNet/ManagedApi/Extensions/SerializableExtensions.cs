@@ -37,7 +37,7 @@ namespace VpNet.Extensions
     /// <summary>
     /// Serialization Extensions for serializable objects.
     /// </summary>
-    internal static class SerializableExtensions
+    public static class SerializableExtensions
     {
         /// <summary>
         /// Create a templated (isolated) copy without references to the original object.
