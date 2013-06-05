@@ -82,7 +82,7 @@ namespace VpNet.Extensions
             foreach (var property in srcFields)
             {
                 var dest = destFields.FirstOrDefault(x => x.Name == property.Name);
-                if (dest != null && dest.DeclaringType == typeof(T1)/* only copy the properties from the declaring type */ && dest.CanWrite)
+                if (dest != null /*&& dest.DeclaringType == typeof(T1)/* TODO: only copy the properties from the declaring type */ && dest.CanWrite)
                     dest.SetValue(obj, property.GetValue(otherObject, null), null);
             }
 

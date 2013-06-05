@@ -32,12 +32,14 @@ namespace VpNet.Abstract
         where TColor : IColor, new()
     {
         [XmlAttribute]
-        public ChatMessageTypes Type { get; set; }
-        public TColor Color { get; set; }
+        virtual public ChatMessageTypes Type { get; set; }
+        virtual public TColor Color { get; set; }
         [XmlAttribute]
-        public TextEffectTypes TextEffectTypes { get; set; }
+        virtual public TextEffectTypes TextEffectTypes { get; set; }
         [XmlAttribute]
-        public string Message { get; set; }
+        virtual public string Message { get; set; }
+        [XmlAttribute]
+        public virtual string Name { get; set; }
 
         protected ChatMessage(string message)
         {
