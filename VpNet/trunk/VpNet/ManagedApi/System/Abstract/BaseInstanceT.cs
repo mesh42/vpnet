@@ -855,15 +855,22 @@ namespace VpNet.Abstract
             if (OnObjectClick == null) return;
             int session;
             int objectId;
+            TVector3 world;
             lock (this)
             {
                 session = Functions.vp_int(sender, Attribute.AvatarSession);
                 objectId = Functions.vp_int(sender, Attribute.ObjectId);
+                world = new TVector3
+                    {
+                        X = Functions.vp_float(sender, Attribute.ClickHitX),
+                        Y = Functions.vp_float(sender, Attribute.ClickHitY),
+                        Z = Functions.vp_float(sender, Attribute.ClickHitZ)
+                    };
             }
 
             OnObjectClick(Implementor,
                           new TObjectClickArgs
-                              {Avatar = _avatars[session].Copy(), VpObject = new TVpObject {Id = objectId}});
+                              {World=world, Avatar = _avatars[session].Copy(), VpObject = new TVpObject {Id = objectId}});
         }
 
         private void OnObjectDeleteNative(IntPtr sender)
