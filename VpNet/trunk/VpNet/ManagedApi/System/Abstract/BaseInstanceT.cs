@@ -774,11 +774,24 @@ namespace VpNet.Abstract
                         };
                     _avatars.Add(avatar.Session, avatar);
                 }
+                
+
                 if (OnChatMessage == null) return;
                 data = new TChatMessageEventArgs
                     {
                         Avatar = _avatars[Functions.vp_int(_instance, Attribute.AvatarSession)].Copy(),
-                        ChatMessage = new TChatMessage {Message = Functions.vp_string(_instance, Attribute.ChatMessage)}
+                        ChatMessage = new TChatMessage
+                            {
+                                Color = new TColor
+                                    {
+                                        R = (byte)Functions.vp_int(_instance, Attribute.ChatRolorRed),
+                                        G = (byte)Functions.vp_int(_instance, Attribute.ChatColorGreen),
+                                        B = (byte)Functions.vp_int(_instance, Attribute.ChatColorBlue)
+                                    },
+                                Type = (ChatMessageTypes)Functions.vp_int(_instance, Attribute.ChatType),
+                                Message = Functions.vp_string(_instance, Attribute.ChatMessage),
+                                Name = Functions.vp_string(_instance, Attribute.AvatarName)
+                            }
                     };
             }
             OnChatMessage(Implementor, data);
@@ -928,7 +941,7 @@ namespace VpNet.Abstract
             {
                 if (_avatars.ContainsKey(avatar.Session))
                 {
-                    _avatars[avatar.Session].CopyFrom(avatar);
+                    _avatars[avatar.Session] = new TAvatar().CopyFrom(avatar);
                 }
                 else
                 {

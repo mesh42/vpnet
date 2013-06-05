@@ -19,5 +19,15 @@ namespace VpNet.Interfaces
 
         [XmlAttribute]
         string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name for a console message. Note that this name is not always the same as the bot sending the console message.
+        /// Bots can advocate sending messages under different names.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        [XmlAttribute]
+        string Name { get; set; }
     }
 }
