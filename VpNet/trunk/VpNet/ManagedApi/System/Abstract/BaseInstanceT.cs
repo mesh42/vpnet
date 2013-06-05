@@ -870,7 +870,7 @@ namespace VpNet.Abstract
 
             OnObjectClick(Implementor,
                           new TObjectClickArgs
-                              {World=world, Avatar = _avatars[session].Copy(), VpObject = new TVpObject {Id = objectId}});
+                              {WorldHit=world, Avatar = _avatars[session].Copy(), VpObject = new TVpObject {Id = objectId}});
         }
 
         private void OnObjectDeleteNative(IntPtr sender)
