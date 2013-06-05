@@ -51,6 +51,7 @@ namespace VpNet.Examples
             // Register to VP events
             vp.OnObjectChange += vp_OnObjectChange;
             vp.OnChatMessage += vp_OnChatMessage;
+            vp.OnObjectClick += vp_OnObjectClick;
 
             Console.WriteLine("Press any key to stop");
             do
@@ -62,6 +63,11 @@ namespace VpNet.Examples
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
                     
 
+        }
+
+        void vp_OnObjectClick(Instance sender, ObjectClickArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
+        {
+            Console.WriteLine("Object click received.\r\n{0}", args.Serialize());
         }
 
         /// <summary>

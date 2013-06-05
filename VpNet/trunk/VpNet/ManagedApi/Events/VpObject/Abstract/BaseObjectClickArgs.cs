@@ -35,6 +35,7 @@ namespace VpNet.Abstract
     {
         public TVpObject VpObject { get; set; }
         public TAvatar Avatar { get; set; }
+        public TVector3 World { get; set; }
 
         protected BaseObjectClickArgs(TAvatar avatar, TVpObject vpObject)
         {
