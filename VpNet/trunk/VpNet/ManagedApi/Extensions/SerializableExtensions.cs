@@ -28,6 +28,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace VpNet.Extensions
 {
@@ -107,5 +110,20 @@ namespace VpNet.Extensions
 
             return obj;
         }
+
+        public static string Serialize<T>(this T o, bool ommitXmlDeclaration = false, bool indentation = true)
+        {
+            var xsn = new XmlSerializerNamespaces();
+            var xws = new XmlWriterSettings {Indent = indentation};
+            xws.OmitXmlDeclaration = ommitXmlDeclaration;
+            var xmlStr = new StringBuilder();
+            var x = new XmlSerializer(o.GetType()/*, defaultNamespace*/);
+            using (var writer = XmlTextWriter.Create(xmlStr, xws))
+            {
+                x.Serialize(writer, o, xsn);
+                return xmlStr.ToString();
+            }
+        }
+
     }
 }
