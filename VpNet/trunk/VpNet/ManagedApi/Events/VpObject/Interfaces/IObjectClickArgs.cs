@@ -56,6 +56,6 @@ namespace VpNet.Interfaces
         /// <value>
         /// The world hit coordinates
         /// </value>
-        TVector3 World { get; set; }
+        TVector3 WorldHit { get; set; }
     }
 }
