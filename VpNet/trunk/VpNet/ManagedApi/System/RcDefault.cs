@@ -23,11 +23,14 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System.Xml.Serialization;
+
 namespace VpNet
 {
     /// <summary>
     /// Default Vp Exception implementation. Throws an Exception if an RC code is not 0.
     /// </summary>
+    [XmlRoot("Rc", Namespace = Global.XmlnsRc)]
     public class RcDefault : Abstract.BaseRc
     {
         /// <summary>

@@ -24,11 +24,13 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 using VpNet.NativeApi;
 
 namespace VpNet
 {
     [Serializable]
+    [XmlRoot("VpException", Namespace = Global.XmlNsException)]
     public sealed class VpException : Exception
     {
         public ReasonCode Reason;

@@ -23,11 +23,16 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
+using System.Xml.Serialization;
+
 namespace VpNet
 {
     /// <summary>
     /// A tolerant exception implementation. Does not throw an exception when RC not equals 0
     /// </summary>
+    [Serializable]
+    [XmlRoot("Rc", Namespace = Global.XmlnsRc)]
     public class RcTolerant : Abstract.BaseRc
     {
         /// <summary>
