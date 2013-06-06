@@ -23,6 +23,7 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet
@@ -30,6 +31,7 @@ namespace VpNet
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
+    [XmlRoot("OnChatMessage", Namespace = Global.XmlNsEvent)]
     public class ChatMessageEventArgsT<TAvatar,TChatMessage,TVector3, TColor> : Abstract.BaseChatMessageEventArgs<TAvatar, TChatMessage,TVector3,TColor> 
         where TVector3 : class, IVector3, new()
         where TChatMessage : class, IChatMessage<TColor>, new()

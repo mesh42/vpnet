@@ -23,6 +23,7 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet
@@ -32,6 +33,7 @@ namespace VpNet
     /// </summary>
     /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
+    [XmlRoot("OnAvatarChange", Namespace = Global.XmlNsEvent)]
     public class AvatarChangeEventArgsT<TAvatar,TVector3> : Abstract.BaseAvatarChangeEventArgs<TAvatar,TVector3>
        where TVector3 : class, IVector3,new()
        where TAvatar : class, IAvatar<TVector3>, new()
@@ -42,6 +44,7 @@ namespace VpNet
     /// </summary>
     /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
+    [XmlRoot("OnAvatarEnter", Namespace = Global.XmlNsEvent)]
     public class AvatarEnterEventArgsT<TAvatar,TVector3> : Abstract.BaseAvatarEnterEventArgs<TAvatar,TVector3>
        where TVector3 : class, IVector3,new()
        where TAvatar : class, IAvatar<TVector3>, new()
@@ -51,6 +54,7 @@ namespace VpNet
     /// </summary>
     /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
+    [XmlRoot("OnAvatarLeave", Namespace = Global.XmlNsEvent)]
     public class AvatarLeaveEventArgsT<TAvatar, TVector3> : Abstract.BaseAvatarLeaveEventArgs<TAvatar, TVector3>
        where TVector3 : class, IVector3,new()
        where TAvatar : class, IAvatar<TVector3>, new()

@@ -23,6 +23,8 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet
@@ -30,6 +32,8 @@ namespace VpNet
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
+    [Serializable]
+    [XmlRoot("OnUniverseDisconnect", Namespace = Global.XmlNsEvent)]
     public class UniverseDisconnectEventArgsT<TUniverse> : Abstract.BaseUniverseDisconnectEventArgs<TUniverse>
         where TUniverse : class, IUniverse, new()
     {}

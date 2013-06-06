@@ -23,34 +23,43 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System.Xml.Serialization;
+
 namespace VpNet
 {
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
+    [XmlRoot("OnObjectChange", Namespace = Global.XmlNsEvent)]
     public class ObjectChangeArgs : Abstract.BaseObjectChangeArgs<Avatar<Vector3>, VpObject<Vector3>, Vector3> { }
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
-    public class ObjectChangeCallbackArgs : Abstract.BaseObjectChangeCallbackArgs<RcDefault,VpObject<Vector3>,Vector3> { }
+    [XmlRoot("OnObjectChangeCallback", Namespace = Global.XmlNsEvent)]
+    public class ObjectChangeCallbackArgs : Abstract.BaseObjectChangeCallbackArgs<RcDefault, VpObject<Vector3>, Vector3> { }
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
-    public class ObjectClickArgs : Abstract.BaseObjectClickArgs<Avatar<Vector3>,VpObject<Vector3>, Vector3> { }
+    [XmlRoot("OnObjectClick", Namespace = Global.XmlNsEvent)]
+    public class ObjectClickArgs : Abstract.BaseObjectClickArgs<Avatar<Vector3>, VpObject<Vector3>, Vector3> { }
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
-    public class ObjectCreateArgs : Abstract.BaseObjectCreateArgs<Avatar<Vector3>,VpObject<Vector3>,Vector3> { }
+    [XmlRoot("OnObjectCreate", Namespace = Global.XmlNsEvent)]
+    public class ObjectCreateArgs : Abstract.BaseObjectCreateArgs<Avatar<Vector3>, VpObject<Vector3>, Vector3> { }
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
-    public class ObjectCreateCallbackArgs : Abstract.BaseObjectCreateCallbackArgs<RcDefault,VpObject<Vector3>,Vector3> { }
+    [XmlRoot("OnObjectCreateCallback", Namespace = Global.XmlNsEvent)]
+    public class ObjectCreateCallbackArgs : Abstract.BaseObjectCreateCallbackArgs<RcDefault, VpObject<Vector3>, Vector3> { }
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
-    public class ObjectDeleteArgs : Abstract.BaseObjectDeleteArgs<Avatar<Vector3>,VpObject<Vector3>,Vector3> { }
+    [XmlRoot("OnObjectDelete", Namespace = Global.XmlNsEvent)]
+    public class ObjectDeleteArgs : Abstract.BaseObjectDeleteArgs<Avatar<Vector3>, VpObject<Vector3>, Vector3> { }
     /// <summary>
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
-    public class ObjectDeleteCallbackArgs : Abstract.BaseObjectDeleteCallbackArgs<RcDefault,VpObject<Vector3>,Vector3> { }
+    [XmlRoot("OnObjectDeleteCallback", Namespace = Global.XmlNsEvent)]
+    public class ObjectDeleteCallbackArgs : Abstract.BaseObjectDeleteCallbackArgs<RcDefault, VpObject<Vector3>, Vector3> { }
 }
