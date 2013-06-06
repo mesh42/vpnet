@@ -1,8 +1,12 @@
-﻿using VpNet.Abstract;
+﻿using System;
+using System.Xml.Serialization;
+using VpNet.Abstract;
 using VpNet.Interfaces;
 
 namespace VpNet
 {
+    [Serializable] 
+    [XmlRoot("Instance", Namespace = Global.XmlNsInstance)]
     public class Instance<TResult, TVector3> : BaseInstanceT<Instance<TResult, TVector3>,
         Avatar<TVector3>, 
         Color, 
