@@ -24,6 +24,7 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 using VpNet.Abstract;
 using VpNet.Interfaces;
 
@@ -33,6 +34,7 @@ namespace VpNet
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
     [Serializable]
+    [XmlRoot("OnTeleport", Namespace = Global.XmlNsEvent)]
     public class TeleportEventArgsT<TTeleport,TWorld,TAvatar,TVector3> : BaseTeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>
         where TWorld : class, IWorld, new()
         where TVector3 : class, IVector3, new()

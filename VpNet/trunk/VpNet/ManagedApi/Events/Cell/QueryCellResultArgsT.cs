@@ -24,6 +24,7 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet
@@ -32,6 +33,7 @@ namespace VpNet
     /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
     /// </summary>
     [Serializable]
+    [XmlRoot("OnQueryCellResult", Namespace = Global.XmlNsEvent)]
     public partial class QueryCellResultArgsT<TVpObject,TVector3> : Abstract.QueryCellResultArgs<TVpObject,TVector3>
         where TVector3 : class, IVector3, new()
         where TVpObject : class, IVpObject<TVector3>, new()

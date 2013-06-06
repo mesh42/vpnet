@@ -23,9 +23,18 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
+using System.Xml.Serialization;
+
 namespace VpNet
 {
+    [Serializable]
+    [XmlRoot("OnWorldDisconnect", Namespace = Global.XmlNsEvent)]
     public class WorldDisconnectEventArgs : Abstract.BaseWorldDisconnectEventArgs<World>{}
-    public class WorldListEventArgs : Abstract.BaseWorldListEventArgs<World>{}
-    public class WorldSettingsChangedEventArgs : Abstract.BaseWorldSettingsChangedEventArgs<World>{}
+    [Serializable]
+    [XmlRoot("OnWorldList", Namespace = Global.XmlNsEvent)]
+    public class WorldListEventArgs : Abstract.BaseWorldListEventArgs<World> { }
+    [Serializable]
+    [XmlRoot("OnWorldSettingsChanged", Namespace = Global.XmlNsEvent)]
+    public class WorldSettingsChangedEventArgs : Abstract.BaseWorldSettingsChangedEventArgs<World> { }
 }
