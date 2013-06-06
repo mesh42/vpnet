@@ -24,11 +24,13 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet
 {
     [Serializable]
+    [XmlRoot("VpObject", Namespace = Global.XmlNsScene)]
     public class VpObject<TVector3> : Abstract.BaseVpObject<TVector3>
         where TVector3 : class, IVector3, new()
     {

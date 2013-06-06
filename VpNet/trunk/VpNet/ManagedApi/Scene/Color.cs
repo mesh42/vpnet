@@ -24,10 +24,12 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 
 namespace VpNet
 {
     [Serializable]
+    [XmlRoot("Color", Namespace = Global.XmlNsScene)]
     public class Color : Abstract.BaseColor
     {
         public Color() { }

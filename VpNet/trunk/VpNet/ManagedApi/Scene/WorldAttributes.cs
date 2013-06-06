@@ -24,11 +24,13 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 
 namespace VpNet
 {
     [Obsolete("Currently unsupported")]
     [Serializable]
+    [XmlRoot("WorldAttributes", Namespace = Global.XmlNsScene)]
     public class WorldAttributes : Abstract.BaseWorldAttributes
     {
     }

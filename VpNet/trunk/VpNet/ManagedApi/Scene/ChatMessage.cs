@@ -24,10 +24,12 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 
 namespace VpNet
 {
     [Serializable]
+    [XmlRoot("ChatMessage", Namespace = Global.XmlNsScene)]
     public class ChatMessage : Abstract.ChatMessage<Color>
     {
         public ChatMessage(string message) : base(message)
