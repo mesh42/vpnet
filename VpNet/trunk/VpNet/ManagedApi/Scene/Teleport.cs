@@ -24,11 +24,13 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet
 {
     [Serializable]
+    [XmlRoot("Teleport", Namespace = Global.XmlNsScene)]
     public class Teleport<TWorld,TAvatar,TVector3> : Abstract.BaseTeleport<TWorld,TAvatar,TVector3>
         where TWorld : class, IWorld, new()
         where TVector3 : class, IVector3, new()
