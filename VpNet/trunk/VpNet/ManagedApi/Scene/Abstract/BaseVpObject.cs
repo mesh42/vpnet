@@ -89,8 +89,19 @@ namespace VpNet.Abstract
             Time = DateTime.UtcNow;
         }
 
-        public Cell Cell { 
-            get { return _cell ?? (_cell = new Cell((int) (Math.Floor(Position.X)/10), (int) (Math.Floor(Position.Z)/10))); }
+        [XmlIgnore]
+        public Cell Cell
+        {
+            get
+            {
+                if (_cell == null)
+                    if (Position != null)
+                    _cell = new Cell((int) (Math.Floor(Position.X)/10), (int) (Math.Floor(Position.Z)/10));
+                    else
+                        _cell = new Cell(0,0);
+
+                return _cell;
+            }
         }
     }
 }
