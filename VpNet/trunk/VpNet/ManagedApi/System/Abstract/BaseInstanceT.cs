@@ -200,7 +200,6 @@ namespace VpNet.Abstract
         {
             Universe = new TUniverse();
             World = new TWorld();
-            _configuration = new InstanceConfiguration<TWorld>();
             _avatars = new Dictionary<int, TAvatar>();
             _isInitialized = true;
         }
@@ -210,6 +209,8 @@ namespace VpNet.Abstract
         {
             _instance = parentInstance._instance;
             Init();
+            _configuration = new InstanceConfiguration<TWorld>(true);
+          
             parentInstance.OnChatNativeEvent += OnChatNative;
             parentInstance.OnAvatarAddNativeEvent += OnAvatarAddNative;
             parentInstance.OnAvatarChangeNativeEvent += OnAvatarChangeNative;
@@ -238,6 +239,8 @@ namespace VpNet.Abstract
             if (!_isInitialized)
             {
                 Init();
+                _configuration = new InstanceConfiguration<TWorld>(false);
+
                 int rc = Functions.vp_init(1);
                 if (rc != 0)
                 {
@@ -319,6 +322,8 @@ namespace VpNet.Abstract
 
         ~BaseInstanceT()
         {
+            if (_configuration.IsChildInstance)
+                return;
             if (_instance == IntPtr.Zero) return;
             lock (this)
             {
@@ -1196,6 +1201,8 @@ namespace VpNet.Abstract
         {
             if (_instance != IntPtr.Zero)
             {
+                if (_configuration.IsChildInstance)
+                    return;
                 Functions.vp_destroy(_instance);
             }
             GC.SuppressFinalize(this);
