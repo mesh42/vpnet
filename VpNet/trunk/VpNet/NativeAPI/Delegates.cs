@@ -29,8 +29,8 @@ using System.Runtime.InteropServices;
 namespace VpNet.NativeApi
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void CallbackDelegate(IntPtr sender, int rc, int reference);
+    public delegate void CallbackDelegate(IntPtr sender, int rc, int reference);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal delegate void EventDelegate(IntPtr sender);
+    public delegate void EventDelegate(IntPtr sender);
 }
