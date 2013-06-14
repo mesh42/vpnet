@@ -104,6 +104,7 @@ namespace VpNet.Abstract
         > :
         /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
+        BaseInstanceEvents,
         IAvatarFunctions<TResult, TAvatar, TVector3>,
         IChatFunctions<TResult, TAvatar, TColor, TVector3>,
         IFriendFunctions<TResult, TFriend>,
@@ -163,14 +164,14 @@ namespace VpNet.Abstract
         where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>, new()
 
     {
-        readonly bool _isInitialized;
-        readonly IntPtr _instance;
+        bool _isInitialized;
+
         private int _reference = int.MinValue;
         private readonly Dictionary<int, TVpObject> _objectReferences = new Dictionary<int, TVpObject>();
 
         public T Implementor { get; set; }
 
-        private readonly Dictionary<int, TAvatar> _avatars;
+        Dictionary<int, TAvatar> _avatars;
 
         private TUniverse Universe { get; set; }
         private TWorld World { get; set; }
@@ -187,19 +188,53 @@ namespace VpNet.Abstract
             }
         }
 
-        protected BaseInstanceT()
+        internal void Init()
         {
             Universe = new TUniverse();
             World = new TWorld();
+            _avatars = new Dictionary<int, TAvatar>();
+            _isInitialized = true;
+        }
+
+
+        internal protected BaseInstanceT(BaseInstanceEvents parentInstance)
+        {
+            _instance = parentInstance._instance;
+            Init();
+            parentInstance.OnChatNativeEvent += OnChatNative;
+            parentInstance.OnAvatarAddNativeEvent += OnAvatarAddNative;
+            parentInstance.OnAvatarChangeNativeEvent += OnAvatarChangeNative;
+            parentInstance.OnAvatarDeleteNativeEvent += OnAvatarDeleteNative;
+            parentInstance.OnWorldListNativeEvent += OnWorldListNative;
+            parentInstance.OnWorldDisconnectNativeEvent += OnWorldDisconnectNative;
+
+            parentInstance.OnObjectChangeNativeEvent += OnObjectChangeNative;
+            parentInstance.OnObjectCreateNativeEvent += OnObjectCreateNative;
+            parentInstance.OnObjectClickNativeEvent += OnObjectClickNative;
+            parentInstance.OnObjectDeleteNativeEvent += OnObjectDeleteNative;
+            parentInstance.OnQueryCellEndNativeEvent += OnQueryCellEndNative;
+            parentInstance.OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
+            parentInstance.OnTeleportNativeEvent += OnTeleportNative;
+
+            parentInstance.OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
+            parentInstance.OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
+            parentInstance.OnObjectDeleteCallbackNativeEvent += OnObjectDeleteCallbackNative;
+            parentInstance.OnFriendAddCallbackNativeEvent += OnFriendAddCallbackNative;
+            parentInstance.OnFriendDeleteCallbackNativeEvent += OnFriendDeleteCallbackNative;
+            parentInstance.OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
+        }
+
+        protected BaseInstanceT()
+        {
             if (!_isInitialized)
             {
+                Init();
                 int rc = Functions.vp_init(1);
                 if (rc != 0)
                 {
                     throw new VpException((ReasonCode)rc);
                 }
-                _avatars = new Dictionary<int, TAvatar>();
-                _isInitialized = true;
+               
             }
             _instance = Functions.vp_create();
 
@@ -646,28 +681,7 @@ namespace VpNet.Abstract
         private readonly Dictionary<Events, EventDelegate> _nativeEvents = new Dictionary<Events, EventDelegate>();
         private readonly Dictionary<Callbacks, CallbackDelegate> _nativeCallbacks = new Dictionary<Callbacks, CallbackDelegate>();
 
-        internal event EventDelegate OnChatNativeEvent;
-        internal event EventDelegate OnAvatarAddNativeEvent;
-        internal event EventDelegate OnAvatarDeleteNativeEvent;
-        internal event EventDelegate OnAvatarChangeNativeEvent;
-        internal event EventDelegate OnWorldListNativeEvent;
-        internal event EventDelegate OnObjectChangeNativeEvent;
-        internal event EventDelegate OnObjectCreateNativeEvent;
-        internal event EventDelegate OnObjectDeleteNativeEvent;
-        internal event EventDelegate OnObjectClickNativeEvent;
-
-
-        internal event EventDelegate OnQueryCellEndNativeEvent;
-        internal event EventDelegate OnUniverseDisconnectNativeEvent;
-        internal event EventDelegate OnWorldDisconnectNativeEvent;
-        internal event EventDelegate OnTeleportNativeEvent;
-
-        internal event CallbackDelegate OnObjectCreateCallbackNativeEvent;
-        internal event CallbackDelegate OnObjectChangeCallbackNativeEvent;
-        internal event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
-        internal event CallbackDelegate OnFriendAddCallbackNativeEvent;
-        internal event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
-        internal event CallbackDelegate OnGetFriendsCallbackNativeEvent;
+      
 
 
 
@@ -804,21 +818,21 @@ namespace VpNet.Abstract
             {
                 teleport = new TTeleport
                     {
-                        Avatar = GetAvatar(Functions.vp_int(_instance, Attribute.AvatarSession)),
+                        Avatar = GetAvatar(Functions.vp_int(sender, Attribute.AvatarSession)),
                         Position = new TVector3
                             {
-                                X = Functions.vp_float(_instance, Attribute.TeleportX),
-                                Y = Functions.vp_float(_instance, Attribute.TeleportY),
-                                Z = Functions.vp_float(_instance, Attribute.TeleportZ)
+                                X = Functions.vp_float(sender, Attribute.TeleportX),
+                                Y = Functions.vp_float(sender, Attribute.TeleportY),
+                                Z = Functions.vp_float(sender, Attribute.TeleportZ)
                             },
                         Rotation = new TVector3
                             {
-                                X = Functions.vp_float(_instance, Attribute.TeleportPitch),
-                                Y = Functions.vp_float(_instance, Attribute.TeleportYaw),
+                                X = Functions.vp_float(sender, Attribute.TeleportPitch),
+                                Y = Functions.vp_float(sender, Attribute.TeleportYaw),
                                 Z = 0 /* Roll not implemented yet */
                             },
                             // TODO: maintain user count and world state statistics.
-                        World = new TWorld { Name = Functions.vp_string(_instance, Attribute.TeleportWorld),State = WorldState.Unknown, UserCount=-1 }
+                        World = new TWorld { Name = Functions.vp_string(sender, Attribute.TeleportWorld),State = WorldState.Unknown, UserCount=-1 }
 
                     };
             }
@@ -833,10 +847,10 @@ namespace VpNet.Abstract
             {
                 var friend = new TFriend
                     {
-                        UserId = Functions.vp_int(_instance,Attributes.UserId),
-                        Id = Functions.vp_int(_instance,Attributes.FriendId),
-                        Name = Functions.vp_string(_instance,Attributes.FriendName),
-                       Online = Functions.vp_int(_instance,Attributes.FriendOnline)==1
+                        UserId = Functions.vp_int(sender,Attributes.UserId),
+                        Id = Functions.vp_int(sender,Attributes.FriendId),
+                        Name = Functions.vp_string(sender,Attributes.FriendName),
+                       Online = Functions.vp_int(sender,Attributes.FriendOnline)==1
                     };
                 OnFriendsGetCallback(Implementor,new TFriendsGetCallbackEventArgs{Friend=friend});
             }
@@ -859,12 +873,12 @@ namespace VpNet.Abstract
             TChatMessageEventArgs data;
             lock (this)
             {
-                if (!_avatars.ContainsKey(Functions.vp_int(_instance, Attribute.AvatarSession)))
+                if (!_avatars.ContainsKey(Functions.vp_int(sender, Attribute.AvatarSession)))
                 {
                     var avatar = new TAvatar
                         {
-                            Name = Functions.vp_string(_instance, Attribute.AvatarName),
-                            Session = Functions.vp_int(_instance, Attribute.AvatarSession)
+                            Name = Functions.vp_string(sender, Attribute.AvatarName),
+                            Session = Functions.vp_int(sender, Attribute.AvatarSession)
                         };
                     _avatars.Add(avatar.Session, avatar);
                 }
@@ -873,18 +887,18 @@ namespace VpNet.Abstract
                 if (OnChatMessage == null) return;
                 data = new TChatMessageEventArgs
                     {
-                        Avatar = _avatars[Functions.vp_int(_instance, Attribute.AvatarSession)].Copy(),
+                        Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)].Copy(),
                         ChatMessage = new TChatMessage
                             {
                                 Color = new TColor
                                     {
-                                        R = (byte)Functions.vp_int(_instance, Attribute.ChatRolorRed),
-                                        G = (byte)Functions.vp_int(_instance, Attribute.ChatColorGreen),
-                                        B = (byte)Functions.vp_int(_instance, Attribute.ChatColorBlue)
+                                        R = (byte)Functions.vp_int(sender, Attribute.ChatRolorRed),
+                                        G = (byte)Functions.vp_int(sender, Attribute.ChatColorGreen),
+                                        B = (byte)Functions.vp_int(sender, Attribute.ChatColorBlue)
                                     },
-                                Type = (ChatMessageTypes)Functions.vp_int(_instance, Attribute.ChatType),
-                                Message = Functions.vp_string(_instance, Attribute.ChatMessage),
-                                Name = Functions.vp_string(_instance, Attribute.AvatarName)
+                                Type = (ChatMessageTypes)Functions.vp_int(sender, Attribute.ChatType),
+                                Message = Functions.vp_string(sender, Attribute.ChatMessage),
+                                Name = Functions.vp_string(sender, Attribute.AvatarName)
                             }
                     };
             }
@@ -896,15 +910,15 @@ namespace VpNet.Abstract
             TAvatar data;
             lock (this)
             {
-                data = new TAvatar {UserId=Functions.vp_int(_instance, Attribute.UserId),
-                Name = Functions.vp_string(_instance, Attribute.AvatarName),
-                Session=Functions.vp_int(_instance, Attribute.AvatarSession),
-                AvatarType=Functions.vp_int(_instance, Attribute.AvatarType),
-                Position=new TVector3{X=Functions.vp_float(_instance, Attribute.AvatarX),
-                            Y=Functions.vp_float(_instance, Attribute.AvatarY),
-                            Z=Functions.vp_float(_instance, Attribute.AvatarZ)},
-                Rotation=new TVector3{X=Functions.vp_float(_instance, Attribute.AvatarPitch),
-                            Y=Functions.vp_float(_instance, Attribute.AvatarYaw),
+                data = new TAvatar {UserId=Functions.vp_int(sender, Attribute.UserId),
+                Name = Functions.vp_string(sender, Attribute.AvatarName),
+                Session=Functions.vp_int(sender, Attribute.AvatarSession),
+                AvatarType=Functions.vp_int(sender, Attribute.AvatarType),
+                Position=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarX),
+                            Y=Functions.vp_float(sender, Attribute.AvatarY),
+                            Z=Functions.vp_float(sender, Attribute.AvatarZ)},
+                Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch),
+                            Y=Functions.vp_float(sender, Attribute.AvatarYaw),
                             Z=0 /* roll currently not supported*/}};
                 _avatars.Add(data.Session, data);
             }
@@ -917,14 +931,14 @@ namespace VpNet.Abstract
             TAvatar data;
             lock (this)
             {
-                data = new TAvatar{UserId=_avatars[Functions.vp_int(_instance, Attribute.AvatarSession)].UserId, Name=Functions.vp_string(_instance, Attribute.AvatarName),
-                                  Session=Functions.vp_int(_instance, Attribute.AvatarSession),
-                                  AvatarType=Functions.vp_int(_instance, Attribute.AvatarType),
-                                  Position=new TVector3{X=Functions.vp_float(_instance, Attribute.AvatarX),
-                                  Y=Functions.vp_float(_instance, Attribute.AvatarY),
-                                  Z=Functions.vp_float(_instance, Attribute.AvatarZ)},
-               Rotation=new TVector3{X=Functions.vp_float(_instance, Attribute.AvatarPitch),
-                            Y=Functions.vp_float(_instance, Attribute.AvatarYaw),
+                data = new TAvatar{UserId=_avatars[Functions.vp_int(sender, Attribute.AvatarSession)].UserId, Name=Functions.vp_string(sender, Attribute.AvatarName),
+                                  Session=Functions.vp_int(sender, Attribute.AvatarSession),
+                                  AvatarType=Functions.vp_int(sender, Attribute.AvatarType),
+                                  Position=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarX),
+                                  Y=Functions.vp_float(sender, Attribute.AvatarY),
+                                  Z=Functions.vp_float(sender, Attribute.AvatarZ)},
+               Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch),
+                            Y=Functions.vp_float(sender, Attribute.AvatarYaw),
                             Z=0 /* roll currently not supported*/}};            
                 setAvatar(new Avatar<Vector3>().CopyFrom(data));
             }
@@ -937,7 +951,7 @@ namespace VpNet.Abstract
             TAvatar data;
             lock (this)
             {
-                data = _avatars[Functions.vp_int(_instance, Attribute.AvatarSession)];
+                data = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)];
                 _avatars.Remove(data.Session);
             }
             if (OnAvatarLeave == null) return;
@@ -1217,6 +1231,61 @@ namespace VpNet.Abstract
             return new TResult { Rc = Functions.vp_terrain_node_set(_instance, tileX, tileZ, nodeX, nodeZ, cells) };
 
         }
+
+        #endregion
+
+        #region Implementation of IInstanceEvents
+
+        override public event EventDelegate OnChatNativeEvent;
+        override public event EventDelegate OnAvatarAddNativeEvent;
+        override public event EventDelegate OnAvatarDeleteNativeEvent;
+        override public event EventDelegate OnAvatarChangeNativeEvent;
+        override public event EventDelegate OnWorldListNativeEvent;
+        override public event EventDelegate OnObjectChangeNativeEvent;
+        override public event EventDelegate OnObjectCreateNativeEvent;
+        override public event EventDelegate OnObjectDeleteNativeEvent;
+        override public event EventDelegate OnObjectClickNativeEvent;
+        override public event EventDelegate OnQueryCellEndNativeEvent;
+        override public event EventDelegate OnUniverseDisconnectNativeEvent;
+        override public event EventDelegate OnWorldDisconnectNativeEvent;
+        override public event EventDelegate OnTeleportNativeEvent;
+        override public event CallbackDelegate OnObjectCreateCallbackNativeEvent;
+        override public event CallbackDelegate OnObjectChangeCallbackNativeEvent;
+        override public event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
+        override public event CallbackDelegate OnFriendAddCallbackNativeEvent;
+        override public event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
+        override public event CallbackDelegate OnGetFriendsCallbackNativeEvent;
+
+        #endregion
+
+      
+    }
+
+    public abstract class BaseInstanceEvents
+    {
+        internal IntPtr _instance;
+
+        #region Implementation of IInstanceEvents
+
+        public abstract event EventDelegate OnChatNativeEvent;
+        public abstract event EventDelegate OnAvatarAddNativeEvent;
+        public abstract event EventDelegate OnAvatarDeleteNativeEvent;
+        public abstract event EventDelegate OnAvatarChangeNativeEvent;
+        public abstract event EventDelegate OnWorldListNativeEvent;
+        public abstract event EventDelegate OnObjectChangeNativeEvent;
+        public abstract event EventDelegate OnObjectCreateNativeEvent;
+        public abstract event EventDelegate OnObjectDeleteNativeEvent;
+        public abstract event EventDelegate OnObjectClickNativeEvent;
+        public abstract event EventDelegate OnQueryCellEndNativeEvent;
+        public abstract event EventDelegate OnUniverseDisconnectNativeEvent;
+        public abstract event EventDelegate OnWorldDisconnectNativeEvent;
+        public abstract event EventDelegate OnTeleportNativeEvent;
+        public abstract event CallbackDelegate OnObjectCreateCallbackNativeEvent;
+        public abstract event CallbackDelegate OnObjectChangeCallbackNativeEvent;
+        public abstract event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
+        public abstract event CallbackDelegate OnFriendAddCallbackNativeEvent;
+        public abstract event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
+        public abstract event CallbackDelegate OnGetFriendsCallbackNativeEvent;
 
         #endregion
     }
