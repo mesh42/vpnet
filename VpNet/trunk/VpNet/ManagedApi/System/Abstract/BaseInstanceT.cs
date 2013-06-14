@@ -597,6 +597,29 @@ namespace VpNet.Abstract
 
         private readonly Dictionary<Events, EventDelegate> _nativeEvents = new Dictionary<Events, EventDelegate>();
         private readonly Dictionary<Callbacks, CallbackDelegate> _nativeCallbacks = new Dictionary<Callbacks, CallbackDelegate>();
+
+        internal event EventDelegate OnChatNativeEvent;
+        internal event EventDelegate OnAvatarDeleteNativeEvent;
+        internal event EventDelegate OnAvatarChangeNativeEvent;
+        internal event EventDelegate OnWorldListNativeEvent;
+        internal event EventDelegate OnObjectChangeNativeEvent;
+        internal event EventDelegate OnObjectCreateNativeEvent;
+        internal event EventDelegate OnObjectClickNativeEvent;
+
+        internal event EventDelegate OnQueryCellEndNativeEvent;
+        internal event EventDelegate OnUniverseDisconnectNativeEvent;
+        internal event EventDelegate OnWorldDisconnectNativeEvent;
+        internal event EventDelegate OnTeleportNativeEvent;
+
+        internal event CallbackDelegate OnObjectCreateCallbackNativeEvent;
+        internal event CallbackDelegate OnObjectChangeCallbackNativeEvent;
+        internal event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
+        internal event CallbackDelegate OnFriendAddCallbackNativeEvent;
+        internal event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
+        internal event CallbackDelegate OnGetFriendsCallbackNativeEvent;
+
+
+
         private void SetNativeEvent(Events eventType, EventDelegate eventFunction)
         {
             _nativeEvents[eventType] = eventFunction;
