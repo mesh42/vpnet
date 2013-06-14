@@ -327,6 +327,26 @@ namespace VpNet.Abstract
 
         #region IVpObjectFunctions implementations
 
+        public TResult ClickObject(TVpObject vpObject)
+        {
+            lock (this)
+            {
+                return ClickObject(vpObject.Id);
+            }
+        }
+
+        public TResult ClickObject(int objectId)
+        {
+            lock (this)
+            {
+                Functions.vp_int_set(_instance, Attributes.ObjectId,objectId);
+                return new TResult
+                {
+                    Rc = Functions.vp_object_click(_instance)
+                };
+            }
+        }
+
         virtual public TResult DeleteObject(TVpObject vpObject)
         {
             int rc;

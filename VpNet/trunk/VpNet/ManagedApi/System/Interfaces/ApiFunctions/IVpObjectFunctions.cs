@@ -34,5 +34,7 @@ namespace VpNet.Interfaces
         TRc AddObject(TVpObject vpObject);
         TRc DeleteObject(TVpObject vpObject);
         TRc QueryCell(int cellX, int cellZ);
+        TRc ClickObject(TVpObject vpObject);
+        TRc ClickObject(int objectId);
     }
 }
