@@ -202,26 +202,74 @@ namespace VpNet.Abstract
                 _isInitialized = true;
             }
             _instance = Functions.vp_create();
-            SetNativeEvent(Events.Chat, OnChatNative);
-            SetNativeEvent(Events.AvatarAdd, OnAvatarAddNative);
-            SetNativeEvent(Events.AvatarChange, OnAvatarChangeNative);
-            SetNativeEvent(Events.AvatarDelete, OnAvatarDeleteNative);
-            SetNativeEvent(Events.WorldList, OnWorldListNative);
-            SetNativeEvent(Events.ObjectChange, OnObjectChangeNative);
-            SetNativeEvent(Events.Object, OnObjectCreateNative);
-            SetNativeEvent(Events.ObjectClick, OnObjectClickNative);
-            SetNativeEvent(Events.ObjectDelete, OnObjectDeleteNative);
-            SetNativeEvent(Events.QueryCellEnd, OnQueryCellEndNative);
-            SetNativeEvent(Events.UniverseDisconnect, OnUniverseDisconnectNative);
-            SetNativeEvent(Events.WorldDisconnect, OnWorldDisconnectNative);
-            SetNativeEvent(Events.Teleport, OnTeleportNative);
-            SetNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallbackNative);
-            SetNativeCallback(Callbacks.ObjectChange, OnObjectChangeCallbackNative);
-            SetNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallbackNative);
-            SetNativeCallback(Callbacks.FriendAdd, OnFriendAddCallbackNative);
-            SetNativeCallback(Callbacks.FriendDelete, OnFriendDeleteCallbackNative);
-            SetNativeCallback(Callbacks.GetFriends, OnGetFriendsCallbackNative);
+
+            OnChatNativeEvent += OnChatNative;
+            OnAvatarAddNativeEvent += OnAvatarAddNative;
+            OnAvatarChangeNativeEvent += OnAvatarChangeNative;
+            OnAvatarDeleteNativeEvent += OnAvatarDeleteNative;
+            OnWorldListNativeEvent += OnWorldListNative;
+            OnWorldDisconnectNativeEvent += OnWorldDisconnectNative;
+
+            OnObjectChangeNativeEvent += OnObjectChangeNative;
+            OnObjectCreateNativeEvent += OnObjectCreateNative;
+            OnObjectClickNativeEvent += OnObjectClickNative;
+            OnObjectDeleteNativeEvent += OnObjectDeleteNative;
+            OnQueryCellEndNativeEvent += OnQueryCellEndNative;
+            OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
+            OnTeleportNativeEvent += OnTeleportNative;
+
+            OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
+            OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
+            OnObjectDeleteCallbackNativeEvent += OnObjectDeleteCallbackNative;
+            OnFriendAddCallbackNativeEvent += OnFriendAddCallbackNative;
+            OnFriendDeleteCallbackNativeEvent += OnFriendDeleteCallbackNative;
+            OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
+
+            SetNativeEvent(Events.Chat, OnChatNative1);
+            SetNativeEvent(Events.AvatarAdd, OnAvatarAddNative1);
+            SetNativeEvent(Events.AvatarChange, OnAvatarChangeNative1);
+            SetNativeEvent(Events.AvatarDelete, OnAvatarDeleteNative1);
+            SetNativeEvent(Events.WorldList, OnWorldListNative1);
+            SetNativeEvent(Events.ObjectChange, OnObjectChangeNative1);
+            SetNativeEvent(Events.Object, OnObjectCreateNative1);
+            SetNativeEvent(Events.ObjectClick, OnObjectClickNative1);
+            SetNativeEvent(Events.ObjectDelete, OnObjectDeleteNative1);
+            SetNativeEvent(Events.QueryCellEnd, OnQueryCellEndNative1);
+            SetNativeEvent(Events.UniverseDisconnect, OnUniverseDisconnectNative1);
+            SetNativeEvent(Events.WorldDisconnect, OnWorldDisconnectNative1);
+            SetNativeEvent(Events.Teleport, OnTeleportNative1);
+            SetNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallbackNative1);
+            SetNativeCallback(Callbacks.ObjectChange, OnObjectChangeCallbackNative1);
+            SetNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallbackNative1);
+            SetNativeCallback(Callbacks.FriendAdd, OnFriendAddCallbackNative1);
+            SetNativeCallback(Callbacks.FriendDelete, OnFriendDeleteCallbackNative1);
+            SetNativeCallback(Callbacks.GetFriends, OnGetFriendsCallbackNative1);
+
+           
         }
+
+        public void OnObjectCreateCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectCreateCallbackNativeEvent(instance, rc, reference); } }
+        public void OnObjectChangeCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectChangeCallbackNativeEvent(instance, rc, reference); } }
+        public void OnObjectDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectDeleteCallbackNativeEvent(instance, rc, reference); } }
+        public void OnFriendAddCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendAddCallbackNativeEvent(instance, rc, reference); } }
+        public void OnFriendDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
+        public void OnGetFriendsCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
+
+
+        public void OnChatNative1(IntPtr instance) { lock (this) { OnChatNativeEvent(instance); } }
+        public void OnAvatarAddNative1(IntPtr instance) { lock (this) { OnAvatarAddNativeEvent(instance); } }
+        public void OnAvatarChangeNative1(IntPtr instance) { lock (this) { OnAvatarChangeNativeEvent(instance); } }
+        public void OnAvatarDeleteNative1(IntPtr instance) { lock (this) { OnAvatarDeleteNativeEvent(instance); } }
+        public void OnWorldListNative1(IntPtr instance) { lock (this) { OnWorldListNativeEvent(instance); } }
+        public void OnWorldDisconnectNative1(IntPtr instance) { lock (this) { OnWorldDisconnectNativeEvent(instance); } }
+        public void OnObjectChangeNative1(IntPtr instance) { lock (this) { OnObjectChangeNativeEvent(instance); } }
+        public void OnObjectCreateNative1(IntPtr instance) { lock (this) { OnObjectCreateNativeEvent(instance); } }
+        public void OnObjectClickNative1(IntPtr instance) { lock (this) { OnObjectClickNativeEvent(instance); } }
+        public void OnObjectDeleteNative1(IntPtr instance) { lock (this) { OnObjectDeleteNativeEvent(instance); } }
+        public void OnQueryCellEndNative1(IntPtr instance) { lock (this) { OnQueryCellEndNativeEvent(instance); } }
+        public void OnUniverseDisconnectNative1(IntPtr instance) { lock (this) { OnUniverseDisconnectNativeEvent(instance); } }
+        public void OnTeleportNative1(IntPtr instance) { lock (this) { OnTeleportNativeEvent(instance); } }
+
 
         ~BaseInstanceT()
         {
@@ -599,12 +647,15 @@ namespace VpNet.Abstract
         private readonly Dictionary<Callbacks, CallbackDelegate> _nativeCallbacks = new Dictionary<Callbacks, CallbackDelegate>();
 
         internal event EventDelegate OnChatNativeEvent;
+        internal event EventDelegate OnAvatarAddNativeEvent;
         internal event EventDelegate OnAvatarDeleteNativeEvent;
         internal event EventDelegate OnAvatarChangeNativeEvent;
         internal event EventDelegate OnWorldListNativeEvent;
         internal event EventDelegate OnObjectChangeNativeEvent;
         internal event EventDelegate OnObjectCreateNativeEvent;
+        internal event EventDelegate OnObjectDeleteNativeEvent;
         internal event EventDelegate OnObjectClickNativeEvent;
+
 
         internal event EventDelegate OnQueryCellEndNativeEvent;
         internal event EventDelegate OnUniverseDisconnectNativeEvent;
