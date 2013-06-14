@@ -22,10 +22,13 @@ ____   ___.__         __               .__    __________                        
     If not, see <http://www.gnu.org/licenses/>. 
 */
 #endregion
+
+using System;
 using VpNet.Interfaces;
 
 namespace VpNet.Abstract
 {
+    [Serializable]
     public abstract class BaseWorld : IWorld
     {
         public string Name { get; set; }

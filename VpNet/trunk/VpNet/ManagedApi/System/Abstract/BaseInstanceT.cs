@@ -166,6 +166,14 @@ namespace VpNet.Abstract
     {
         bool _isInitialized;
 
+        private InstanceConfiguration<TWorld> _configuration;
+
+
+        public InstanceConfiguration<TWorld> configuration
+        {
+            get { return _configuration.Copy(); }
+        }
+
         private int _reference = int.MinValue;
         private readonly Dictionary<int, TVpObject> _objectReferences = new Dictionary<int, TVpObject>();
 
@@ -192,6 +200,7 @@ namespace VpNet.Abstract
         {
             Universe = new TUniverse();
             World = new TWorld();
+            _configuration = new InstanceConfiguration<TWorld>();
             _avatars = new Dictionary<int, TAvatar>();
             _isInitialized = true;
         }
@@ -232,7 +241,9 @@ namespace VpNet.Abstract
                 int rc = Functions.vp_init(1);
                 if (rc != 0)
                 {
-                    throw new VpException((ReasonCode)rc);
+                    if (rc!=3)
+                        throw new VpException((ReasonCode)rc);
+                    //vp previously initialized. do nothing.
                 }
                
             }
@@ -357,6 +368,7 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
+                _configuration.World = new TWorld{Name=worldname};
                 return new TResult
                 {
                     Rc = Functions.vp_enter(_instance, worldname)
@@ -368,6 +380,7 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
+                _configuration.World = world.Copy();
                 return new TResult
                 {
                     Rc = Functions.vp_enter(_instance, world.Name)
