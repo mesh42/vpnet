@@ -42,6 +42,7 @@ namespace VpNet.Examples
         public InstanceTemplating(string user, string password, string botname, string world)
         {
             var vp = new Instance<RcDefault, Vector3, RpgAvatar>();
+
             vp.OnAvatarEnter += OnAvatarEnter;
             vp.OnObjectClick += OnObjectClick;
             vp.Connect();
@@ -49,6 +50,12 @@ namespace VpNet.Examples
             vp.Enter(world);
             // announce your avatar so it can receive avatar events.
             vp.UpdateAvatar();
+
+            // create a child instance with a different avatar template.
+            var vpCasino = new Instance<RcDefault, Vector3, CasinoAvatar>(vp);
+            vpCasino.OnAvatarEnter += vpCasino_OnAvatarEnter;
+            
+   
 
             Console.WriteLine("Press any key to stop");
             do
@@ -58,6 +65,14 @@ namespace VpNet.Examples
                     vp.Wait();
                 }
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+        }
+
+        void vpCasino_OnAvatarEnter(Instance<RcDefault, Vector3, CasinoAvatar> sender, AvatarEnterEventArgsT<CasinoAvatar, Vector3> args)
+        {
+            args.Avatar.Credits = 1000;
+            sender.Commit(args.Avatar);
+            sender.ConsoleMessage(args.Avatar, string.Empty,
+                                 string.Format("*** Welcome to casino you now have {0} credits.",args.Avatar.Credits), TextEffectTypes.Bold, 0, 0, 128);
         }
 
         void OnObjectClick(Instance<RcDefault, Vector3, RpgAvatar> sender, ObjectClickArgsT<RpgAvatar, VpObject<Vector3>, Vector3> args)
@@ -80,6 +95,8 @@ namespace VpNet.Examples
 
         void OnAvatarEnter(Instance<RcDefault, Vector3, RpgAvatar> sender, AvatarEnterEventArgsT<RpgAvatar, Vector3> args)
         {
+            sender.ConsoleMessage(args.Avatar, string.Empty,
+                                 string.Format("*** Welcome to rpg game, we are going to assign you attributes", TextEffectTypes.Bold, 0, 0, 128));
             // create traits with a random value.
             var r = new Random();
             args.Avatar.Attributes.Add(new Attribute(){Level=r.NextDouble(),Type="strength"});

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\AdvancedExamples\CasinoAvatar.cs" />
     <Compile Include="Bots\AdvancedExamples\InstanceTemplating.cs" />
     <Compile Include="Bots\AdvancedExamples\RpgAvatar.cs" />
     <Compile Include="Bots\BasicExamples\EventsExample.cs" />
