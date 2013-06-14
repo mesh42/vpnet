@@ -57,6 +57,8 @@
     <Compile Include="ManagedApi\Scene\Abstract\BaseTeleport.cs" />
     <Compile Include="ManagedApi\Scene\Interfaces\ITeleport.cs" />
     <Compile Include="ManagedApi\Scene\Teleport.cs" />
+    <Compile Include="ManagedApi\System\Abstract\BaseInstanceConfiguration.cs" />
+    <Compile Include="ManagedApi\System\InstanceConfiguration.cs" />
     <Compile Include="ManagedApi\System\InstanceT0.cs" />
     <Compile Include="ManagedApi\System\InstanceT1.cs" />
     <Compile Include="ManagedApi\System\Abstract\BaseInstanceT.cs" />
