@@ -25,6 +25,8 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using VpNet.Extensions;
 using VpNet.Interfaces;
@@ -104,7 +106,7 @@ namespace VpNet.Abstract
         > :
         /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
-        BaseInstanceEvents,
+        BaseInstanceEvents<TWorld>,
         IAvatarFunctions<TResult, TAvatar, TVector3>,
         IChatFunctions<TResult, TAvatar, TColor, TVector3>,
         IFriendFunctions<TResult, TFriend>,
@@ -166,14 +168,7 @@ namespace VpNet.Abstract
     {
         bool _isInitialized;
 
-        private InstanceConfiguration<TWorld> _configuration;
-
-
-        public InstanceConfiguration<TWorld> configuration
-        {
-            get { return _configuration.Copy(); }
-        }
-
+ 
         private int _reference = int.MinValue;
         private readonly Dictionary<int, TVpObject> _objectReferences = new Dictionary<int, TVpObject>();
 
@@ -205,12 +200,12 @@ namespace VpNet.Abstract
         }
 
 
-        internal protected BaseInstanceT(BaseInstanceEvents parentInstance)
+        internal protected BaseInstanceT(BaseInstanceEvents<TWorld> parentInstance)
         {
             _instance = parentInstance._instance;
             Init();
-            _configuration = new InstanceConfiguration<TWorld>(true);
-          
+            Configuration = parentInstance.Configuration;
+            Configuration.IsChildInstance = true;
             parentInstance.OnChatNativeEvent += OnChatNative;
             parentInstance.OnAvatarAddNativeEvent += OnAvatarAddNative;
             parentInstance.OnAvatarChangeNativeEvent += OnAvatarChangeNative;
@@ -239,8 +234,7 @@ namespace VpNet.Abstract
             if (!_isInitialized)
             {
                 Init();
-                _configuration = new InstanceConfiguration<TWorld>(false);
-
+                Configuration = new InstanceConfiguration<TWorld>(false);
                 int rc = Functions.vp_init(1);
                 if (rc != 0)
                 {
@@ -322,7 +316,7 @@ namespace VpNet.Abstract
 
         ~BaseInstanceT()
         {
-            if (_configuration.IsChildInstance)
+            if (Configuration.IsChildInstance)
                 return;
             if (_instance == IntPtr.Zero) return;
             lock (this)
@@ -373,7 +367,7 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
-                _configuration.World = new TWorld{Name=worldname};
+                Configuration.World = new TWorld{Name=worldname};
                 return new TResult
                 {
                     Rc = Functions.vp_enter(_instance, worldname)
@@ -385,7 +379,7 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
-                _configuration.World = world.Copy();
+                Configuration.World = world.Copy();
                 return new TResult
                 {
                     Rc = Functions.vp_enter(_instance, world.Name)
@@ -1201,7 +1195,7 @@ namespace VpNet.Abstract
         {
             if (_instance != IntPtr.Zero)
             {
-                if (_configuration.IsChildInstance)
+                if (Configuration.IsChildInstance)
                     return;
                 Functions.vp_destroy(_instance);
             }
@@ -1279,34 +1273,5 @@ namespace VpNet.Abstract
         #endregion
 
       
-    }
-
-    public abstract class BaseInstanceEvents
-    {
-        internal IntPtr _instance;
-
-        #region Implementation of IInstanceEvents
-
-        public abstract event EventDelegate OnChatNativeEvent;
-        public abstract event EventDelegate OnAvatarAddNativeEvent;
-        public abstract event EventDelegate OnAvatarDeleteNativeEvent;
-        public abstract event EventDelegate OnAvatarChangeNativeEvent;
-        public abstract event EventDelegate OnWorldListNativeEvent;
-        public abstract event EventDelegate OnObjectChangeNativeEvent;
-        public abstract event EventDelegate OnObjectCreateNativeEvent;
-        public abstract event EventDelegate OnObjectDeleteNativeEvent;
-        public abstract event EventDelegate OnObjectClickNativeEvent;
-        public abstract event EventDelegate OnQueryCellEndNativeEvent;
-        public abstract event EventDelegate OnUniverseDisconnectNativeEvent;
-        public abstract event EventDelegate OnWorldDisconnectNativeEvent;
-        public abstract event EventDelegate OnTeleportNativeEvent;
-        public abstract event CallbackDelegate OnObjectCreateCallbackNativeEvent;
-        public abstract event CallbackDelegate OnObjectChangeCallbackNativeEvent;
-        public abstract event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
-        public abstract event CallbackDelegate OnFriendAddCallbackNativeEvent;
-        public abstract event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
-        public abstract event CallbackDelegate OnGetFriendsCallbackNativeEvent;
-
-        #endregion
     }
 }

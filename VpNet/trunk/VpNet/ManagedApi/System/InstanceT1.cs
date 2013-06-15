@@ -55,7 +55,7 @@ namespace VpNet
             Implementor = this;
         }
 
-        public Instance(BaseInstanceEvents parentInstance)
+        public Instance(BaseInstanceEvents<World> parentInstance)
             : base(parentInstance)
         {
             Implementor = this;
