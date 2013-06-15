@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -58,6 +59,9 @@
     <Compile Include="ManagedApi\Scene\Interfaces\ITeleport.cs" />
     <Compile Include="ManagedApi\Scene\Teleport.cs" />
     <Compile Include="ManagedApi\System\Abstract\BaseInstanceConfiguration.cs" />
+    <Compile Include="ManagedApi\System\Abstract\BaseInstanceEvents.cs" />
+    <Compile Include="ManagedApi\System\Abstract\BaseInstancePlugin.cs" />
+    <Compile Include="ManagedApi\System\Abstract\BaseInstancePluginT.cs" />
     <Compile Include="ManagedApi\System\InstanceConfiguration.cs" />
     <Compile Include="ManagedApi\System\InstanceT0.cs" />
     <Compile Include="ManagedApi\System\InstanceT1.cs" />
@@ -89,6 +93,7 @@
     <Compile Include="ManagedApi\Scene\Abstract\BaseTerrain.cs" />
     <Compile Include="ManagedApi\System\InstanceT2.cs" />
     <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IUniverseFunctions.cs" />
+    <Compile Include="ManagedApi\System\Interfaces\IInstancePlugin.cs" />
     <Compile Include="ManagedApi\System\RcTolerant.cs" />
     <Compile Include="ManagedApi\Scene\Terrain\Interfaces\ITerrain.cs" />
     <Compile Include="ManagedApi\Scene\Terrain\Terrain.cs" />

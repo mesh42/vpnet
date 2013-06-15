@@ -8,6 +8,6 @@ namespace VpNet.Abstract
         where TWorld : class, IWorld, new()
     {
         public TWorld World { get; set; }
-        public abstract bool IsChildInstance { get; }
+        public bool IsChildInstance { get; set; }
     }
 }
