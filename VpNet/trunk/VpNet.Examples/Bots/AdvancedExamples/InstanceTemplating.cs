@@ -24,6 +24,7 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.ComponentModel.Composition;
 
 namespace VpNet.Examples
 {
@@ -99,6 +100,7 @@ namespace VpNet.Examples
                                  string.Format("*** Welcome to rpg game, we are going to assign you attributes", TextEffectTypes.Bold, 0, 0, 128));
             // create traits with a random value.
             var r = new Random();
+            
             args.Avatar.Attributes.Add(new Attribute(){Level=r.NextDouble(),Type="strength"});
             args.Avatar.Attributes.Add(new Attribute(){Level=r.NextDouble(),Type="dexterity"});
             args.Avatar.Attributes.Add(new Attribute(){Level=r.NextDouble(),Type="constitution"});
