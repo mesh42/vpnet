@@ -48,7 +48,6 @@ namespace VpNet
         WorldSettingsChangedEventArgs,
         TeleportEventArgsT<Teleport<World,TAvatar,TVector3>,World,TAvatar,TVector3>>
         
-
         where TVector3 : class, IVector3, new()
         where TResult : class, IRc, new()
         where TAvatar : class, IAvatar<TVector3>, new()
@@ -64,5 +63,10 @@ namespace VpNet
             Implementor = this;
         }
 
+        public Instance(InstanceConfiguration<World> instanceConfiguration)
+            : base(instanceConfiguration)
+        {
+            Implementor = this;
+        }
     }
 }

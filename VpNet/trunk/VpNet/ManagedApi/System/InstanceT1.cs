@@ -61,5 +61,11 @@ namespace VpNet
             Implementor = this;
         }
 
+        public Instance(InstanceConfiguration<World> instanceConfiguration)
+            : base(instanceConfiguration)
+        {
+            Implementor = this;
+        }
+
     }
 }
