@@ -25,8 +25,6 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using VpNet.Extensions;
 using VpNet.Interfaces;
@@ -229,7 +227,15 @@ namespace VpNet.Abstract
             parentInstance.OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
         }
 
-        protected BaseInstanceT()
+        protected BaseInstanceT(InstanceConfiguration<TWorld> configuration)
+        {
+            Initializer();
+            // this can't be a child instance.
+            configuration.IsChildInstance = false;
+            Configuration = configuration;
+        } 
+
+        private void Initializer()
         {
             if (!_isInitialized)
             {
@@ -238,11 +244,11 @@ namespace VpNet.Abstract
                 int rc = Functions.vp_init(1);
                 if (rc != 0)
                 {
-                    if (rc!=3)
+                    if (rc != 3)
                         throw new VpException((ReasonCode)rc);
                     //vp previously initialized. do nothing.
                 }
-               
+
             }
             _instance = Functions.vp_create();
 
@@ -287,8 +293,11 @@ namespace VpNet.Abstract
             SetNativeCallback(Callbacks.FriendAdd, OnFriendAddCallbackNative1);
             SetNativeCallback(Callbacks.FriendDelete, OnFriendDeleteCallbackNative1);
             SetNativeCallback(Callbacks.GetFriends, OnGetFriendsCallbackNative1);
+        }
 
-           
+        protected BaseInstanceT()
+        {
+            Initializer();
         }
 
         public void OnObjectCreateCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectCreateCallbackNativeEvent(instance, rc, reference); } }
@@ -343,6 +352,31 @@ namespace VpNet.Abstract
             }
         }
 
+        virtual public TResult LoginAndEnter(bool announceAvatar = true)
+        {
+            Connect();
+            Login();
+            if (announceAvatar)
+            {
+                Enter();
+                return UpdateAvatar();
+            }
+            return Enter();
+        }
+
+        virtual public TResult Login()
+        {
+            if (Configuration == null ||
+                string.IsNullOrEmpty(Configuration.BotName) ||
+                string.IsNullOrEmpty(Configuration.Password) ||
+                string.IsNullOrEmpty(Configuration.UserName)
+                )
+            {
+                throw new ArgumentException("Can't login because of Incomplete login configuration.");
+            }
+            return Login(Configuration.UserName, Configuration.Password, Configuration.BotName);
+        }
+
         virtual public TResult Login(string username, string password, string botname)
         {
             lock (this)
@@ -373,6 +407,13 @@ namespace VpNet.Abstract
                     Rc = Functions.vp_enter(_instance, worldname)
                 };
             }
+        }
+
+        virtual public TResult Enter()
+        {
+            if (Configuration==null || Configuration.World==null || string.IsNullOrEmpty(Configuration.World.Name))
+                   throw new ArgumentException("Can't login because of Incomplete instance world configuration.");
+            return Enter(Configuration.World);
         }
 
         virtual public TResult Enter(TWorld world)

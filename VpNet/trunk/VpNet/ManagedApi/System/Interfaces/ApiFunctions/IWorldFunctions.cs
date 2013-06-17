@@ -33,6 +33,11 @@ namespace VpNet.Interfaces
         TRc Wait(int milliseconds=0);
         TRc Enter(TWorld world);
         TRc Enter(string world);
+        /// <summary>
+        /// Enter world using instance configuration.
+        /// </summary>
+        /// <returns></returns>
+        TRc Enter();
         TRc ListWorlds();
         TRc Leave();
     }
