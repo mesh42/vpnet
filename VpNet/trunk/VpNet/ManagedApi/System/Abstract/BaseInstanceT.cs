@@ -973,7 +973,8 @@ namespace VpNet.Abstract
                 Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch),
                             Y=Functions.vp_float(sender, Attribute.AvatarYaw),
                             Z=0 /* roll currently not supported*/}};
-                _avatars.Add(data.Session, data);
+                if (!_avatars.ContainsKey(data.Session))
+                    _avatars.Add(data.Session, data);
             }
             if (OnAvatarEnter == null) return;
             OnAvatarEnter(Implementor, new TAvatarEnterEventArgs { Avatar = data.Copy() });
