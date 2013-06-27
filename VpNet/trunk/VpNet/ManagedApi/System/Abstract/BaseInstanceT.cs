@@ -943,17 +943,20 @@ namespace VpNet.Abstract
                         Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)].Copy(),
                         ChatMessage = new TChatMessage
                             {
-                                Color = new TColor
-                                    {
-                                        R = (byte)Functions.vp_int(sender, Attribute.ChatRolorRed),
-                                        G = (byte)Functions.vp_int(sender, Attribute.ChatColorGreen),
-                                        B = (byte)Functions.vp_int(sender, Attribute.ChatColorBlue)
-                                    },
                                 Type = (ChatMessageTypes)Functions.vp_int(sender, Attribute.ChatType),
                                 Message = Functions.vp_string(sender, Attribute.ChatMessage),
                                 Name = Functions.vp_string(sender, Attribute.AvatarName)
                             }
                     };
+                if (data.ChatMessage.Type == ChatMessageTypes.Console)
+                {
+                    data.ChatMessage.Color = new TColor
+                                                 {
+                                                     R = (byte) Functions.vp_int(sender, Attribute.ChatRolorRed),
+                                                     G = (byte) Functions.vp_int(sender, Attribute.ChatColorGreen),
+                                                     B = (byte) Functions.vp_int(sender, Attribute.ChatColorBlue)
+                                                 };
+                }
             }
             OnChatMessage(Implementor, data);
         }
