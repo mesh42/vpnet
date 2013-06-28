@@ -23,7 +23,6 @@ namespace VpNet
         Terrain,
         Universe,
         Teleport<World,Avatar<Vector3>,Vector3>, 
-
         AvatarChangeEventArgsT<Avatar<Vector3>,Vector3>,
         AvatarEnterEventArgsT<Avatar<Vector3>,Vector3>,
         AvatarLeaveEventArgsT<Avatar<Vector3>,Vector3>,
@@ -45,7 +44,10 @@ namespace VpNet
         WorldDisconnectEventArgs,
         WorldListEventArgs,
         WorldSettingsChangedEventArgs,
-        TeleportEventArgsT<Teleport<World,Avatar<Vector3>,Vector3>,World,Avatar<Vector3>,Vector3>>
+        TeleportEventArgsT<Teleport<World,Avatar<Vector3>,Vector3>,World,Avatar<Vector3>,Vector3>,
+        WorldEnterEventArgsT<World>
+        >
+      
            
     {
         public Instance()

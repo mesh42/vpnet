@@ -54,6 +54,8 @@
     <Compile Include="ManagedApi\Events\User\Abstract\BaseUserEventArgs.cs" />
     <Compile Include="ManagedApi\Events\User\Interfaces\IUserAttributesEventArgs.cs" />
     <Compile Include="ManagedApi\Events\VpObject\ObjectArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldEnterEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\Interfaces\IWorldEnterEventArgs.cs" />
     <Compile Include="ManagedApi\Events\World\WorldArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Scene\Abstract\BaseTeleport.cs" />
     <Compile Include="ManagedApi\Scene\Interfaces\ITeleport.cs" />

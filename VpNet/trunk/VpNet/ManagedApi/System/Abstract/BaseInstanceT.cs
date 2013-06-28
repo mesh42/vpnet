@@ -76,6 +76,7 @@ namespace VpNet.Abstract
     /// <typeparam name="TWorldListEventargs">The type of the world list eventargs.</typeparam>
     /// <typeparam name="TWorldSettingsChangedEventArg">The type of the world settings changed event arg.</typeparam>
     /// <typeparam name="TTeleportEventArgs">The type of the teleport event args.</typeparam>
+    /// <typeparam name="TWorldEnterEventArgs"> </typeparam>
     [Serializable]
     public abstract class BaseInstanceT<T,
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -101,7 +102,8 @@ namespace VpNet.Abstract
         /* World Event Args */
             TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
           /* Teleport Event Args */
-        TTeleportEventArgs
+        TTeleportEventArgs,
+        TWorldEnterEventArgs
         > :
         /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
@@ -163,6 +165,7 @@ namespace VpNet.Abstract
         where TWorldListEventargs : class, IWorldListEventArgs<TWorld>,new()
         where TWorldSettingsChangedEventArg : class,IWorldSettingsChangedEventArgs<TWorld>, new()
         where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>, new()
+        where TWorldEnterEventArgs : class, IWorldEnterEventArgs<TWorld>, new()
 
     {
         bool _isInitialized;
@@ -418,6 +421,9 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
+                Configuration.BotName = botname;
+                Configuration.UserName = username;
+                Configuration.Password = password;
                 return new TResult
                     {
                     Rc = Functions.vp_login(_instance, username, password, botname)
@@ -439,10 +445,15 @@ namespace VpNet.Abstract
             lock (this)
             {
                 Configuration.World = new TWorld{Name=worldname};
-                return new TResult
+
+                var result = new TResult
                 {
                     Rc = Functions.vp_enter(_instance, worldname)
                 };
+                if (result.Rc == 0 && OnWorldEnter != null)
+                    OnWorldEnter(Implementor,new TWorldEnterEventArgs(){World = Configuration.World.Copy()});
+                return result;
+
             }
         }
 
@@ -847,6 +858,11 @@ namespace VpNet.Abstract
 
         public event QueryCellResultDelegate OnQueryCellResult;
         public event QueryCellEndDelegate OnQueryCellEnd;
+
+        /* Events indirectly assosicated with VP */
+
+        public delegate void WorldEnterDelegate(T sender, TWorldEnterEventArgs args);
+        public event WorldEnterDelegate OnWorldEnter;
 
         #endregion
 

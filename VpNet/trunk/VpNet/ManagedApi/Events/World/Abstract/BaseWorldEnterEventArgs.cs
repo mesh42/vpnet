@@ -25,19 +25,20 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 using System.Xml.Serialization;
+using VpNet.Interfaces;
 
-namespace VpNet
+namespace VpNet.Abstract
 {
     [Serializable]
-    [XmlRoot("OnWorldDisconnect", Namespace = Global.XmlNsEvent)]
-    public class WorldDisconnectEventArgs : Abstract.BaseWorldDisconnectEventArgs<World>{}
-    [Serializable]
-    [XmlRoot("OnWorldList", Namespace = Global.XmlNsEvent)]
-    public class WorldListEventArgs : Abstract.BaseWorldListEventArgs<World> { }
-    [Serializable]
-    [XmlRoot("OnWorldSettingsChanged", Namespace = Global.XmlNsEvent)]
-    public class WorldSettingsChangedEventArgs : Abstract.BaseWorldSettingsChangedEventArgs<World> { }
-    [Serializable]
-    [XmlRoot("OnWorldEnter", Namespace = Global.XmlNsEvent)]
-    public class WorldEnterEventArgs : Abstract.BaseWorldEnterEventArgs<World> { }
+    public abstract class BaseWorldEnterEventArgs<TWorld> : EventArgs, IWorldEnterEventArgs<TWorld> where TWorld : class, IWorld, new()
+    {
+        public TWorld World { get; set; }
+
+        protected BaseWorldEnterEventArgs() { }
+
+        protected BaseWorldEnterEventArgs(TWorld world)
+        {
+            World = world;
+        }
+    }
 }
