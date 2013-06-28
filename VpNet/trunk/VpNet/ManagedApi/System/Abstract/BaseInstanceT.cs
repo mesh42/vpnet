@@ -186,6 +186,8 @@ namespace VpNet.Abstract
             {
                 if (value)
                 {
+                    if (Configuration.IsChildInstance)
+                        throw new Exception("Auto wait timer should only be activated from the main instance.");
                     if (!_isInitialized)
                         return;
                     if (_waitTimer != null)
