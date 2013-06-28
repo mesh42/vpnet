@@ -44,4 +44,9 @@ namespace VpNet
     public class WorldSettingsChangedEventArgsT<TWorld> : Abstract.BaseWorldSettingsChangedEventArgs<TWorld>
         where TWorld : class, IWorld, new()
     { }
+    [Serializable]
+    [XmlRoot("OnWorldEnter", Namespace = Global.XmlNsEvent)]
+    public class WorldEnterEventArgsT<TWorld> : Abstract.BaseWorldEnterEventArgs<TWorld>
+    where TWorld : class, IWorld, new() 
+    { }
 }

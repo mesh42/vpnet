@@ -46,7 +46,8 @@ namespace VpNet
         WorldDisconnectEventArgs,
         WorldListEventArgs,
         WorldSettingsChangedEventArgs,
-        TeleportEventArgsT<Teleport<World,TAvatar,TVector3>,World,TAvatar,TVector3>>
+        TeleportEventArgsT<Teleport<World,TAvatar,TVector3>,World,TAvatar,TVector3>,
+        WorldEnterEventArgsT<World>>
         
         where TVector3 : class, IVector3, new()
         where TResult : class, IRc, new()
