@@ -26,6 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using VpNet.Extensions;
 using VpNet.Interfaces;
 using VpNet.NativeApi;
@@ -169,10 +170,44 @@ namespace VpNet.Abstract
  
         private int _reference = int.MinValue;
         private readonly Dictionary<int, TVpObject> _objectReferences = new Dictionary<int, TVpObject>();
+        private Timer _waitTimer;
 
         public T Implementor { get; set; }
 
         Dictionary<int, TAvatar> _avatars;
+
+        private bool _useAutoWaitTimer;
+        public int AutoWaitTimerMs = 30;
+
+        public bool UseAutoWaitTimer
+        {
+            get { return _useAutoWaitTimer; }
+            set
+            {
+                if (value)
+                {
+                    if (!_isInitialized)
+                        return;
+                    if (_waitTimer != null)
+                        _waitTimer.Dispose();
+                    _waitTimer = new Timer(WaitTimerCallback,this,0,AutoWaitTimerMs);
+              
+                }
+                _useAutoWaitTimer = value;
+            }
+        }
+
+        private void WaitTimerCallback(object state)
+        {
+            if (_isInitialized)
+            {
+                Functions.vp_wait(_instance, 0);
+                return;
+            }
+            _useAutoWaitTimer = false;
+            if (_waitTimer!=null)
+                _waitTimer.Dispose();
+        }
 
         private TUniverse Universe { get; set; }
         private TWorld World { get; set; }
