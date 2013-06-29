@@ -1010,7 +1010,8 @@ namespace VpNet.Abstract
                             {
                                 Type = (ChatMessageTypes)Functions.vp_int(sender, Attribute.ChatType),
                                 Message = Functions.vp_string(sender, Attribute.ChatMessage),
-                                Name = Functions.vp_string(sender, Attribute.AvatarName)
+                                Name = Functions.vp_string(sender, Attribute.AvatarName),
+                                TextEffectTypes = (TextEffectTypes)Functions.vp_int(sender,Attributes.ChatEffects)
                             }
                     };
                 if (data.ChatMessage.Type == ChatMessageTypes.Console)
