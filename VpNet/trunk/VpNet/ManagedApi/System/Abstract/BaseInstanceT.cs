@@ -1022,6 +1022,15 @@ namespace VpNet.Abstract
                                                      B = (byte) Functions.vp_int(sender, Attribute.ChatColorBlue)
                                                  };
                 }
+                else
+                {
+                    data.ChatMessage.Color = new TColor
+                    {
+                        R = 0,
+                        G = 0,
+                        B = 0
+                    };
+                }
             }
             OnChatMessage(Implementor, data);
         }
