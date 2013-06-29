@@ -204,14 +204,17 @@ namespace VpNet.Abstract
 
         private void WaitTimerCallback(object state)
         {
-            if (_isInitialized)
+            lock (this)
             {
-                Functions.vp_wait(_instance, 0);
-                return;
+                if (_isInitialized)
+                {
+                    Functions.vp_wait(_instance, 0);
+                    return;
+                }
+                _useAutoWaitTimer = false;
+                if (_waitTimer != null)
+                    _waitTimer.Dispose();
             }
-            _useAutoWaitTimer = false;
-            if (_waitTimer!=null)
-                _waitTimer.Dispose();
         }
 
         private TUniverse Universe { get; set; }
