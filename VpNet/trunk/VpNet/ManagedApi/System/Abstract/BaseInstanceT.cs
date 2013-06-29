@@ -493,10 +493,10 @@ namespace VpNet.Abstract
         virtual public void Disconnect()
         {
             Functions.vp_destroy(_instance);
-            _instance = Functions.vp_create();
+            _isInitialized = false;
             if (OnUniverseDisconnect != null)
                 OnUniverseDisconnect(Implementor, new TUniverseDisconnectEventargs { Universe = Universe,DisconnectType = DisconnectType.UserDisconnected  });
-
+            Initializer();
         }
 
         virtual public TResult ListWorlds()
