@@ -490,6 +490,13 @@ namespace VpNet.Abstract
             }
         }
 
+        virtual public void Disconnect()
+        {
+            Functions.vp_destroy(_instance);
+            _instance = Functions.vp_create();
+
+        }
+
         virtual public TResult ListWorlds()
         {
             lock (this)
