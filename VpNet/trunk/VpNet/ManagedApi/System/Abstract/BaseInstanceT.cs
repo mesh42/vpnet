@@ -494,6 +494,8 @@ namespace VpNet.Abstract
         {
             Functions.vp_destroy(_instance);
             _instance = Functions.vp_create();
+            if (OnUniverseDisconnect != null)
+                OnUniverseDisconnect(Implementor, new TUniverseDisconnectEventargs { Universe = Universe,DisconnectType = DisconnectType.UserDisconnected  });
 
         }
 

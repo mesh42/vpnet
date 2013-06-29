@@ -23,6 +23,8 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using VpNet.Abstract;
+
 namespace VpNet.Interfaces
 {
     /// <summary>
@@ -38,5 +40,13 @@ namespace VpNet.Interfaces
         /// The universe.
         /// </value>
         TUniverse Universe { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the disconnect.
+        /// </summary>
+        /// <value>
+        /// The type of the disconnect.
+        /// </value>
+        DisconnectType DisconnectType { get; set; }
     }
 }
