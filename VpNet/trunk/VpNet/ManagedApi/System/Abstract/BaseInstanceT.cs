@@ -78,7 +78,7 @@ namespace VpNet.Abstract
     /// <typeparam name="TTeleportEventArgs">The type of the teleport event args.</typeparam>
     /// <typeparam name="TWorldEnterEventArgs"> </typeparam>
     [Serializable]
-    public abstract class BaseInstanceT<T,
+    public abstract partial class BaseInstanceT<T,
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
         TAvatar, TColor, TFriend, TResult, TTerrainCell, TTerrainNode,
         TTerrainTile, TVector3, TVpObject, TWorld, TWorldAttributes,TCell,TChatMessage,TTerrain,TUniverse,TTeleport,
