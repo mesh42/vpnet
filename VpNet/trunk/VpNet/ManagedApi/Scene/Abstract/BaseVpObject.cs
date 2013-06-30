@@ -90,7 +90,7 @@ namespace VpNet.Abstract
         }
 
         [XmlIgnore]
-        public Cell Cell
+        public ICell Cell
         {
             get
             {

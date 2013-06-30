@@ -42,5 +42,8 @@ namespace VpNet.Interfaces
 
         [XmlIgnore]
         int ReferenceNumber { get; set; }
+
+        [XmlIgnore]
+        ICell Cell { get; }
     }
 }
