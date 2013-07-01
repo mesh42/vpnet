@@ -1283,7 +1283,7 @@ namespace VpNet.Abstract
             var world = _worlds[Configuration.World.Name];
             var key = Functions.vp_string(instance, Attributes.WorldSettingKey);
             var value = Functions.vp_string(instance, Attributes.WorldSettingValue);
-            world.Attributes[key] = value;
+            world.RawAttributes[key] = value;
         }
 
         private void OnWorldSettingsChangedNativeEvent(IntPtr instance)
