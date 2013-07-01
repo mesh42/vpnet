@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace VpNet.Interfaces
@@ -31,5 +33,12 @@ namespace VpNet.Interfaces
         /// </value>
         [XmlAttribute]
         WorldState State { get; set; }
+        /// <summary>
+        /// Gets or sets the attributes of the world settings.
+        /// </summary>
+        /// <value>
+        /// The attribute.
+        /// </value>
+        IDictionary<string,string> RawAttributes { get; set; }  
     }
 }

@@ -24,6 +24,8 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet.Abstract
@@ -34,5 +36,12 @@ namespace VpNet.Abstract
         public string Name { get; set; }
         public int UserCount { get; set; }
         public WorldState State { get; set; }
+        [XmlIgnore]
+        public IDictionary<string, string> Attributes { get; set; }
+
+        protected BaseWorld()
+        {
+            Attributes = new Dictionary<string, string>();
+        }
     }
 }
