@@ -178,6 +178,7 @@ namespace VpNet.Abstract
         public T Implementor { get; set; }
 
         Dictionary<int, TAvatar> _avatars;
+        Dictionary<string, TWorld> _worlds; 
 
         private bool _useAutoWaitTimer;
         public int AutoWaitTimerMs = 30;
@@ -237,6 +238,7 @@ namespace VpNet.Abstract
             Universe = new TUniverse();
             World = new TWorld();
             _avatars = new Dictionary<int, TAvatar>();
+            _worlds = new Dictionary<string, TWorld>();
             _isInitialized = true;
         }
 
@@ -322,6 +324,8 @@ namespace VpNet.Abstract
             SetNativeEvent(Events.AvatarChange, OnAvatarChangeNative1);
             SetNativeEvent(Events.AvatarDelete, OnAvatarDeleteNative1);
             SetNativeEvent(Events.WorldList, OnWorldListNative1);
+            SetNativeEvent(Events.WorldSetting, OnWorldSettingNative1);
+            SetNativeEvent(Events.WorldSettingsChanged, OnWorldSettingsChangedNative1);
             SetNativeEvent(Events.ObjectChange, OnObjectChangeNative1);
             SetNativeEvent(Events.Object, OnObjectCreateNative1);
             SetNativeEvent(Events.ObjectClick, OnObjectClickNative1);
@@ -357,6 +361,9 @@ namespace VpNet.Abstract
         public void OnAvatarDeleteNative1(IntPtr instance) { lock (this) { OnAvatarDeleteNativeEvent(instance); } }
         public void OnWorldListNative1(IntPtr instance) { lock (this) { OnWorldListNativeEvent(instance); } }
         public void OnWorldDisconnectNative1(IntPtr instance) { lock (this) { OnWorldDisconnectNativeEvent(instance); } }
+        public void OnWorldSettingsChangedNative1(IntPtr instance) { lock (this) { OnWorldSettingsChangedNativeEvent(instance); } }
+        public void OnWorldSettingNative1(IntPtr instance) { lock (this) { OnWorldSettingNativeEvent(instance); } }
+
         public void OnObjectChangeNative1(IntPtr instance) { lock (this) { OnObjectChangeNativeEvent(instance); } }
         public void OnObjectCreateNative1(IntPtr instance) { lock (this) { OnObjectCreateNativeEvent(instance); } }
         public void OnObjectClickNative1(IntPtr instance) { lock (this) { OnObjectClickNativeEvent(instance); } }
@@ -1265,7 +1272,24 @@ namespace VpNet.Abstract
                     UserCount = Functions.vp_int(_instance, Attribute.WorldUsers)
                 };
             }
-            OnWorldList(Implementor,new TWorldListEventargs{ World=data});
+            if (_worlds.ContainsKey(data.Name))
+                _worlds.Remove(data.Name);
+            _worlds.Add(data.Name,data);
+            OnWorldList(Implementor,new TWorldListEventargs{ World=data.Copy()});
+        }
+
+        private void OnWorldSettingNativeEvent(IntPtr instance)
+        {
+            var world = _worlds[Configuration.World.Name];
+            var key = Functions.vp_string(instance, Attributes.WorldSettingKey);
+            var value = Functions.vp_string(instance, Attributes.WorldSettingValue);
+            world.Attributes[key] = value;
+        }
+
+        private void OnWorldSettingsChangedNativeEvent(IntPtr instance)
+        {
+            if (OnWorldSettingsChanged != null)
+                OnWorldSettingsChanged(Implementor, new TWorldSettingsChangedEventArg() { World = _worlds[Configuration.World.Name].Copy()});
         }
 
         private void OnUniverseDisconnectNative(IntPtr sender)

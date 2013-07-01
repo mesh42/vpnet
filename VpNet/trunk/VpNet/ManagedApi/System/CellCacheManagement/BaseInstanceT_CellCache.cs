@@ -211,6 +211,8 @@ namespace VpNet.Abstract
         {
             if (_isScanning)
                 throw new Exception("Can not issue a cell range query before the other range query has ended.");
+            if (!UseCellCache)
+                UseCellCache = true;
             lock (this)
             {
                 _autowaitWasUsed = UseAutoWaitTimer.Copy();
@@ -259,7 +261,8 @@ namespace VpNet.Abstract
         {
             if (_isScanning)
                 throw new Exception("Can not issue a cell query before the other range query has ended.");
-
+            if (!UseCellCache)
+                UseCellCache = true;
             _autowaitWasUsed = UseAutoWaitTimer.Copy();
 
             lock (this)
