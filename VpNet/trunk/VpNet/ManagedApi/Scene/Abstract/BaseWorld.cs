@@ -37,7 +37,7 @@ namespace VpNet.Abstract
         public int UserCount { get; set; }
         public WorldState State { get; set; }
         [XmlIgnore]
-        public IDictionary<string, string> RawAttributes { get; set; }
+        public Dictionary<string, string> RawAttributes { get; set; }
 
         protected BaseWorld()
         {

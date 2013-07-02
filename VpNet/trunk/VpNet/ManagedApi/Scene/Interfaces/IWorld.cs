@@ -39,6 +39,6 @@ namespace VpNet.Interfaces
         /// <value>
         /// The attribute.
         /// </value>
-        IDictionary<string,string> RawAttributes { get; set; }  
+        Dictionary<string,string> RawAttributes { get; set; }  
     }
 }
