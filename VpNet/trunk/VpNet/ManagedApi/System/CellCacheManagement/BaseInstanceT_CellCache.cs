@@ -56,7 +56,8 @@ namespace VpNet.Abstract
             TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
           /* Teleport Event Args */
         TTeleportEventArgs,
-        TWorldEnterEventArgs
+        TWorldEnterEventArgs,
+        TWorldLeaveEventArgs
         >
 /* Constraints ----------------------------------------------------------------------------------------------------------------------------------------------------*/
         where TUniverse : class, IUniverse, new()
@@ -108,6 +109,7 @@ namespace VpNet.Abstract
         where TWorldSettingsChangedEventArg : class,IWorldSettingsChangedEventArgs<TWorld>, new()
         where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>, new()
         where TWorldEnterEventArgs : class, IWorldEnterEventArgs<TWorld>, new()
+        where TWorldLeaveEventArgs : class, IWorldLeaveEventArgs<TWorld>, new()
     {
         public delegate void CellRangeQueryCompletedDelegate(T sender, CellRangeQueryCompletedArgs<TVpObject,TVector3> args);
         public delegate void CellRangeObjectChangedDelegate(T sender, TObjectChangeArgs args);

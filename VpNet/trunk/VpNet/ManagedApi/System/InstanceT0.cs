@@ -70,7 +70,8 @@ namespace VpNet
         WorldListEventArgs,
         WorldSettingsChangedEventArgs,
         TeleportEventArgsT<Teleport<World,Avatar<Vector3>,Vector3>,World,Avatar<Vector3>,Vector3>,
-        WorldEnterEventArgsT<World>
+        WorldEnterEventArgsT<World>,
+        WorldLeaveEventArgsT<World>
         >
       
            

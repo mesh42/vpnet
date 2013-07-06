@@ -76,7 +76,8 @@ namespace VpNet.Abstract
     /// <typeparam name="TWorldListEventargs">The type of the world list eventargs.</typeparam>
     /// <typeparam name="TWorldSettingsChangedEventArg">The type of the world settings changed event arg.</typeparam>
     /// <typeparam name="TTeleportEventArgs">The type of the teleport event args.</typeparam>
-    /// <typeparam name="TWorldEnterEventArgs"> </typeparam>
+    /// <typeparam name="TWorldEnterEventArgs">The type of the world enter event args.</typeparam>
+    /// <typeparam name="TWorldLeaveEventArgs">The type of the world leave event args.</typeparam>
     [Serializable]
     public abstract partial class BaseInstanceT<T,
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -103,7 +104,8 @@ namespace VpNet.Abstract
             TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
           /* Teleport Event Args */
         TTeleportEventArgs,
-        TWorldEnterEventArgs
+        TWorldEnterEventArgs,
+        TWorldLeaveEventArgs
         > :
         /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
@@ -166,7 +168,7 @@ namespace VpNet.Abstract
         where TWorldSettingsChangedEventArg : class,IWorldSettingsChangedEventArgs<TWorld>, new()
         where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>, new()
         where TWorldEnterEventArgs : class, IWorldEnterEventArgs<TWorld>, new()
-
+        where TWorldLeaveEventArgs : class, IWorldLeaveEventArgs<TWorld>, new()
     {
         bool _isInitialized;
 
@@ -493,7 +495,12 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
-                return new TResult {Rc = Functions.vp_leave(_instance)};
+                var result = new TResult {Rc = Functions.vp_leave(_instance)};
+                if (result.Rc == 0 && OnWorldLeave !=null)
+                {
+                    OnWorldLeave(Implementor,new TWorldLeaveEventArgs {World = Configuration.World.Copy()});
+                }
+                return result;
             }
         }
 
@@ -882,6 +889,8 @@ namespace VpNet.Abstract
 
         public delegate void WorldEnterDelegate(T sender, TWorldEnterEventArgs args);
         public event WorldEnterDelegate OnWorldEnter;
+        public delegate void WorldLeaveDelegate(T sender, TWorldLeaveEventArgs args);
+        public event WorldLeaveDelegate OnWorldLeave;
 
         #endregion
 
