@@ -59,15 +59,9 @@ namespace VpNet.Cache
         public Task GetModelDataAsync(string name, ModelDataDelegate callback)
         {
             Task t = null;
-            t = new Task(() => Download(name,callback,t));
-            lock (_tasks)
-            {
-                if (!_tasks.ContainsKey(name))
-                {
-                        _tasks.Add(name, t);
-                }
-            }
-            t.Start();
+            t = Task.Factory.StartNew(() => Download(name, callback, t));
+          //  t = new Task(() => Download(name,callback,t));
+          //  t.Start();
             return t;
         }
 
@@ -76,22 +70,25 @@ namespace VpNet.Cache
             Task conflictingTask = null;
             lock (_tasks)
             {
-                if (_tasks.ContainsKey(name) && _tasks[name].Id != task.Id)
+                if (!_tasks.ContainsKey(name))
                 {
-                    conflictingTask = _tasks[name];
+                    _tasks.Add(name, task);
+                }
+                else
+                {
+                    if (_tasks.ContainsKey(name) && _tasks[name].Id != task.Id)
+                    {
+                        conflictingTask = _tasks[name];
+                    }
                 }
             }
             if (conflictingTask != null)
             {
                 Debug.WriteLine("Waiting for other task to finish.");
-                conflictingTask.Wait();
+                if (!conflictingTask.IsCompleted)
+                 conflictingTask.Wait();
 
             }
-            lock (_tasks)
-            {
-                if (!_tasks.ContainsKey(name))
-                    _tasks.Add(name, task);
-            }        
             var model = Path.Combine(_modelPath, Path.GetFileNameWithoutExtension(name) + ".zip");
             if (File.Exists(model))
             {
@@ -122,6 +119,7 @@ namespace VpNet.Cache
                         callback(new ModelData { Data = data, Name = name });
                     }
                 }
+                //task.Dispose();
                 return;
             }
 
@@ -152,6 +150,7 @@ namespace VpNet.Cache
                     callback(new ModelData{Name=name, Data=string.Empty,Exception=ex});
                 }
            }
+            //task.Dispose();
         }
     }
 

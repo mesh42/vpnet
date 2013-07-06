@@ -1292,6 +1292,10 @@ namespace VpNet.Abstract
 
         private void OnWorldSettingNativeEvent(IntPtr instance)
         {
+            if (!_worlds.ContainsKey(Configuration.World.Name))
+            {
+                _worlds.Add(Configuration.World.Name,Configuration.World);
+            }
             var world = _worlds[Configuration.World.Name];
             var key = Functions.vp_string(instance, Attributes.WorldSettingKey);
             var value = Functions.vp_string(instance, Attributes.WorldSettingValue);
