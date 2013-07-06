@@ -14,25 +14,25 @@ namespace VpNet.Abstract
 
         #region Implementation of IInstanceEvents
 
-        public abstract event EventDelegate OnChatNativeEvent;
-        public abstract event EventDelegate OnAvatarAddNativeEvent;
-        public abstract event EventDelegate OnAvatarDeleteNativeEvent;
-        public abstract event EventDelegate OnAvatarChangeNativeEvent;
-        public abstract event EventDelegate OnWorldListNativeEvent;
-        public abstract event EventDelegate OnObjectChangeNativeEvent;
-        public abstract event EventDelegate OnObjectCreateNativeEvent;
-        public abstract event EventDelegate OnObjectDeleteNativeEvent;
-        public abstract event EventDelegate OnObjectClickNativeEvent;
-        public abstract event EventDelegate OnQueryCellEndNativeEvent;
-        public abstract event EventDelegate OnUniverseDisconnectNativeEvent;
-        public abstract event EventDelegate OnWorldDisconnectNativeEvent;
-        public abstract event EventDelegate OnTeleportNativeEvent;
-        public abstract event CallbackDelegate OnObjectCreateCallbackNativeEvent;
-        public abstract event CallbackDelegate OnObjectChangeCallbackNativeEvent;
-        public abstract event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
-        public abstract event CallbackDelegate OnFriendAddCallbackNativeEvent;
-        public abstract event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
-        public abstract event CallbackDelegate OnGetFriendsCallbackNativeEvent;
+        internal abstract event EventDelegate OnChatNativeEvent;
+        internal abstract event EventDelegate OnAvatarAddNativeEvent;
+        internal abstract event EventDelegate OnAvatarDeleteNativeEvent;
+        internal abstract event EventDelegate OnAvatarChangeNativeEvent;
+        internal abstract event EventDelegate OnWorldListNativeEvent;
+        internal abstract event EventDelegate OnObjectChangeNativeEvent;
+        internal abstract event EventDelegate OnObjectCreateNativeEvent;
+        internal abstract event EventDelegate OnObjectDeleteNativeEvent;
+        internal abstract event EventDelegate OnObjectClickNativeEvent;
+        internal abstract event EventDelegate OnQueryCellEndNativeEvent;
+        internal abstract event EventDelegate OnUniverseDisconnectNativeEvent;
+        internal abstract event EventDelegate OnWorldDisconnectNativeEvent;
+        internal abstract event EventDelegate OnTeleportNativeEvent;
+        internal abstract event CallbackDelegate OnObjectCreateCallbackNativeEvent;
+        internal abstract event CallbackDelegate OnObjectChangeCallbackNativeEvent;
+        internal abstract event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
+        internal abstract event CallbackDelegate OnFriendAddCallbackNativeEvent;
+        internal abstract event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
+        internal abstract event CallbackDelegate OnGetFriendsCallbackNativeEvent;
 
         #endregion
     }
