@@ -24,6 +24,7 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -40,9 +41,11 @@ namespace VpNet.Cache
         private readonly string _localPath;
         private readonly string _modelPath;
         private readonly string _remoteModelPath;
+        public Dictionary<string, Task> _tasks;  
 
         public OpCacheProvider(TWorld world, string localPath)
         {
+            _tasks = new Dictionary<string, Task>();
             _world = world;
             _localPath = localPath;
             _modelPath = Path.Combine(localPath, "models");
@@ -55,20 +58,55 @@ namespace VpNet.Cache
 
         public Task GetModelDataAsync(string name, ModelDataDelegate callback)
         {
-            var t = new Task(() => Download(name,callback));
+            Task t = null;
+            t = new Task(() => Download(name,callback,t));
+            lock (_tasks)
+            {
+                if (!_tasks.ContainsKey(name))
+                {
+                        _tasks.Add(name, t);
+                }
+            }
             t.Start();
             return t;
         }
 
-        private void Download(string name, ModelDataDelegate callback)
+        private void Download(string name, ModelDataDelegate callback, Task task)
         {
+            Task conflictingTask = null;
+            lock (_tasks)
+            {
+                if (_tasks.ContainsKey(name) && _tasks[name].Id != task.Id)
+                {
+                    conflictingTask = _tasks[name];
+                }
+            }
+            if (conflictingTask != null)
+            {
+                Debug.WriteLine("Waiting for other task to finish.");
+                conflictingTask.Wait();
+
+            }
+            lock (_tasks)
+            {
+                if (!_tasks.ContainsKey(name))
+                    _tasks.Add(name, task);
+            }        
             var model = Path.Combine(_modelPath, Path.GetFileNameWithoutExtension(name) + ".zip");
             if (File.Exists(model))
             {
+                Debug.WriteLine("Reading and unzipping model from file system.");
                 var zip = ZipStorer.Open(model, FileAccess.Read);
                 var dir = zip.ReadCentralDir();
                 if (dir.Count == 0)
-                    callback(new ModelData{Data=string.Empty,Exception=new Exception("No such model found."),Name=name});
+                {
+                    lock (_tasks)
+                    {
+                        _tasks.Remove(name);
+                    }
+                    callback(new ModelData
+                                 {Data = string.Empty, Exception = new Exception("No such model found."), Name = name});
+                }
                 using (var mem = new MemoryStream())
                 {
                     zip.ExtractFile(dir[0], mem);
@@ -77,6 +115,10 @@ namespace VpNet.Cache
                     using (var sr = new StreamReader(mem))
                     {
                         var data = sr.ReadToEnd();
+                        lock (_tasks)
+                        {
+                            _tasks.Remove(name);
+                        }
                         callback(new ModelData { Data = data, Name = name });
                     }
                 }
@@ -84,6 +126,7 @@ namespace VpNet.Cache
             }
 
             
+            Debug.WriteLine("Downloading model from internet.");
             using (var webClient = new WebClient())
             {
                 try
@@ -92,11 +135,20 @@ namespace VpNet.Cache
                                            Path.Combine(_remoteModelPath,
                                                         Path.GetFileNameWithoutExtension(name) + ".zip"),model);
                     // recurse to read the file which was saved to harddisk.
-                    Download(name, callback);
+                    lock (_tasks)
+                    {
+                        _tasks.Remove(name);
+                    }
+                    Download(name, callback,task);
                    
                 }
                 catch (Exception ex)
                 {
+                    lock (_tasks)
+                    {
+
+                        _tasks.Remove(name);
+                    }
                     callback(new ModelData{Name=name, Data=string.Empty,Exception=ex});
                 }
            }
