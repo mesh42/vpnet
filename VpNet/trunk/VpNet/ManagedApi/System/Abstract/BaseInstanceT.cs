@@ -354,30 +354,27 @@ namespace VpNet.Abstract
             InitVpNative();
         }
 
-        public void OnObjectCreateCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectCreateCallbackNativeEvent(instance, rc, reference); } }
-        public void OnObjectChangeCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectChangeCallbackNativeEvent(instance, rc, reference); } }
-        public void OnObjectDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectDeleteCallbackNativeEvent(instance, rc, reference); } }
-        public void OnFriendAddCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendAddCallbackNativeEvent(instance, rc, reference); } }
-        public void OnFriendDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
-        public void OnGetFriendsCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
-
-
-        public void OnChatNative1(IntPtr instance) { lock (this) { OnChatNativeEvent(instance); } }
-        public void OnAvatarAddNative1(IntPtr instance) { lock (this) { OnAvatarAddNativeEvent(instance); } }
-        public void OnAvatarChangeNative1(IntPtr instance) { lock (this) { OnAvatarChangeNativeEvent(instance); } }
-        public void OnAvatarDeleteNative1(IntPtr instance) { lock (this) { OnAvatarDeleteNativeEvent(instance); } }
-        public void OnWorldListNative1(IntPtr instance) { lock (this) { OnWorldListNativeEvent(instance); } }
-        public void OnWorldDisconnectNative1(IntPtr instance) { lock (this) { OnWorldDisconnectNativeEvent(instance); } }
-        public void OnWorldSettingsChangedNative1(IntPtr instance) { lock (this) { OnWorldSettingsChangedNativeEvent(instance); } }
-        public void OnWorldSettingNative1(IntPtr instance) { lock (this) { OnWorldSettingNativeEvent(instance); } }
-
-        public void OnObjectChangeNative1(IntPtr instance) { lock (this) { OnObjectChangeNativeEvent(instance); } }
-        public void OnObjectCreateNative1(IntPtr instance) { lock (this) { OnObjectCreateNativeEvent(instance); } }
-        public void OnObjectClickNative1(IntPtr instance) { lock (this) { OnObjectClickNativeEvent(instance); } }
-        public void OnObjectDeleteNative1(IntPtr instance) { lock (this) { OnObjectDeleteNativeEvent(instance); } }
-        public void OnQueryCellEndNative1(IntPtr instance) { lock (this) { OnQueryCellEndNativeEvent(instance); } }
-        public void OnUniverseDisconnectNative1(IntPtr instance) { lock (this) { OnUniverseDisconnectNativeEvent(instance); } }
-        public void OnTeleportNative1(IntPtr instance) { lock (this) { OnTeleportNativeEvent(instance); } }
+        internal void OnObjectCreateCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectCreateCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnObjectChangeCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectChangeCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnObjectDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectDeleteCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnFriendAddCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendAddCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnFriendDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnGetFriendsCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } } 
+        internal void OnChatNative1(IntPtr instance) { lock (this) { OnChatNativeEvent(instance); } }
+        internal void OnAvatarAddNative1(IntPtr instance) { lock (this) { OnAvatarAddNativeEvent(instance); } }
+        internal void OnAvatarChangeNative1(IntPtr instance) { lock (this) { OnAvatarChangeNativeEvent(instance); } }
+        internal void OnAvatarDeleteNative1(IntPtr instance) { lock (this) { OnAvatarDeleteNativeEvent(instance); } }
+        internal void OnWorldListNative1(IntPtr instance) { lock (this) { OnWorldListNativeEvent(instance); } }
+        internal void OnWorldDisconnectNative1(IntPtr instance) { lock (this) { OnWorldDisconnectNativeEvent(instance); } }
+        internal void OnWorldSettingsChangedNative1(IntPtr instance) { lock (this) { OnWorldSettingsChangedNativeEvent(instance); } }
+        internal void OnWorldSettingNative1(IntPtr instance) { lock (this) { OnWorldSettingNativeEvent(instance); } }
+        internal void OnObjectChangeNative1(IntPtr instance) { lock (this) { OnObjectChangeNativeEvent(instance); } }
+        internal void OnObjectCreateNative1(IntPtr instance) { lock (this) { OnObjectCreateNativeEvent(instance); } }
+        internal void OnObjectClickNative1(IntPtr instance) { lock (this) { OnObjectClickNativeEvent(instance); } }
+        internal void OnObjectDeleteNative1(IntPtr instance) { lock (this) { OnObjectDeleteNativeEvent(instance); } }
+        internal void OnQueryCellEndNative1(IntPtr instance) { lock (this) { OnQueryCellEndNativeEvent(instance); } }
+        internal void OnUniverseDisconnectNative1(IntPtr instance) { lock (this) { OnUniverseDisconnectNativeEvent(instance); } }
+        internal void OnTeleportNative1(IntPtr instance) { lock (this) { OnTeleportNativeEvent(instance); } }
 
 
         ~BaseInstanceT()
@@ -1409,25 +1406,25 @@ namespace VpNet.Abstract
 
         #region Implementation of IInstanceEvents
 
-        override public event EventDelegate OnChatNativeEvent;
-        override public event EventDelegate OnAvatarAddNativeEvent;
-        override public event EventDelegate OnAvatarDeleteNativeEvent;
-        override public event EventDelegate OnAvatarChangeNativeEvent;
-        override public event EventDelegate OnWorldListNativeEvent;
-        override public event EventDelegate OnObjectChangeNativeEvent;
-        override public event EventDelegate OnObjectCreateNativeEvent;
-        override public event EventDelegate OnObjectDeleteNativeEvent;
-        override public event EventDelegate OnObjectClickNativeEvent;
-        override public event EventDelegate OnQueryCellEndNativeEvent;
-        override public event EventDelegate OnUniverseDisconnectNativeEvent;
-        override public event EventDelegate OnWorldDisconnectNativeEvent;
-        override public event EventDelegate OnTeleportNativeEvent;
-        override public event CallbackDelegate OnObjectCreateCallbackNativeEvent;
-        override public event CallbackDelegate OnObjectChangeCallbackNativeEvent;
-        override public event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
-        override public event CallbackDelegate OnFriendAddCallbackNativeEvent;
-        override public event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
-        override public event CallbackDelegate OnGetFriendsCallbackNativeEvent;
+        override internal event EventDelegate OnChatNativeEvent;
+        override internal event EventDelegate OnAvatarAddNativeEvent;
+        override internal event EventDelegate OnAvatarDeleteNativeEvent;
+        override internal event EventDelegate OnAvatarChangeNativeEvent;
+        override internal event EventDelegate OnWorldListNativeEvent;
+        override internal event EventDelegate OnObjectChangeNativeEvent;
+        override internal event EventDelegate OnObjectCreateNativeEvent;
+        override internal event EventDelegate OnObjectDeleteNativeEvent;
+        override internal event EventDelegate OnObjectClickNativeEvent;
+        override internal event EventDelegate OnQueryCellEndNativeEvent;
+        override internal event EventDelegate OnUniverseDisconnectNativeEvent;
+        override internal event EventDelegate OnWorldDisconnectNativeEvent;
+        override internal event EventDelegate OnTeleportNativeEvent;
+        override internal event CallbackDelegate OnObjectCreateCallbackNativeEvent;
+        override internal event CallbackDelegate OnObjectChangeCallbackNativeEvent;
+        override internal event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
+        override internal event CallbackDelegate OnFriendAddCallbackNativeEvent;
+        override internal event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
+        override internal event CallbackDelegate OnGetFriendsCallbackNativeEvent;
 
         #endregion
 
