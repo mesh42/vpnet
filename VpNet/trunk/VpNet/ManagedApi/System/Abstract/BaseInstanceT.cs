@@ -244,6 +244,31 @@ namespace VpNet.Abstract
             _isInitialized = true;
         }
 
+        internal void InitOnce()
+        {
+            OnChatNativeEvent += OnChatNative;
+            OnAvatarAddNativeEvent += OnAvatarAddNative;
+            OnAvatarChangeNativeEvent += OnAvatarChangeNative;
+            OnAvatarDeleteNativeEvent += OnAvatarDeleteNative;
+            OnWorldListNativeEvent += OnWorldListNative;
+            OnWorldDisconnectNativeEvent += OnWorldDisconnectNative;
+
+            OnObjectChangeNativeEvent += OnObjectChangeNative;
+            OnObjectCreateNativeEvent += OnObjectCreateNative;
+            OnObjectClickNativeEvent += OnObjectClickNative;
+            OnObjectDeleteNativeEvent += OnObjectDeleteNative;
+            OnQueryCellEndNativeEvent += OnQueryCellEndNative;
+            OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
+            OnTeleportNativeEvent += OnTeleportNative;
+
+            OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
+            OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
+            OnObjectDeleteCallbackNativeEvent += OnObjectDeleteCallbackNative;
+            OnFriendAddCallbackNativeEvent += OnFriendAddCallbackNative;
+            OnFriendDeleteCallbackNativeEvent += OnFriendDeleteCallbackNative;
+            OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
+        }
+
 
         internal protected BaseInstanceT(BaseInstanceEvents<TWorld> parentInstance)
         {
@@ -276,6 +301,7 @@ namespace VpNet.Abstract
 
         protected BaseInstanceT(InstanceConfiguration<TWorld> configuration)
         {
+            InitOnce();
             Initializer();
             // this can't be a child instance.
             configuration.IsChildInstance = false;
@@ -298,28 +324,6 @@ namespace VpNet.Abstract
 
             }
             _instance = Functions.vp_create();
-
-            OnChatNativeEvent += OnChatNative;
-            OnAvatarAddNativeEvent += OnAvatarAddNative;
-            OnAvatarChangeNativeEvent += OnAvatarChangeNative;
-            OnAvatarDeleteNativeEvent += OnAvatarDeleteNative;
-            OnWorldListNativeEvent += OnWorldListNative;
-            OnWorldDisconnectNativeEvent += OnWorldDisconnectNative;
-
-            OnObjectChangeNativeEvent += OnObjectChangeNative;
-            OnObjectCreateNativeEvent += OnObjectCreateNative;
-            OnObjectClickNativeEvent += OnObjectClickNative;
-            OnObjectDeleteNativeEvent += OnObjectDeleteNative;
-            OnQueryCellEndNativeEvent += OnQueryCellEndNative;
-            OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
-            OnTeleportNativeEvent += OnTeleportNative;
-
-            OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
-            OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
-            OnObjectDeleteCallbackNativeEvent += OnObjectDeleteCallbackNative;
-            OnFriendAddCallbackNativeEvent += OnFriendAddCallbackNative;
-            OnFriendDeleteCallbackNativeEvent += OnFriendDeleteCallbackNative;
-            OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
 
             SetNativeEvent(Events.Chat, OnChatNative1);
             SetNativeEvent(Events.AvatarAdd, OnAvatarAddNative1);
@@ -346,6 +350,7 @@ namespace VpNet.Abstract
 
         protected BaseInstanceT()
         {
+            InitOnce();
             Initializer();
         }
 
@@ -506,11 +511,12 @@ namespace VpNet.Abstract
 
         virtual public void Disconnect()
         {
+            _avatars.Clear();
             Functions.vp_destroy(_instance);
             _isInitialized = false;
+            Initializer();
             if (OnUniverseDisconnect != null)
                 OnUniverseDisconnect(Implementor, new TUniverseDisconnectEventargs { Universe = Universe,DisconnectType = DisconnectType.UserDisconnected  });
-            Initializer();
         }
 
         virtual public TResult ListWorlds()
