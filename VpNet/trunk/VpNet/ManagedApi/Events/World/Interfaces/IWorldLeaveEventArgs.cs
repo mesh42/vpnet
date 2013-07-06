@@ -1,4 +1,4 @@
-﻿#region Copyright notice
+#region Copyright notice
 /*
 ____   ___.__         __               .__    __________                        .__.__                
 \   \ /   |__________/  |_ __ _______  |  |   \______   _____ ____________    __| _|__| ______ ____   
@@ -23,23 +23,20 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-using System;
-using System.Xml.Serialization;
-
-namespace VpNet
+namespace VpNet.Interfaces
 {
-    [Serializable]
-    [XmlRoot("OnWorldDisconnect", Namespace = Global.XmlNsEvent)]
-    public class WorldDisconnectEventArgs : Abstract.BaseWorldDisconnectEventArgs<World>{}
-    [Serializable]
-    [XmlRoot("OnWorldList", Namespace = Global.XmlNsEvent)]
-    public class WorldListEventArgs : Abstract.BaseWorldListEventArgs<World> { }
-    [Serializable]
-    [XmlRoot("OnWorldSettingsChanged", Namespace = Global.XmlNsEvent)]
-    public class WorldSettingsChangedEventArgs : Abstract.BaseWorldSettingsChangedEventArgs<World> { }
-    [Serializable]
-    [XmlRoot("OnWorldEnter", Namespace = Global.XmlNsEvent)]
-    public class WorldEnterEventArgs : Abstract.BaseWorldEnterEventArgs<World> { }
-    [XmlRoot("OnWorldLeave", Namespace = Global.XmlNsEvent)]
-    public class WorldLeaveEventArgs : Abstract.BaseWorldLeaveEventArgs<World> { }
+    /// <summary>
+    /// World List event arguments templated interface specifications.
+    /// </summary>
+    /// <typeparam name="TWorld">The type of the world.</typeparam>
+    public interface IWorldLeaveEventArgs<TWorld> where TWorld : class, IWorld, new()
+    {
+        /// <summary>
+        /// Gets or sets the world.
+        /// </summary>
+        /// <value>
+        /// The world.
+        /// </value>
+        TWorld World { get; set; }
+    }
 }

@@ -57,6 +57,8 @@
     <Compile Include="ManagedApi\Events\User\Interfaces\IUserAttributesEventArgs.cs" />
     <Compile Include="ManagedApi\Events\VpObject\ObjectArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldEnterEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldLeaveEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\World\Interfaces\IWorldLeaveEventArgs.cs" />
     <Compile Include="ManagedApi\Events\World\Interfaces\IWorldEnterEventArgs.cs" />
     <Compile Include="ManagedApi\Events\World\WorldArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Scene\Abstract\BaseTeleport.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="ManagedApi\System\CellCacheManagement\BaseInstanceT_CellCache.cs" />
     <Compile Include="ManagedApi\System\CellCacheManagement\Events\CellRangeQueryCompletedArgs.cs" />
     <Compile Include="ManagedApi\System\CellCacheManagement\Interfaces\ICellCache.cs" />
+    <Compile Include="ManagedApi\System\Exceptions\VpUniverseException.cs" />
     <Compile Include="ManagedApi\System\InstanceConfiguration.cs" />
     <Compile Include="ManagedApi\System\InstanceT0.cs" />
     <Compile Include="ManagedApi\System\InstanceT1.cs" />
@@ -187,7 +190,7 @@
     <Compile Include="ManagedApi\Scene\VpObject.cs" />
     <Compile Include="ManagedApi\Scene\World.cs" />
     <Compile Include="ManagedApi\Scene\WorldAttributes.cs" />
-    <Compile Include="ManagedApi\System\VpException.cs" />
+    <Compile Include="ManagedApi\System\Exceptions\VpException.cs" />
     <Compile Include="ManagedApi\Scene\Avatar.cs" />
     <Compile Include="Math\Interfaces\IVector3.cs" />
     <Compile Include="NativeApi\Attribute.cs" />

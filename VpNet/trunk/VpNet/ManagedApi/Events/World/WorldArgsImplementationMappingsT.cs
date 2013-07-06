@@ -49,4 +49,9 @@ namespace VpNet
     public class WorldEnterEventArgsT<TWorld> : Abstract.BaseWorldEnterEventArgs<TWorld>
     where TWorld : class, IWorld, new() 
     { }
+    [Serializable]
+    [XmlRoot("OnWorldLeave", Namespace = Global.XmlNsEvent)]
+    public class WorldLeaveEventArgsT<TWorld> : Abstract.BaseWorldLeaveEventArgs<TWorld>
+    where TWorld : class, IWorld, new()
+    { }
 }
