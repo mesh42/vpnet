@@ -68,9 +68,11 @@
     <Compile Include="ManagedApi\System\Abstract\BaseInstanceEvents.cs" />
     <Compile Include="ManagedApi\System\Abstract\BaseInstancePlugin.cs" />
     <Compile Include="ManagedApi\System\Abstract\BaseInstancePluginT.cs" />
+    <Compile Include="ManagedApi\System\Cache\OpCacheProvider.cs" />
     <Compile Include="ManagedApi\System\CellCacheManagement\BaseInstanceT_CellCache.cs" />
     <Compile Include="ManagedApi\System\CellCacheManagement\Events\CellRangeQueryCompletedArgs.cs" />
     <Compile Include="ManagedApi\System\CellCacheManagement\Interfaces\ICellCache.cs" />
+    <Compile Include="ManagedApi\System\Cache\ZipStorer.cs" />
     <Compile Include="ManagedApi\System\Exceptions\VpUniverseException.cs" />
     <Compile Include="ManagedApi\System\InstanceConfiguration.cs" />
     <Compile Include="ManagedApi\System\InstanceT0.cs" />
