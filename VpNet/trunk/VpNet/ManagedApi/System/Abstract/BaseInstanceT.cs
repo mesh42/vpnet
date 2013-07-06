@@ -302,13 +302,13 @@ namespace VpNet.Abstract
         protected BaseInstanceT(InstanceConfiguration<TWorld> configuration)
         {
             InitOnce();
-            Initializer();
+            InitVpNative();
             // this can't be a child instance.
             configuration.IsChildInstance = false;
             Configuration = configuration;
         } 
 
-        private void Initializer()
+        private void InitVpNative()
         {
             if (!_isInitialized)
             {
@@ -351,7 +351,7 @@ namespace VpNet.Abstract
         protected BaseInstanceT()
         {
             InitOnce();
-            Initializer();
+            InitVpNative();
         }
 
         public void OnObjectCreateCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectCreateCallbackNativeEvent(instance, rc, reference); } }
@@ -514,7 +514,7 @@ namespace VpNet.Abstract
             _avatars.Clear();
             Functions.vp_destroy(_instance);
             _isInitialized = false;
-            Initializer();
+            InitVpNative();
             if (OnUniverseDisconnect != null)
                 OnUniverseDisconnect(Implementor, new TUniverseDisconnectEventargs { Universe = Universe,DisconnectType = DisconnectType.UserDisconnected  });
         }
