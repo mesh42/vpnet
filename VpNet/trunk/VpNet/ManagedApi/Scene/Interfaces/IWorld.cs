@@ -39,6 +39,15 @@ namespace VpNet.Interfaces
         /// <value>
         /// The attribute.
         /// </value>
-        Dictionary<string,string> RawAttributes { get; set; }  
+        Dictionary<string,string> RawAttributes { get; set; }
+        /// <summary>
+        /// Gets or sets the local cache path, if this is specified, the SDK will allow the option to
+        /// cache models, unzip them and read their contents.
+        /// </summary>
+        /// <value>
+        /// The local cache path.
+        /// </value>
+        [XmlAttribute]
+        string LocalCachePath { get; set; }
     }
 }

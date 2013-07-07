@@ -28,28 +28,27 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using VpNet.Interfaces;
 
 namespace VpNet.Cache
 {
     public delegate void ModelDataDelegate(ModelData data);
 
-    public class OpCacheProvider<TWorld>  
-        where TWorld : class, IWorld, new()
+    public class OpCacheProvider  
+       
     {
-        private readonly TWorld _world;
+        private readonly string _objectPath;
         private readonly string _localPath;
         private readonly string _modelPath;
         private readonly string _remoteModelPath;
         public Dictionary<string, Task> _tasks;  
 
-        public OpCacheProvider(TWorld world, string localPath)
+        public OpCacheProvider(string objectPath, string localPath)
         {
             _tasks = new Dictionary<string, Task>();
-            _world = world;
+            _objectPath = objectPath;
             _localPath = localPath;
             _modelPath = Path.Combine(localPath, "models");
-            _remoteModelPath = _world.RawAttributes["objectpath"] + "/models/";
+            _remoteModelPath = _objectPath + "/models/";
             if (!Directory.Exists(_modelPath))
             {
                 Directory.CreateDirectory(_modelPath);
