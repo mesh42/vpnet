@@ -181,7 +181,7 @@ namespace VpNet.Abstract
 
         public T Implementor { get; set; }
 
-        Dictionary<int, TAvatar> _avatars;
+        public Dictionary<int, TAvatar> _avatars;
         Dictionary<string, TWorld> _worlds; 
 
         private bool _useAutoWaitTimer;

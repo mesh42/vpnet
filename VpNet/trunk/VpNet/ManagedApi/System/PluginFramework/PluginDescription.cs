@@ -23,14 +23,31 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-namespace VpNet
+namespace VpNet.PluginFramework
 {
-    internal static class Global
+    /// <summary>
+    /// Plugin configuration. Plugins are shipped together with an xml configuration primarily
+    /// for descriptive purposes.
+    /// 
+    /// plugins xml files follow the following file naming convertions.
+    /// 
+    /// [NameSpace].[PluginClassName].xml
+    /// </summary>
+    public class PluginDescription
     {
-        public const string XmlNsEvent = "http://virtualparadise.org/vpnet/events";
-        public const string XmlNsScene = "http://virtualparadise.org/vpnet/scene";
-        public const string XmlNsInstance = "http://virtualparadise.org/vpnet/instance";
-        public const string XmlNsException = "http://virtualparadise.org/vpnet/exception";
-        public const string XmlnsRc = "http://virtualparadise.org/vpnet/reasonCode";
+        /// <summary>
+        /// Gets or sets the name of the plugin.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the description of the plugin
+        /// </summary>
+        /// <value>
+        /// The description.
+        /// </value>
+        public string Description { get; set; }
     }
 }

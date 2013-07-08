@@ -4,27 +4,25 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D66218D0-E532-4D70-B592-A59F3E02DB57}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{12ED368E-CB3A-426A-AD69-C1FDC69EF978}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VpNet.Examples</RootNamespace>
-    <AssemblyName>VpNet.Examples</AssemblyName>
+    <RootNamespace>VpNet.Plugins</RootNamespace>
+    <AssemblyName>VpNet.Plugins</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\VpNet.Examples\bin\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,62 +30,28 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>1373283311_118830.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bots\AdvancedExamples\CasinoAvatar.cs" />
-    <Compile Include="Bots\AdvancedExamples\InstanceTemplating.cs" />
-    <Compile Include="Bots\AdvancedExamples\InterWorldChat.cs" />
-    <Compile Include="Bots\AdvancedExamples\RpgAvatar.cs" />
-    <Compile Include="Bots\BasicExamples\EventsExample.cs" />
-    <Compile Include="Bots\BasicExamples\GreeterExample.cs" />
-    <Compile Include="Bots\BasicExamples\HelloWorldExample.cs" />
-    <Compile Include="Bots\BasicExamples\TeleportExample.cs" />
-    <Compile Include="Gui\ConsoleHelpers.cs" />
-    <Compile Include="Gui\ConsoleMessageType.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="GreeterPlugin\GreeterPlugin2.cs" />
+    <Compile Include="GreeterPlugin\GreeterPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="..\Dependencies\vp-linux-amd64\libvpsdk.a">
-      <Link>libvpsdk.a</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\Dependencies\vp-linux-centos-x86_64\libvpsdk.so">
-      <Link>libvpsdk.so</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VpNet.Plugins\VpNet.Plugins.csproj">
-      <Project>{12ed368e-cb3a-426a-ad69-c1fdc69ef978}</Project>
-      <Name>VpNet.Plugins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VpNet\VpNet.csproj">
+    <ProjectReference Include="..\..\VpNet\VpNet\VpNet.csproj">
       <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
       <Name>VpNet</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\Dependencies\vpsdk.dll">
-      <Link>vpsdk.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="1373283311_118830.ico" />
-    <Content Include="license.txt" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

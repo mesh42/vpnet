@@ -23,14 +23,40 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-namespace VpNet
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition.Primitives;
+using System.Linq.Expressions;
+using VpNet.Abstract;
+
+namespace VpNet.PluginFramework
 {
-    internal static class Global
+    public class PluginDiscovery
     {
-        public const string XmlNsEvent = "http://virtualparadise.org/vpnet/events";
-        public const string XmlNsScene = "http://virtualparadise.org/vpnet/scene";
-        public const string XmlNsInstance = "http://virtualparadise.org/vpnet/instance";
-        public const string XmlNsException = "http://virtualparadise.org/vpnet/exception";
-        public const string XmlnsRc = "http://virtualparadise.org/vpnet/reasonCode";
+        private DirectoryCatalog _catalog;
+        private CompositionContainer _container;
+        private CompositionBatch _batch;
+
+        [ImportMany(typeof(BaseInstancePlugin))]
+        public List<BaseInstancePlugin> Plugins;
+
+        public PluginDiscovery()
+        {
+            _catalog = new DirectoryCatalog(".", "*.dll");
+            _container = new CompositionContainer(_catalog);
+            _batch = new CompositionBatch();
+            _batch.AddPart(this);
+            _container.Compose(_batch);
+        }
+
+
+        //public static IEnumerable<Tuple<ComposablePartDefinition, ExportDefinition>> ListPlugins()
+        //{
+        //   // Expression<Func<ExportDefinition, bool>> constraint = (ExportDefinition exportDefinition) => exportDefinition.ContractName == CompositionServices.GetContractName(typeof(MyExport));
+        //    var importDefinition = new ContractBasedImportDefinition("VpNet.Abstract.BaseInstancePlugin", null, null, ImportCardinality.ZeroOrMore, true, false, CreationPolicy.Any);
+        //    return _catalog.GetExports(importDefinition);
+        //}
     }
 }
