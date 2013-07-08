@@ -231,7 +231,7 @@
     <Compile Include="NativeApi\ReasonCode.cs" />
     <Compile Include="ManagedApi\Scene\Enumerations\TextEffectTypes.cs" />
     <Compile Include="NativeApi\Utf8Marshaler.cs" />
-    <Compile Include="PlaneHelper.cs" />
+    <Compile Include="Math\PlaneHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rc.en-US.Designer.cs">
       <AutoGen>True</AutoGen>
