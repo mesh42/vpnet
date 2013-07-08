@@ -29,7 +29,7 @@ using VpNet.Interfaces;
 namespace VpNet.Abstract
 {
     [Serializable]
-    public abstract class BaseObjectClickArgs<TAvatar, TVpObject, TVector3> : EventArgs, IObjectClickArgs<TAvatar, TVpObject,TVector3> where TVector3 : class, IVector3, new()
+    public abstract class BaseObjectClickArgs<TAvatar, TVpObject, TVector3> : EventArgs, IObjectClickArgs<TAvatar, TVpObject,TVector3>where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
         where TVpObject : class, IVpObject<TVector3>, new()
     {

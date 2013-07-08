@@ -30,7 +30,7 @@ namespace VpNet.Abstract
 {
     [Serializable]
     public abstract class BaseObjectDeleteCallbackArgs<TResult, TVpObject, TVector3> : EventArgs, IObjectDeleteCallbackArgs<TResult, TVpObject,TVector3> where TResult : class, IRc,new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     {
         public TVpObject VpObject { get; set; }

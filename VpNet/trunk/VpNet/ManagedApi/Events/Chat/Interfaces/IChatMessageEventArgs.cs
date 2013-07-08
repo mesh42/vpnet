@@ -33,7 +33,7 @@ namespace VpNet.Interfaces
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     /// <typeparam name="TColor">The type of the color.</typeparam>
     public interface IChatMessageEventArgs<TAvatar, TChatMessage,TVector3,TColor> 
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TColor : class, IColor, new()
         where TAvatar : class, IAvatar<TVector3>, new() 
         where TChatMessage : class, IChatMessage<TColor>, new()

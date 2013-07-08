@@ -33,7 +33,7 @@ namespace VpNet
     [XmlRoot("Teleport", Namespace = Global.XmlNsScene)]
     public class Teleport<TWorld,TAvatar,TVector3> : Abstract.BaseTeleport<TWorld,TAvatar,TVector3>
         where TWorld : class, IWorld, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
     {
         public Teleport(){} 

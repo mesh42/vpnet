@@ -34,7 +34,7 @@ namespace VpNet
     [XmlRoot("OnObjectChange",Namespace = Global.XmlNsEvent)]
     public class ObjectChangeArgsT<TAvatar, TVpObject, TVector3> : Abstract.BaseObjectChangeArgs<TAvatar, TVpObject, TVector3> 
         where TAvatar : class, IAvatar<TVector3>, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     { }
     /// <summary>
@@ -43,7 +43,7 @@ namespace VpNet
     [XmlRoot("OnObjectChangeCallback", Namespace = Global.XmlNsEvent)]
     public class ObjectChangeCallbackArgsT<TResult, TVpObject, TVector3> : Abstract.BaseObjectChangeCallbackArgs<TResult, TVpObject, TVector3>
         where TResult : class, IRc, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()    
     { }
     /// <summary>
@@ -52,7 +52,7 @@ namespace VpNet
     [XmlRoot("OnObjectClick", Namespace = Global.XmlNsEvent)]
     public class ObjectClickArgsT<TAvatar, TVpObject, TVector3> : Abstract.BaseObjectClickArgs<TAvatar, TVpObject, TVector3>
         where TAvatar : class, IAvatar<TVector3>, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     { }
     /// <summary>
@@ -61,7 +61,7 @@ namespace VpNet
     [XmlRoot("OnObjectCreate", Namespace = Global.XmlNsEvent)]
     public class ObjectCreateArgsT<TAvatar, TVpObject, TVector3> : Abstract.BaseObjectCreateArgs<TAvatar, TVpObject, TVector3>
         where TAvatar : class, IAvatar<TVector3>, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     { }
     /// <summary>
@@ -70,7 +70,7 @@ namespace VpNet
     [XmlRoot("OnObjectCreateCallback", Namespace = Global.XmlNsEvent)]
     public class ObjectCreateCallbackArgsT<TResult, TVpObject, TVector3> : Abstract.BaseObjectCreateCallbackArgs<TResult, TVpObject, TVector3> 
         where TResult : class, IRc, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     { }
     /// <summary>
@@ -79,7 +79,7 @@ namespace VpNet
     [XmlRoot("OnObjectDelete", Namespace = Global.XmlNsEvent)]
     public class ObjectDeleteArgsT<TAvatar, TVpObject, TVector3> : Abstract.BaseObjectDeleteArgs<TAvatar, TVpObject, TVector3>
         where TAvatar : class, IAvatar<TVector3>, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     { }
     /// <summary>
@@ -88,7 +88,7 @@ namespace VpNet
     [XmlRoot("OnObjectDeleteCallback", Namespace = Global.XmlNsEvent)]
     public class ObjectDeleteCallbackArgsT<TResult, TVpObject, TVector3> : Abstract.BaseObjectDeleteCallbackArgs<TResult, TVpObject, TVector3>
         where TResult : class, IRc, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     { }
 }

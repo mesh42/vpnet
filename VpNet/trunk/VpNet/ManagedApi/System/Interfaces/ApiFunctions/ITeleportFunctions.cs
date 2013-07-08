@@ -34,7 +34,7 @@ namespace VpNet.Interfaces
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface ITeleportFunctions<out TRc, in TWorld, in TAvatar, in TVector3>
         where TRc : class, IRc, new()
-        where TVector3 : class, IVector3,new()
+        where TVector3 : struct, IVector3
         where TAvatar: class, IAvatar<TVector3>, new()
     {
         /// <summary>

@@ -76,7 +76,7 @@ namespace VpNet
         WorldLeaveEventArgsT<World>
         >
 
-         where TVector3 : class, IVector3, new()
+         where TVector3 : struct, IVector3
          where TResult : class, IRc, new()
     {
         public Instance()

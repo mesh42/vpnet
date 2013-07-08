@@ -34,7 +34,7 @@ namespace VpNet.Interfaces
     public interface IAvatarFunctions<out TRc, in TAvatar, in TVector3>
         where TRc : class, IRc, new()
         where TAvatar : class, IAvatar<TVector3>,new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
     {
         /// <summary>
         /// Announce your bot at a given location.

@@ -31,7 +31,7 @@ namespace VpNet.Interfaces
     /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface IAvatarLeaveEventArgs<TAvatar,TVector3> 
-        where TVector3: class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
     {
         /// <summary>

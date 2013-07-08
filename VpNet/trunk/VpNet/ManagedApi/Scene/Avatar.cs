@@ -32,7 +32,7 @@ namespace VpNet
     [Serializable]
     [XmlRoot("Avatar", Namespace = Global.XmlNsScene)]
     public class Avatar<TVector3> : Abstract.BaseAvatar<TVector3>
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
     {
         public Avatar(int userId, string name,int session,int avatarType,TVector3 position,TVector3 rotation)
             :base(userId, name,session,avatarType,position,rotation){}

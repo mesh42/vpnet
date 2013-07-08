@@ -33,7 +33,7 @@ namespace VpNet.Interfaces
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface IObjectChangeCallbackArgs<TResult, TVpObject,TVector3>
         where TResult : class, IRc, new()
-        where TVector3 : class,IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
         
     {

@@ -29,7 +29,7 @@ using VpNet.Interfaces;
 namespace VpNet.Abstract
 {
     [Serializable]
-    public abstract class BaseAvatarLeaveEventArgs<TAvatar,TVector3> : EventArgs, IAvatarLeaveEventArgs<TAvatar,TVector3> where TVector3 : class, IVector3, new()
+    public abstract class BaseAvatarLeaveEventArgs<TAvatar,TVector3> : EventArgs, IAvatarLeaveEventArgs<TAvatar,TVector3>where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
     {
         virtual public TAvatar Avatar { get; set; }
