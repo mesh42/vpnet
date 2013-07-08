@@ -26,6 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System.ComponentModel.Composition;
 using VpNet.Abstract;
 using VpNet.PluginFramework;
+//using System.Windows.Media
 
 namespace VpNet.Plugins
 {

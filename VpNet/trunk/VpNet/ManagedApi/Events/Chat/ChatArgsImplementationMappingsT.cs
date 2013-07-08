@@ -33,7 +33,7 @@ namespace VpNet
     /// </summary>
     [XmlRoot("OnChatMessage", Namespace = Global.XmlNsEvent)]
     public class ChatMessageEventArgsT<TAvatar,TChatMessage,TVector3, TColor> : Abstract.BaseChatMessageEventArgs<TAvatar, TChatMessage,TVector3,TColor> 
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TChatMessage : class, IChatMessage<TColor>, new()
         where TColor : class, IColor, new()
         where TAvatar : class, IAvatar<TVector3>, new()

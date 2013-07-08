@@ -31,7 +31,7 @@ namespace VpNet.Abstract
 {
     [Serializable]
     public abstract class BaseVpObject<TVector3> : IVpObject<TVector3>
-        where TVector3 : IVector3,new()
+        where TVector3 : struct, IVector3
     {
         private TVector3 _position;
         private Cell _cell;
@@ -95,10 +95,10 @@ namespace VpNet.Abstract
             get
             {
                 if (_cell == null)
-                    if (Position != null)
+                   // if (Position != null)
                     _cell = new Cell((int) (Math.Floor(Position.X)/10), (int) (Math.Floor(Position.Z)/10));
-                    else
-                        _cell = new Cell(0,0);
+                   // else
+                   //     _cell = new Cell(0,0);
 
                 return _cell;
             }

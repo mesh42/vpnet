@@ -29,7 +29,7 @@ namespace VpNet.Abstract
 {
     public abstract class BaseTeleportEventArgs<TTeleport, TWorld, TAvatar, TVector3> : ITeleportEventArgs<TTeleport, TWorld, TAvatar, TVector3>
         where TWorld : class, IWorld, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
         where TTeleport : class, ITeleport<TWorld,TAvatar,TVector3>, new()
     {

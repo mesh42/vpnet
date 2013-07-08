@@ -31,7 +31,7 @@ namespace VpNet.Abstract
 {
     [Serializable]
     public abstract class BaseAvatar<TVector3> : IAvatar<TVector3>
-        where TVector3 : IVector3, new()
+        where TVector3 : struct, IVector3
     {
         [XmlAttribute]
         virtual public int UserId { get; set; }

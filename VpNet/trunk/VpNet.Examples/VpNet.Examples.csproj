@@ -70,10 +70,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VpNet.Plugins\VpNet.Plugins.csproj">
-      <Project>{12ed368e-cb3a-426a-ad69-c1fdc69ef978}</Project>
-      <Name>VpNet.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VpNet\VpNet.csproj">
       <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
       <Name>VpNet</Name>

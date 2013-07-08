@@ -32,7 +32,7 @@ namespace VpNet
     [Serializable]
     [XmlRoot("VpObject", Namespace = Global.XmlNsScene)]
     public class VpObject<TVector3> : Abstract.BaseVpObject<TVector3>
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
     {
         internal VpObject(int id, int type, DateTime time, int owner, TVector3 position, TVector3 rotation, float angle, string action, string description, int objectType, string model)
             : base(id, type, time, owner, position, rotation, angle, action, description, objectType, model)

@@ -8,7 +8,7 @@ namespace VpNet.Interfaces
     /// </summary>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface IVpObject<TVector3>
-        where TVector3 : IVector3,new()
+        where TVector3 : struct, IVector3
     {
         [XmlAttribute]
         int Id { get; set; }

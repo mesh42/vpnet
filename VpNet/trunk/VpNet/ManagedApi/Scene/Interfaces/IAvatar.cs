@@ -7,7 +7,7 @@ namespace VpNet.Interfaces
     /// </summary>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     public interface IAvatar<TVector3>
-        where TVector3 : IVector3, new()
+        where TVector3 : struct, IVector3
     {
         /// <summary>
         /// Gets or sets the user id.

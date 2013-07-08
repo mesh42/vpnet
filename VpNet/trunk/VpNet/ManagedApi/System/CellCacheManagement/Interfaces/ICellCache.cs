@@ -26,7 +26,7 @@ ____   ___.__         __               .__    __________                        
 namespace VpNet.Interfaces
 {
     interface ICellCache<TVpObject, TVector3, in TCell>
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
         where TCell : class, ICell,new()
     {

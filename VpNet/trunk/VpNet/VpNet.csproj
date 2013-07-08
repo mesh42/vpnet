@@ -39,6 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Design\BoundingBoxConverter.cs" />
+    <Compile Include="Design\BoundingSphereConverter.cs" />
+    <Compile Include="Design\ColorConverter.cs" />
+    <Compile Include="Design\FieldDescriptor.cs" />
+    <Compile Include="Design\MathTypeConverter.cs" />
+    <Compile Include="Design\MatrixConverter.cs" />
+    <Compile Include="Design\PlaneConverter.cs" />
+    <Compile Include="Design\PointConverter.cs" />
+    <Compile Include="Design\QuaternionConverter.cs" />
+    <Compile Include="Design\RayConverter.cs" />
+    <Compile Include="Design\RectangleConverter.cs" />
+    <Compile Include="Design\Vector2Converter.cs" />
+    <Compile Include="Design\Vector3Converter.cs" />
+    <Compile Include="Design\Vector4Converter.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="ManagedApi\Dictionary.cs" />
     <Compile Include="ManagedApi\DisconnectType.cs" />
@@ -127,6 +141,19 @@
     <Compile Include="ManagedApi\Scene\Terrain\Interfaces\ITerrainCell.cs" />
     <Compile Include="ManagedApi\Scene\Terrain\Enumerations\TerrainRotation.cs" />
     <Compile Include="ManagedApi\Scene\Terrain\Abstract\BaseTerrainTile.cs" />
+    <Compile Include="Math\BoundingBox.cs" />
+    <Compile Include="Math\BoundingFrustum.cs" />
+    <Compile Include="Math\BoundingSphere.cs" />
+    <Compile Include="Math\Enum\ContainmentType.cs" />
+    <Compile Include="Math\Enum\PlaneIntersectionType.cs" />
+    <Compile Include="Math\MathHelper.cs" />
+    <Compile Include="Math\Matrix.cs" />
+    <Compile Include="Math\Plane.cs" />
+    <Compile Include="Math\Quaternion.cs" />
+    <Compile Include="Math\Ray.cs" />
+    <Compile Include="Math\Vector2.cs" />
+    <Compile Include="Math\Vector3.cs" />
+    <Compile Include="Math\Vector4.cs" />
     <Compile Include="NativeApi\DataConverters.cs" />
     <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseAvatarChangeEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseAvatarEnterEventArgs.cs" />
@@ -190,7 +217,6 @@
     <Compile Include="ManagedApi\Scene\Interfaces\IVpObject.cs" />
     <Compile Include="ManagedApi\Scene\Interfaces\IWorldAttributes.cs" />
     <Compile Include="ManagedApi\System\RcDefault.cs" />
-    <Compile Include="Math\Vector2.cs" />
     <Compile Include="ManagedApi\Scene\VpObject.cs" />
     <Compile Include="ManagedApi\Scene\World.cs" />
     <Compile Include="ManagedApi\Scene\WorldAttributes.cs" />
@@ -205,8 +231,8 @@
     <Compile Include="NativeApi\ReasonCode.cs" />
     <Compile Include="ManagedApi\Scene\Enumerations\TextEffectTypes.cs" />
     <Compile Include="NativeApi\Utf8Marshaler.cs" />
+    <Compile Include="PlaneHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Math\Vector3.cs" />
     <Compile Include="Rc.en-US.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

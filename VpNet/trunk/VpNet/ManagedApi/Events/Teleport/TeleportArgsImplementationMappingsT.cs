@@ -37,7 +37,7 @@ namespace VpNet
     [XmlRoot("OnTeleport", Namespace = Global.XmlNsEvent)]
     public class TeleportEventArgsT<TTeleport,TWorld,TAvatar,TVector3> : BaseTeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>
         where TWorld : class, IWorld, new()
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
         where TTeleport : class, ITeleport<TWorld, TAvatar, TVector3>, new()
     {}

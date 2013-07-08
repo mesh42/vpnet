@@ -31,7 +31,7 @@ namespace VpNet.Abstract
     [Serializable]
     public abstract class BaseChatMessageEventArgs<TAvatar,TChatMessage,TVector3,TColor> : EventArgs, 
         IChatMessageEventArgs<TAvatar, TChatMessage, TVector3,TColor> 
-        where TVector3 : class, IVector3, new()
+        where TVector3 : struct, IVector3
         where TColor : class, IColor, new()
         where TAvatar : class, IAvatar<TVector3>,new()
         where TChatMessage : class, IChatMessage<TColor>,new()
