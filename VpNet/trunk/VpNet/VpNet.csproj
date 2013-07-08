@@ -106,6 +106,8 @@
     <Compile Include="ManagedApi\System\InstanceT2.cs" />
     <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IUniverseFunctions.cs" />
     <Compile Include="ManagedApi\System\Interfaces\IInstancePlugin.cs" />
+    <Compile Include="ManagedApi\System\PluginFramework\PluginDescription.cs" />
+    <Compile Include="ManagedApi\System\PluginFramework\PluginDiscovery.cs" />
     <Compile Include="ManagedApi\System\RcTolerant.cs" />
     <Compile Include="ManagedApi\Scene\Terrain\Interfaces\ITerrain.cs" />
     <Compile Include="ManagedApi\Scene\Terrain\Terrain.cs" />

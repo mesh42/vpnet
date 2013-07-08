@@ -44,7 +44,7 @@ namespace VpNet.Extensions
         /// TODO: Update to .NET 4.5 Memory Mapped Files, research potential pitfalls on .NET MONO implementation for this.
         /// </summary>
         /// <returns>A copy of the object</returns>
-        internal static T Copy<T>(this T o)
+        public static T Copy<T>(this T o)
         {
             if (!typeof(T).IsSerializable)
                 throw new ArgumentException("The type must be serializable.", typeof(T).ToString());

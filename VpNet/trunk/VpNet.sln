@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vp-linux-centos-x86_64", "v
 		Dependencies\vp-linux-centos-x86_64\VP.h = Dependencies\vp-linux-centos-x86_64\VP.h
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.Plugins", "VpNet.Plugins\VpNet.Plugins.csproj", "{12ED368E-CB3A-426A-AD69-C1FDC69EF978}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -44,6 +46,10 @@ Global
 		{D66218D0-E532-4D70-B592-A59F3E02DB57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D66218D0-E532-4D70-B592-A59F3E02DB57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D66218D0-E532-4D70-B592-A59F3E02DB57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12ED368E-CB3A-426A-AD69-C1FDC69EF978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12ED368E-CB3A-426A-AD69-C1FDC69EF978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12ED368E-CB3A-426A-AD69-C1FDC69EF978}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12ED368E-CB3A-426A-AD69-C1FDC69EF978}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
