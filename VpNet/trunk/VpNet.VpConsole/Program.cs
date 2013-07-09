@@ -24,6 +24,7 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.IO;
 using VpNet.Abstract;
 using VpNet.PluginFramework;
 using VpNet.Extensions;
@@ -42,6 +43,8 @@ namespace VpNet.VpConsole
         private static string _password;
         private static string _world;
         private static HotSwapPlugins<BaseInstancePlugin> _plugins;
+
+        const string LoginconfigurationXmlPath = @".\loginConfiguration.xml";
        
         /// <summary>
         /// Mains entry point of the VpNet Examples.
@@ -52,8 +55,8 @@ namespace VpNet.VpConsole
             _plugins = new HotSwapPlugins<BaseInstancePlugin>();
             Console.Title = "Virtual Paradise Console";
             Console.CursorSize = 100;
-            Console.SetWindowSize(120,40);
-            Console.SetBufferSize(120,40);
+            Console.SetWindowSize(108,40);
+            Console.SetBufferSize(108,40);
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -72,15 +75,35 @@ ____   ____.__         __               .__    __________                       
 
         private static void Connect()
         {
-            
             Cli.WriteLine(ConsoleMessageType.Information, "Connecting...");
             try
             {
                 Vp.Connect();
                 Cli.WriteLine(ConsoleMessageType.Information, "Connected to universe.\r\n");
-                Cli.GetPromptTarget = LoginPrompt;
-                Cli.ParseCommandLine = ProcessUserName;
-                Cli.ReadLine();
+                if (File.Exists(LoginconfigurationXmlPath))
+                {
+                    Cli.WriteLine(ConsoleMessageType.Information, "Autologin configuration enabled, attempting auto logon.");
+                    var config = SerializableExtensions.Deserialize<InstanceConfiguration<World>>(LoginconfigurationXmlPath);
+                    try
+                    {
+                        Vp.Login(config.UserName, config.Password, config.BotName);
+                        Vp.Enter(config.World.Name);
+                        _world = config.World.Name;
+
+                        ProceedAfterLogin(true);
+
+                    }
+                    catch (VpException ex)
+                    {
+                        Cli.WriteLine(ConsoleMessageType.Information, "Autologin failed, please login manually.");
+                    }
+                }
+                else
+                {
+                    Cli.GetPromptTarget = LoginPrompt;
+                    Cli.ParseCommandLine = ProcessUserName;
+                    Cli.ReadLine();
+                }
             }
             catch (VpException ex)
             {
@@ -91,10 +114,7 @@ ____   ____.__         __               .__    __________                       
             }
         }
 
-        private static void ProcessCommandLine(string commandline)
-        {
-            Cli.ReadLine();
-        }
+
 
         private static void ProcessUserName(string userName)
         {
@@ -119,15 +139,29 @@ ____   ____.__         __               .__    __________                       
                 Cli.GetPromptTarget = LoginPrompt;
                 Cli.ParseCommandLine = ProcessUserName;
                 Cli.ReadLine();
+                return;
             }
+            ProceedAfterLogin(false);
+        }
+
+        static void ProceedAfterLogin(bool enteredWorld)
+        {
             Cli.WriteLine(ConsoleMessageType.Information, "Logged into universe server");
             Cli.WriteLine(ConsoleMessageType.Information, "Retrieving world list.\r\n");
             Vp.OnWorldList += Vp_OnWorldList;
             Vp.OnAvatarEnter += Vp_OnAvatarEnter;
             Vp.UseAutoWaitTimer = true;
             Vp.ListWorlds();
-            Cli.GetPromptTarget = EnterWorldPrompt;
-            Cli.ParseCommandLine = ProcessEnterWorld;
+            if (enteredWorld)
+            {
+                Cli.GetPromptTarget = WorldPrompt;
+                Cli.ParseCommandLine = ProcessCommand;
+            }
+            else
+            {
+                Cli.GetPromptTarget = EnterWorldPrompt;
+                Cli.ParseCommandLine = ProcessEnterWorld;
+            }
             Cli.ReadLine();
         }
 
@@ -162,8 +196,21 @@ ____   ____.__         __               .__    __________                       
 
         static void ProcessCommand(string command)
         {
-            switch (command)
+           
+            switch (command.ToLower())
             {
+                case "autologin enable":
+                    Vp.Configuration.Serialize(LoginconfigurationXmlPath);
+                    break;
+                case "autologin disable":
+                    if (File.Exists(LoginconfigurationXmlPath))
+                        File.Delete(LoginconfigurationXmlPath);
+                    break;
+                case "enter":
+                    Vp.Leave();
+                    Cli.GetPromptTarget = WorldPrompt;
+                    Cli.ParseCommandLine = ProcessEnterWorld;
+                    break;
                 case "list plugins":
                     foreach (var plugin in _plugins.Instances)
                     {
