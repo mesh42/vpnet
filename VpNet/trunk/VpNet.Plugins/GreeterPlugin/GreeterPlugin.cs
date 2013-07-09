@@ -23,16 +23,14 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-using System.ComponentModel.Composition;
 using VpNet.Abstract;
 using VpNet.PluginFramework;
 
 namespace VpNet.Plugins
 {
     /// <summary>
-    /// Example of plugin architecture using Microsoft .NET MEF Framework.
+    /// Example of plugin 
     /// </summary>
-    [Export(typeof(BaseInstancePlugin))]
     public class GreeterPlugin : BaseInstancePlugin
     {
         /// <summary>
