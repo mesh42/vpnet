@@ -26,7 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System;
 using System.Collections.Generic;
 
-namespace VpNet.Examples.Gui
+namespace VpNet.VpConsole.Gui
 {
 
     public sealed class ConsoleHelpers 
@@ -113,6 +113,12 @@ namespace VpNet.Examples.Gui
                 var oldColor = Console.ForegroundColor;
                 Console.CursorLeft = 0;
                 Console.ForegroundColor = PromptColor;
+                var pos = Console.CursorTop;
+                for (int i = 0; i < Console.BufferWidth;i++)
+                {
+                    Console.Write(' ');
+                }
+                Console.CursorTop = pos;
                 Console.Write(GetPromptTarget());
                 //Console.ForegroundColor = oldColor;
             }

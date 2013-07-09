@@ -7,8 +7,8 @@
     <ProjectGuid>{D66218D0-E532-4D70-B592-A59F3E02DB57}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VpNet.Examples</RootNamespace>
-    <AssemblyName>VpNet.Examples</AssemblyName>
+    <RootNamespace>VpNet.VpConsole</RootNamespace>
+    <AssemblyName>VpConsole</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -37,7 +37,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />

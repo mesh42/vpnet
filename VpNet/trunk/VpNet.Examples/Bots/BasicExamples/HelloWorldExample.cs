@@ -23,7 +23,7 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     public class HelloWorldExample
     {

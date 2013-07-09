@@ -24,9 +24,9 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
-using System.ComponentModel.Composition;
+using Attribute = VpNet.VpConsole.Attribute;
 
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     /// <summary>
     /// This example shows how to pass your own Avatar object type to a VP Instance using templating.

@@ -23,7 +23,7 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-namespace VpNet.Examples.Gui
+namespace VpNet.VpConsole.Gui
 {
     public enum ConsoleMessageType
     {

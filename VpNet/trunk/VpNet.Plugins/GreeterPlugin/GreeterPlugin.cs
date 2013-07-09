@@ -33,7 +33,7 @@ namespace VpNet.Plugins
     /// Example of plugin architecture using Microsoft .NET MEF Framework.
     /// </summary>
     [Export(typeof(BaseInstancePlugin))]
-    public class InstancePlugin : BaseInstancePlugin
+    public class GreeterPlugin : BaseInstancePlugin
     {
         /// <summary>
         /// Initializes the plugin as a child plugin of the main instance.
@@ -44,18 +44,14 @@ namespace VpNet.Plugins
         {
             Vp = new Instance(baseInstance);
             Vp.OnAvatarEnter += OnAvatarEnter;
-            Vp.OnAvatarLeave += OnAvatarLeave;
-
-        }
-
-        void OnAvatarLeave(Instance sender, AvatarLeaveEventArgsT<Avatar<Vector3>, Vector3> args)
-        {
-            
         }
 
         void OnAvatarEnter(Instance sender, AvatarEnterEventArgsT<Avatar<Vector3>, Vector3> args)
         {
-            Vp.ConsoleMessage(string.Format("{0} enters {1}.", args.Avatar.Name,sender.Configuration.World));
+            Vp.ConsoleMessage(
+                args.Avatar,"Immigration", 
+                string.Format("{0} welcome to {1}.",args.Avatar.Name,sender.Configuration.World.Name)
+                ,new Color(0,0,192),TextEffectTypes.Bold);
         }
 
         override public PluginDescription Description
@@ -64,10 +60,14 @@ namespace VpNet.Plugins
             {
                 return new PluginDescription()
                            {
-                               Name = "Greeter Bot",
+                               Name = "gbot",
                                Description = "This plugin greets people as they enter a world."
                            };
             }
+        }
+
+        public override void Unload()
+        {
         }
     }
 }

@@ -23,6 +23,8 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using VpNet.PluginFramework.Interfaces;
+
 namespace VpNet.PluginFramework
 {
     /// <summary>

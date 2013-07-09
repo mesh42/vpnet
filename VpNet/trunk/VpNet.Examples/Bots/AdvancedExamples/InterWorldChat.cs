@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     public class InterWorldChat{
         private readonly string _user;
