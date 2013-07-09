@@ -59,6 +59,43 @@ namespace VpNet.Extensions
         }
 
         /// <summary>
+        /// Saves / serializes the items to a specified file.
+        /// TODO: Update to .NET 4.5 Memory Mapped Files
+        /// </summary>
+        public static void Serialize<T>(this T o, FileInfo file)
+        {
+            var x = new XmlSerializer(typeof(T));
+            FileStream f = file.OpenWrite();
+            x.Serialize(f, o);
+            f.Close();
+        }
+
+        public static T Deserialize<T>(FileInfo file)
+            where T : new()
+        {
+            var x = new XmlSerializer(typeof(T));
+            using (FileStream f = file.OpenRead())
+            {
+                return (T)x.Deserialize(f);
+            }
+        }
+
+        /// <summary>
+        /// Saves / serializes the items to a specified file.
+        /// TODO: Update to .NET 4.5 Memory Mapped Files
+        /// </summary>
+        public static void Serialize<T>(this T o, string path)
+        {
+            Serialize(o, new FileInfo(path));
+        }
+
+        public static T Deserialize<T>(string path)
+            where T : new()
+        {
+            return Deserialize<T>(new FileInfo(path));
+        }
+
+        /// <summary>
         /// Copies public properties from another object into your own object. 
         /// Both objects must derive from the same abstact class.
         /// 
