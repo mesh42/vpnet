@@ -30,5 +30,6 @@ namespace VpNet.VpConsole.Gui
         Normal,
         Error,
         Information,
+        Event,
     }
 }
