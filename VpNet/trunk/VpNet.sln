@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vp-linux-centos-x86_64", "v
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.Plugins", "VpNet.Plugins\VpNet.Plugins.csproj", "{12ED368E-CB3A-426A-AD69-C1FDC69EF978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.VpConsole", "VpNet.Examples\VpNet.VpConsole.csproj", "{D66218D0-E532-4D70-B592-A59F3E02DB57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.VpConsole", "VpNet.VpConsole\VpNet.VpConsole.csproj", "{D66218D0-E532-4D70-B592-A59F3E02DB57}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
