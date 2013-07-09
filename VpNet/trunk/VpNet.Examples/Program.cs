@@ -24,36 +24,12 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
-using VpNet.Examples.Gui;
+using VpNet.Abstract;
 using VpNet.PluginFramework;
 using VpNet.Extensions;
+using VpNet.VpConsole.Gui;
 
-#region Copyright notice
-/*
-____   ___.__         __               .__    __________                        .__.__                
-\   \ /   |__________/  |_ __ _______  |  |   \______   _____ ____________    __| _|__| ______ ____   
- \   Y   /|  \_  __ \   __|  |  \__  \ |  |    |     ___\__  \\_  __ \__  \  / __ ||  |/  ____/ __ \  
-  \     / |  ||  | \/|  | |  |  // __ \|  |__  |    |    / __ \|  | \// __ \/ /_/ ||  |\___ \\  ___/  
-   \___/  |__||__|   |__| |____/(____  |____/  |____|   (____  |__|  (____  \____ ||__/____  >\___  > 
-                                     \/                      \/           \/     \/        \/     \/  
-    This file is part of VPNET Version 1.0
-
-    Copyright (c) 2012-2013 CUBE3 (Cit:36)
-
-    VPNET is free software: you can redistribute it and/or modify it under the terms of the 
-    GNU Lesser General Public License (LGPL) as published by the Free Software Foundation, either
-    version 2.1 of the License, or (at your option) any later version.
-
-    VPNET is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even
-    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the LGPL License
-    for more details.
-
-    You should have received a copy of the GNU Lesser General Public License (LGPL) along with VPNET.
-    If not, see <http://www.gnu.org/licenses/>. 
-*/
-#endregion
-
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     /// <summary>
     /// VpNet Examples Console Application.
@@ -65,7 +41,7 @@ namespace VpNet.Examples
         private static string _userName;
         private static string _password;
         private static string _world;
-        private static PluginDiscovery _pluginDiscovery;
+        private static HotSwapPlugins<BaseInstancePlugin> _plugins;
        
         /// <summary>
         /// Mains entry point of the VpNet Examples.
@@ -73,7 +49,7 @@ namespace VpNet.Examples
         /// <param name="args">The args.</param>
         static void Main(string[] args)
         {
-            _pluginDiscovery = new PluginDiscovery();
+            _plugins = new HotSwapPlugins<BaseInstancePlugin>();
             Console.Title = "Virtual Paradise Console";
             Console.CursorSize = 100;
             Console.SetWindowSize(120,40);
@@ -176,6 +152,7 @@ ____   ____.__         __               .__    __________                       
             {
                 Cli.WriteLine(ConsoleMessageType.Error, ex.Message);
                 Cli.ReadLine();
+                return;
             }
             Vp.UpdateAvatar();
             Cli.GetPromptTarget = WorldPrompt;
@@ -188,21 +165,17 @@ ____   ____.__         __               .__    __________                       
             switch (command)
             {
                 case "list plugins":
-                    foreach (var plugin in _pluginDiscovery.Plugins)
+                    foreach (var plugin in _plugins.Instances)
                     {
                         Cli.WriteLine(ConsoleMessageType.Information, plugin.Description.Name + "\t\t : " + plugin.Description.Description);
                     }
                     break;
                 case "load plugin":
-                    var  p = _pluginDiscovery.Plugins[0];
-                    p.InitializePlugin(Vp);
-                    p.Vp._avatars = Vp._avatars.Copy();
-
-                   
+                    
+                    _plugins.Instances[0].InitializePlugin(Vp);
+                    _plugins.Instances[0].Vp._avatars = Vp._avatars.Copy();
                     break;
-            }
-            
-            
+            }   
             Cli.ReadLine();
         }
 
@@ -213,6 +186,10 @@ ____   ____.__         __               .__    __________                       
 
         private static void RetryuniverseConnect(string yesno)
         {
+            if (yesno.ToLower() == "y")
+            {
+                Connect();
+            }
         }
 
         private static string WorldPrompt()
@@ -237,7 +214,7 @@ ____   ____.__         __               .__    __________                       
 
         private static string RetryPrompt()
         {
-            return "Retry (Y/N)";
+            return "Retry (Y/N): ";
         }
     }
 }

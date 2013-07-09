@@ -26,7 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System;
 using VpNet.Extensions;
 
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     /// <summary>
     /// The events example shows how to receive events from the world and universe server.

@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using VpNet.Abstract;
 
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     /// <summary>
     /// A custom RPG Avatar that adds attributes to the minimal Vp Avatar implementation.

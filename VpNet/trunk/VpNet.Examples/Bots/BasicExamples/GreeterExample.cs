@@ -25,7 +25,7 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     public class GreeterExample
     {

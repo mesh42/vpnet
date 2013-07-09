@@ -25,7 +25,7 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     /// <summary>
     /// This examples shows how to teleport an avatar and how to receive the Teleport event.

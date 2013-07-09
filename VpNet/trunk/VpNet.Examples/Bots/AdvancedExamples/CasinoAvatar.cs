@@ -24,11 +24,9 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using VpNet.Abstract;
 
-namespace VpNet.Examples
+namespace VpNet.VpConsole
 {
     /// <summary>
     /// A custom Casino Avatar that adds credits to the minimal Vp Avatar implementation.
