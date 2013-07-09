@@ -35,6 +35,9 @@
   <PropertyGroup>
     <ApplicationIcon>1373283311_118830.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>VpNet.VpConsole.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

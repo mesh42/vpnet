@@ -44,7 +44,7 @@ namespace VpNet.VpConsole
         private static string _world;
         private static HotSwapPlugins<BaseInstancePlugin> _plugins;
 
-        const string LoginconfigurationXmlPath = @".\loginConfiguration.xml";
+        const string LoginconfigurationXmlPath = @"loginConfiguration.xml";
        
         /// <summary>
         /// Mains entry point of the VpNet Examples.
@@ -55,8 +55,7 @@ namespace VpNet.VpConsole
             _plugins = new HotSwapPlugins<BaseInstancePlugin>();
             Console.Title = "Virtual Paradise Console";
             Console.CursorSize = 100;
-            Console.SetWindowSize(108,40);
-            Console.SetBufferSize(108,40);
+            Console.SetWindowSize(120,40);
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -69,7 +68,7 @@ ____   ____.__         __               .__    __________                       
                                       \/                       \/           \/      \/         \/     \/ 
 ");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("VPNET Console, copyright (c) 2012-2013 CUBE3 (Cit:36)\r\n");
+            Console.WriteLine("VPNET Console, copyright (c) 2012-2013 CUBE3 (Cit:36)\n");
             Connect();
         }
 
@@ -79,7 +78,7 @@ ____   ____.__         __               .__    __________                       
             try
             {
                 Vp.Connect();
-                Cli.WriteLine(ConsoleMessageType.Information, "Connected to universe.\r\n");
+                Cli.WriteLine(ConsoleMessageType.Information, "Connected to universe.\n");
                 if (File.Exists(LoginconfigurationXmlPath))
                 {
                     Cli.WriteLine(ConsoleMessageType.Information, "Autologin configuration enabled, attempting auto logon.");
@@ -89,7 +88,7 @@ ____   ____.__         __               .__    __________                       
                         Vp.Login(config.UserName, config.Password, config.BotName);
                         Vp.Enter(config.World.Name);
                         _world = config.World.Name;
-
+                        Vp.UpdateAvatar();
                         ProceedAfterLogin(true);
 
                     }
@@ -150,6 +149,7 @@ ____   ____.__         __               .__    __________                       
             Cli.WriteLine(ConsoleMessageType.Information, "Retrieving world list.\r\n");
             Vp.OnWorldList += Vp_OnWorldList;
             Vp.OnAvatarEnter += Vp_OnAvatarEnter;
+            Vp.OnAvatarLeave += Vp_OnAvatarLeave;
             Vp.UseAutoWaitTimer = true;
             Vp.ListWorlds();
             if (enteredWorld)
@@ -165,9 +165,14 @@ ____   ____.__         __               .__    __________                       
             Cli.ReadLine();
         }
 
+        static void Vp_OnAvatarLeave(Instance sender, AvatarLeaveEventArgsT<Avatar<Vector3>, Vector3> args)
+        {
+            Cli.WriteLine(ConsoleMessageType.Event, "   *** " + args.Avatar.Name + " left.");
+        }
+
         static void Vp_OnAvatarEnter(Instance sender, AvatarEnterEventArgsT<Avatar<Vector3>, Vector3> args)
         {
-            Cli.WriteLine(ConsoleMessageType.Information,"   -> " + args.Avatar.Name + " enters.");
+            Cli.WriteLine(ConsoleMessageType.Event, "   *** " + args.Avatar.Name + " enters.");
         }
 
         static string EnterWorldPrompt()
@@ -208,7 +213,7 @@ ____   ____.__         __               .__    __________                       
                     break;
                 case "enter":
                     Vp.Leave();
-                    Cli.GetPromptTarget = WorldPrompt;
+                    Cli.GetPromptTarget = EnterWorldPrompt;
                     Cli.ParseCommandLine = ProcessEnterWorld;
                     break;
                 case "list plugins":
@@ -228,7 +233,7 @@ ____   ____.__         __               .__    __________                       
 
         static void Vp_OnWorldList(Instance sender, WorldListEventArgs args)
         {
-            Cli.WriteLine(ConsoleMessageType.Information,"   -> " + args.World.Name + " (" + args.World.UserCount + " users)");
+            Cli.WriteLine(ConsoleMessageType.Event,"   -> " + args.World.Name + " (" + args.World.UserCount + " users)");
         }
 
         private static void RetryuniverseConnect(string yesno)

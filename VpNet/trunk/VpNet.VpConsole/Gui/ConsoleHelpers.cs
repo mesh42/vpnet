@@ -131,11 +131,14 @@ namespace VpNet.VpConsole.Gui
             if (Console.CursorTop >= Console.WindowHeight-1 /* Console.WindowHeight - 1*/)
             {
                 //Console.MoveBufferArea(0, 1, Console.WindowWidth, Console.WindowHeight - 1, 0, 0);
-                Console.MoveBufferArea(0, 1, 120, 40 - 1, 0, 0);
+               // Console.MoveBufferArea(0, 1, Console.BufferWidth, Console.BufferHeight - 1, 0, 0);
+                Console.WriteLine();
+                //Console.CursorTop = Console.WindowHeight;
                 return;
             }
             if (Console.CursorTop != Console.WindowHeight-1)
-                Console.CursorTop++;
+                Console.WriteLine();
+               // Console.CursorTop--;
 
         }
 
@@ -182,7 +185,7 @@ namespace VpNet.VpConsole.Gui
                         break;
                 }
 
-                if (keyInfo.KeyChar == 13 && KeyBufferToString() != string.Empty)
+                if ((keyInfo.KeyChar == 13 || keyInfo.KeyChar==10) && KeyBufferToString() != string.Empty)
                 {
                     string commandLine = string.Empty;
                     commandLine = KeyBufferToString();
@@ -194,8 +197,10 @@ namespace VpNet.VpConsole.Gui
                     ParseCommandLine(commandLine);
                     return;
                 }
-                if (keyInfo.KeyChar != 13 && (keyInfo.KeyChar > 31 && keyInfo.KeyChar < 127))
+                if ((keyInfo.KeyChar != 13 && keyInfo.KeyChar !=10) && (keyInfo.KeyChar > 31 && keyInfo.KeyChar < 127))
                 {
+                    var oldcolor = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     keyBuffer.Add(keyInfo.KeyChar);
                     if (!IsMaskedInput)
                         Console.Write(keyInfo.KeyChar);
@@ -203,6 +208,8 @@ namespace VpNet.VpConsole.Gui
                     {
                         Console.Write('*');
                     }
+                    Console.ForegroundColor = oldcolor;
+
                 }
                 else
                 {
@@ -232,9 +239,11 @@ namespace VpNet.VpConsole.Gui
                 case ConsoleMessageType.Normal:
                     return ConsoleColor.Gray;
                 case ConsoleMessageType.Information:
-                    break;
+                    return ConsoleColor.White;
                 case ConsoleMessageType.Error:
                     return ConsoleColor.Red;
+                case ConsoleMessageType.Event:
+                    return ConsoleColor.Cyan;
             }
             return ConsoleColor.Gray;
         }
