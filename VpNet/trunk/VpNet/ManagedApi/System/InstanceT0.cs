@@ -79,6 +79,7 @@ namespace VpNet
         public Instance()
         {
             Implementor = this;
+            Avatars();
         }
 
         public Instance(BaseInstanceEvents<World> parentInstance)

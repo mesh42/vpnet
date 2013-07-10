@@ -179,9 +179,10 @@ namespace VpNet.Abstract
         private readonly Dictionary<int, TVpObject> _objectReferences = new Dictionary<int, TVpObject>();
         private Timer _waitTimer;
 
+        private Dictionary<int, TAvatar> _avatars;
+
         public T Implementor { get; set; }
 
-        public Dictionary<int, TAvatar> _avatars;
         Dictionary<string, TWorld> _worlds; 
 
         private bool _useAutoWaitTimer;
@@ -241,7 +242,8 @@ namespace VpNet.Abstract
         {
             Universe = new TUniverse();
             World = new TWorld();
-            _avatars = new Dictionary<int, TAvatar>();
+            ((IAvatarFunctions<TResult, TAvatar, TVector3>) this).Avatars = new Dictionary<int, TAvatar>();
+            _avatars =  ((IAvatarFunctions<TResult, TAvatar, TVector3>) this).Avatars;
             _worlds = new Dictionary<string, TWorld>();
             _isInitialized = true;
         }
@@ -276,6 +278,7 @@ namespace VpNet.Abstract
         {
             _instance = parentInstance._instance;
             Init();
+            _avatars = ((IAvatarFunctions<TResult, TAvatar, TVector3>) parentInstance).Avatars.Copy();
             Configuration = parentInstance.Configuration;
             Configuration.IsChildInstance = true;
             parentInstance.OnChatNativeEvent += OnChatNative;
@@ -1441,6 +1444,12 @@ namespace VpNet.Abstract
 
         #endregion
 
-      
+
+
+        #region Implementation of IAvatarFunctions<out TResult,TAvatar,in TVector3>
+
+        Dictionary<int, TAvatar> IAvatarFunctions<TResult, TAvatar, TVector3>.Avatars { get; set; }
+
+        #endregion
     }
 }
