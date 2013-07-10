@@ -23,6 +23,7 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
 using VpNet.Abstract;
 using VpNet.PluginFramework;
 
@@ -66,6 +67,7 @@ namespace VpNet.Plugins
 
         public override void Unload()
         {
+            Vp.OnAvatarEnter -= OnAvatarEnter;
         }
     }
 }

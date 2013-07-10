@@ -28,6 +28,7 @@ using System.IO;
 using VpNet.Abstract;
 using VpNet.PluginFramework;
 using VpNet.Extensions;
+using VpNet.PluginFramework.Interfaces;
 using VpNet.VpConsole.Gui;
 
 namespace VpNet.VpConsole
@@ -53,6 +54,7 @@ namespace VpNet.VpConsole
         static void Main(string[] args)
         {
             _plugins = new HotSwapPlugins<BaseInstancePlugin>();
+            _plugins.OnPluginUnloaded += _plugins_OnPluginUnloaded;
             Console.Title = "Virtual Paradise Console";
             Console.CursorSize = 100;
             Console.SetWindowSize(120,40);
@@ -70,6 +72,13 @@ ____   ____.__         __               .__    __________                       
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("VPNET Console, copyright (c) 2012-2013 CUBE3 (Cit:36)\n");
             Connect();
+        }
+
+        static void _plugins_OnPluginUnloaded(HotSwapPlugins<BaseInstancePlugin> sender, PluginUnloadedArguments<BaseInstancePlugin> args)
+        {
+            args.NewInstance.InitializePlugin(Vp);
+            //args.NewInstance.Vp._avatars = Vp._avatars.Copy();
+            _plugins.Activate(args.NewInstance);
         }
 
         private static void Connect()
@@ -223,10 +232,19 @@ ____   ____.__         __               .__    __________                       
                     }
                     break;
                 case "load plugin":
-                    
                     _plugins.Instances[0].InitializePlugin(Vp);
-                    _plugins.Instances[0].Vp._avatars = Vp._avatars.Copy();
+                    //_plugins.Instances[0].Vp._avatars = Vp._avatars.Copy();
+                    _plugins.Activate(_plugins.Instances[0]);
                     break;
+                default:
+                    // check if
+                    foreach (var plugin in _plugins.ActivePlugins())
+                    {
+                        if (plugin.HandleConsoleInput(Cli, command))
+                            break;
+                    }
+                    break;
+
             }   
             Cli.ReadLine();
         }

@@ -26,6 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using VpNet.PluginFramework.Interfaces;
 
@@ -57,6 +58,11 @@ namespace VpNet.PluginFramework
         {
             if (!_activePlugins.Contains(plugin))
                 _activePlugins.Add(plugin);
+        }
+
+        public List<T> ActivePlugins()
+        {
+            return _activePlugins.ToList();
         }
 
         public void Deactivate(T plugin)

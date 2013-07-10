@@ -25,11 +25,11 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 using System.Collections.Generic;
+using VpNet.PluginFramework.Interfaces;
 
 namespace VpNet.VpConsole.Gui
 {
-
-    public sealed class ConsoleHelpers 
+    public sealed class ConsoleHelpers : IConsole
     {
         public ConsoleColor BackgroundColor
         {
