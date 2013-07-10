@@ -36,32 +36,52 @@ namespace VpNet.PluginFramework
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class HotSwapPlugins<T>
-        where T : class
+        where T : class, IPlugin
     {
         private readonly string _pluginPath;
         private List<Assembly> _assemblies;
-        private List<T> _instances; 
+        private List<T> _instances;
+        private FileSystemWatcher _watcher;
+        private List<T> _activePlugins; 
 
-        public HotSwapPlugins(string pluginPath = @".\")
+        public HotSwapPlugins()
         {
-            _pluginPath = pluginPath;
+            _pluginPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             _instances = new List<T>();
+            _activePlugins = new List<T>();
             _assemblies = new List<Assembly>();
             Discover();
         }
 
+        public void Activate(T plugin)
+        {
+            if (!_activePlugins.Contains(plugin))
+                _activePlugins.Add(plugin);
+        }
+
+        public void Deactivate(T plugin)
+        {
+            if (!_activePlugins.Contains(plugin))
+            {
+                _activePlugins.Remove(plugin);
+            }
+            plugin.Unload();
+            plugin.Dispose();
+        } 
+
         public List<T> Instances
         {
-             get { return _instances; }
+            get { return _instances; }
         }
 
         private void Discover()
         {
             Assembly assembly;
-            var files = Directory.GetFiles(_pluginPath, "*.dll");
-            foreach (string file in files)
+            DirectoryInfo di = new DirectoryInfo(_pluginPath);
+            var files = di.GetFiles();
+            foreach (var file in files)
             {
-                byte[] bytes = File.ReadAllBytes(file);
+                byte[] bytes = File.ReadAllBytes(file.FullName);
                 try
                 {
                     assembly = Assembly.Load(bytes);
@@ -74,7 +94,7 @@ namespace VpNet.PluginFramework
                 foreach (var type in assembly.GetTypes())
                 {
                     if (!type.IsClass || type.IsNotPublic) continue;
-                    if (type.BaseType == typeof(T))
+                    if (type.BaseType == typeof (T))
                     {
                         if (!isAdded)
                         {
@@ -85,6 +105,83 @@ namespace VpNet.PluginFramework
                     }
                 }
             }
+            _watcher = new FileSystemWatcher(_pluginPath, "*.dll");
+            _watcher.Changed += new FileSystemEventHandler(WatcherChanged);
+            _watcher.EnableRaisingEvents = true;
         }
+
+        private int _changed = 0;
+
+        private void WatcherChanged(object sender, FileSystemEventArgs e)
+        {
+            if (e.ChangeType != WatcherChangeTypes.Changed)
+                return;
+
+            _changed++; // somehow watcher gets called twice.
+            if (_changed == 1)
+                return;
+
+            _changed = 0;
+            System.Threading.Thread.Sleep(500);
+            Assembly assembly;
+            byte[] bytes = File.ReadAllBytes(e.FullPath);
+            try
+            {
+                assembly = Assembly.Load(bytes);
+            }
+            catch
+            {
+                // not a valid .net dll.
+                return;
+            }
+            foreach (var type in assembly.GetTypes())
+            {
+                if (!type.IsClass || type.IsNotPublic) continue;
+                if (type.BaseType == typeof(T))
+                {
+                    var newInstance = Activator.CreateInstance(type) as T;
+                    foreach (var instance in _instances.FindAll(p=>p.Description.Name == newInstance.Description.Name))
+                    {
+                        if (_activePlugins.Contains(instance))
+                        {
+                            _activePlugins.Remove(instance);
+                            instance.Unload();
+                            _instances.Remove(instance);
+                            _instances.Add(newInstance);
+                            instance.Dispose();
+                            OnPluginUnloaded(this, new PluginUnloadedArguments<T>()
+                            {
+                                NewInstance = newInstance,
+                            });
+                        }
+                        else
+                        {
+                            _instances.Remove(instance);
+                            _instances.Add(newInstance);
+                            instance.Dispose();
+                        }
+                    }
+                }
+            }
+            _assemblies.RemoveAll(p => p.FullName == assembly.FullName);
+            _assemblies.Add(assembly);
+        }
+
+        public void Dispose()
+        {
+            _watcher.EnableRaisingEvents = false;
+            _watcher.Dispose();
+        }
+
+        public delegate void PluginUnloadedDelegate(HotSwapPlugins<T> sender, PluginUnloadedArguments<T> args);
+        /// <summary>
+        /// Occurs when an active plugin got unloaded and replaced by a newer version of the plugin.
+        /// </summary>
+        public event PluginUnloadedDelegate OnPluginUnloaded;
+    }
+
+    public class PluginUnloadedArguments<T>
+    {
+        public T NewInstance { get; set; }
     }
 }

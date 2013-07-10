@@ -31,11 +31,17 @@ namespace VpNet.Interfaces
     /// <typeparam name="TRc">The type of the result code object.</typeparam>
     /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
     /// <typeparam name="TVector3">The type of vector3.</typeparam>
-    public interface IAvatarFunctions<out TRc, in TAvatar, in TVector3>
+    public interface IAvatarFunctions<out TRc, TAvatar, in TVector3>
         where TRc : class, IRc, new()
         where TAvatar : class, IAvatar<TVector3>,new()
         where TVector3 : struct, IVector3
     {
+        /// <summary>
+        /// Gets or sets the Avatars
+        /// </summary>
+        /// <value>
+        /// </value>
+        Dictionary<int, TAvatar> Avatars { get; set; }
         /// <summary>
         /// Announce your bot at a given location.
         /// </summary>
