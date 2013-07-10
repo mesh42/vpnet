@@ -48,6 +48,11 @@ namespace VpNet.Abstract
             
         }
 
+        public virtual bool HandleConsoleInput(IConsole console, string input)
+        {
+            return false;
+        }
+
         public virtual void Dispose()
         {
 

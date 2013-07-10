@@ -120,6 +120,8 @@
     <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IUniverseFunctions.cs" />
     <Compile Include="ManagedApi\System\Interfaces\IInstancePlugin.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\EventHelpers.cs" />
+    <Compile Include="ManagedApi\System\PluginFramework\ConsoleMessageType.cs" />
+    <Compile Include="ManagedApi\System\PluginFramework\Interfaces\IConsole.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\Interfaces\IPlugin.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\PluginDescription.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\HotSwapPlugins.cs" />

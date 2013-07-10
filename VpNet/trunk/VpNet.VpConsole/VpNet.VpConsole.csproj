@@ -54,7 +54,6 @@
     <Compile Include="Bots\BasicExamples\HelloWorldExample.cs" />
     <Compile Include="Bots\BasicExamples\TeleportExample.cs" />
     <Compile Include="Gui\ConsoleHelpers.cs" />
-    <Compile Include="Gui\ConsoleMessageType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
