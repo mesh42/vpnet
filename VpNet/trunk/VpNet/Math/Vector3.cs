@@ -63,8 +63,11 @@ namespace VpNet
 
         #region Public Fields
 
+        [XmlAttribute]
         public float X;
+        [XmlAttribute]
         public float Y;
+        [XmlAttribute]
         public float Z;
 
         #endregion Public Fields

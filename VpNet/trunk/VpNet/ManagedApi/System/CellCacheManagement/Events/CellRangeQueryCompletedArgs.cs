@@ -25,14 +25,18 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet
 {
+    [XmlRoot("CellRangeQuery",Namespace=Global.XmlNsEvent)]
     public class CellRangeQueryCompletedArgs<TVpObject,TVector3> : EventArgs 
         where TVector3 : struct, IVector3
         where TVpObject: class, IVpObject<TVector3>, new()
     {
+        [XmlArray("VpObjects")]
+        [XmlArrayItem("VpObject")]
         public List<TVpObject> VpObjects { get; set; }
         public CellRangeQueryCompletedArgs(){}
 
