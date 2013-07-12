@@ -124,6 +124,7 @@ namespace VpNet.Abstract
         private List<TCell> _cacheScanned;
         private bool _useCellCache;
         private bool _autowaitWasUsed;
+        private List<TCell> _cacheScanning;
 
         public int Cells { 
             get { return _cache.Count(); }
@@ -143,6 +144,7 @@ namespace VpNet.Abstract
                     _objects = new List<TVpObject>();
                     _cache = new List<TCell>();
                     _cacheScanned = new List<TCell>();
+                    _cacheScanning = new List<TCell>();
 
                     OnQueryCellResult += BaseInstanceT_CellCache_OnQueryCellResult;
                     OnQueryCellEnd += BaseInstanceT_CellCache_OnQueryCellEnd;
@@ -177,7 +179,7 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
-                _cache.RemoveAll(p => p.X == args.Cell.X && p.Z == args.Cell.Z);
+                _cacheScanning.RemoveAll(p => p.X == args.Cell.X && p.Z == args.Cell.Z);
                 _cacheScanned.Add(args.Cell);
                 if (_cache.Count == 0)
                 {
@@ -188,10 +190,11 @@ namespace VpNet.Abstract
                 }
                 else
                 {
+                    _cacheScanning.Add(_cache[0]);
                     QueryCell(_cache[0].X, _cache[0].Z);
+                    _cache.RemoveAt(0);
                 }
             }
-
         }
 
         void BaseInstanceT_CellCache_OnQueryCellResult(T sender, TQueryCellResultArgs args)
@@ -232,7 +235,14 @@ namespace VpNet.Abstract
                     if (!_isScanning)
                     {
                         _isScanning = true;
-                        QueryCell(_cache[0].X, _cache[0].Z);
+                        for (int i = 0; i < 64; i++)
+                        {
+                            if (_cache.Count == 0)
+                                break;
+                            _cacheScanning.Add(_cache[0]);
+                            QueryCell(_cache[0].X, _cache[0].Z);
+                            _cache.Remove(_cache[0]);
+                        }
                         UseAutoWaitTimer = false;
                     }
                 }
