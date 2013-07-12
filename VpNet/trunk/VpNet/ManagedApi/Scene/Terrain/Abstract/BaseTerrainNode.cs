@@ -56,27 +56,27 @@ namespace VpNet.Abstract
             Z        = Functions.vp_int(pointer, Attributes.TerrainNodeZ);
             Revision = Functions.vp_int(pointer, Attributes.TerrainNodeRevision);
             var data = Functions.GetData(pointer, Attributes.TerrainNodeData);
-            Cells    = DataConverters.TerrainNodeData<TTerrainCell>(data);
+            Cells    = DataConverters.NodeDataTo2DArray<TTerrainCell>(data);
         }
 
         /// <summary>
-        /// Gets or sets a TerrainCell value based on one-dimensional index, in column-major
-        /// order (e.g. TerrainNode[5] = col 0, row 5)
+        /// Gets or sets a TerrainCell value based on one-dimensional index, in X-major
+        /// order (e.g. TerrainNode[5] = col 5, row 0 or X5 Z0)
         /// </summary>
         public TTerrainCell this[int i]
         {
             get
             {
-                var row = i % 8;
-                var col = (i - row) / 8;
-                return this[col, row];
+                var x = i % 8;
+                var z = (i - x) / 8;
+                return this[x, z];
             }
 
             set
             {
-                var row = i % 8;
-                var col = (i - row) / 8;
-                this[col, row] = value;
+                var x = i % 8;
+                var z = (i - x) / 8;
+                this[x, z] = value;
             }
         }
 

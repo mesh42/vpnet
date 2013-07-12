@@ -58,16 +58,16 @@ namespace VpNet.Abstract
         {
             get
             {
-                var row = i % 4;
-                var col = (i - row) / 4;
-                return this[col, row];
+                var x = i % 4;
+                var z = (i - x) / 4;
+                return this[x, z];
             }
 
             set
             {
-                var row = i % 4;
-                var col = (i - row) / 4;
-                this[col, row] = value;
+                var x = i % 4;
+                var z = (i - x) / 4;
+                this[x, z] = value;
             }
         }
 

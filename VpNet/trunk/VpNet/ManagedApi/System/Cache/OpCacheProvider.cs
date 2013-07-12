@@ -40,7 +40,8 @@ namespace VpNet.Cache
         private readonly string _localPath;
         private readonly string _modelPath;
         private readonly string _remoteModelPath;
-        public Dictionary<string, Task> _tasks;  
+        public Dictionary<string, Task> _tasks;
+        private Dictionary<string, string> _modelData; 
 
         public OpCacheProvider(string objectPath, string localPath)
         {
@@ -49,6 +50,7 @@ namespace VpNet.Cache
             _localPath = localPath;
             _modelPath = Path.Combine(localPath, "models");
             _remoteModelPath = _objectPath + "/models/";
+            _modelData = new Dictionary<string, string>();
             if (!Directory.Exists(_modelPath))
             {
                 Directory.CreateDirectory(_modelPath);
@@ -57,10 +59,17 @@ namespace VpNet.Cache
 
         public Task GetModelDataAsync(string name, ModelDataDelegate callback)
         {
+            name = Path.GetFileNameWithoutExtension(name);
             Task t = null;
-            t = Task.Factory.StartNew(() => Download(name, callback, t));
-          //  t = new Task(() => Download(name,callback,t));
-          //  t.Start();
+            if (_modelData.ContainsKey(name))
+            {
+                callback(new ModelData() { Data = _modelData[name], Name = name });
+            }
+            else
+            {
+                t = Task.Factory.StartNew(() => Download(name, callback, t));
+
+            }
             return t;
         }
 
@@ -115,6 +124,8 @@ namespace VpNet.Cache
                         {
                             _tasks.Remove(name);
                         }
+                        if (!_modelData.ContainsKey(name))
+                            _modelData.Add(name,data);
                         callback(new ModelData { Data = data, Name = name });
                     }
                 }

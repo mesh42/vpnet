@@ -86,7 +86,7 @@ namespace VpNet.Extensions
         /// </summary>
         public static void Serialize<T>(this T o, string path)
         {
-            Serialize(o, new FileInfo(path));
+            Serialize(o, false, true).SaveTextFile(path);
         }
 
         public static T Deserialize<T>(string path)

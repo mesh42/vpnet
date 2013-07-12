@@ -7,6 +7,7 @@ namespace VpNet.Interfaces
     /// VpObject templated interface specifications.
     /// </summary>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
+    [XmlRoot("vpObject", Namespace = Global.XmlNsScene)]
     public interface IVpObject<TVector3>
         where TVector3 : struct, IVector3
     {

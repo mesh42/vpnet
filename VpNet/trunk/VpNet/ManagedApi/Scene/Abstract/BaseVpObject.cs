@@ -30,6 +30,7 @@ using VpNet.Interfaces;
 namespace VpNet.Abstract
 {
     [Serializable]
+    [XmlRoot("vpObject", Namespace = Global.XmlNsScene)]
     public abstract class BaseVpObject<TVector3> : IVpObject<TVector3>
         where TVector3 : struct, IVector3
     {

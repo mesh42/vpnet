@@ -48,7 +48,7 @@ namespace VpNet.Abstract
             
         }
 
-        public virtual bool HandleConsoleInput(IConsole console, string input)
+        public virtual bool HandleConsoleInput(IConsole console, string[] args)
         {
             return false;
         }
