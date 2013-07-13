@@ -92,7 +92,24 @@ namespace VpNet.Extensions
         public static T Deserialize<T>(string path)
             where T : new()
         {
-            return Deserialize<T>(new FileInfo(path));
+            return deserialize<T>(new FileInfo(path));
+        }
+
+        private static T deserialize<T>(FileInfo file)
+        {
+            var x = new XmlSerializer(typeof(T));
+            using (var f = file.OpenText())
+            {
+                var xml = f.ReadToEnd();
+                using (var StrReader = new StringReader(xml))
+                {
+                    var Xml_Serializer = new XmlSerializer(typeof (T));
+                    using (var XmlReader = new XmlTextReader(StrReader))
+                    {
+                        return (T) Xml_Serializer.Deserialize(XmlReader);
+                    }
+                }
+            }
         }
 
         /// <summary>
