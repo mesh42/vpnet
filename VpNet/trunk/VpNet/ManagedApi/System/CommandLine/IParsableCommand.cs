@@ -23,10 +23,12 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using VpNet.PluginFramework;
+
 namespace VpNet.CommandLine
 {
-    public interface IParsableCommand
+    public interface IParsableCommand<TExecutionContext>
     {
-        bool Execute(Instance vp);
+        bool Execute(TExecutionContext executionContext);
     }
 }

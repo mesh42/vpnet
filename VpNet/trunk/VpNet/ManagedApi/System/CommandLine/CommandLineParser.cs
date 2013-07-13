@@ -32,16 +32,16 @@ using VpNet.CommandLine.Attributes;
 
 namespace VpNet.ManagedApi.System.CommandLine
 {
-    public class CommandLineParser
+    public class CommandLineParser<TExecutionContext>
     {
         private string[] _args;
 
-        public IParsableCommand Parse(string commandLine)
+        public IParsableCommand<TExecutionContext> Parse(string commandLine)
         {
-            IParsableCommand cmd = null;
+            IParsableCommand<TExecutionContext> cmd = null;
             // convert string[] args to simulate console input type style
             _args = (from object match in Regex.Matches(commandLine, @"([^\s]*""[^""]+""[^\s]*)|\w+") select match.ToString()).ToArray();
-            var types = Assembly.GetCallingAssembly().GetTypes().Where(x => x.GetInterface(typeof(IParsableCommand).ToString()) != null);
+            var types = Assembly.GetCallingAssembly().GetTypes().Where(x => x.GetInterface(typeof(IParsableCommand<TExecutionContext>).ToString()) != null);
             foreach (var type in types)
             {
                 var b = type.GetCustomAttributes(typeof (CommandAttribute), false);
@@ -51,7 +51,7 @@ namespace VpNet.ManagedApi.System.CommandLine
                     if (a.Literal == _args[0].ToLower())
                     {
                         // process the command.
-                        cmd = (IParsableCommand) Activator.CreateInstance(type);
+                        cmd = (IParsableCommand<TExecutionContext>) Activator.CreateInstance(type);
                         foreach (var prop in type.GetProperties())
                         {
                             var p = prop.GetCustomAttributes(typeof (CommandLineAttribute), true);

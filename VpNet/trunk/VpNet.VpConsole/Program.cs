@@ -24,11 +24,16 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using VpNet.Abstract;
+using VpNet.ManagedApi.System.CommandLine;
 using VpNet.PluginFramework;
 using VpNet.Extensions;
 using VpNet.PluginFramework.Interfaces;
+using VpNet.VpConsole.Commands;
 using VpNet.VpConsole.Gui;
 
 namespace VpNet.VpConsole
@@ -38,27 +43,27 @@ namespace VpNet.VpConsole
     /// </summary>
     class Program
     {
-        static readonly ConsoleHelpers Cli = new ConsoleHelpers();
+        static VpPluginContext _context = new VpPluginContext();
         static readonly Instance Vp = new Instance();
+        static ConsoleHelpers Cli = new ConsoleHelpers();
         private static string _userName;
         private static string _password;
         private static string _world;
-        private static HotSwapPlugins<BaseInstancePlugin> _plugins;
-
-        const string LoginconfigurationXmlPath = @"loginConfiguration.xml";
        
+
         /// <summary>
         /// Mains entry point of the VpNet Examples.
         /// </summary>
         /// <param name="args">The args.</param>
         static void Main(string[] args)
         {
-            _plugins = new HotSwapPlugins<BaseInstancePlugin>();
-            _plugins.OnPluginUnloaded += _plugins_OnPluginUnloaded;
+            _context.Cli = Cli;
+            _context.Plugins = new HotSwapPlugins<BaseInstancePlugin>();
+            _context.Plugins.OnPluginUnloaded += _plugins_OnPluginUnloaded;
             Console.Title = "Virtual Paradise Console";
             Console.CursorSize = 100;
             Console.SetWindowSize(120,40);
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            //Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(@"
@@ -78,7 +83,7 @@ ____   ____.__         __               .__    __________                       
         {
             args.NewInstance.InitializePlugin(Vp);
             //args.NewInstance.Vp._avatars = Vp._avatars.Copy();
-            _plugins.Activate(args.NewInstance);
+            _context.Plugins.Activate(args.NewInstance);
         }
 
         private static void Connect()
@@ -88,10 +93,10 @@ ____   ____.__         __               .__    __________                       
             {
                 Vp.Connect();
                 Cli.WriteLine(ConsoleMessageType.Information, "Connected to universe.\n");
-                if (File.Exists(LoginconfigurationXmlPath))
+                if (File.Exists(AutoLogin.LoginconfigurationXmlPath))
                 {
                     Cli.WriteLine(ConsoleMessageType.Information, "Autologin configuration enabled, attempting auto logon.");
-                    var config = SerializableExtensions.Deserialize<InstanceConfiguration<World>>(LoginconfigurationXmlPath);
+                    var config = SerializableExtensions.Deserialize<InstanceConfiguration<World>>(AutoLogin.LoginconfigurationXmlPath);
                     try
                     {
                         Vp.Login(config.UserName, config.Password, config.BotName);
@@ -210,42 +215,45 @@ ____   ____.__         __               .__    __________                       
 
         static void ProcessCommand(string command)
         {
-           
-            switch (command.ToLower())
+            // convert string[] args to simulate console input type style
+            var args = (from object match in Regex.Matches(command, @"([^\s]*""[^""]+""[^\s]*)|\w+") select match.ToString()).ToArray();
+            var result = _context.Cmd.Parse(command);
+            if (result == null)
             {
-                case "autologin enable":
-                    Vp.Configuration.Serialize(LoginconfigurationXmlPath);
-                    break;
-                case "autologin disable":
-                    if (File.Exists(LoginconfigurationXmlPath))
-                        File.Delete(LoginconfigurationXmlPath);
-                    break;
-                case "enter":
-                    Vp.Leave();
-                    Cli.GetPromptTarget = EnterWorldPrompt;
-                    Cli.ParseCommandLine = ProcessEnterWorld;
-                    break;
-                case "list plugins":
-                    foreach (var plugin in _plugins.Instances)
-                    {
-                        Cli.WriteLine(ConsoleMessageType.Information, plugin.Description.Name + "\t\t : " + plugin.Description.Description);
-                    }
-                    break;
-                case "load plugin":
-                    _plugins.Instances[0].InitializePlugin(Vp);
-                    //_plugins.Instances[0].Vp._avatars = Vp._avatars.Copy();
-                    _plugins.Activate(_plugins.Instances[0]);
-                    break;
-                default:
-                    // check if
-                    foreach (var plugin in _plugins.ActivePlugins())
-                    {
-                        if (plugin.HandleConsoleInput(Cli, command))
-                            break;
-                    }
-                    break;
+                switch (command.ToLower())
+                {
+                    case "enter":
+                        Vp.Leave();
+                        Cli.GetPromptTarget = EnterWorldPrompt;
+                        Cli.ParseCommandLine = ProcessEnterWorld;
+                        break;
+                    case "list plugins":
+                        foreach (var plugin in _context.Plugins.Instances)
+                        {
+                            Cli.WriteLine(ConsoleMessageType.Information,
+                                            plugin.Description.Name + "\t\t : " + plugin.Description.Description);
+                        }
+                        break;
+                    case "load plugin":
+                        _context.Plugins.Instances[0].Console = Cli;
+                        _context.Plugins.Instances[0].InitializePlugin(Vp);
+                        _context.Plugins.Activate(_context.Plugins.Instances[0]);
+                        break;
+                    default:
+                        // check if
+                        foreach (var plugin in _context.Plugins.ActivePlugins())
+                        {
+                            if (plugin.HandleConsoleInput(command))
+                                break;
+                        }
+                        break;
 
-            }   
+                }
+            }
+            else
+            {
+                result.Execute(_context);
+            }
             Cli.ReadLine();
         }
 
