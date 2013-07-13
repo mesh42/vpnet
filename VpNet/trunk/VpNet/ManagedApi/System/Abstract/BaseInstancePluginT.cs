@@ -35,6 +35,7 @@ namespace VpNet.Abstract
     {
         public abstract void InitializePlugin(BaseInstanceEvents<TWorld> baseInstance);
 
+        public IConsole Console { get; set; }
         public abstract PluginDescription Description {get;}
 
         public abstract void Unload();
@@ -48,7 +49,7 @@ namespace VpNet.Abstract
             
         }
 
-        public virtual bool HandleConsoleInput(IConsole console, string[] args)
+        public virtual bool HandleConsoleInput(string input)
         {
             return false;
         }

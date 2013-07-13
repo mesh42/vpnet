@@ -23,10 +23,11 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-namespace VpNet.CommandLine
+namespace VpNet.CommandLine.Attributes
 {
-    public interface IParsableCommand
+    [System.AttributeUsage(System.AttributeTargets.Property)]
+    public class LiteralAttribute : CommandLineAttribute
     {
-        bool Execute(Instance vp);
+        public string Value;
     }
 }
