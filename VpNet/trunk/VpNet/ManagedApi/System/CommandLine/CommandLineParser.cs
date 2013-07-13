@@ -38,11 +38,17 @@ namespace VpNet.ManagedApi.System.CommandLine
 
         public IParsableCommand<TExecutionContext> Parse(string commandLine)
         {
+            return Parse(commandLine, Assembly.GetCallingAssembly());
+        }
+
+        public IParsableCommand<TExecutionContext> Parse(string commandLine, Assembly assembly)
+        {
             IParsableCommand<TExecutionContext> cmd = null;
             // convert string[] args to simulate console input type style
             _args = (from object match in Regex.Matches(commandLine, @"([^\s]*""[^""]+""[^\s]*)|\w+") select match.ToString()).ToArray();
-            var types = Assembly.GetCallingAssembly().GetTypes().Where(x => x.GetInterface(typeof(IParsableCommand<TExecutionContext>).ToString()) != null);
-            foreach (var type in types)
+            foreach (var type  in from types in assembly.GetTypes() 
+                                  from @interface in types.GetInterfaces() 
+                                  where @interface.Name == typeof(IParsableCommand<TExecutionContext>).Name select types)
             {
                 var b = type.GetCustomAttributes(typeof (CommandAttribute), false);
                 if (b.Length == 1)
@@ -51,33 +57,69 @@ namespace VpNet.ManagedApi.System.CommandLine
                     if (a.Literal == _args[0].ToLower())
                     {
                         // process the command.
-                        cmd = (IParsableCommand<TExecutionContext>) Activator.CreateInstance(type);
+                        cmd = (IParsableCommand<TExecutionContext>)Activator.CreateInstance(type);
                         foreach (var prop in type.GetProperties())
                         {
-                            var p = prop.GetCustomAttributes(typeof (CommandLineAttribute), true);
+                            var p = prop.GetCustomAttributes(typeof(CommandLineAttribute), true);
                             if (p.Length == 1)
                             {
-                                if ((p[0].GetType() == typeof (BoolFlagAttribute)))
+                                if ((p[0].GetType() == typeof(BoolFlagAttribute)))
                                 {
-                                    if (_args.Contains(((BoolFlagAttribute) p[0]).True))
+                                    var boolFlag = (BoolFlagAttribute)p[0];
+                                    if (boolFlag.ArgumentIndex == -1)
                                     {
-                                        prop.SetValue(cmd, true, null);
-                                    }
-                                    else if (_args.Contains(((BoolFlagAttribute) p[0]).False))
-                                    {
-
+                                        if (_args.Contains(((BoolFlagAttribute)p[0]).True))
+                                        {
+                                            prop.SetValue(cmd, true, null);
+                                            continue;
+                                        }
+                                        else if (_args.Contains(((BoolFlagAttribute)p[0]).False))
+                                        {
+                                            continue;
+                                        }
                                     }
                                     else
                                     {
-                                        // exception if this boolean flag was mandatory.
+                                        prop.SetValue(cmd, _args[boolFlag.ArgumentIndex] == boolFlag.True, null);
+                                        continue;
                                     }
                                 }
+                                else if ((p[0].GetType() == typeof(NamedFlagAttribute)))
+                                {
+                                    var namedFlag = (NamedFlagAttribute) p[0];
+                                    if (namedFlag.ArgumentIndex == -1)
+                                    {
+                                        if (_args.Contains(namedFlag.Prefix + namedFlag.Literal))
+                                        {
+                                            prop.SetValue(cmd, true, null);
+                                            continue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (namedFlag.ArgumentIndex < _args.Length)
+                                        {
 
+                                            if (_args[namedFlag.ArgumentIndex] == namedFlag.Prefix + namedFlag.Literal)
+                                            {
+                                                prop.SetValue(cmd, true, null);
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if ((p[0].GetType() == typeof(LiteralAttribute)))
+                                {
+                                    var LiteralAttribute = (LiteralAttribute)p[0];
+                                    if (LiteralAttribute.ArgumentIndex==-1)
+                                        throw new Exception("Literal attributes need to contain an argument index.");
+                                    prop.SetValue(cmd,_args[LiteralAttribute.ArgumentIndex].Trim('"'),null);
+                                }
                             }
                         }
+                        break;
                     }
                 }
-                break;
             }
 
             return cmd;

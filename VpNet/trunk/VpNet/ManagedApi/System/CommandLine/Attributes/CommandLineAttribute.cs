@@ -28,6 +28,12 @@ namespace VpNet.CommandLine.Attributes
     public class CommandLineAttribute : System.Attribute
     {
         public bool Required { get; set; }
+        public int ArgumentIndex { get; set; }
         public string HelpDescription { get; set; }
+
+        public CommandLineAttribute()
+        {
+            ArgumentIndex = -1;
+        }
     }
 }
