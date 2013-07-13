@@ -90,6 +90,8 @@
     <Compile Include="ManagedApi\System\CommandLine\Attributes\BoolFlagAttribute.cs" />
     <Compile Include="ManagedApi\System\CommandLine\Attributes\CommandAttribute.cs" />
     <Compile Include="ManagedApi\System\CommandLine\Attributes\CommandLineAttribute.cs" />
+    <Compile Include="ManagedApi\System\CommandLine\Attributes\LiteralAttribute.cs" />
+    <Compile Include="ManagedApi\System\CommandLine\Attributes\NamedFlagAttribute.cs" />
     <Compile Include="ManagedApi\System\CommandLine\CommandLineParser.cs" />
     <Compile Include="ManagedApi\System\CommandLine\IParsableCommand.cs" />
     <Compile Include="ManagedApi\System\Exceptions\VpUniverseException.cs" />
