@@ -53,6 +53,8 @@
     <Compile Include="Bots\BasicExamples\GreeterExample.cs" />
     <Compile Include="Bots\BasicExamples\HelloWorldExample.cs" />
     <Compile Include="Bots\BasicExamples\TeleportExample.cs" />
+    <Compile Include="Commands\AutoLogin.cs" />
+    <Compile Include="Commands\Plugin.cs" />
     <Compile Include="Gui\ConsoleHelpers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

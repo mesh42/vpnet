@@ -26,6 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System;
 using System.Collections.Generic;
 using VpNet.PluginFramework.Interfaces;
+using VpNet.PluginFramework.Interfaces.IConsoleDelegate;
 
 namespace VpNet.VpConsole.Gui
 {
@@ -73,12 +74,10 @@ namespace VpNet.VpConsole.Gui
             }
         }
 
-
-        public delegate string GetPrompt();
         public GetPrompt GetPromptTarget { get; set; }
 
-        public ParseCommandLineDelegate ParseCommandLine;
-        public delegate void ParseCommandLineDelegate(string commandLine);
+        public ParseCommandLineDelegate ParseCommandLine { get; set; }
+     
 
         public static List<Char> keyBuffer = new List<char>();
 
@@ -349,5 +348,6 @@ namespace VpNet.VpConsole.Gui
         }
 
         #endregion
+
     }
 }
