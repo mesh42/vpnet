@@ -67,11 +67,12 @@ namespace VpNet.PluginFramework
 
         public void Deactivate(T plugin)
         {
-            if (!_activePlugins.Contains(plugin))
+            if (_activePlugins.Contains(plugin))
             {
                 _activePlugins.Remove(plugin);
             }
             plugin.Unload();
+            plugin.Console = null;
             plugin.Dispose();
         } 
 

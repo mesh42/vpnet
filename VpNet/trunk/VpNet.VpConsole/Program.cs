@@ -24,12 +24,8 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using VpNet.Abstract;
-using VpNet.ManagedApi.System.CommandLine;
 using VpNet.PluginFramework;
 using VpNet.Extensions;
 using VpNet.PluginFramework.Interfaces;
@@ -215,8 +211,9 @@ ____   ____.__         __               .__    __________                       
 
         static void ProcessCommand(string command)
         {
-            // convert string[] args to simulate console input type style
-            var args = (from object match in Regex.Matches(command, @"([^\s]*""[^""]+""[^\s]*)|\w+") select match.ToString()).ToArray();
+            // vp instance context is switchable (multiple instances in different worlds), therefore we need to provide it.
+            bool isHandled = false;
+            _context.Vp = Vp;
             var result = _context.Cmd.Parse(command);
             if (result == null)
             {
@@ -226,25 +223,25 @@ ____   ____.__         __               .__    __________                       
                         Vp.Leave();
                         Cli.GetPromptTarget = EnterWorldPrompt;
                         Cli.ParseCommandLine = ProcessEnterWorld;
+                        isHandled = true;
                         break;
                     case "list plugins":
                         foreach (var plugin in _context.Plugins.Instances)
                         {
                             Cli.WriteLine(ConsoleMessageType.Information,
-                                            plugin.Description.Name + "\t\t : " + plugin.Description.Description);
+                                            plugin.Description.Name.PadRight(20) + " : " + plugin.Description.Description);
                         }
-                        break;
-                    case "load plugin":
-                        _context.Plugins.Instances[0].Console = Cli;
-                        _context.Plugins.Instances[0].InitializePlugin(Vp);
-                        _context.Plugins.Activate(_context.Plugins.Instances[0]);
+                        isHandled = true;
                         break;
                     default:
-                        // check if
+                        // check if a plugin can handle the command.
                         foreach (var plugin in _context.Plugins.ActivePlugins())
                         {
                             if (plugin.HandleConsoleInput(command))
+                            {
+                                isHandled = true;
                                 break;
+                            }
                         }
                         break;
 
@@ -252,8 +249,10 @@ ____   ____.__         __               .__    __________                       
             }
             else
             {
-                result.Execute(_context);
+                isHandled = result.Execute(_context);
             }
+            if (!isHandled)
+                Cli.WriteLine(ConsoleMessageType.Error,"?Unkonwn Syntax Error.");
             Cli.ReadLine();
         }
 
