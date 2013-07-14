@@ -23,6 +23,8 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using VpNet.NativeApi;
+
 namespace VpNet.Interfaces
 {
     public interface IRc

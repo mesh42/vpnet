@@ -381,15 +381,23 @@ namespace VpNet.Abstract
         internal void OnUniverseDisconnectNative1(IntPtr instance) { lock (this) { OnUniverseDisconnectNativeEvent(instance); } }
         internal void OnTeleportNative1(IntPtr instance) { lock (this) { OnTeleportNativeEvent(instance); } }
 
+        private bool _isDisposing;
 
         ~BaseInstanceT()
         {
-            if (Configuration.IsChildInstance)
+            if (Configuration.IsChildInstance || _isDisposing)
                 return;
             if (_instance == IntPtr.Zero) return;
             lock (this)
             {
-                Functions.vp_destroy(_instance);
+                try
+                {
+                    Functions.vp_destroy(_instance);
+                }
+                catch
+                {
+                    // surpress not a valid instance pointer, _instance previously cleaned up.
+                }
             }
         }
 
@@ -1365,6 +1373,7 @@ namespace VpNet.Abstract
 
         public void Dispose()
         {
+            _isDisposing = true;
             if (_instance != IntPtr.Zero)
             {
                 if (Configuration.IsChildInstance)

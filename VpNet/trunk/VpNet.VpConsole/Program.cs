@@ -26,6 +26,8 @@ ____   ___.__         __               .__    __________                        
 using System;
 using System.IO;
 using VpNet.Abstract;
+using VpNet.ManagedApi.System.PluginFramework;
+using VpNet.NativeApi;
 using VpNet.PluginFramework;
 using VpNet.Extensions;
 using VpNet.PluginFramework.Interfaces;
@@ -40,7 +42,7 @@ namespace VpNet.VpConsole
     class Program
     {
         static VpPluginContext _context = new VpPluginContext();
-        static readonly Instance Vp = new Instance();
+        private static Instance Vp;
         static ConsoleHelpers Cli = new ConsoleHelpers();
         private static string _userName;
         private static string _password;
@@ -53,6 +55,7 @@ namespace VpNet.VpConsole
         /// <param name="args">The args.</param>
         static void Main(string[] args)
         {
+            Vp = new Instance();
             _context.Cli = Cli;
             _context.Plugins = new HotSwapPlugins<BaseInstancePlugin>();
             _context.Plugins.OnPluginUnloaded += _plugins_OnPluginUnloaded;
@@ -73,6 +76,40 @@ ____   ____.__         __               .__    __________                       
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("VPNET Console, copyright (c) 2012-2013 CUBE3 (Cit:36)\n");
             Connect();
+        }
+
+        /// <summary>
+        /// System wide exception handling.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        static void RcDefault_OnVpException(Interfaces.IRc sender, EventArgs args)
+        {
+            Cli.WriteLine(ConsoleMessageType.Error,sender.Exception.Message);
+            switch (sender.Exception.Reason)
+            {
+                case ReasonCode.NotInUniverse:
+                case ReasonCode.NotInWorld:
+                case ReasonCode.ConnectionError:
+                    // ignore any other exceptions (system wide)
+                    RcDefault.IgnoreExceptions = true;
+                    Vp.UseAutoWaitTimer = false;
+                    // turn of system wide exception handling.
+                    RcDefault.OnVpException -= RcDefault_OnVpException;
+                    // unload all active plugins
+                    foreach (var plugin in _context.Plugins.ActivePlugins())
+                    {
+                        _context.Plugins.Deactivate(plugin);
+                    }
+                    RcDefault.IgnoreExceptions = false;
+                    // attempt to reconnect
+                    Vp.Configuration.IsChildInstance = false;
+                    Vp.Dispose();
+                    Vp = new Instance();
+                    Connect();
+                    break;
+            }
         }
 
         static void _plugins_OnPluginUnloaded(HotSwapPlugins<BaseInstancePlugin> sender, PluginUnloadedArguments<BaseInstancePlugin> args)
@@ -123,8 +160,6 @@ ____   ____.__         __               .__    __________                       
             }
         }
 
-
-
         private static void ProcessUserName(string userName)
         {
             _userName = userName;
@@ -155,6 +190,9 @@ ____   ____.__         __               .__    __________                       
 
         static void ProceedAfterLogin(bool enteredWorld)
         {
+            // once logged in enable system wide exception handling.
+            RcDefault.OnVpException += RcDefault_OnVpException;
+
             Cli.WriteLine(ConsoleMessageType.Information, "Logged into universe server");
             Cli.WriteLine(ConsoleMessageType.Information, "Retrieving world list.\r\n");
             Vp.OnWorldList += Vp_OnWorldList;
