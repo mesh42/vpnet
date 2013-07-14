@@ -40,6 +40,11 @@ namespace VpNet.Abstract
 
         public static event VpExceptionDelegate OnVpException;
 
+        public bool IsHandledByEventSubsription
+        {
+            get { return OnVpException != null; }
+        }
+
         virtual public int Rc
         {
             get { return _rc; }
