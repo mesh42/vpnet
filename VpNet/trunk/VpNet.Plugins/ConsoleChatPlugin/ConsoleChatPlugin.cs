@@ -46,7 +46,6 @@ namespace VpNet.Plugins
             Vp.OnAvatarEnter += OnAvatarEnter;
             Vp.OnAvatarLeave += OnAvatarLeave;
             Vp.OnChatMessage += OnChatMessage;
-            Console.WriteLine(ConsoleMessageType.Information,"Console Chat Plugin initialized.");
         }
 
         void OnChatMessage(Instance sender, ChatMessageEventArgsT<Avatar<Vector3>, ChatMessage, Vector3, Color> args)
@@ -119,7 +118,6 @@ namespace VpNet.Plugins
             Vp.OnAvatarEnter -= OnAvatarEnter;
             Vp.OnAvatarLeave -= OnAvatarLeave;
             Vp.OnChatMessage -= OnChatMessage;
-            Console.WriteLine(ConsoleMessageType.Information, "Console Chat Plugin unloaded.");
         }
     }
 }

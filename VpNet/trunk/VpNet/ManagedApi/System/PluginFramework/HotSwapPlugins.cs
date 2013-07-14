@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using VpNet.ManagedApi.System.PluginFramework;
 using VpNet.PluginFramework.Interfaces;
 
 namespace VpNet.PluginFramework
@@ -71,8 +72,8 @@ namespace VpNet.PluginFramework
             {
                 _activePlugins.Remove(plugin);
             }
+            plugin.Console = new NullConsole(); 
             plugin.Unload();
-            plugin.Console = null;
             plugin.Dispose();
         } 
 

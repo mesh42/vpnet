@@ -55,9 +55,9 @@ namespace VpNet
             set
             {
                 _rc = value;
+                if (!IsHandledByEventSubsription && value != 0 && !IgnoreExceptions)
+                    throw Exception; 
                 base.Rc = value;
-                if (!IsHandledByEventSubsription && value != 0)
-                    throw Exception;
             }
         }
 

@@ -131,6 +131,7 @@
     <Compile Include="ManagedApi\System\PluginFramework\ConsoleMessageType.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\Interfaces\IConsole.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\Interfaces\IPlugin.cs" />
+    <Compile Include="ManagedApi\System\PluginFramework\NullConsole.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\VpPluginContext.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\PluginDescription.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\HotSwapPlugins.cs" />

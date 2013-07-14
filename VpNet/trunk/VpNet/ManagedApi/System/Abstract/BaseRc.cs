@@ -40,6 +40,8 @@ namespace VpNet.Abstract
 
         public static event VpExceptionDelegate OnVpException;
 
+        public static bool IgnoreExceptions { get; set; }
+
         public bool IsHandledByEventSubsription
         {
             get { return OnVpException != null; }
@@ -51,7 +53,7 @@ namespace VpNet.Abstract
             set
             {
                 _rc = value;
-                if (OnVpException != null)
+                if (value >0 && OnVpException != null && !IgnoreExceptions)
                     OnVpException(this, null);
             }
         }
