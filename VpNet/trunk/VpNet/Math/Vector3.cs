@@ -1,37 +1,31 @@
-#region License
+#region Copyright notice
 /*
-MIT License
-Copyright © 2006 The Mono.Xna Team
+____   ___.__         __               .__    __________                        .__.__                
+\   \ /   |__________/  |_ __ _______  |  |   \______   _____ ____________    __| _|__| ______ ____   
+ \   Y   /|  \_  __ \   __|  |  \__  \ |  |    |     ___\__  \\_  __ \__  \  / __ ||  |/  ____/ __ \  
+  \     / |  ||  | \/|  | |  |  // __ \|  |__  |    |    / __ \|  | \// __ \/ /_/ ||  |\___ \\  ___/  
+   \___/  |__||__|   |__| |____/(____  |____/  |____|   (____  |__|  (____  \____ ||__/____  >\___  > 
+                                     \/                      \/           \/     \/        \/     \/  
+    This file is part of VPNET Version 1.0
 
-All rights reserved.
+    Copyright (c) 2012-2013 CUBE3 (Cit:36)
 
-Authors:
- * Alan McGovern
+    VPNET is free software: you can redistribute it and/or modify it under the terms of the 
+    GNU Lesser General Public License (LGPL) as published by the Free Software Foundation, either
+    version 2.1 of the License, or (at your option) any later version.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    VPNET is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the LGPL License
+    for more details.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+    You should have received a copy of the GNU Lesser General Public License (LGPL) along with VPNET.
+    If not, see <http://www.gnu.org/licenses/>. 
 */
-#endregion License
+#endregion
 
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.Text;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using VpNet.Design;
@@ -44,24 +38,27 @@ namespace VpNet
     [TypeConverter(typeof(Vector3Converter))]
     public struct Vector3 : IEquatable<Vector3>, IVector3
     {
-        #region Private Fields
 
-        private static  Vector3 zero = new Vector3(0f, 0f, 0f);
-        private static  Vector3 one = new Vector3(1f, 1f, 1f);
-        private static  Vector3 unitX = new Vector3(1f, 0f, 0f);
-        private static  Vector3 unitY = new Vector3(0f, 1f, 0f);
-        private static  Vector3 unitZ = new Vector3(0f, 0f, 1f);
-        private static  Vector3 up = new Vector3(0f, 1f, 0f);
-        private static  Vector3 down = new Vector3(0f, -1f, 0f);
-        private static  Vector3 right = new Vector3(1f, 0f, 0f);
-        private static Vector3 left = new Vector3(-1f, 0f, 0f);
-        private static Vector3 forward = new Vector3(0f, 0f, -1f);
-        private static Vector3 backward = new Vector3(0f, 0f, 1f);
+        [XmlAttribute]
+        float IVector3.X
+        {
+            get { return X; }
+            set { X = value; }
+        }
 
-        #endregion Private Fields
+        [XmlAttribute]
+        float IVector3.Y
+        {
+            get { return Y; }
+            set { Y = value; }
+        }
 
-
-        #region Public Fields
+        [XmlAttribute]
+        float IVector3.Z
+        {
+            get { return Z; }
+            set { Z = value; }
+        }
 
         [XmlAttribute]
         public float X;
@@ -70,75 +67,93 @@ namespace VpNet
         [XmlAttribute]
         public float Z;
 
-        #endregion Public Fields
-
-
-        #region Properties
+        private static readonly Vector3 _zero;
+        private static readonly Vector3 _unitX = new Vector3(1f, 0f, 0f);
+        private static readonly Vector3 _unitY = new Vector3(0f, 1f, 0f);
+        private static readonly Vector3 _unitZ = new Vector3(0f, 0f, 1f);
+        private static readonly Vector3 _one = new Vector3(1f, 1f, 1f);
+        private static readonly Vector3 _min = new Vector3(float.MinValue);
+        private static readonly Vector3 _max = new Vector3(float.MaxValue);
+        private static readonly Vector3 _up = new Vector3(0f, 1f, 0f);
+        private static readonly Vector3 _down= new Vector3(0f, -1f, 0f);
+        private static readonly Vector3 _left = new Vector3(-1f, 0f, 0f);
+        private static readonly Vector3 _right = new Vector3(1f, 0f, 0f);
+        private static readonly Vector3 _forward= new Vector3(0f, 0f, -1f);
+        private static readonly Vector3 _backward= new Vector3(0f, 0f, 1f);
 
         public static Vector3 Zero
         {
-            get { return zero; }
+            get { return _zero; }
         }
 
         public static Vector3 One
         {
-            get { return one; }
+            get { return _one; }
         }
 
         public static Vector3 UnitX
         {
-            get { return unitX; }
+            get { return _unitX; }
         }
 
         public static Vector3 UnitY
         {
-            get { return unitY; }
+            get { return _unitY; }
         }
 
         public static Vector3 UnitZ
         {
-            get { return unitZ; }
+            get { return _unitZ; }
         }
 
         public static Vector3 Up
         {
-            get { return up; }
+            get { return _up; }
         }
 
         public static Vector3 Down
         {
-            get { return down; }
+            get { return _down; }
         }
 
         public static Vector3 Right
         {
-            get { return right; }
+            get { return _right; }
         }
 
         public static Vector3 Left
         {
-            get { return left; }
+            get { return _left; }
         }
 
         public static Vector3 Forward
         {
-            get { return forward; }
+            get { return _forward; }
         }
 
         public static Vector3 Backward
         {
-            get { return backward; }
+            get { return _backward; }
         }
 
-        #endregion Properties
 
-
-        #region Constructors
 
         public Vector3(float x, float y, float z)
         {
             this.X = x;
             this.Y = y;
+            this.Z = z;
+        }
+
+        public Vector3(float value)
+        {
+            this.X = this.Y = this.Z = value;
+        }
+
+        public Vector3(Vector2 value, float z)
+        {
+            this.X = value.X;
+            this.Y = value.Y;
             this.Z = z;
         }
 
@@ -161,565 +176,867 @@ namespace VpNet
 
         }
 
-
-        public Vector3(float value)
+        public override string ToString()
         {
-            this.X = value;
-            this.Y = value;
-            this.Z = value;
-        }
-
-
-        public Vector3(Vector2 value, float z)
-        {
-            this.X = value.X;
-            this.Y = value.Y;
-            this.Z = z;
-        }
-
-
-        #endregion Constructors
-
-
-        #region Public Methods
-
-        public static Vector3 Add(Vector3 value1, Vector3 value2)
-        {
-            value1.X += value2.X;
-            value1.Y += value2.Y;
-            value1.Z += value2.Z;
-            return value1;
-        }
-
-        public static void Add(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
-        {
-            result.X = value1.X + value2.X;
-            result.Y = value1.Y + value2.Y;
-            result.Z = value1.Z + value2.Z;
-        }
-
-        public static Vector3 Barycentric(Vector3 value1, Vector3 value2, Vector3 value3, float amount1, float amount2)
-        {
-            return new Vector3(
-                MathHelper.Barycentric(value1.X, value2.X, value3.X, amount1, amount2),
-                MathHelper.Barycentric(value1.Y, value2.Y, value3.Y, amount1, amount2),
-                MathHelper.Barycentric(value1.Z, value2.Z, value3.Z, amount1, amount2));
-        }
-
-        public static void Barycentric(ref Vector3 value1, ref Vector3 value2, ref Vector3 value3, float amount1, float amount2, out Vector3 result)
-        {
-            result = new Vector3(
-                MathHelper.Barycentric(value1.X, value2.X, value3.X, amount1, amount2),
-                MathHelper.Barycentric(value1.Y, value2.Y, value3.Y, amount1, amount2),
-                MathHelper.Barycentric(value1.Z, value2.Z, value3.Z, amount1, amount2));
-        }
-
-        public static Vector3 CatmullRom(Vector3 value1, Vector3 value2, Vector3 value3, Vector3 value4, float amount)
-        {
-            return new Vector3(
-                MathHelper.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount),
-                MathHelper.CatmullRom(value1.Y, value2.Y, value3.Y, value4.Y, amount),
-                MathHelper.CatmullRom(value1.Z, value2.Z, value3.Z, value4.Z, amount));
-        }
-
-        public static void CatmullRom(ref Vector3 value1, ref Vector3 value2, ref Vector3 value3, ref Vector3 value4, float amount, out Vector3 result)
-        {
-            result = new Vector3(
-                MathHelper.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount),
-                MathHelper.CatmullRom(value1.Y, value2.Y, value3.Y, value4.Y, amount),
-                MathHelper.CatmullRom(value1.Z, value2.Z, value3.Z, value4.Z, amount));
-        }
-
-        public static Vector3 Clamp(Vector3 value1, Vector3 min, Vector3 max)
-        {
-            return new Vector3(
-                MathHelper.Clamp(value1.X, min.X, max.X),
-                MathHelper.Clamp(value1.Y, min.Y, max.Y),
-                MathHelper.Clamp(value1.Z, min.Z, max.Z));
-        }
-
-        public static void Clamp(ref Vector3 value1, ref Vector3 min, ref Vector3 max, out Vector3 result)
-        {
-            result = new Vector3(
-                MathHelper.Clamp(value1.X, min.X, max.X),
-                MathHelper.Clamp(value1.Y, min.Y, max.Y),
-                MathHelper.Clamp(value1.Z, min.Z, max.Z));
-        }
-
-        public static Vector3 Cross(Vector3 vector1, Vector3 vector2)
-        {
-            Vector3 result;
-            result.X = vector1.Y * vector2.Z - vector2.Y * vector1.Z;
-            result.Y = vector2.X * vector1.Z - vector1.X * vector2.Z;
-            result.Z = vector1.X * vector2.Y - vector2.X * vector1.Y;
-            return result;
-        }
-
-        public static void Cross(ref Vector3 vector1, ref Vector3 vector2, out Vector3 result)
-        {
-            result.X = vector1.Y * vector2.Z - vector2.Y * vector1.Z;
-            result.Y = vector2.X * vector1.Z - vector1.X * vector2.Z;
-            result.Z = vector1.X * vector2.Y - vector2.X * vector1.Y;
-        }
-
-        public static float Distance(Vector3 value1, Vector3 value2)
-        {
-            return (float)Math.Sqrt((value1.X - value2.X) * (value1.X - value2.X) +
-                     (value1.Y - value2.Y) * (value1.Y - value2.Y) +
-                     (value1.Z - value2.Z) * (value1.Z - value2.Z));
-        }
-
-        public static void Distance(ref Vector3 value1, ref Vector3 value2, out float result)
-        {
-            result = (float)Math.Sqrt((value1.X - value2.X) * (value1.X - value2.X) +
-                     (value1.Y - value2.Y) * (value1.Y - value2.Y) +
-                     (value1.Z - value2.Z) * (value1.Z - value2.Z));
-        }
-
-        public static float DistanceSquared(Vector3 value1, Vector3 value2)
-        {
-            return (value1.X - value2.X) * (value1.X - value2.X) +
-                     (value1.Y - value2.Y) * (value1.Y - value2.Y) +
-                     (value1.Z - value2.Z) * (value1.Z - value2.Z); ;
-        }
-
-        public static void DistanceSquared(ref Vector3 value1, ref Vector3 value2, out float result)
-        {
-            result = (value1.X - value2.X) * (value1.X - value2.X) +
-                     (value1.Y - value2.Y) * (value1.Y - value2.Y) +
-                     (value1.Z - value2.Z) * (value1.Z - value2.Z);
-        }
-
-        public static Vector3 Divide(Vector3 value1, Vector3 value2)
-        {
-            value1.X /= value2.X;
-            value1.Y /= value2.Y;
-            value1.Z /= value2.Z;
-            return value1;
-        }
-
-        public static Vector3 Divide(Vector3 value1, float value2)
-        {
-            float factor = 1.0f / value2;
-            value1.X *= factor;
-            value1.Y *= factor;
-            value1.Z *= factor;
-            return value1;
-        }
-
-        public static void Divide(ref Vector3 value1, float divisor, out Vector3 result)
-        {
-            float factor = 1.0f / divisor;
-            result.X = value1.X * factor;
-            result.Y = value1.Y * factor;
-            result.Z = value1.Z * factor;
-        }
-
-        public static void Divide(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
-        {
-            result.X = value1.X / value2.X;
-            result.Y = value1.Y / value2.Y;
-            result.Z = value1.Z / value2.Z;
-        }
-
-        public static float Dot(Vector3 vector1, Vector3 vector2)
-        {
-            return vector1.X * vector2.X + vector1.Y * vector2.Y + vector1.Z * vector2.Z;
-        }
-
-        public static void Dot(ref Vector3 vector1, ref Vector3 vector2, out float result)
-        {
-            result = vector1.X * vector2.X + vector1.Y * vector2.Y + vector1.Z * vector2.Z;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return (obj is Vector3) ? this == (Vector3)obj : false;
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;
+            return string.Format(currentCulture, "{{X:{0} Y:{1} Z:{2}}}",
+                                 new object[]
+                                     {
+                                         this.X.ToString(currentCulture), this.Y.ToString(currentCulture),
+                                         this.Z.ToString(currentCulture)
+                                     });
         }
 
         public bool Equals(Vector3 other)
         {
-            return this == other;
+            return (((this.X == other.X) && (this.Y == other.Y)) && (this.Z == other.Z));
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool flag = false;
+            if (obj is Vector3)
+            {
+                flag = this.Equals((Vector3)obj);
+            }
+            return flag;
         }
 
         public override int GetHashCode()
         {
-            return (int)(this.X + this.Y + this.Z);
-        }
-
-        public static Vector3 Hermite(Vector3 value1, Vector3 tangent1, Vector3 value2, Vector3 tangent2, float amount)
-        {
-            value1.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
-            value1.Y = MathHelper.Hermite(value1.Y, tangent1.Y, value2.Y, tangent2.Y, amount);
-            value1.Z = MathHelper.Hermite(value1.Z, tangent1.Z, value2.Z, tangent2.Z, amount);
-            return value1;
-        }
-
-        public static void Hermite(ref Vector3 value1, ref Vector3 tangent1, ref Vector3 value2, ref Vector3 tangent2, float amount, out Vector3 result)
-        {
-            result.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
-            result.Y = MathHelper.Hermite(value1.Y, tangent1.Y, value2.Y, tangent2.Y, amount);
-            result.Z = MathHelper.Hermite(value1.Z, tangent1.Z, value2.Z, tangent2.Z, amount);
+            return ((this.X.GetHashCode() + this.Y.GetHashCode()) + this.Z.GetHashCode());
         }
 
         public float Length()
         {
-            return (float)Math.Sqrt((double)(X * X + Y * Y + Z * Z));
+            float n = ((this.X * this.X) + (this.Y * this.Y)) + (this.Z * this.Z);
+            return (float)Math.Sqrt((double)n);
         }
 
         public float LengthSquared()
         {
-            return X * X + Y * Y + Z * Z;
+            return (((this.X * this.X) + (this.Y * this.Y)) + (this.Z * this.Z));
         }
 
-        public static Vector3 Lerp(Vector3 value1, Vector3 value2, float amount)
+        public static float PointLineDistance(Vector3 v0, Vector3 v1, Vector3 v2)
         {
-            return new Vector3(
-                MathHelper.Lerp(value1.X, value2.X, amount),
-                MathHelper.Lerp(value1.Y, value2.Y, amount),
-                MathHelper.Lerp(value1.Z, value2.Z, amount));
+            Vector3 v1V0 = v1 - v0;
+            Vector3 v2V1 = v2 - v1;
+
+            float a = v1V0.LengthSquared()*v2V1.LengthSquared();
+            float dot = Vector3.Dot(v1V0, v2V1);
+            return (a - dot*dot)/v2V1.LengthSquared();
         }
 
-        public static void Lerp(ref Vector3 value1, ref Vector3 value2, float amount, out Vector3 result)
+        public Vector2 Xz()
         {
-            result = new Vector3(
-                MathHelper.Lerp(value1.X, value2.X, amount),
-                MathHelper.Lerp(value1.Y, value2.Y, amount),
-                MathHelper.Lerp(value1.Z, value2.Z, amount));
-        }
-                
-        public static Vector3 Max(Vector3 value1, Vector3 value2)
-        {
-            return new Vector3(
-                MathHelper.Max(value1.X, value2.X),
-                MathHelper.Max(value1.Y, value2.Y),
-                MathHelper.Max(value1.Z, value2.Z));
+            return new Vector2(X,Z);
         }
 
-        public static void Max(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public Vector2 Xy()
         {
-            result = new Vector3(
-                MathHelper.Max(value1.X, value2.X),
-                MathHelper.Max(value1.Y, value2.Y),
-                MathHelper.Max(value1.Z, value2.Z));
+            return new Vector2(X,Y);
         }
 
-        public static Vector3 Min(Vector3 value1, Vector3 value2)
+        public static float Distance(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(
-                MathHelper.Min(value1.X, value2.X),
-                MathHelper.Min(value1.Y, value2.Y),
-                MathHelper.Min(value1.Z, value2.Z));
+            float n = v1.X - v2.X;
+            float n2 = v1.Y - v2.Y;
+            float n3 = v1.Z - v2.Z;
+            float n4 = ((n * n) + (n2 * n2)) + (n3 * n3);
+            return (float)Math.Sqrt((double)n4);
         }
 
-        public static void Min(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Distance(ref Vector3 v1, ref Vector3 v2, out float ret)
         {
-            result = new Vector3(
-                MathHelper.Min(value1.X, value2.X),
-                MathHelper.Min(value1.Y, value2.Y),
-                MathHelper.Min(value1.Z, value2.Z));
+            float n = v1.X - v2.X;
+            float n2 = v1.Y - v2.Y;
+            float n3 = v1.Z - v2.Z;
+            float n4 = ((n * n) + (n2 * n2)) + (n3 * n3);
+            ret = (float)Math.Sqrt((double)n4);
         }
 
-        public static Vector3 Multiply(Vector3 value1, Vector3 value2)
+        public static float DistanceSquared(Vector3 v1, Vector3 v2)
         {
-            value1.X *= value2.X;
-            value1.Y *= value2.Y;
-            value1.Z *= value2.Z;
-            return value1;
+            float n = v1.X - v2.X;
+            float n2 = v1.Y - v2.Y;
+            float n3 = v1.Z - v2.Z;
+            return (((n * n) + (n2 * n2)) + (n3 * n3));
         }
 
-        public static Vector3 Multiply(Vector3 value1, float scaleFactor)
+        public static void DistanceSquared(ref Vector3 v1, ref Vector3 v2, out float ret)
         {
-            value1.X *= scaleFactor;
-            value1.Y *= scaleFactor;
-            value1.Z *= scaleFactor;
-            return value1;
+            float n = v1.X - v2.X;
+            float n2 = v1.Y - v2.Y;
+            float n3 = v1.Z - v2.Z;
+            ret = ((n * n) + (n2 * n2)) + (n3 * n3);
         }
 
-        public static void Multiply(ref Vector3 value1, float scaleFactor, out Vector3 result)
+        public static float Dot(Vector3 v1, Vector3 v2)
         {
-            result.X = value1.X * scaleFactor;
-            result.Y = value1.Y * scaleFactor;
-            result.Z = value1.Z * scaleFactor;
+            return (((v1.X * v2.X) + (v1.Y * v2.Y)) + (v1.Z * v2.Z));
         }
 
-        public static void Multiply(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Dot(ref Vector3 v1, ref Vector3 v2, out float ret)
         {
-            result.X = value1.X * value2.X;
-            result.Y = value1.Y * value2.Y;
-            result.Z = value1.Z * value2.Z;
-        }
-
-        public static Vector3 Negate(Vector3 value)
-        {
-            value.X = -value.X;
-            value.Y = -value.Y;
-            value.Z = -value.Z;
-            return value;
-        }
-
-        public static void Negate(ref Vector3 value, out Vector3 result)
-        {
-            result.X = -value.X;
-            result.Y = -value.Y;
-            result.Z = -value.Z;
+            ret = ((v1.X * v2.X) + (v1.Y * v2.Y)) + (v1.Z * v2.Z);
         }
 
         public void Normalize()
         {
-            float factor = 1f / (float)Math.Sqrt((double)(X * X + Y * Y + Z * Z));
-            X *= factor;
-            Y *= factor;
-            Z *= factor;
+            float n = ((this.X * this.X) + (this.Y * this.Y)) + (this.Z * this.Z);
+            float n2 = 1f / ((float)Math.Sqrt((double)n));
+            this.X *= n2;
+            this.Y *= n2;
+            this.Z *= n2;
         }
 
         public static Vector3 Normalize(Vector3 value)
         {
-            float factor = 1f / (float)Math.Sqrt((double)(value.X * value.X + value.Y * value.Y + value.Z * value.Z));
-            value.X *= factor;
-            value.Y *= factor;
-            value.Z *= factor;
-            return value;
+            Vector3 v;
+            float n = ((value.X * value.X) + (value.Y * value.Y)) + (value.Z * value.Z);
+            float n2 = 1f / ((float)Math.Sqrt((double)n));
+            v.X = value.X * n2;
+            v.Y = value.Y * n2;
+            v.Z = value.Z * n2;
+            return v;
         }
 
-        public static void Normalize(ref Vector3 value, out Vector3 result)
+        public static void Normalize(ref Vector3 value, out Vector3 ret)
         {
-            float factor = 1f / (float)Math.Sqrt((double)(value.X * value.X + value.Y * value.Y + value.Z * value.Z));
-            result.X = value.X * factor;
-            result.Y = value.Y * factor;
-            result.Z = value.Z * factor;
+            float n = ((value.X * value.X) + (value.Y * value.Y)) + (value.Z * value.Z);
+            float n2 = 1f / ((float)Math.Sqrt((double)n));
+            ret.X = value.X * n2;
+            ret.Y = value.Y * n2;
+            ret.Z = value.Z * n2;
         }
 
-        public static Vector3 Reflect(Vector3 vector, Vector3 normal)
+        public static Vector3 Cross(Vector3 v1, Vector3 v2)
         {
-            float dotTimesTwo = 2f * Dot(vector, normal);
-            vector.X = vector.X - dotTimesTwo * normal.X;
-            vector.Y = vector.Y - dotTimesTwo * normal.Y;
-            vector.Z = vector.Z - dotTimesTwo * normal.Z;
-            return vector;
+            Vector3 v;
+            v.X = (v1.Y * v2.Z) - (v1.Z * v2.Y);
+            v.Y = (v1.Z * v2.X) - (v1.X * v2.Z);
+            v.Z = (v1.X * v2.Y) - (v1.Y * v2.X);
+            return v;
         }
 
-        public static void Reflect(ref Vector3 vector, ref Vector3 normal, out Vector3 result)
+        public static void Cross(ref Vector3 v1, ref Vector3 v2, out Vector3 ret)
         {
-			float dotTimesTwo = 2f * Dot(vector, normal);
-            result.X = vector.X - dotTimesTwo * normal.X;
-            result.Y = vector.Y - dotTimesTwo * normal.Y;
-            result.Z = vector.Z - dotTimesTwo * normal.Z;
+            float n = (v1.Y * v2.Z) - (v1.Z * v2.Y);
+            float n2 = (v1.Z * v2.X) - (v1.X * v2.Z);
+            float n3 = (v1.X * v2.Y) - (v1.Y * v2.X);
+            ret.X = n;
+            ret.Y = n2;
+            ret.Z = n3;
         }
 
-        public static Vector3 SmoothStep(Vector3 value1, Vector3 value2, float amount)
+        public static Vector3 Reflect(Vector3 v, Vector3 normal)
         {
-            return new Vector3(
-                MathHelper.SmoothStep(value1.X, value2.X, amount),
-                MathHelper.SmoothStep(value1.Y, value2.Y, amount),
-                MathHelper.SmoothStep(value1.Z, value2.Z, amount));
+            Vector3 v2;
+            float n = ((v.X * normal.X) + (v.Y * normal.Y)) + (v.Z * normal.Z);
+            v2.X = v.X - ((2f * n) * normal.X);
+            v2.Y = v.Y - ((2f * n) * normal.Y);
+            v2.Z = v.Z - ((2f * n) * normal.Z);
+            return v2;
         }
 
-        public static void SmoothStep(ref Vector3 value1, ref Vector3 value2, float amount, out Vector3 result)
+        public static void Reflect(ref Vector3 v, ref Vector3 normal, out Vector3 ret)
         {
-            result = new Vector3(
-                MathHelper.SmoothStep(value1.X, value2.X, amount),
-                MathHelper.SmoothStep(value1.Y, value2.Y, amount),
-                MathHelper.SmoothStep(value1.Z, value2.Z, amount));
+            float n = ((v.X * normal.X) + (v.Y * normal.Y)) + (v.Z * normal.Z);
+            ret.X = v.X - ((2f * n) * normal.X);
+            ret.Y = v.Y - ((2f * n) * normal.Y);
+            ret.Z = v.Z - ((2f * n) * normal.Z);
         }
 
-        public static Vector3 Subtract(Vector3 value1, Vector3 value2)
+        public static Vector3 Min(Vector3 v1, Vector3 v2)
         {
-            value1.X -= value2.X;
-            value1.Y -= value2.Y;
-            value1.Z -= value2.Z;
-            return value1;
+            Vector3 v;
+            v.X = (v1.X < v2.X) ? v1.X : v2.X;
+            v.Y = (v1.Y < v2.Y) ? v1.Y : v2.Y;
+            v.Z = (v1.Z < v2.Z) ? v1.Z : v2.Z;
+            return v;
         }
 
-        public static void Subtract(ref Vector3 value1, ref Vector3 value2, out Vector3 result)
+        public static void Min(ref Vector3 v1, ref Vector3 v2, out Vector3 ret)
         {
-            result.X = value1.X - value2.X;
-            result.Y = value1.Y - value2.Y;
-            result.Z = value1.Z - value2.Z;
+            ret.X = (v1.X < v2.X) ? v1.X : v2.X;
+            ret.Y = (v1.Y < v2.Y) ? v1.Y : v2.Y;
+            ret.Z = (v1.Z < v2.Z) ? v1.Z : v2.Z;
         }
 
-        public override string ToString()
+        public static Vector3 Max(Vector3 v1, Vector3 v2)
         {
-            StringBuilder sb = new StringBuilder(32);
-            sb.Append("{X:");
-            sb.Append(this.X);
-            sb.Append(" Y:");
-            sb.Append(this.Y);
-            sb.Append(" Z:");
-            sb.Append(this.Z);
-            sb.Append("}");
-            return sb.ToString();
+            Vector3 v;
+            v.X = (v1.X > v2.X) ? v1.X : v2.X;
+            v.Y = (v1.Y > v2.Y) ? v1.Y : v2.Y;
+            v.Z = (v1.Z > v2.Z) ? v1.Z : v2.Z;
+            return v;
+        }
+
+        public static void Max(ref Vector3 v1, ref Vector3 v2, out Vector3 ret)
+        {
+            ret.X = (v1.X > v2.X) ? v1.X : v2.X;
+            ret.Y = (v1.Y > v2.Y) ? v1.Y : v2.Y;
+            ret.Z = (v1.Z > v2.Z) ? v1.Z : v2.Z;
+        }
+
+        public static Vector3 Clamp(Vector3 v1, Vector3 min, Vector3 max)
+        {
+            Vector3 v;
+            float x = v1.X;
+            x = (x > max.X) ? max.X : x;
+            x = (x < min.X) ? min.X : x;
+            float y = v1.Y;
+            y = (y > max.Y) ? max.Y : y;
+            y = (y < min.Y) ? min.Y : y;
+            float z = v1.Z;
+            z = (z > max.Z) ? max.Z : z;
+            z = (z < min.Z) ? min.Z : z;
+            v.X = x;
+            v.Y = y;
+            v.Z = z;
+            return v;
+        }
+
+        public static void Clamp(ref Vector3 v1, ref Vector3 min, ref Vector3 max, out Vector3 ret)
+        {
+            float x = v1.X;
+            x = (x > max.X) ? max.X : x;
+            x = (x < min.X) ? min.X : x;
+            float y = v1.Y;
+            y = (y > max.Y) ? max.Y : y;
+            y = (y < min.Y) ? min.Y : y;
+            float z = v1.Z;
+            z = (z > max.Z) ? max.Z : z;
+            z = (z < min.Z) ? min.Z : z;
+            ret.X = x;
+            ret.Y = y;
+            ret.Z = z;
+        }
+
+        public static Vector3 Lerp(Vector3 v1, Vector3 v2, float amount)
+        {
+            Vector3 v;
+            v.X = v1.X + ((v2.X - v1.X) * amount);
+            v.Y = v1.Y + ((v2.Y - v1.Y) * amount);
+            v.Z = v1.Z + ((v2.Z - v1.Z) * amount);
+            return v;
+        }
+
+        public static void Lerp(ref Vector3 v1, ref Vector3 v2, float amount, out Vector3 ret)
+        {
+            ret.X = v1.X + ((v2.X - v1.X) * amount);
+            ret.Y = v1.Y + ((v2.Y - v1.Y) * amount);
+            ret.Z = v1.Z + ((v2.Z - v1.Z) * amount);
+        }
+
+        public static Vector3 Barycentric(Vector3 v1, Vector3 v2, Vector3 value3, float amount1, float amount2)
+        {
+            Vector3 v;
+            v.X = (v1.X + (amount1 * (v2.X - v1.X))) + (amount2 * (value3.X - v1.X));
+            v.Y = (v1.Y + (amount1 * (v2.Y - v1.Y))) + (amount2 * (value3.Y - v1.Y));
+            v.Z = (v1.Z + (amount1 * (v2.Z - v1.Z))) + (amount2 * (value3.Z - v1.Z));
+            return v;
+        }
+
+        public static void Barycentric(ref Vector3 v1, ref Vector3 v2, ref Vector3 value3, float amount1,
+                                       float amount2, out Vector3 ret)
+        {
+            ret.X = (v1.X + (amount1 * (v2.X - v1.X))) + (amount2 * (value3.X - v1.X));
+            ret.Y = (v1.Y + (amount1 * (v2.Y - v1.Y))) + (amount2 * (value3.Y - v1.Y));
+            ret.Z = (v1.Z + (amount1 * (v2.Z - v1.Z))) + (amount2 * (value3.Z - v1.Z));
+        }
+
+        public static Vector3 SmoothStep(Vector3 v1, Vector3 v2, float amount)
+        {
+            Vector3 v;
+            amount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
+            amount = (amount * amount) * (3f - (2f * amount));
+            v.X = v1.X + ((v2.X - v1.X) * amount);
+            v.Y = v1.Y + ((v2.Y - v1.Y) * amount);
+            v.Z = v1.Z + ((v2.Z - v1.Z) * amount);
+            return v;
+        }
+
+        public static void SmoothStep(ref Vector3 v1, ref Vector3 v2, float amount, out Vector3 ret)
+        {
+            amount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
+            amount = (amount * amount) * (3f - (2f * amount));
+            ret.X = v1.X + ((v2.X - v1.X) * amount);
+            ret.Y = v1.Y + ((v2.Y - v1.Y) * amount);
+            ret.Z = v1.Z + ((v2.Z - v1.Z) * amount);
+        }
+
+        public static Vector3 CatmullRom(Vector3 v1, Vector3 v2, Vector3 value3, Vector3 value4, float amount)
+        {
+            Vector3 v;
+            float n = amount * amount;
+            float n2 = amount * n;
+            v.X = 0.5f *
+                       ((((2f * v2.X) + ((-v1.X + value3.X) * amount)) +
+                         (((((2f * v1.X) - (5f * v2.X)) + (4f * value3.X)) - value4.X) * n)) +
+                        ((((-v1.X + (3f * v2.X)) - (3f * value3.X)) + value4.X) * n2));
+            v.Y = 0.5f *
+                       ((((2f * v2.Y) + ((-v1.Y + value3.Y) * amount)) +
+                         (((((2f * v1.Y) - (5f * v2.Y)) + (4f * value3.Y)) - value4.Y) * n)) +
+                        ((((-v1.Y + (3f * v2.Y)) - (3f * value3.Y)) + value4.Y) * n2));
+            v.Z = 0.5f *
+                       ((((2f * v2.Z) + ((-v1.Z + value3.Z) * amount)) +
+                         (((((2f * v1.Z) - (5f * v2.Z)) + (4f * value3.Z)) - value4.Z) * n)) +
+                        ((((-v1.Z + (3f * v2.Z)) - (3f * value3.Z)) + value4.Z) * n2));
+            return v;
+        }
+
+        public static void CatmullRom(ref Vector3 v1, ref Vector3 v2, ref Vector3 value3, ref Vector3 value4,
+                                      float amount, out Vector3 ret)
+        {
+            float n = amount * amount;
+            float n2 = amount * n;
+            ret.X = 0.5f *
+                       ((((2f * v2.X) + ((-v1.X + value3.X) * amount)) +
+                         (((((2f * v1.X) - (5f * v2.X)) + (4f * value3.X)) - value4.X) * n)) +
+                        ((((-v1.X + (3f * v2.X)) - (3f * value3.X)) + value4.X) * n2));
+            ret.Y = 0.5f *
+                       ((((2f * v2.Y) + ((-v1.Y + value3.Y) * amount)) +
+                         (((((2f * v1.Y) - (5f * v2.Y)) + (4f * value3.Y)) - value4.Y) * n)) +
+                        ((((-v1.Y + (3f * v2.Y)) - (3f * value3.Y)) + value4.Y) * n2));
+            ret.Z = 0.5f *
+                       ((((2f * v2.Z) + ((-v1.Z + value3.Z) * amount)) +
+                         (((((2f * v1.Z) - (5f * v2.Z)) + (4f * value3.Z)) - value4.Z) * n)) +
+                        ((((-v1.Z + (3f * v2.Z)) - (3f * value3.Z)) + value4.Z) * n2));
+        }
+
+        public static Vector3 Hermite(Vector3 v1, Vector3 tangent1, Vector3 v2, Vector3 tangent2, float amount)
+        {
+            Vector3 v;
+            float n = amount * amount;
+            float n2 = amount * n;
+            float n3 = ((2f * n2) - (3f * n)) + 1f;
+            float n4 = (-2f * n2) + (3f * n);
+            float n5 = (n2 - (2f * n)) + amount;
+            float n6 = n2 - n;
+            v.X = (((v1.X * n3) + (v2.X * n4)) + (tangent1.X * n5)) + (tangent2.X * n6);
+            v.Y = (((v1.Y * n3) + (v2.Y * n4)) + (tangent1.Y * n5)) + (tangent2.Y * n6);
+            v.Z = (((v1.Z * n3) + (v2.Z * n4)) + (tangent1.Z * n5)) + (tangent2.Z * n6);
+            return v;
+        }
+
+        public static void Hermite(ref Vector3 v1, ref Vector3 tangent1, ref Vector3 v2, ref Vector3 tangent2,
+                                   float amount, out Vector3 ret)
+        {
+            float n = amount * amount;
+            float n2 = amount * n;
+            float n3 = ((2f * n2) - (3f * n)) + 1f;
+            float n4 = (-2f * n2) + (3f * n);
+            float n5 = (n2 - (2f * n)) + amount;
+            float n6 = n2 - n;
+            ret.X = (((v1.X * n3) + (v2.X * n4)) + (tangent1.X * n5)) + (tangent2.X * n6);
+            ret.Y = (((v1.Y * n3) + (v2.Y * n4)) + (tangent1.Y * n5)) + (tangent2.Y * n6);
+            ret.Z = (((v1.Z * n3) + (v2.Z * n4)) + (tangent1.Z * n5)) + (tangent2.Z * n6);
         }
 
         public static Vector3 Transform(Vector3 position, Matrix matrix)
         {
-            Transform(ref position, ref matrix, out position);
-            return position;
+            Vector3 v;
+            float n = (((position.X * matrix.M11) + (position.Y * matrix.M21)) + (position.Z * matrix.M31)) + matrix.M41;
+            float n2 = (((position.X * matrix.M12) + (position.Y * matrix.M22)) + (position.Z * matrix.M32)) + matrix.M42;
+            float n3 = (((position.X * matrix.M13) + (position.Y * matrix.M23)) + (position.Z * matrix.M33)) + matrix.M43;
+            v.X = n;
+            v.Y = n2;
+            v.Z = n3;
+            return v;
         }
 
-        public static void Transform(ref Vector3 position, ref Matrix matrix, out Vector3 result)
+        public static void Transform(ref Vector3 position, ref Matrix matrix, out Vector3 ret)
         {
-            result = new Vector3((position.X * matrix.M11) + (position.Y * matrix.M21) + (position.Z * matrix.M31) + matrix.M41,
-                                 (position.X * matrix.M12) + (position.Y * matrix.M22) + (position.Z * matrix.M32) + matrix.M42,
-                                 (position.X * matrix.M13) + (position.Y * matrix.M23) + (position.Z * matrix.M33) + matrix.M43);
-        }
-
-        public static Vector3 Transform(Vector3 value, Quaternion rotation)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Transform(Vector3[] sourceArray, ref Matrix matrix, Vector3[] destinationArray)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Transform(Vector3[] sourceArray, ref Quaternion rotation, Vector3[] destinationArray)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Transform(Vector3[] sourceArray, int sourceIndex, ref Matrix matrix, Vector3[] destinationArray, int destinationIndex, int length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Transform(Vector3[] sourceArray, int sourceIndex, ref Quaternion rotation, Vector3[] destinationArray, int destinationIndex, int length)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Transform(ref Vector3 value, ref Quaternion rotation, out Vector3 result)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void TransformNormal(Vector3[] sourceArray, ref Matrix matrix, Vector3[] destinationArray)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void TransformNormal(Vector3[] sourceArray, int sourceIndex, ref Matrix matrix, Vector3[] destinationArray, int destinationIndex, int length)
-        {
-            throw new NotImplementedException();
+            float n = (((position.X * matrix.M11) + (position.Y * matrix.M21)) + (position.Z * matrix.M31)) + matrix.M41;
+            float n2 = (((position.X * matrix.M12) + (position.Y * matrix.M22)) + (position.Z * matrix.M32)) + matrix.M42;
+            float n3 = (((position.X * matrix.M13) + (position.Y * matrix.M23)) + (position.Z * matrix.M33)) + matrix.M43;
+            ret.X = n;
+            ret.Y = n2;
+            ret.Z = n3;
         }
 
         public static Vector3 TransformNormal(Vector3 normal, Matrix matrix)
         {
-            TransformNormal(ref normal, ref matrix, out normal);
-            return normal;
+            Vector3 v;
+            float n = ((normal.X * matrix.M11) + (normal.Y * matrix.M21)) + (normal.Z * matrix.M31);
+            float n2 = ((normal.X * matrix.M12) + (normal.Y * matrix.M22)) + (normal.Z * matrix.M32);
+            float n3 = ((normal.X * matrix.M13) + (normal.Y * matrix.M23)) + (normal.Z * matrix.M33);
+            v.X = n;
+            v.Y = n2;
+            v.Z = n3;
+            return v;
         }
 
-        public static void TransformNormal(ref Vector3 normal, ref Matrix matrix, out Vector3 result)
+        public static void TransformNormal(ref Vector3 normal, ref Matrix matrix, out Vector3 ret)
         {
-            result = new Vector3((normal.X * matrix.M11) + (normal.Y * matrix.M21) + (normal.Z * matrix.M31),
-                                 (normal.X * matrix.M12) + (normal.Y * matrix.M22) + (normal.Z * matrix.M32),
-                                 (normal.X * matrix.M13) + (normal.Y * matrix.M23) + (normal.Z * matrix.M33));
+            float n = ((normal.X * matrix.M11) + (normal.Y * matrix.M21)) + (normal.Z * matrix.M31);
+            float n2 = ((normal.X * matrix.M12) + (normal.Y * matrix.M22)) + (normal.Z * matrix.M32);
+            float n3 = ((normal.X * matrix.M13) + (normal.Y * matrix.M23)) + (normal.Z * matrix.M33);
+            ret.X = n;
+            ret.Y = n2;
+            ret.Z = n3;
         }
 
-        #endregion Public methods
-
-
-        #region Operators
-
-        public static bool operator ==(Vector3 value1, Vector3 value2)
+        public static Vector3 Transform(Vector3 value, Quaternion rotation)
         {
-            return value1.X == value2.X
-                && value1.Y == value2.Y
-                && value1.Z == value2.Z;
+            Vector3 v;
+            float n = rotation.X + rotation.X;
+            float n2 = rotation.Y + rotation.Y;
+            float n3 = rotation.Z + rotation.Z;
+            float n4 = rotation.W * n;
+            float n5 = rotation.W * n2;
+            float n6 = rotation.W * n3;
+            float n7 = rotation.X * n;
+            float n8 = rotation.X * n2;
+            float n9 = rotation.X * n3;
+            float n10 = rotation.Y * n2;
+            float n11 = rotation.Y * n3;
+            float n12 = rotation.Z * n3;
+            float n13 = ((value.X * ((1f - n10) - n12)) + (value.Y * (n8 - n6))) + (value.Z * (n9 + n5));
+            float n14 = ((value.X * (n8 + n6)) + (value.Y * ((1f - n7) - n12))) + (value.Z * (n11 - n4));
+            float n15 = ((value.X * (n9 - n5)) + (value.Y * (n11 + n4))) + (value.Z * ((1f - n7) - n10));
+            v.X = n13;
+            v.Y = n14;
+            v.Z = n15;
+            return v;
         }
 
-        public static bool operator !=(Vector3 value1, Vector3 value2)
+        public static void Transform(ref Vector3 value, ref Quaternion rotation, out Vector3 ret)
         {
-            return value1.X != value2.X
-                || value1.Y != value2.Y
-                || value1.Z != value2.Z;
+            float n = rotation.X + rotation.X;
+            float n2 = rotation.Y + rotation.Y;
+            float n3 = rotation.Z + rotation.Z;
+            float n4 = rotation.W * n;
+            float n5 = rotation.W * n2;
+            float n6 = rotation.W * n3;
+            float n7 = rotation.X * n;
+            float n8 = rotation.X * n2;
+            float n9 = rotation.X * n3;
+            float n10 = rotation.Y * n2;
+            float n11 = rotation.Y * n3;
+            float n12 = rotation.Z * n3;
+            float n13 = ((value.X * ((1f - n10) - n12)) + (value.Y * (n8 - n6))) + (value.Z * (n9 + n5));
+            float n14 = ((value.X * (n8 + n6)) + (value.Y * ((1f - n7) - n12))) + (value.Z * (n11 - n4));
+            float n15 = ((value.X * (n9 - n5)) + (value.Y * (n11 + n4))) + (value.Z * ((1f - n7) - n10));
+            ret.X = n13;
+            ret.Y = n14;
+            ret.Z = n15;
         }
 
-        public static Vector3 operator +(Vector3 value1, Vector3 value2)
+        public static void Transform(Vector3[] source, ref Matrix matrix, Vector3[] destination)
         {
-            value1.X += value2.X;
-            value1.Y += value2.Y;
-            value1.Z += value2.Z;
-            return value1;
+            if (source == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (destination == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (destination.Length < source.Length)
+            {
+                throw new ArgumentException();
+            }
+            for (int i = 0; i < source.Length; i++)
+            {
+                float x = source[i].X;
+                float y = source[i].Y;
+                float z = source[i].Z;
+                destination[i].X = (((x * matrix.M11) + (y * matrix.M21)) + (z * matrix.M31)) + matrix.M41;
+                destination[i].Y = (((x * matrix.M12) + (y * matrix.M22)) + (z * matrix.M32)) + matrix.M42;
+                destination[i].Z = (((x * matrix.M13) + (y * matrix.M23)) + (z * matrix.M33)) + matrix.M43;
+            }
+        }
+
+        public static void Transform(Vector3[] source, int sourceIndex, ref Matrix matrix,
+                                     Vector3[] destination, int destinationIndex, int length)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (destination == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (source.Length < (sourceIndex + length))
+            {
+                throw new ArgumentException();
+            }
+            if (destination.Length < (destinationIndex + length))
+            {
+                throw new ArgumentException();
+            }
+            while (length > 0)
+            {
+                float x = source[sourceIndex].X;
+                float y = source[sourceIndex].Y;
+                float z = source[sourceIndex].Z;
+                destination[destinationIndex].X = (((x * matrix.M11) + (y * matrix.M21)) + (z * matrix.M31)) + matrix.M41;
+                destination[destinationIndex].Y = (((x * matrix.M12) + (y * matrix.M22)) + (z * matrix.M32)) + matrix.M42;
+                destination[destinationIndex].Z = (((x * matrix.M13) + (y * matrix.M23)) + (z * matrix.M33)) + matrix.M43;
+                sourceIndex++;
+                destinationIndex++;
+                length--;
+            }
+        }
+
+        public static void TransformNormal(Vector3[] source, ref Matrix matrix, Vector3[] destination)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+            if (destination.Length < source.Length)
+            {
+                throw new ArgumentException();
+            }
+            for (int i = 0; i < source.Length; i++)
+            {
+                float x = source[i].X;
+                float y = source[i].Y;
+                float z = source[i].Z;
+                destination[i].X = ((x * matrix.M11) + (y * matrix.M21)) + (z * matrix.M31);
+                destination[i].Y = ((x * matrix.M12) + (y * matrix.M22)) + (z * matrix.M32);
+                destination[i].Z = ((x * matrix.M13) + (y * matrix.M23)) + (z * matrix.M33);
+            }
+        }
+
+        public static void TransformNormal(Vector3[] source, int sourceIndex, ref Matrix matrix,
+                                           Vector3[] destination, int destinationIndex, int length)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+            if (source.Length < (sourceIndex + length))
+            {
+                throw new ArgumentException();
+            }
+            if (destination.Length < (destinationIndex + length))
+            {
+                throw new ArgumentException();
+            }
+            while (length > 0)
+            {
+                float x = source[sourceIndex].X;
+                float y = source[sourceIndex].Y;
+                float z = source[sourceIndex].Z;
+                destination[destinationIndex].X = ((x * matrix.M11) + (y * matrix.M21)) + (z * matrix.M31);
+                destination[destinationIndex].Y = ((x * matrix.M12) + (y * matrix.M22)) + (z * matrix.M32);
+                destination[destinationIndex].Z = ((x * matrix.M13) + (y * matrix.M23)) + (z * matrix.M33);
+                sourceIndex++;
+                destinationIndex++;
+                length--;
+            }
+        }
+
+        public static void Transform(Vector3[] source, ref Quaternion rotation, Vector3[] destination)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+            if (destination.Length < source.Length)
+            {
+                throw new ArgumentException();
+            }
+            float n = rotation.X + rotation.X;
+            float n2 = rotation.Y + rotation.Y;
+            float n3 = rotation.Z + rotation.Z;
+            float n4 = rotation.W * n;
+            float n5 = rotation.W * n2;
+            float n6 = rotation.W * n3;
+            float n7 = rotation.X * n;
+            float n8 = rotation.X * n2;
+            float n9 = rotation.X * n3;
+            float n10 = rotation.Y * n2;
+            float n11 = rotation.Y * n3;
+            float n12 = rotation.Z * n3;
+            float n13 = (1f - n10) - n12;
+            float n14 = n8 - n6;
+            float n15 = n9 + n5;
+            float n16 = n8 + n6;
+            float n17 = (1f - n7) - n12;
+            float n18 = n11 - n4;
+            float n19 = n9 - n5;
+            float n20 = n11 + n4;
+            float n21 = (1f - n7) - n10;
+            for (int i = 0; i < source.Length; i++)
+            {
+                float x = source[i].X;
+                float y = source[i].Y;
+                float z = source[i].Z;
+                destination[i].X = ((x * n13) + (y * n14)) + (z * n15);
+                destination[i].Y = ((x * n16) + (y * n17)) + (z * n18);
+                destination[i].Z = ((x * n19) + (y * n20)) + (z * n21);
+            }
+        }
+
+        public static void Transform(Vector3[] source, int sourceIndex, ref Quaternion rotation,
+                                     Vector3[] destination, int destinationIndex, int length)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+            if (source.Length < (sourceIndex + length))
+            {
+                throw new ArgumentException();
+            }
+            if (destination.Length < (destinationIndex + length))
+            {
+                throw new ArgumentException();
+            }
+            float n = rotation.X + rotation.X;
+            float n2 = rotation.Y + rotation.Y;
+            float n3 = rotation.Z + rotation.Z;
+            float n4 = rotation.W * n;
+            float n5 = rotation.W * n2;
+            float n6 = rotation.W * n3;
+            float n7 = rotation.X * n;
+            float n8 = rotation.X * n2;
+            float n9 = rotation.X * n3;
+            float n10 = rotation.Y * n2;
+            float n11 = rotation.Y * n3;
+            float n12 = rotation.Z * n3;
+            float n13 = (1f - n10) - n12;
+            float n14 = n8 - n6;
+            float n15 = n9 + n5;
+            float n16 = n8 + n6;
+            float n17 = (1f - n7) - n12;
+            float n18 = n11 - n4;
+            float n19 = n9 - n5;
+            float n20 = n11 + n4;
+            float n21 = (1f - n7) - n10;
+            while (length > 0)
+            {
+                float x = source[sourceIndex].X;
+                float y = source[sourceIndex].Y;
+                float z = source[sourceIndex].Z;
+                destination[destinationIndex].X = ((x * n13) + (y * n14)) + (z * n15);
+                destination[destinationIndex].Y = ((x * n16) + (y * n17)) + (z * n18);
+                destination[destinationIndex].Z = ((x * n19) + (y * n20)) + (z * n21);
+                sourceIndex++;
+                destinationIndex++;
+                length--;
+            }
+        }
+
+        public static Vector3 Negate(Vector3 value)
+        {
+            Vector3 v;
+            v.X = -value.X;
+            v.Y = -value.Y;
+            v.Z = -value.Z;
+            return v;
+        }
+
+        public static void Negate(ref Vector3 value, out Vector3 ret)
+        {
+            ret.X = -value.X;
+            ret.Y = -value.Y;
+            ret.Z = -value.Z;
+        }
+
+        public static Vector3 Add(Vector3 v1, Vector3 v2)
+        {
+            Vector3 v;
+            v.X = v1.X + v2.X;
+            v.Y = v1.Y + v2.Y;
+            v.Z = v1.Z + v2.Z;
+            return v;
+        }
+
+        public static void Add(ref Vector3 v1, ref Vector3 v2, out Vector3 ret)
+        {
+            ret.X = v1.X + v2.X;
+            ret.Y = v1.Y + v2.Y;
+            ret.Z = v1.Z + v2.Z;
+        }
+
+        public static Vector3 Subtract(Vector3 v1, Vector3 v2)
+        {
+            Vector3 v;
+            v.X = v1.X - v2.X;
+            v.Y = v1.Y - v2.Y;
+            v.Z = v1.Z - v2.Z;
+            return v;
+        }
+
+        public static void Subtract(ref Vector3 v1, ref Vector3 v2, out Vector3 ret)
+        {
+            ret.X = v1.X - v2.X;
+            ret.Y = v1.Y - v2.Y;
+            ret.Z = v1.Z - v2.Z;
+        }
+
+        public static Vector3 Multiply(Vector3 v1, Vector3 v2)
+        {
+            Vector3 v;
+            v.X = v1.X * v2.X;
+            v.Y = v1.Y * v2.Y;
+            v.Z = v1.Z * v2.Z;
+            return v;
+        }
+
+        public static void Multiply(ref Vector3 v1, ref Vector3 v2, out Vector3 ret)
+        {
+            ret.X = v1.X * v2.X;
+            ret.Y = v1.Y * v2.Y;
+            ret.Z = v1.Z * v2.Z;
+        }
+
+        public static Vector3 Multiply(Vector3 v1, float scaleFactor)
+        {
+            Vector3 v;
+            v.X = v1.X * scaleFactor;
+            v.Y = v1.Y * scaleFactor;
+            v.Z = v1.Z * scaleFactor;
+            return v;
+        }
+
+        public static void Multiply(ref Vector3 v1, float scaleFactor, out Vector3 ret)
+        {
+            ret.X = v1.X * scaleFactor;
+            ret.Y = v1.Y * scaleFactor;
+            ret.Z = v1.Z * scaleFactor;
+        }
+
+        public static Vector3 Divide(Vector3 v1, Vector3 v2)
+        {
+            Vector3 v;
+            v.X = v1.X / v2.X;
+            v.Y = v1.Y / v2.Y;
+            v.Z = v1.Z / v2.Z;
+            return v;
+        }
+
+        public static void Divide(ref Vector3 v1, ref Vector3 v2, out Vector3 ret)
+        {
+            ret.X = v1.X / v2.X;
+            ret.Y = v1.Y / v2.Y;
+            ret.Z = v1.Z / v2.Z;
+        }
+
+        public static Vector3 Divide(Vector3 v1, float v2)
+        {
+            Vector3 v;
+            float n = 1f / v2;
+            v.X = v1.X * n;
+            v.Y = v1.Y * n;
+            v.Z = v1.Z * n;
+            return v;
+        }
+
+        public static void Divide(ref Vector3 v1, float v2, out Vector3 ret)
+        {
+            float n = 1f / v2;
+            ret.X = v1.X * n;
+            ret.Y = v1.Y * n;
+            ret.Z = v1.Z * n;
         }
 
         public static Vector3 operator -(Vector3 value)
         {
-            value = new Vector3(-value.X, -value.Y, -value.Z);
-            return value;
+            Vector3 v;
+            v.X = -value.X;
+            v.Y = -value.Y;
+            v.Z = -value.Z;
+            return v;
         }
 
-        public static Vector3 operator -(Vector3 value1, Vector3 value2)
+        public static bool operator ==(Vector3 v1, Vector3 v2)
         {
-            value1.X -= value2.X;
-            value1.Y -= value2.Y;
-            value1.Z -= value2.Z;
-            return value1;
+            return (((v1.X == v2.X) && (v1.Y == v2.Y)) && (v1.Z == v2.Z));
         }
 
-        public static Vector3 operator *(Vector3 value1, Vector3 value2)
+        public static bool operator !=(Vector3 v1, Vector3 v2)
         {
-            value1.X *= value2.X;
-            value1.Y *= value2.Y;
-            value1.Z *= value2.Z;
-            return value1;
+            return (((v1.X != v2.X) || (v1.Y != v2.Y)) || !(v1.Z == v2.Z));
+        }
+
+        public static Vector3 operator +(Vector3 v1, Vector3 v2)
+        {
+            Vector3 v;
+            v.X = v1.X + v2.X;
+            v.Y = v1.Y + v2.Y;
+            v.Z = v1.Z + v2.Z;
+            return v;
+        }
+
+        public static Vector3 operator -(Vector3 v1, Vector3 v2)
+        {
+            Vector3 v;
+            v.X = v1.X - v2.X;
+            v.Y = v1.Y - v2.Y;
+            v.Z = v1.Z - v2.Z;
+            return v;
+        }
+
+        public static Vector3 operator *(Vector3 v1, Vector3 v2)
+        {
+            Vector3 v;
+            v.X = v1.X * v2.X;
+            v.Y = v1.Y * v2.Y;
+            v.Z = v1.Z * v2.Z;
+            return v;
         }
 
         public static Vector3 operator *(Vector3 value, float scaleFactor)
         {
-            value.X *= scaleFactor;
-            value.Y *= scaleFactor;
-            value.Z *= scaleFactor;
-            return value;
+            Vector3 v;
+            v.X = value.X * scaleFactor;
+            v.Y = value.Y * scaleFactor;
+            v.Z = value.Z * scaleFactor;
+            return v;
         }
 
         public static Vector3 operator *(float scaleFactor, Vector3 value)
         {
-            value.X *= scaleFactor;
-            value.Y *= scaleFactor;
-            value.Z *= scaleFactor;
-            return value;
+            Vector3 v;
+            v.X = value.X * scaleFactor;
+            v.Y = value.Y * scaleFactor;
+            v.Z = value.Z * scaleFactor;
+            return v;
         }
 
-        public static Vector3 operator /(Vector3 value1, Vector3 value2)
+        public static Vector3 operator /(Vector3 v1, Vector3 v2)
         {
-            value1.X /= value2.X;
-            value1.Y /= value2.Y;
-            value1.Z /= value2.Z;
-            return value1;
+            Vector3 v;
+            v.X = v1.X / v2.X;
+            v.Y = v1.Y / v2.Y;
+            v.Z = v1.Z / v2.Z;
+            return v;
         }
 
         public static Vector3 operator /(Vector3 value, float divider)
         {
-            float factor = 1 / divider;
-            value.X *= factor;
-            value.Y *= factor;
-            value.Z *= factor;
-            return value;
+            Vector3 v;
+            float n = 1f / divider;
+            v.X = value.X * n;
+            v.Y = value.Y * n;
+            v.Z = value.Z * n;
+            return v;
         }
 
-        #endregion
-
-        [XmlAttribute]
-        float IVector3.X
-        {
-            get { return X; }
-            set { X = value; }
-        }
-
-        [XmlAttribute]
-        float IVector3.Y
-        {
-            get { return Y; }
-            set { Y = value; }
-        }
-
-        [XmlAttribute]
-        float IVector3.Z
-        {
-            get { return Z; }
-            set { Z = value; }
-        }
     }
 }
