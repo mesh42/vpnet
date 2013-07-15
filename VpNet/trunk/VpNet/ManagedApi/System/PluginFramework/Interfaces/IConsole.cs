@@ -53,6 +53,7 @@ namespace VpNet.PluginFramework.Interfaces
         void WriteLine(string text);
         void Write(ConsoleMessageType type, string text);
         void Write(string text);
+        void RevertPrompt();
 
         /// <summary>
         /// Clears this instance.

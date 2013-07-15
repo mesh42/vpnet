@@ -32,16 +32,13 @@ namespace VpNet.VpConsole.Gui
 {
     public sealed class ConsoleHelpers : IConsole
     {
+        private ParseCommandLineDelegate _prevCommandLineDelegate;
+        private GetPrompt _prevPromptDelegate;
+
         public ConsoleColor BackgroundColor
         {
-            get
-            {
-                return Console.BackgroundColor;
-            }
-            set
-            {
-                Console.BackgroundColor = value;
-            }
+            get { return Console.BackgroundColor; }
+            set { Console.BackgroundColor = value; }
         }
 
         public bool IsMaskedInput;
@@ -74,11 +71,26 @@ namespace VpNet.VpConsole.Gui
             }
         }
 
-        public GetPrompt GetPromptTarget { get; set; }
+        private GetPrompt _getPromptTarget;
+        private ParseCommandLineDelegate _parseCommandLine;
 
-        public ParseCommandLineDelegate ParseCommandLine { get; set; }
-     
+        public GetPrompt GetPromptTarget
+        {
+            get { return _getPromptTarget; }
+            set 
+            { 
+                _prevPromptDelegate = _getPromptTarget;
+                _getPromptTarget = value;
+            }
+        }
 
+        public ParseCommandLineDelegate ParseCommandLine {
+            get { return _parseCommandLine; }
+            set { _prevCommandLineDelegate = _parseCommandLine;
+                _parseCommandLine = value;
+            }
+        }
+    
         public static List<Char> keyBuffer = new List<char>();
 
         private bool _isReadlineMode;
@@ -349,5 +361,10 @@ namespace VpNet.VpConsole.Gui
 
         #endregion
 
+        public void RevertPrompt()
+        {
+            GetPromptTarget = _prevPromptDelegate;
+            ParseCommandLine = _prevCommandLineDelegate;
+        }
     }
 }
