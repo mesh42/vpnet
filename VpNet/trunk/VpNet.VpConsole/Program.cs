@@ -74,7 +74,9 @@ ____   ____.__         __               .__    __________                       
                                       \/                       \/           \/      \/         \/     \/ 
 ");
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("VPNET Console, copyright (c) 2012-2013 CUBE3 (Cit:36)\n");
+            Console.WriteLine("VP SDK Version: {0}", System.Reflection.Assembly.GetAssembly(typeof(Instance)).GetName().Version.ToString());
+            Console.WriteLine("VP Console Version: {0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            Console.WriteLine("Copyright (c) 2012-2013 CUBE3 (Cit:36) under LGPL license\n");
             Connect();
         }
 
@@ -124,7 +126,7 @@ ____   ____.__         __               .__    __________                       
             Cli.WriteLine(ConsoleMessageType.Information, "Connecting...");
             try
             {
-                Vp.Connect();
+                 Vp.Connect();
                 Cli.WriteLine(ConsoleMessageType.Information, "Connected to universe.\n");
                 if (File.Exists(AutoLogin.LoginconfigurationXmlPath))
                 {
@@ -141,6 +143,12 @@ ____   ____.__         __               .__    __________                       
                     }
                     catch (VpException ex)
                     {
+                        if (ex.Reason == ReasonCode.NotInUniverse)
+                        {
+                            // strange native vpsdk bug, after reating a new native instance, upon first time 
+                            // the sdk does not seem to connect properly.
+                            Connect();
+                        }
                         Cli.WriteLine(ConsoleMessageType.Information, "Autologin failed, please login manually.");
                     }
                 }
