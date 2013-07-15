@@ -20,6 +20,8 @@ namespace VpNet.ManagedApi.System.PluginFramework
             
         }
 
+        public void RevertPrompt(){}
+
         public VpNet.PluginFramework.Interfaces.IConsoleDelegate.GetPrompt GetPromptTarget { get; set; }
 
         public VpNet.PluginFramework.Interfaces.IConsoleDelegate.ParseCommandLineDelegate ParseCommandLine { get; set; }

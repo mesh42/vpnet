@@ -63,16 +63,11 @@ namespace VpNet.Plugins
             Console.WriteLine(ConsoleMessageType.Event,string.Format("   *** {0} entered {1}.",args.Avatar.Name,sender.Configuration.World.Name));
         }
 
-        private ParseCommandLineDelegate _prevCommandLineDelegate;
-        private GetPrompt _prevPromptDelegate;
 
         public override bool HandleConsoleInput(string input)
         {
             if (input=="/c")
             {
-                _prevCommandLineDelegate = Console.ParseCommandLine;
-                _prevPromptDelegate = Console.GetPromptTarget;
-
                 // go into chat mode. redirect command processing.
                 Console.ParseCommandLine = ProcessCommandLine;
                 Console.GetPromptTarget = ChatPrompt;
@@ -86,8 +81,7 @@ namespace VpNet.Plugins
             if (command == "/x")
             {
                 // exit chat mode, releaset command processing and return to previous processor.
-                Console.ParseCommandLine = _prevCommandLineDelegate;
-                Console.GetPromptTarget = _prevPromptDelegate;
+               Console.RevertPrompt();
             }
             else
             {
