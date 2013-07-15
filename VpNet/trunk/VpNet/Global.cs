@@ -32,5 +32,6 @@ namespace VpNet
         public const string XmlNsInstance = "http://virtualparadise.org/vpnet/instance";
         public const string XmlNsException = "http://virtualparadise.org/vpnet/exception";
         public const string XmlnsRc = "http://virtualparadise.org/vpnet/reasonCode";
+        public const string XmlNsGeometryRwx = "http://virtualparadise.org/vpnet/geometry/rwx";
     }
 }
