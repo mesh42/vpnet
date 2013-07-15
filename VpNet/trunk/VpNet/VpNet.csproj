@@ -38,6 +38,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyVersion.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyVersion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Design\BoundingBoxConverter.cs" />
     <Compile Include="Design\BoundingSphereConverter.cs" />
     <Compile Include="Design\ColorConverter.cs" />
@@ -263,6 +268,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ManagedApi\System\Enumerations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AssemblyVersion.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

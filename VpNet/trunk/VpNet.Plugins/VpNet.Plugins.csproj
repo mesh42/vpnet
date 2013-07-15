@@ -40,11 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyVersion.cs">
+      <DependentUpon>AssemblyVersion.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ConsoleChatPlugin\ConsoleChatPlugin.cs" />
     <Compile Include="GreeterPlugin\GreeterPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="AssemblyVersion.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\VpNet\VpNet\VpNet.csproj">
       <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
