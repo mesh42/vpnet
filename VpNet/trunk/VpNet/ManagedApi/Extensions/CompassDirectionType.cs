@@ -1,4 +1,4 @@
-﻿#region Copyright notice
+#region Copyright notice
 /*
 ____   ___.__         __               .__    __________                        .__.__                
 \   \ /   |__________/  |_ __ _______  |  |   \______   _____ ____________    __| _|__| ______ ____   
@@ -23,39 +23,10 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-using System;
-using System.Xml.Serialization;
-using VpNet.Interfaces;
-
-namespace VpNet.Abstract
+namespace VpNet.Extensions
 {
-    [Serializable]
-    public abstract class BaseAvatar<TVector3> : IAvatar<TVector3>
-        where TVector3 : struct, IVector3
+    public enum CompassDirectionType
     {
-        [XmlAttribute]
-        virtual public int UserId { get; set; }
-        [XmlAttribute]
-        virtual public string Name { get; set; }
-        [XmlIgnore]
-        virtual public int Session { get;set; }
-        [XmlAttribute]
-        virtual public int AvatarType { get; set; }
-        virtual public TVector3 Position { get; set; }
-        virtual public TVector3 Rotation { get; set; } // X pitch, Y yaw
-
-
-
-        protected BaseAvatar(int userId, string name,int session,int avatarType,TVector3 position,TVector3 rotation)
-        {
-            UserId = userId;
-            Name = name;
-            Session = session;
-            AvatarType = avatarType;
-            Position = position;
-            Rotation = rotation;
-        }
-
-        protected BaseAvatar() { }
+        S,SW,W,NW,N,NE,E,SE
     }
 }

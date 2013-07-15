@@ -79,8 +79,11 @@
     <Compile Include="ManagedApi\Events\World\Interfaces\IWorldLeaveEventArgs.cs" />
     <Compile Include="ManagedApi\Events\World\Interfaces\IWorldEnterEventArgs.cs" />
     <Compile Include="ManagedApi\Events\World\WorldArgsImplementationMappingsT.cs" />
+    <Compile Include="ManagedApi\Extensions\CompassExtensions.cs" />
     <Compile Include="ManagedApi\Extensions\FileExtensions.cs" />
     <Compile Include="ManagedApi\Scene\Abstract\BaseTeleport.cs" />
+    <Compile Include="ManagedApi\Scene\Compass.cs" />
+    <Compile Include="ManagedApi\Extensions\CompassDirectionType.cs" />
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\Interfaces\ICalculate.cs" />
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxMaterial.cs" />
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxMesh.cs" />
