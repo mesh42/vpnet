@@ -81,6 +81,15 @@
     <Compile Include="ManagedApi\Events\World\WorldArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Extensions\FileExtensions.cs" />
     <Compile Include="ManagedApi\Scene\Abstract\BaseTeleport.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\Interfaces\ICalculate.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxMaterial.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxMesh.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxModel.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxParser.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxRotate.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxScale.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxTransform.cs" />
+    <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxTranslate.cs" />
     <Compile Include="ManagedApi\Scene\Interfaces\ITeleport.cs" />
     <Compile Include="ManagedApi\Scene\Teleport.cs" />
     <Compile Include="ManagedApi\System\Abstract\BaseInstanceConfiguration.cs" />
