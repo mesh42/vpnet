@@ -92,7 +92,6 @@ ____   ____.__         __               .__    __________                       
             switch (sender.Exception.Reason)
             {
                 case ReasonCode.NotInUniverse:
-                case ReasonCode.NotInWorld:
                 case ReasonCode.ConnectionError:
                     // ignore any other exceptions (system wide)
                     RcDefault.IgnoreExceptions = true;
@@ -110,6 +109,9 @@ ____   ____.__         __               .__    __________                       
                     Vp.Dispose();
                     Vp = new Instance();
                     Connect();
+                    break;
+                default:
+                    // no further action taken.
                     break;
             }
         }
@@ -198,9 +200,6 @@ ____   ____.__         __               .__    __________                       
 
         static void ProceedAfterLogin(bool enteredWorld)
         {
-            // once logged in enable system wide exception handling.
-            RcDefault.OnVpException += RcDefault_OnVpException;
-
             Cli.WriteLine(ConsoleMessageType.Information, "Logged into universe server");
             Cli.WriteLine(ConsoleMessageType.Information, "Retrieving world list.\r\n");
             Vp.OnWorldList += Vp_OnWorldList;
@@ -212,6 +211,8 @@ ____   ____.__         __               .__    __________                       
             {
                 Cli.GetPromptTarget = WorldPrompt;
                 Cli.ParseCommandLine = ProcessCommand;
+                // once logged in enable system wide exception handling.
+                RcDefault.OnVpException += RcDefault_OnVpException;
             }
             else
             {
@@ -249,6 +250,9 @@ ____   ____.__         __               .__    __________                       
                 Cli.ReadLine();
                 return;
             }
+            // once logged in enable system wide exception handling.
+            RcDefault.OnVpException += RcDefault_OnVpException;
+
             Vp.UpdateAvatar();
             Cli.GetPromptTarget = WorldPrompt;
             Cli.ParseCommandLine = ProcessCommand;
