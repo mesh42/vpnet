@@ -53,6 +53,6 @@ namespace VpNet.Geometry.Rwx
         [XmlAttribute]
         public bool IsTextureForeshorten;
         [XmlAttribute]
-        public bool IsTexturFilter;
+        public bool IsTextureFilter;
     }
 }
