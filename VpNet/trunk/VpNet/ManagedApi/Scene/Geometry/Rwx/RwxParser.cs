@@ -69,6 +69,10 @@ namespace VpNet.Geometry.Rwx
                             if (model == null)
                                 // global double material.
                                 rwx.IsDouble = true;
+                            else
+                            {
+                                model.Material.IsDouble = true;
+                            }
                         break;
                     case "protobegin":
                         proto = new RwxClump();
@@ -93,7 +97,7 @@ namespace VpNet.Geometry.Rwx
                                     a.Material.IsTextureForeshorten = true;
                                     break;
                                 case "filter":
-                                    a.Material.IsTexturFilter = true;
+                                    a.Material.IsTextureFilter = true;
                                     break;
                             }
 
