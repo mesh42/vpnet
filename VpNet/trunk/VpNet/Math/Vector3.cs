@@ -171,8 +171,8 @@ namespace VpNet
                 throw new Exception("should contain 3 float strings");
             }
             X = float.Parse(data[0], CultureInfo.InvariantCulture);
-            Y = float.Parse(data[0], CultureInfo.InvariantCulture);
-            Z = float.Parse(data[0], CultureInfo.InvariantCulture);
+            Y = float.Parse(data[1], CultureInfo.InvariantCulture);
+            Z = float.Parse(data[2], CultureInfo.InvariantCulture);
 
         }
 
