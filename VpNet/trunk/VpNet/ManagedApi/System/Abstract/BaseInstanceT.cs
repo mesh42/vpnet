@@ -383,24 +383,6 @@ namespace VpNet.Abstract
 
         private bool _isDisposing;
 
-        ~BaseInstanceT()
-        {
-            if (Configuration.IsChildInstance || _isDisposing)
-                return;
-            if (_instance == IntPtr.Zero) return;
-            lock (this)
-            {
-                try
-                {
-                    Functions.vp_destroy(_instance);
-                }
-                catch
-                {
-                    // surpress not a valid instance pointer, _instance previously cleaned up.
-                }
-            }
-        }
-
         #region Methods
 
         #region IUniverseFunctions Implementations
@@ -1378,6 +1360,8 @@ namespace VpNet.Abstract
             {
                 if (Configuration.IsChildInstance)
                     return;
+                _waitTimer.Dispose();
+                _waitTimer = null;
                 Functions.vp_destroy(_instance);
             }
             GC.SuppressFinalize(this);
