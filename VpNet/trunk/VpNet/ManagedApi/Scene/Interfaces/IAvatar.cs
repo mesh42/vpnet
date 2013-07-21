@@ -50,7 +50,7 @@ namespace VpNet.Interfaces
         /// Gets or sets the rotation.
         /// </summary>
         /// <value>
-        /// The rotation.
+        /// The rotation im Pitch, Yaw, Roll (Roll is currently not supported in Vp)
         /// </value>
         TVector3 Rotation { get; set; }
     }
