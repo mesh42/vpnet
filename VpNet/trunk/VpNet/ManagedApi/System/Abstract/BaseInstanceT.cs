@@ -84,6 +84,7 @@ namespace VpNet.Abstract
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
         TAvatar, TColor, TFriend, TResult, TTerrainCell, TTerrainNode,
         TTerrainTile, TVector3, TVpObject, TWorld, TWorldAttributes,TCell,TChatMessage,TTerrain,TUniverse,TTeleport,
+        TUserAttributes,
 
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
@@ -106,7 +107,8 @@ namespace VpNet.Abstract
           /* Teleport Event Args */
         TTeleportEventArgs,
         TWorldEnterEventArgs,
-        TWorldLeaveEventArgs
+        TWorldLeaveEventArgs,
+        TUserAttributesEventArgs
         > :
         /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
@@ -136,6 +138,7 @@ namespace VpNet.Abstract
         where TVector3 : struct, IVector3
         where TWorldAttributes : class, IWorldAttributes, new()
         where TTeleport : class, ITeleport<TWorld,TAvatar,TVector3>, new()
+        where TUserAttributes : class, IUserAttributes, new()
         where T : class, new()
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
@@ -170,6 +173,7 @@ namespace VpNet.Abstract
         where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>, new()
         where TWorldEnterEventArgs : class, IWorldEnterEventArgs<TWorld>, new()
         where TWorldLeaveEventArgs : class, IWorldLeaveEventArgs<TWorld>, new()
+        where TUserAttributesEventArgs : class, IUserAttributesEventArgs<TUserAttributes>, new()
     {
         bool _isInitialized;
 
@@ -264,6 +268,7 @@ namespace VpNet.Abstract
             OnQueryCellEndNativeEvent += OnQueryCellEndNative;
             OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
             OnTeleportNativeEvent += OnTeleportNative;
+            OnUserAttributesNativeEvent += OnUserAttributesNative;
 
             OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
             OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
@@ -295,6 +300,7 @@ namespace VpNet.Abstract
             parentInstance.OnQueryCellEndNativeEvent += OnQueryCellEndNative;
             parentInstance.OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
             parentInstance.OnTeleportNativeEvent += OnTeleportNative;
+            parentInstance.OnUserAttributesNativeEvent += OnUserAttributesNative;
 
             parentInstance.OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
             parentInstance.OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
@@ -345,6 +351,7 @@ namespace VpNet.Abstract
             SetNativeEvent(Events.UniverseDisconnect, OnUniverseDisconnectNative1);
             SetNativeEvent(Events.WorldDisconnect, OnWorldDisconnectNative1);
             SetNativeEvent(Events.Teleport, OnTeleportNative1);
+            SetNativeEvent(Events.UserAttributes, OnUserAttributesNative1);
             SetNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallbackNative1);
             SetNativeCallback(Callbacks.ObjectChange, OnObjectChangeCallbackNative1);
             SetNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallbackNative1);
@@ -380,6 +387,7 @@ namespace VpNet.Abstract
         internal void OnQueryCellEndNative1(IntPtr instance) { lock (this) { OnQueryCellEndNativeEvent(instance); } }
         internal void OnUniverseDisconnectNative1(IntPtr instance) { lock (this) { OnUniverseDisconnectNativeEvent(instance); } }
         internal void OnTeleportNative1(IntPtr instance) { lock (this) { OnTeleportNativeEvent(instance); } }
+        internal void OnUserAttributesNative1(IntPtr instance) { lock (this){OnUserAttributesNativeEvent(instance);} }
 
         private bool _isDisposing;
 
@@ -706,6 +714,28 @@ namespace VpNet.Abstract
 
         #region IAvatarFunctions Implementations.
 
+        virtual public TResult GetUserProfile(int userId)
+        {
+            return new TResult
+            {
+                Rc = Functions.vp_user_attributes_by_id(_instance, userId)
+            };
+        }
+
+        [Obsolete]
+        virtual public TResult GetUserProfile(string userName)
+        {
+            return new TResult
+            {
+                Rc = Functions.vp_user_attributes_by_name(_instance,userName)
+            };
+        }
+
+        virtual public TResult GetUserProfile(TAvatar profile)
+        {
+            return GetUserProfile(profile.UserId);
+        }
+
         virtual public TResult UpdateAvatar(float x = 0.0f, float y = 0.0f, float z = 0.0f,float yaw = 0.0f, float pitch = 0.0f)
         {
             lock (this)
@@ -831,6 +861,8 @@ namespace VpNet.Abstract
 
         public delegate void TeleportDelegate(T sender, TTeleportEventArgs args);
 
+        public delegate void UserAttributesDelegate(T sender, TUserAttributesEventArgs args);
+
         public delegate void WorldListEventDelegate(T sender, TWorldListEventargs args);
 
         public delegate void ObjectCreateDelegate(T sender, TObjectCreateArgs args);
@@ -861,6 +893,7 @@ namespace VpNet.Abstract
         public event AvatarLeaveDelegate OnAvatarLeave;
 
         public event TeleportDelegate OnTeleport;
+        public event UserAttributesDelegate OnUserAttributes;
 
         public event ObjectCreateDelegate OnObjectCreate;
         public event ObjectChangeDelegate OnObjectChange;
@@ -940,6 +973,30 @@ namespace VpNet.Abstract
         #endregion
 
         #region Event handlers
+
+        private void OnUserAttributesNative(IntPtr sender)
+        {
+            if (OnUserAttributes == null)
+                return;
+            TUserAttributes att;
+            lock (this)
+            {
+                att = new TUserAttributes()
+                          {
+                              Email = Functions.vp_string(sender, Attributes.UserEmail),
+                              Id = Functions.vp_int(sender, Attributes.UserId),
+                              LastLogin =
+                                  new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Functions.vp_int(sender,
+                                                                                                Attribute.UserLastLogin)),
+                              Name = Functions.vp_string(sender, Attributes.UserName),
+                              OnlineTime = new TimeSpan(0, 0, 0, Functions.vp_int(sender, Attribute.UserOnlineTime)),
+                              RegistrationDate =
+                                  new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Functions.vp_int(sender,
+                                                                                                Attribute.UserRegistrationTime))
+                          };
+            }
+            OnUserAttributes(Implementor,new TUserAttributesEventArgs(){UserAttributes = att});
+        }
 
         private void OnTeleportNative(IntPtr sender)
         {
@@ -1428,6 +1485,7 @@ namespace VpNet.Abstract
         override internal event EventDelegate OnUniverseDisconnectNativeEvent;
         override internal event EventDelegate OnWorldDisconnectNativeEvent;
         override internal event EventDelegate OnTeleportNativeEvent;
+        override internal event EventDelegate OnUserAttributesNativeEvent;
         override internal event CallbackDelegate OnObjectCreateCallbackNativeEvent;
         override internal event CallbackDelegate OnObjectChangeCallbackNativeEvent;
         override internal event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
