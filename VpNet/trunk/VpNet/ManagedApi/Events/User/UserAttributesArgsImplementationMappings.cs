@@ -1,4 +1,4 @@
-#region Copyright notice
+﻿#region Copyright notice
 /*
 ____   ___.__         __               .__    __________                        .__.__                
 \   \ /   |__________/  |_ __ _______  |  |   \______   _____ ____________    __| _|__| ______ ____   
@@ -23,14 +23,12 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-namespace VpNet.Interfaces
+using System.Xml.Serialization;
+using VpNet.ManagedApi.Scene;
+
+namespace VpNet
 {
-    /// <summary>
-    /// User Attribute event arguments non templated interface specifications.
-    /// </summary>
-    public interface IUserAttributesEventArgs<TUserAttributes>
-        where TUserAttributes : class, IUserAttributes, new()
-    {
-        TUserAttributes UserAttributes { get; set; }
-    }
+    [XmlRoot("OnUserAttributes", Namespace = Global.XmlNsEvent)]
+    public class UserAttributesEventArgs : Abstract.BaseUserAttributesEventArgs<UserAttributes> 
+    { }
 }

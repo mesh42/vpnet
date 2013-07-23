@@ -27,6 +27,7 @@ namespace VpNet.Abstract
         internal abstract event EventDelegate OnUniverseDisconnectNativeEvent;
         internal abstract event EventDelegate OnWorldDisconnectNativeEvent;
         internal abstract event EventDelegate OnTeleportNativeEvent;
+        internal abstract event EventDelegate OnUserAttributesNativeEvent;
         internal abstract event CallbackDelegate OnObjectCreateCallbackNativeEvent;
         internal abstract event CallbackDelegate OnObjectChangeCallbackNativeEvent;
         internal abstract event CallbackDelegate OnObjectDeleteCallbackNativeEvent;

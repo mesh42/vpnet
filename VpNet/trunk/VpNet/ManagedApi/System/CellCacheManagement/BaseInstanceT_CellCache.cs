@@ -35,7 +35,7 @@ namespace VpNet.Abstract
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
         TAvatar, TColor, TFriend, TResult, TTerrainCell, TTerrainNode,
         TTerrainTile, TVector3, TVpObject, TWorld, TWorldAttributes,TCell,TChatMessage,TTerrain,TUniverse,TTeleport,
-
+        TUserAttributes,
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
         TAvatarChangeEventArgs, TAvatarEnterEventArgs, TAvatarLeaveEventArgs,
@@ -57,7 +57,8 @@ namespace VpNet.Abstract
           /* Teleport Event Args */
         TTeleportEventArgs,
         TWorldEnterEventArgs,
-        TWorldLeaveEventArgs
+        TWorldLeaveEventArgs,
+        TUserAttributesEventArgs
         >
 /* Constraints ----------------------------------------------------------------------------------------------------------------------------------------------------*/
         where TUniverse : class, IUniverse, new()
@@ -76,6 +77,7 @@ namespace VpNet.Abstract
         where TVector3 : struct, IVector3
         where TWorldAttributes : class, IWorldAttributes, new()
         where TTeleport : class, ITeleport<TWorld,TAvatar,TVector3>, new()
+        where TUserAttributes : class, IUserAttributes, new()
         where T : class, new()
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
@@ -110,6 +112,7 @@ namespace VpNet.Abstract
         where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>, new()
         where TWorldEnterEventArgs : class, IWorldEnterEventArgs<TWorld>, new()
         where TWorldLeaveEventArgs : class, IWorldLeaveEventArgs<TWorld>, new()
+        where TUserAttributesEventArgs : class, IUserAttributesEventArgs<TUserAttributes>, new()
     {
         public delegate void CellRangeQueryCompletedDelegate(T sender, CellRangeQueryCompletedArgs<TVpObject,TVector3> args);
         public delegate void CellRangeObjectChangedDelegate(T sender, TObjectChangeArgs args);

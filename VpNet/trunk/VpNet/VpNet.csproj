@@ -71,7 +71,9 @@
     <Compile Include="ManagedApi\Events\Teleport\TeleportArgsImplementationMappings.cs" />
     <Compile Include="ManagedApi\Events\Terrain\TerrainArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\Universe\UniverseArgsImplementationMappingsT.cs" />
-    <Compile Include="ManagedApi\Events\User\Abstract\BaseUserEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\User\Abstract\BaseUserAttributesEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\User\UserAttributesArgsImplementationMappings.cs" />
+    <Compile Include="ManagedApi\Events\User\UserAttributesArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\User\Interfaces\IUserAttributesEventArgs.cs" />
     <Compile Include="ManagedApi\Events\VpObject\ObjectArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldEnterEventArgs.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="ManagedApi\Extensions\CompassExtensions.cs" />
     <Compile Include="ManagedApi\Extensions\FileExtensions.cs" />
     <Compile Include="ManagedApi\Scene\Abstract\BaseTeleport.cs" />
+    <Compile Include="ManagedApi\Scene\Abstract\BaseUserAttributes.cs" />
     <Compile Include="ManagedApi\Scene\Compass.cs" />
     <Compile Include="ManagedApi\Extensions\CompassDirectionType.cs" />
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\Interfaces\ICalculate.cs" />
@@ -94,7 +97,9 @@
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxTransform.cs" />
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxTranslate.cs" />
     <Compile Include="ManagedApi\Scene\Interfaces\ITeleport.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IUserAttributes.cs" />
     <Compile Include="ManagedApi\Scene\Teleport.cs" />
+    <Compile Include="ManagedApi\Scene\UserAttributes.cs" />
     <Compile Include="ManagedApi\System\Abstract\BaseInstanceConfiguration.cs" />
     <Compile Include="ManagedApi\System\Abstract\BaseInstanceEvents.cs" />
     <Compile Include="ManagedApi\System\Abstract\BaseInstancePlugin.cs" />
@@ -171,6 +176,7 @@
     <Compile Include="ManagedApi\Scene\Terrain\Interfaces\ITerrainCell.cs" />
     <Compile Include="ManagedApi\Scene\Terrain\Enumerations\TerrainRotation.cs" />
     <Compile Include="ManagedApi\Scene\Terrain\Abstract\BaseTerrainTile.cs" />
+    <Compile Include="ManagedApi\TimeSpan.cs" />
     <Compile Include="Math\BoundingBox.cs" />
     <Compile Include="Math\BoundingFrustum.cs" />
     <Compile Include="Math\BoundingSphere.cs" />

@@ -31,7 +31,7 @@ namespace VpNet.Interfaces
     /// <typeparam name="TRc">The type of the result code object.</typeparam>
     /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
     /// <typeparam name="TVector3">The type of vector3.</typeparam>
-    public interface IAvatarFunctions<out TRc, TAvatar, in TVector3>
+    public interface IAvatarFunctions<out TRc, TAvatar, TVector3>
         where TRc : class, IRc, new()
         where TAvatar : class, IAvatar<TVector3>,new()
         where TVector3 : struct, IVector3
@@ -77,5 +77,8 @@ namespace VpNet.Interfaces
         /// <param name="avatar">The avatar object containing the session id.</param>
         /// <returns>Zero when successful, otherwise nonzero.</returns>
         TRc AvatarClick(TAvatar avatar);
+        TRc GetUserProfile(int user);
+        TRc GetUserProfile(TAvatar avatar);
+        TRc GetUserProfile(string userName);
     }
 }

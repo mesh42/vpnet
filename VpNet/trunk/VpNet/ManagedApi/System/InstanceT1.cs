@@ -49,6 +49,7 @@ namespace VpNet
         Terrain,
         Universe,
         Teleport<World,Avatar<TVector3>,TVector3>, 
+        UserAttributes,
 
         AvatarChangeEventArgsT<Avatar<TVector3>,TVector3>,
         AvatarEnterEventArgsT<Avatar<TVector3>,TVector3>,
@@ -73,7 +74,8 @@ namespace VpNet
         WorldSettingsChangedEventArgs,
         TeleportEventArgsT<Teleport<World,Avatar<TVector3>,TVector3>,World,Avatar<TVector3>,TVector3>,
         WorldEnterEventArgsT<World>,
-        WorldLeaveEventArgsT<World>
+        WorldLeaveEventArgsT<World>,
+        UserAttributesEventArgsT<UserAttributes>
         >
 
          where TVector3 : struct, IVector3
