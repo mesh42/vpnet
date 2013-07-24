@@ -200,8 +200,11 @@ namespace VpNet.VpConsole.Gui
                 {
                     string commandLine = string.Empty;
                     commandLine = KeyBufferToString();
-                    _historyIndex = _commandHistory.Count;
-                    _commandHistory.Add(commandLine);
+                    if (!IsMaskedInput)
+                    {
+                        _historyIndex = _commandHistory.Count+1;
+                        _commandHistory.Add(commandLine);
+                    }
                     keyBuffer.Clear();
                     ScrollDown();
                     _isReadlineMode = false;
