@@ -24,6 +24,7 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet.Abstract
@@ -34,7 +35,7 @@ namespace VpNet.Abstract
     /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     [Serializable]
-    public abstract class BaseAvatarChangeEventArgs<TAvatar,TVector3> : EventArgs,IAvatarChangeEventArgs<TAvatar,TVector3>
+    public abstract class BaseAvatarChangeEventArgs<TAvatar,TVector3> : TimedEventArgs,IAvatarChangeEventArgs<TAvatar,TVector3>
         where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
     {
@@ -46,5 +47,17 @@ namespace VpNet.Abstract
         }
 
         protected BaseAvatarChangeEventArgs() { }
+    }
+
+    public abstract class TimedEventArgs : EventArgs
+    {
+        private DateTime _creationDate = DateTime.UtcNow;
+
+        [XmlAttribute]
+        public DateTime CreationDateUtc
+        {
+            get { return _creationDate; }
+            set { _creationDate = value; }
+        }
     }
 }

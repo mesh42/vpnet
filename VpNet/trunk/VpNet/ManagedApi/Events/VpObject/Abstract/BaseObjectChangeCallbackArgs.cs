@@ -29,7 +29,7 @@ using VpNet.Interfaces;
 namespace VpNet.Abstract
 {
     [Serializable]
-    public abstract class BaseObjectChangeCallbackArgs<TResult, TVpObject, TVector3> : EventArgs, IObjectChangeCallbackArgs<TResult, TVpObject,TVector3> 
+    public abstract class BaseObjectChangeCallbackArgs<TResult, TVpObject, TVector3> : TimedEventArgs, IObjectChangeCallbackArgs<TResult, TVpObject, TVector3> 
         where TResult : class, IRc, new()
         where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()

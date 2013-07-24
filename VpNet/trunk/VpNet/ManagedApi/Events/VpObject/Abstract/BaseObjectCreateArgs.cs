@@ -28,7 +28,8 @@ using VpNet.Interfaces;
 
 namespace VpNet.Abstract
 {
-    public abstract class BaseObjectCreateArgs<TAvatar, TVpObject, TVector3> : EventArgs, IObjectCreateArgs<TAvatar, TVpObject,TVector3>where TVector3 : struct, IVector3
+    public abstract class BaseObjectCreateArgs<TAvatar, TVpObject, TVector3> : TimedEventArgs, IObjectCreateArgs<TAvatar, TVpObject, TVector3>
+        where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
         where TVpObject : class, IVpObject<TVector3>, new()
     {

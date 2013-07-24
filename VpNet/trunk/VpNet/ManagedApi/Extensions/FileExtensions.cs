@@ -46,7 +46,23 @@ namespace VpNet.Extensions
 
         public static void SaveTextFile(this string contents, string path)
         {
-            using (var sw = new StreamWriter(path)) { sw.Write(contents); };
+            if (!(new FileInfo(path).Directory.Exists))
+            {
+                Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
+            }
+            using (var sw = new StreamWriter(path))
+            {
+                sw.Write(contents);
+            };
+        }
+
+        public static void AppendTextFile(this string contents, string path)
+        {
+            if (!(new FileInfo(path).Directory.Exists))
+            {
+                Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
+            }
+            using (var sw = new StreamWriter(path,true)) { sw.Write(contents); };
         }
     }
 }

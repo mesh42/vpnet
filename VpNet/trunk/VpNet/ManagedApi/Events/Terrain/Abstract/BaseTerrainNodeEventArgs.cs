@@ -28,7 +28,7 @@ using VpNet.Interfaces;
 
 namespace VpNet.Abstract
 {
-    public class BaseTerrainNodeEventArgs<TTerrain> : EventArgs, ITerrainNodeEventArgs<TTerrain> where TTerrain: class,  ITerrain, new()
+    public class BaseTerrainNodeEventArgs<TTerrain> : TimedEventArgs, ITerrainNodeEventArgs<TTerrain> where TTerrain : class,  ITerrain, new()
     {
         public TTerrain Terrain { get; set; }
 
