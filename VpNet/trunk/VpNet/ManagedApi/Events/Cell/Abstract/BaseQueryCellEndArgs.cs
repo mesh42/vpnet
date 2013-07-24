@@ -29,7 +29,7 @@ using VpNet.Interfaces;
 namespace VpNet.Abstract
 {
     [Serializable]
-    public abstract class BaseQueryCellEndArgs<TCell> : EventArgs, IQueryCellEndArgs<TCell> where TCell : class, ICell , new()
+    public abstract class BaseQueryCellEndArgs<TCell> : TimedEventArgs, IQueryCellEndArgs<TCell> where TCell : class, ICell, new()
     {
         public TCell Cell { get; set; }
 

@@ -35,7 +35,8 @@ namespace VpNet.Abstract
     /// <typeparam name="TVpObject">The type of the vp object.</typeparam>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     [Serializable]
-    public abstract class BaseObjectChangeArgs<TAvatar,TVpObject,TVector3> : EventArgs, IObjectChangeArgs<TAvatar, TVpObject, TVector3> where TVector3 : struct,IVector3
+    public abstract class BaseObjectChangeArgs<TAvatar, TVpObject, TVector3> : TimedEventArgs, IObjectChangeArgs<TAvatar, TVpObject, TVector3>
+        where TVector3 : struct,IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
         where TVpObject : class, IVpObject<TVector3>, new()
     {

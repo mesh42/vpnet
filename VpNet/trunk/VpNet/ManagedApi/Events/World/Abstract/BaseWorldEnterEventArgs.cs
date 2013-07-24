@@ -30,7 +30,7 @@ using VpNet.Interfaces;
 namespace VpNet.Abstract
 {
     [Serializable]
-    public abstract class BaseWorldEnterEventArgs<TWorld> : EventArgs, IWorldEnterEventArgs<TWorld> where TWorld : class, IWorld, new()
+    public abstract class BaseWorldEnterEventArgs<TWorld> : TimedEventArgs, IWorldEnterEventArgs<TWorld> where TWorld : class, IWorld, new()
     {
         public TWorld World { get; set; }
 

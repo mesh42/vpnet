@@ -29,7 +29,7 @@ using VpNet.Interfaces;
 namespace VpNet.Abstract
 {
     [Serializable]
-    public abstract class BaseUniverseDisconnectEventArgs<TUniverse> : EventArgs, IUniverseDisconnectEventArgs<TUniverse> where TUniverse : class, IUniverse, new()
+    public abstract class BaseUniverseDisconnectEventArgs<TUniverse> : TimedEventArgs, IUniverseDisconnectEventArgs<TUniverse> where TUniverse : class, IUniverse, new()
     {
         public TUniverse Universe { get; set; }
 
