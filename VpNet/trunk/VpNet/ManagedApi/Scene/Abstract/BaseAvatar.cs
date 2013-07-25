@@ -43,8 +43,11 @@ namespace VpNet.Abstract
         virtual public int AvatarType { get; set; }
         virtual public TVector3 Position { get; set; }
         virtual public TVector3 Rotation { get; set; } // X pitch, Y yaw
-
-
+        [XmlIgnore]
+        public virtual bool IsBot
+        {
+            get { return Name.StartsWith("["); }
+        }
 
         protected BaseAvatar(int userId, string name,int session,int avatarType,TVector3 position,TVector3 rotation)
         {
