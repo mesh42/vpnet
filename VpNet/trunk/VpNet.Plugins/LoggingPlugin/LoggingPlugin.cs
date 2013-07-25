@@ -67,22 +67,26 @@ namespace VpNet.Plugins
 
         void Vp_OnObjectDelete(Instance sender, ObjectDeleteArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
-            args.Serialize().AppendTextFile(LogName("OnObjectDelete"));
+            if (!args.Avatar.IsBot)
+                args.Serialize().AppendTextFile(LogName("OnObjectDelete"));
         }
 
         void Vp_OnObjectCreate(Instance sender, ObjectCreateArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
-            args.Serialize().AppendTextFile(LogName("OnObjectCreate"));
+            if (!args.Avatar.IsBot)
+                args.Serialize().AppendTextFile(LogName("OnObjectCreate"));
         }
 
         void Vp_OnObjectClick(Instance sender, ObjectClickArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
-            args.Serialize().AppendTextFile(LogName("OnObjectClick"));
+            if (!args.Avatar.IsBot)
+                args.Serialize().AppendTextFile(LogName("OnObjectClick"));
         }
 
         void Vp_OnObjectChange(Instance sender, ObjectChangeArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
-            args.Serialize().AppendTextFile(LogName("OnObjectChange"));
+            if (!args.Avatar.IsBot)
+                args.Serialize().AppendTextFile(LogName("OnObjectChange"));
         }
 
         void OnChatMessage(Instance sender, ChatMessageEventArgsT<Avatar<Vector3>, ChatMessage, Vector3, Color> args)
