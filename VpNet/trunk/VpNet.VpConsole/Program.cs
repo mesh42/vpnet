@@ -119,7 +119,7 @@ ____   ____.__         __               .__    __________                       
         static void _plugins_OnPluginUnloaded(HotSwapPlugins<BaseInstancePlugin> sender, PluginUnloadedArguments<BaseInstancePlugin> args)
         {
             args.NewInstance.InitializePlugin(Vp);
-            //args.NewInstance.Vp._avatars = Vp._avatars.Copy();
+            Cli.WriteLine(ConsoleMessageType.Information, string.Format("Plugin {0} reinitialized by dll replacement.", args.NewInstance.Description.Name));
             _context.Plugins.Activate(args.NewInstance);
         }
 
