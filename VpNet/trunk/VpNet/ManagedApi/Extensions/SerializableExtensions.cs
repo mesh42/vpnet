@@ -60,14 +60,10 @@ namespace VpNet.Extensions
 
         /// <summary>
         /// Saves / serializes the items to a specified file.
-        /// TODO: Update to .NET 4.5 Memory Mapped Files
         /// </summary>
         public static void Serialize<T>(this T o, FileInfo file)
         {
-            var x = new XmlSerializer(typeof(T));
-            FileStream f = file.OpenWrite();
-            x.Serialize(f, o);
-            f.Close();
+            Serialize(o, false, true).SaveTextFile(file.FullName);
         }
 
         public static T Deserialize<T>(FileInfo file)
@@ -104,7 +100,7 @@ namespace VpNet.Extensions
                 using (var StrReader = new StringReader(xml))
                 {
                     var Xml_Serializer = new XmlSerializer(typeof (T));
-                    using (var XmlReader = new XmlTextReader(StrReader))
+                    using (var XmlReader = XmlTextReader.Create(StrReader,new XmlReaderSettings(){CheckCharacters=false}))
                     {
                         return (T) Xml_Serializer.Deserialize(XmlReader);
                     }
@@ -169,6 +165,7 @@ namespace VpNet.Extensions
         {
             var xsn = new XmlSerializerNamespaces();
             var xws = new XmlWriterSettings {Indent = indentation};
+            xws.CheckCharacters = false;
             xws.OmitXmlDeclaration = ommitXmlDeclaration;
             var xmlStr = new StringBuilder();
             var x = new XmlSerializer(o.GetType()/*, defaultNamespace*/);
