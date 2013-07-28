@@ -58,6 +58,28 @@ namespace VpNet.VpConsole.Commands
                     ctx.Cli.WriteLine(ConsoleMessageType.Error, string.Format("Plugin named {0} not found.", PluginName));
                     return true;
                 }
+                if (plugin.DependentOn != null)
+                {
+                    foreach (var item in plugin.DependentOn)
+                    {
+                        var dependency = ctx.Plugins.Instances.Find(p => p.Description.Name.ToLower() == item);
+                        if (dependency == null)
+                        {
+                            ctx.Cli.WriteLine(ConsoleMessageType.Error,
+                                              string.Format(
+                                                  "Plugin named {0} can not be initialized as its dependend on plugin {1}, which is not found.",
+                                                  PluginName, item));
+                            return true;
+                        }
+                        if (!ctx.Plugins.ActivePlugins().Contains(dependency))
+                        {
+                            dependency.Console = ctx.Cli;
+                            dependency.InitializePlugin(ctx.Vp);
+                            ctx.Plugins.Activate(dependency);
+                            ctx.Cli.WriteLine(ConsoleMessageType.Information, string.Format("Dependency Plugin {0} initialized.", item));
+                        }
+                    }
+                }
                 plugin.Console = ctx.Cli;
                 plugin.InitializePlugin(ctx.Vp);
                 ctx.Plugins.Activate(plugin);

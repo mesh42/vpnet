@@ -46,6 +46,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ConsoleChatPlugin\ConsoleChatPlugin.cs" />
+    <Compile Include="DependencyPluginExample\Plugin1.cs" />
+    <Compile Include="DependencyPluginExample\Plugin2.cs" />
     <Compile Include="GreeterPlugin\GreeterPlugin.cs" />
     <Compile Include="LoggingPlugin\LoggingPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
