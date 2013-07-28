@@ -23,6 +23,7 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System.Xml.Serialization;
 using VpNet.PluginFramework.Interfaces;
 
 namespace VpNet.PluginFramework
@@ -35,6 +36,7 @@ namespace VpNet.PluginFramework
     /// 
     /// [NameSpace].[PluginClassName].xml
     /// </summary>
+    [XmlRoot("pluginDescription",Namespace=Global.XmlNs)]
     public class PluginDescription
     {
         /// <summary>
@@ -43,6 +45,7 @@ namespace VpNet.PluginFramework
         /// <value>
         /// The name.
         /// </value>
+        [XmlAttribute]
         public string Name { get; set; }
         /// <summary>
         /// Gets or sets the description of the plugin
@@ -50,6 +53,7 @@ namespace VpNet.PluginFramework
         /// <value>
         /// The description.
         /// </value>
+        [XmlAttribute]
         public string Description { get; set; }
     }
 }
