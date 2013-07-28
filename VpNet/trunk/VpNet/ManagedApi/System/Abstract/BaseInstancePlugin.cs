@@ -23,11 +23,14 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System.Collections.Generic;
+
 namespace VpNet.Abstract
 {
     public abstract class BaseInstancePlugin : BaseInstancePluginT<World>
     {
         public Instance Vp { get; set; }
-        protected BaseInstancePlugin(){} 
+        protected BaseInstancePlugin(){}
+        public virtual List<string> DependentOn { get { return null; } }
     }
 }
