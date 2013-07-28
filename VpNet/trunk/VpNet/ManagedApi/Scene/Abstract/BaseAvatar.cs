@@ -46,7 +46,10 @@ namespace VpNet.Abstract
         [XmlIgnore]
         public virtual bool IsBot
         {
-            get { return Name.StartsWith("["); }
+            get
+            {
+                return Name != null && Name.StartsWith("[");
+            }
         }
 
         protected BaseAvatar(int userId, string name,int session,int avatarType,TVector3 position,TVector3 rotation)
