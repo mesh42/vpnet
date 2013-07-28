@@ -105,6 +105,7 @@ ____   ____.__         __               .__    __________                       
                     }
                     RcDefault.IgnoreExceptions = false;
                     // attempt to reconnect
+                    _isLoadedFromConfiguration = false;
                     Vp.Configuration.IsChildInstance = false;
                     Vp.Dispose();
                     Vp = new Instance();
@@ -261,8 +262,13 @@ ____   ____.__         __               .__    __________                       
             Cli.ReadLine();
         }
 
+        private static  bool _isLoadedFromConfiguration = false;
+
         static void LoadPlugins()
         {
+            if (_isLoadedFromConfiguration)
+                return;
+
             foreach (var item in _context.Plugins.LoadConfiguration(@"pluginConfiguration.xml"))
             {
                 var plugin = _context.Plugins.Instances.Find(p => p.Description.Name.ToLower() == item.Name.ToLower());
@@ -279,6 +285,8 @@ ____   ____.__         __               .__    __________                       
                     Cli.WriteLine(ConsoleMessageType.Information, string.Format("Plugin named {0} initialized from configuration.", item.Name));
                 }
             }
+
+            _isLoadedFromConfiguration = true;
         }
 
         static void ProcessCommand(string command)
