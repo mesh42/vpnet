@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using VpNet.Extensions;
 using VpNet.ManagedApi.System.PluginFramework;
 using VpNet.PluginFramework.Interfaces;
 
@@ -59,6 +60,11 @@ namespace VpNet.PluginFramework
         {
             if (!_activePlugins.Contains(plugin))
                 _activePlugins.Add(plugin);
+        }
+
+        public void SaveConfiguration(string path)
+        {
+            _activePlugins.Select(plugin => plugin.Description).ToList().Serialize(path);
         }
 
         public List<T> ActivePlugins()
@@ -186,6 +192,11 @@ namespace VpNet.PluginFramework
         /// Occurs when an active plugin got unloaded and replaced by a newer version of the plugin.
         /// </summary>
         public event PluginUnloadedDelegate OnPluginUnloaded;
+
+        public List<PluginDescription> LoadConfiguration(string path)
+        {
+            return SerializableExtensions.Deserialize<List<PluginDescription>>(path);
+        }
     }
 
     public class PluginUnloadedArguments<T>

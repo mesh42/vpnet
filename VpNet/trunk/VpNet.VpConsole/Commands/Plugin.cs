@@ -25,6 +25,7 @@ ____   ___.__         __               .__    __________                        
 
 using VpNet.CommandLine;
 using VpNet.CommandLine.Attributes;
+using VpNet.Extensions;
 using VpNet.PluginFramework;
 using VpNet.PluginFramework.Interfaces;
 
@@ -61,6 +62,7 @@ namespace VpNet.VpConsole.Commands
                 plugin.InitializePlugin(ctx.Vp);
                 ctx.Plugins.Activate(plugin);
                 ctx.Cli.WriteLine(ConsoleMessageType.Information, string.Format("Plugin {0} initialized.", PluginName));
+                ctx.Plugins.SaveConfiguration("pluginConfiguration.xml");
                 return true;
             }
             if (!IsLoad && ctx.Plugins.ActivePlugins().Find(p => p.Description.Name.ToLower() == PluginName.ToLower()) == null)
@@ -78,6 +80,7 @@ namespace VpNet.VpConsole.Commands
                 }
                 ctx.Plugins.Deactivate(plugin);
                 ctx.Cli.WriteLine(ConsoleMessageType.Information, string.Format("Plugin {0} unloaded.", PluginName));
+                ctx.Plugins.SaveConfiguration("pluginConfiguration.xml"); 
                 return true;
             }
             return true;

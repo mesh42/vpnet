@@ -213,6 +213,7 @@ ____   ____.__         __               .__    __________                       
                 Cli.ParseCommandLine = ProcessCommand;
                 // once logged in enable system wide exception handling.
                 RcDefault.OnVpException += RcDefault_OnVpException;
+                LoadPlugins();
             }
             else
             {
@@ -256,7 +257,28 @@ ____   ____.__         __               .__    __________                       
             Vp.UpdateAvatar();
             Cli.GetPromptTarget = WorldPrompt;
             Cli.ParseCommandLine = ProcessCommand;
+            LoadPlugins();
             Cli.ReadLine();
+        }
+
+        static void LoadPlugins()
+        {
+            foreach (var item in _context.Plugins.LoadConfiguration(@"pluginConfiguration.xml"))
+            {
+                var plugin = _context.Plugins.Instances.Find(p => p.Description.Name.ToLower() == item.Name.ToLower());
+                if (plugin == null)
+                {
+                    Cli.WriteLine(ConsoleMessageType.Error, string.Format("Plugin named {0} not found. Can't load.", item.Name));
+
+                }
+                else
+                {
+                    plugin.Console = Cli;
+                    plugin.InitializePlugin(Vp);
+                    _context.Plugins.Activate(plugin);
+                    Cli.WriteLine(ConsoleMessageType.Information, string.Format("Plugin named {0} initialized from configuration.", item.Name));
+                }
+            }
         }
 
         static void ProcessCommand(string command)
