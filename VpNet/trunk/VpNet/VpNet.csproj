@@ -60,6 +60,8 @@
     <Compile Include="Global.cs" />
     <Compile Include="ManagedApi\Dictionary.cs" />
     <Compile Include="ManagedApi\DisconnectType.cs" />
+    <Compile Include="ManagedApi\Events\ITimedEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\TimedEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Avatar\AvatarArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\Cell\QueryCellEndArgsT.cs" />
     <Compile Include="ManagedApi\Events\Cell\QueryCellResultArgsT.cs" />

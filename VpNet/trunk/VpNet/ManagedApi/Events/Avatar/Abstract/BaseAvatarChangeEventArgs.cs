@@ -24,7 +24,6 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
-using System.Xml.Serialization;
 using VpNet.Interfaces;
 
 namespace VpNet.Abstract
@@ -47,17 +46,5 @@ namespace VpNet.Abstract
         }
 
         protected BaseAvatarChangeEventArgs() { }
-    }
-
-    public abstract class TimedEventArgs : EventArgs
-    {
-        private DateTime _creationDate = DateTime.UtcNow;
-
-        [XmlAttribute]
-        public DateTime CreationDateUtc
-        {
-            get { return _creationDate; }
-            set { _creationDate = value; }
-        }
     }
 }
