@@ -218,7 +218,7 @@ namespace VpNet.Abstract
             {
                 if (_isInitialized)
                 {
-                    Functions.vp_wait(_instance, 0);
+                    Wait(0);
                     return;
                 }
                 _useAutoWaitTimer = false;
@@ -1417,8 +1417,11 @@ namespace VpNet.Abstract
             {
                 if (Configuration.IsChildInstance)
                     return;
-                _waitTimer.Dispose();
-                _waitTimer = null;
+                if (_waitTimer != null)
+                {
+                    _waitTimer.Dispose();
+                    _waitTimer = null;
+                }
                 Functions.vp_destroy(_instance);
             }
             GC.SuppressFinalize(this);
