@@ -25,6 +25,7 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 using System.IO;
+using System.Threading;
 using VpNet.Abstract;
 using VpNet.ManagedApi.System.PluginFramework;
 using VpNet.NativeApi;
@@ -80,6 +81,27 @@ ____   ____.__         __               .__    __________                       
             Connect();
         }
 
+        static void Reset()
+        {
+            // ignore any other exceptions (system wide)
+            RcDefault.IgnoreExceptions = true;
+            Vp.UseAutoWaitTimer = false;
+            // turn of system wide exception handling.
+            RcDefault.OnVpException -= RcDefault_OnVpException;
+            // unload all active plugins
+            foreach (var plugin in _context.Plugins.ActivePlugins())
+            {
+                _context.Plugins.Deactivate(plugin);
+            }
+            RcDefault.IgnoreExceptions = false;
+            // attempt to reconnect
+            _isLoadedFromConfiguration = false;
+            Vp.Configuration.IsChildInstance = false;
+            Vp.Dispose();
+            Vp = new Instance();
+            Connect();
+        }
+
         /// <summary>
         /// System wide exception handling.
         /// </summary>
@@ -93,23 +115,8 @@ ____   ____.__         __               .__    __________                       
             {
                 case ReasonCode.NotInUniverse:
                 case ReasonCode.ConnectionError:
-                    // ignore any other exceptions (system wide)
-                    RcDefault.IgnoreExceptions = true;
-                    Vp.UseAutoWaitTimer = false;
-                    // turn of system wide exception handling.
-                    RcDefault.OnVpException -= RcDefault_OnVpException;
-                    // unload all active plugins
-                    foreach (var plugin in _context.Plugins.ActivePlugins())
-                    {
-                        _context.Plugins.Deactivate(plugin);
-                    }
-                    RcDefault.IgnoreExceptions = false;
-                    // attempt to reconnect
-                    _isLoadedFromConfiguration = false;
-                    Vp.Configuration.IsChildInstance = false;
-                    Vp.Dispose();
-                    Vp = new Instance();
-                    Connect();
+                case ReasonCode.NotInWorld:
+                    Reset();
                     break;
                 default:
                     // no further action taken.
@@ -164,12 +171,28 @@ ____   ____.__         __               .__    __________                       
             }
             catch (VpException ex)
             {
-                Cli.WriteLine(ConsoleMessageType.Error, "Can't connect to universe.");
-                Cli.GetPromptTarget = RetryPrompt;
-                Cli.ParseCommandLine = RetryuniverseConnect;
-                Cli.ReadLine();
+                if (IsAutoReconnect)
+                {
+                    Cli.WriteLine(ConsoleMessageType.Error, "Can't connect to universe. Reconnecting in 10 seconds...");
+                    // start a reconnect timer.
+                    new Timer(Reconnect, null, 10000, 0);
+                }
+                else
+                {
+                    Cli.WriteLine(ConsoleMessageType.Error, "Can't connect to universe.");
+                    Cli.GetPromptTarget = RetryPrompt;
+                    Cli.ParseCommandLine = RetryuniverseConnect;
+                    Cli.ReadLine();
+                }
             }
         }
+
+        private static void Reconnect(object state)
+        {
+            Connect();
+        }
+
+        protected static bool IsAutoReconnect = true;
 
         private static void ProcessUserName(string userName)
         {
@@ -203,6 +226,7 @@ ____   ____.__         __               .__    __________                       
         {
             Cli.WriteLine(ConsoleMessageType.Information, "Logged into universe server");
             Cli.WriteLine(ConsoleMessageType.Information, "Retrieving world list.\r\n");
+            Vp.OnUniverseDisconnect += Vp_OnUniverseDisconnect;
             Vp.OnWorldList += Vp_OnWorldList;
             Vp.OnAvatarEnter += Vp_OnAvatarEnter;
             Vp.OnAvatarLeave += Vp_OnAvatarLeave;
@@ -222,6 +246,12 @@ ____   ____.__         __               .__    __________                       
                 Cli.ParseCommandLine = ProcessEnterWorld;
             }
             Cli.ReadLine();
+        }
+
+        static void Vp_OnUniverseDisconnect(Instance sender, UniverseDisconnectEventArgs args)
+        {
+            Cli.WriteLine(ConsoleMessageType.Error, "Disconnected from universe, reconnecting.");
+            Reset();
         }
 
         static void Vp_OnAvatarLeave(Instance sender, AvatarLeaveEventArgsT<Avatar<Vector3>, Vector3> args)
