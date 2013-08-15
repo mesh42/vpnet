@@ -23,7 +23,10 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace VpNet.Extensions
 {
@@ -62,7 +65,34 @@ namespace VpNet.Extensions
             {
                 Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
             }
-            using (var sw = new StreamWriter(path,true)) { sw.Write(contents); };
+            using (var sw = GetUnlockedStreamWriter(path, true))
+            {
+                sw.Write(contents);
+                return;
+            }
+        }
+
+        private static StreamWriter GetUnlockedStreamWriter(string fileName,bool append)
+        {
+            while (true)
+            {
+                try
+                {
+                    return new StreamWriter(fileName,append);
+                }
+                catch (IOException e)
+                {
+                    if (!IsFileLocked(e))
+                        throw;
+                    Thread.Sleep(100);
+                }
+            }
+        }
+
+        private static bool IsFileLocked(IOException exception)
+        {
+            int errorCode = Marshal.GetHRForException(exception) & ((1 << 16) - 1);
+            return errorCode == 32 || errorCode == 33;
         }
     }
 }
