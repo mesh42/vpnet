@@ -25,6 +25,7 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 using System.IO;
+using System.Xml.Serialization;
 using VpNet.Abstract;
 using VpNet.Extensions;
 using VpNet.PluginFramework;
@@ -52,56 +53,62 @@ namespace VpNet.Plugins
             Vp.OnObjectCreate += Vp_OnObjectCreate;
             Vp.OnObjectDelete += Vp_OnObjectDelete;
             Vp.OnWorldList += Vp_OnWorldList;
+            Vp.OnTeleport += Vp_OnTeleport;
         }
 
-        string LogName(string eventType)
+        void Vp_OnTeleport(Instance sender, TeleportEventArgsT<Teleport<World, Avatar<Vector3>, Vector3>, World, Avatar<Vector3>, Vector3> args)
         {
-            return Path.Combine(Vp.Configuration.World.Name,eventType, DateTime.Now.ToString("yyyyMMdd") + ".xml");
+            args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
+        string LogName(Type eventType)
+        {
+            var att = (XmlRootAttribute[])eventType.GetCustomAttributes(typeof(XmlRootAttribute), false);
+            return Path.Combine(Vp.Configuration.World.Name, att[0].ElementName, DateTime.Now.ToString("yyyyMMdd") + ".xml");
+        }
 
         void Vp_OnWorldList(Instance sender, WorldListEventArgs args)
         {
-            args.Serialize().AppendTextFile(LogName("OnWorldList"));
+            args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void Vp_OnObjectDelete(Instance sender, ObjectDeleteArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
             if (!args.Avatar.IsBot)
-                args.Serialize().AppendTextFile(LogName("OnObjectDelete"));
+                args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void Vp_OnObjectCreate(Instance sender, ObjectCreateArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
             if (!args.Avatar.IsBot)
-                args.Serialize().AppendTextFile(LogName("OnObjectCreate"));
+                args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void Vp_OnObjectClick(Instance sender, ObjectClickArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
             if (!args.Avatar.IsBot)
-                args.Serialize().AppendTextFile(LogName("OnObjectClick"));
+                args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void Vp_OnObjectChange(Instance sender, ObjectChangeArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
         {
             if (!args.Avatar.IsBot)
-                args.Serialize().AppendTextFile(LogName("OnObjectChange"));
+                args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void OnChatMessage(Instance sender, ChatMessageEventArgsT<Avatar<Vector3>, ChatMessage, Vector3, Color> args)
         {
-            args.Serialize().AppendTextFile(LogName("OnChatMessage"));
+            args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void OnAvatarLeave(Instance sender, AvatarLeaveEventArgsT<Avatar<Vector3>, Vector3> args)
         {
-            args.Serialize().AppendTextFile(LogName("OnAvatarLeave"));
+            args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void OnAvatarEnter(Instance sender, AvatarEnterEventArgsT<Avatar<Vector3>, Vector3> args)
         {
-            args.Serialize().AppendTextFile(LogName("OnAvatarEnter"));
+            args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         override public PluginDescription Description
@@ -126,6 +133,7 @@ namespace VpNet.Plugins
             Vp.OnObjectCreate -= Vp_OnObjectCreate;
             Vp.OnObjectDelete -= Vp_OnObjectDelete;
             Vp.OnWorldList -= Vp_OnWorldList;
+            Vp.OnTeleport -= Vp_OnTeleport;
         }
     }
 }
