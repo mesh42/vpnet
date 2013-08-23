@@ -52,6 +52,7 @@ namespace VpNet
         AvatarChangeEventArgsT<Avatar<Vector3>,Vector3>,
         AvatarEnterEventArgsT<Avatar<Vector3>,Vector3>,
         AvatarLeaveEventArgsT<Avatar<Vector3>,Vector3>,
+        AvatarClickEventArgsT<Avatar<Vector3>, Vector3>,
         QueryCellResultArgsT<VpObject<Vector3>, Vector3>,
         QueryCellEndArgs,
         ChatMessageEventArgsT<Avatar<Vector3>,ChatMessage,Vector3,Color>,

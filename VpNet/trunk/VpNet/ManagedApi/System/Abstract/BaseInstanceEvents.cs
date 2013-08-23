@@ -18,6 +18,7 @@ namespace VpNet.Abstract
         internal abstract event EventDelegate OnAvatarAddNativeEvent;
         internal abstract event EventDelegate OnAvatarDeleteNativeEvent;
         internal abstract event EventDelegate OnAvatarChangeNativeEvent;
+        internal abstract event EventDelegate OnAvatarClickNativeEvent; 
         internal abstract event EventDelegate OnWorldListNativeEvent;
         internal abstract event EventDelegate OnObjectChangeNativeEvent;
         internal abstract event EventDelegate OnObjectCreateNativeEvent;
