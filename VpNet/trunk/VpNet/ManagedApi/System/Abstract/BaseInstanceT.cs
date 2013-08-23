@@ -1150,7 +1150,7 @@ namespace VpNet.Abstract
                Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch),
                             Y=Functions.vp_float(sender, Attribute.AvatarYaw),
                             Z=0 /* roll currently not supported*/}};            
-                setAvatar(new Avatar<Vector3>().CopyFrom(data));
+                setAvatar(data);
             }
             if (OnAvatarChange != null)
                 OnAvatarChange(Implementor, new TAvatarChangeEventArgs { Avatar = data.Copy() });
@@ -1173,11 +1173,15 @@ namespace VpNet.Abstract
             if (OnAvatarClick == null) return;
             lock (this)
             {
+                var clickedAvatar = Functions.vp_int(sender, Attribute.ClickedSession);
+                if (clickedAvatar == 0)
+                    clickedAvatar = Functions.vp_int(sender, Attribute.AvatarSession);
+
                     OnAvatarClick(Implementor, 
                         new TAvatarClickEventArgs
                             {
                                 Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)],
-                                ClickedAvatar = _avatars[Functions.vp_int(sender, Attribute.ClickedSession)]
+                                ClickedAvatar = _avatars[clickedAvatar]
                             });
             }
         }
@@ -1274,17 +1278,17 @@ namespace VpNet.Abstract
             return avatar.Copy();
         }
 
-        private void setAvatar(Avatar<Vector3> avatar)
+        private void setAvatar(TAvatar avatar)
         {
             lock(this)
             {
                 if (_avatars.ContainsKey(avatar.Session))
                 {
-                    _avatars[avatar.Session] = new TAvatar().CopyFrom(avatar);
+                    _avatars[avatar.Session] = avatar;
                 }
                 else
                 {
-                    _avatars[avatar.Session] = new TAvatar().CopyFrom(avatar);
+                    _avatars[avatar.Session] = avatar;
                 }
             }
         }
