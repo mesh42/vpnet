@@ -50,10 +50,10 @@ namespace VpNet
         Universe,
         Teleport<World,TAvatar,TVector3>,
         UserAttributes,
-
         AvatarChangeEventArgsT<TAvatar, TVector3>,
         AvatarEnterEventArgsT<TAvatar, TVector3>,
         AvatarLeaveEventArgsT<TAvatar, TVector3>,
+        AvatarClickEventArgsT<TAvatar, TVector3>,
         QueryCellResultArgsT<VpObject<TVector3>, TVector3>,
         QueryCellEndArgs,
         ChatMessageEventArgsT<TAvatar, ChatMessage, TVector3, Color>,

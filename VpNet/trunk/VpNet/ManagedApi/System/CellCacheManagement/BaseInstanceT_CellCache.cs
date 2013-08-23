@@ -38,7 +38,7 @@ namespace VpNet.Abstract
         TUserAttributes,
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
-        TAvatarChangeEventArgs, TAvatarEnterEventArgs, TAvatarLeaveEventArgs,
+        TAvatarChangeEventArgs, TAvatarEnterEventArgs, TAvatarLeaveEventArgs, TAvatarClickEventArgs,
         /* Cell Event Args */
         TQueryCellResultArgs, TQueryCellEndArgs,
         /* Chat Event Args */
@@ -84,6 +84,7 @@ namespace VpNet.Abstract
         where TAvatarChangeEventArgs : class, IAvatarChangeEventArgs<TAvatar,TVector3>, new()
         where TAvatarEnterEventArgs : class, IAvatarEnterEventArgs<TAvatar,TVector3>, new()
         where TAvatarLeaveEventArgs : class, IAvatarLeaveEventArgs<TAvatar,TVector3>, new()
+        where TAvatarClickEventArgs : class, IAvatarClickEventArgs<TAvatar, TVector3>, new()
         /* Cell Event Args */
         where TQueryCellResultArgs : class, IQueryCellResultArgs<TVpObject,TVector3>, new()
         where TQueryCellEndArgs : class, IQueryCellEndArgs<TCell>, new()

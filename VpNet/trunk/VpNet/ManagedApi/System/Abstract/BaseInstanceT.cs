@@ -79,6 +79,7 @@ namespace VpNet.Abstract
     /// <typeparam name="TTeleportEventArgs">The type of the teleport event args.</typeparam>
     /// <typeparam name="TWorldEnterEventArgs">The type of the world enter event args.</typeparam>
     /// <typeparam name="TWorldLeaveEventArgs">The type of the world leave event args.</typeparam>
+    /// <typeparam name="TAvatarClickEventArgs"> </typeparam>
     [Serializable]
     public abstract partial class BaseInstanceT<T,
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -88,7 +89,7 @@ namespace VpNet.Abstract
 
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
-        TAvatarChangeEventArgs, TAvatarEnterEventArgs, TAvatarLeaveEventArgs,
+        TAvatarChangeEventArgs, TAvatarEnterEventArgs, TAvatarLeaveEventArgs,TAvatarClickEventArgs,
         /* Cell Event Args */
         TQueryCellResultArgs, TQueryCellEndArgs,
         /* Chat Event Args */
@@ -145,6 +146,7 @@ namespace VpNet.Abstract
         where TAvatarChangeEventArgs : class, IAvatarChangeEventArgs<TAvatar,TVector3>, new()
         where TAvatarEnterEventArgs : class, IAvatarEnterEventArgs<TAvatar,TVector3>, new()
         where TAvatarLeaveEventArgs : class, IAvatarLeaveEventArgs<TAvatar,TVector3>, new()
+        where TAvatarClickEventArgs : class, IAvatarClickEventArgs<TAvatar,TVector3>, new()
         /* Cell Event Args */
         where TQueryCellResultArgs : class, IQueryCellResultArgs<TVpObject,TVector3>, new()
         where TQueryCellEndArgs : class, IQueryCellEndArgs<TCell>, new()
@@ -258,6 +260,7 @@ namespace VpNet.Abstract
             OnAvatarAddNativeEvent += OnAvatarAddNative;
             OnAvatarChangeNativeEvent += OnAvatarChangeNative;
             OnAvatarDeleteNativeEvent += OnAvatarDeleteNative;
+            OnAvatarClickNativeEvent += OnAvatarClickNative;
             OnWorldListNativeEvent += OnWorldListNative;
             OnWorldDisconnectNativeEvent += OnWorldDisconnectNative;
 
@@ -290,6 +293,7 @@ namespace VpNet.Abstract
             parentInstance.OnAvatarAddNativeEvent += OnAvatarAddNative;
             parentInstance.OnAvatarChangeNativeEvent += OnAvatarChangeNative;
             parentInstance.OnAvatarDeleteNativeEvent += OnAvatarDeleteNative;
+            parentInstance.OnAvatarClickNativeEvent += OnAvatarClickNative;
             parentInstance.OnWorldListNativeEvent += OnWorldListNative;
             parentInstance.OnWorldDisconnectNativeEvent += OnWorldDisconnectNative;
 
@@ -340,6 +344,7 @@ namespace VpNet.Abstract
             SetNativeEvent(Events.AvatarAdd, OnAvatarAddNative1);
             SetNativeEvent(Events.AvatarChange, OnAvatarChangeNative1);
             SetNativeEvent(Events.AvatarDelete, OnAvatarDeleteNative1);
+            SetNativeEvent(Events.AvatarClick, OnAvatarClickNative1);
             SetNativeEvent(Events.WorldList, OnWorldListNative1);
             SetNativeEvent(Events.WorldSetting, OnWorldSettingNative1);
             SetNativeEvent(Events.WorldSettingsChanged, OnWorldSettingsChangedNative1);
@@ -376,6 +381,7 @@ namespace VpNet.Abstract
         internal void OnAvatarAddNative1(IntPtr instance) { lock (this) { OnAvatarAddNativeEvent(instance); } }
         internal void OnAvatarChangeNative1(IntPtr instance) { lock (this) { OnAvatarChangeNativeEvent(instance); } }
         internal void OnAvatarDeleteNative1(IntPtr instance) { lock (this) { OnAvatarDeleteNativeEvent(instance); } }
+        internal void OnAvatarClickNative1(IntPtr instance) { lock (this) { OnAvatarClickNativeEvent(instance); } }
         internal void OnWorldListNative1(IntPtr instance) { lock (this) { OnWorldListNativeEvent(instance); } }
         internal void OnWorldDisconnectNative1(IntPtr instance) { lock (this) { OnWorldDisconnectNativeEvent(instance); } }
         internal void OnWorldSettingsChangedNative1(IntPtr instance) { lock (this) { OnWorldSettingsChangedNativeEvent(instance); } }
@@ -858,6 +864,7 @@ namespace VpNet.Abstract
         public delegate void AvatarChangeDelegate(T sender, TAvatarChangeEventArgs args);
         public delegate void AvatarEnterDelegate(T sender, TAvatarEnterEventArgs args);
         public delegate void AvatarLeaveDelegate(T sender, TAvatarLeaveEventArgs args);
+        public delegate void AvatarClickDelegate(T sender, TAvatarClickEventArgs args);
 
         public delegate void TeleportDelegate(T sender, TTeleportEventArgs args);
 
@@ -891,6 +898,7 @@ namespace VpNet.Abstract
         public event AvatarEnterDelegate OnAvatarEnter;
         public event AvatarChangeDelegate OnAvatarChange;
         public event AvatarLeaveDelegate OnAvatarLeave;
+        public event AvatarClickDelegate OnAvatarClick;
 
         public event TeleportDelegate OnTeleport;
         public event UserAttributesDelegate OnUserAttributes;
@@ -1022,7 +1030,6 @@ namespace VpNet.Abstract
                             },
                             // TODO: maintain user count and world state statistics.
                         World = new TWorld { Name = Functions.vp_string(sender, Attribute.TeleportWorld),State = WorldState.Unknown, UserCount=-1 }
-
                     };
             }
             OnTeleport(Implementor, new TTeleportEventArgs{Teleport = teleport});
@@ -1159,6 +1166,20 @@ namespace VpNet.Abstract
             }
             if (OnAvatarLeave == null) return;
             OnAvatarLeave(Implementor, new TAvatarLeaveEventArgs { Avatar = data.Copy() });
+        }
+
+        private void OnAvatarClickNative(IntPtr sender)
+        {
+            if (OnAvatarClick == null) return;
+            lock (this)
+            {
+                    OnAvatarClick(Implementor, 
+                        new TAvatarClickEventArgs
+                            {
+                                Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)],
+                                ClickedAvatar = _avatars[Functions.vp_int(sender, Attribute.ClickedSession)]
+                            });
+            }
         }
 
         private void OnObjectClickNative(IntPtr sender)
@@ -1479,6 +1500,7 @@ namespace VpNet.Abstract
         override internal event EventDelegate OnAvatarAddNativeEvent;
         override internal event EventDelegate OnAvatarDeleteNativeEvent;
         override internal event EventDelegate OnAvatarChangeNativeEvent;
+        override internal event EventDelegate OnAvatarClickNativeEvent;
         override internal event EventDelegate OnWorldListNativeEvent;
         override internal event EventDelegate OnObjectChangeNativeEvent;
         override internal event EventDelegate OnObjectCreateNativeEvent;

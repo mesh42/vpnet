@@ -59,4 +59,14 @@ namespace VpNet
        where TVector3 : struct, IVector3
        where TAvatar : class, IAvatar<TVector3>, new()
     { }
+    /// <summary>
+    /// Templated Event Arguments implementation
+    /// </summary>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
+    [XmlRoot("OnAvatarClick", Namespace = Global.XmlNsEvent)]
+    public class AvatarClickEventArgsT<TAvatar, TVector3> : Abstract.BaseAvatarClickEventArgs<TAvatar, TVector3>
+        where TVector3 : struct, IVector3
+        where TAvatar : class, IAvatar<TVector3>, new()
+    { }
 }

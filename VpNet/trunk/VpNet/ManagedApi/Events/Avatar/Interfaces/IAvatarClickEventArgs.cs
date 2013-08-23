@@ -1,4 +1,4 @@
-﻿#region Copyright notice
+#region Copyright notice
 /*
 ____   ___.__         __               .__    __________                        .__.__                
 \   \ /   |__________/  |_ __ _______  |  |   \______   _____ ____________    __| _|__| ______ ____   
@@ -23,29 +23,30 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-using System.Xml.Serialization;
-
-namespace VpNet
+namespace VpNet.Interfaces
 {
     /// <summary>
-    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
+    /// Avater enter event arguments templated interface specifications.
     /// </summary>
-    [XmlRoot("OnAvatarChange", Namespace = Global.XmlNsEvent)]
-    public class AvatarChangeEventArgs : Abstract.BaseAvatarChangeEventArgs<Avatar<Vector3>,Vector3>{ }
-
-    /// <summary>
-    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
-    /// </summary>
-    [XmlRoot("OnAvatarEnter", Namespace = Global.XmlNsEvent)]
-    public class AvatarEnterEventArgs : Abstract.BaseAvatarEnterEventArgs<Avatar<Vector3>,Vector3> { }
-    /// <summary>
-    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
-    /// </summary>
-    [XmlRoot("OnAvatarLeave", Namespace = Global.XmlNsEvent)]
-    public class AvatarLeaveEventArgs : Abstract.BaseAvatarLeaveEventArgs<Avatar<Vector3>,Vector3> { }
-    /// <summary>
-    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
-    /// </summary>
-    [XmlRoot("OnAvatarClick", Namespace = Global.XmlNsEvent)]
-    public class AvatarClickEventArgs : Abstract.BaseAvatarClickEventArgs<Avatar<Vector3>,Vector3> { }
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
+    public interface IAvatarClickEventArgs<TAvatar,TVector3> 
+        where TVector3 : struct, IVector3
+        where TAvatar : class, IAvatar<TVector3>, new()
+    {
+        /// <summary>
+        /// Gets or sets the avatar.
+        /// </summary>
+        /// <value>
+        /// The avatar.
+        /// </value>
+        TAvatar Avatar { get; set; }
+        /// <summary>
+        /// Gets or sets the clicked avatar.
+        /// </summary>
+        /// <value>
+        /// The avatar.
+        /// </value>
+        TAvatar ClickedAvatar { get; set; }
+    }
 }
