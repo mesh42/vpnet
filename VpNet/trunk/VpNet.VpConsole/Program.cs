@@ -296,7 +296,7 @@ ____   ____.__         __               .__    __________                       
 
         static void LoadPlugins()
         {
-            if (_isLoadedFromConfiguration)
+            if (_isLoadedFromConfiguration || !File.Exists(@"pluginConfiguration.xml"))
                 return;
 
             foreach (var item in _context.Plugins.LoadConfiguration(@"pluginConfiguration.xml"))
