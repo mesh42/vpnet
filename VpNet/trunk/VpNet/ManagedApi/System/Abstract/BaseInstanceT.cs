@@ -30,6 +30,7 @@ using System.Threading;
 using VpNet.Cache;
 using VpNet.Extensions;
 using VpNet.Interfaces;
+using VpNet.ManagedApi.System;
 using VpNet.NativeApi;
 using Attribute = VpNet.NativeApi.Attributes;
 
@@ -181,7 +182,6 @@ namespace VpNet.Abstract
 
         public OpCacheProvider ModelCacheProvider { get; internal set; }
   
-        private int _reference = int.MinValue;
         private readonly Dictionary<int, TVpObject> _objectReferences = new Dictionary<int, TVpObject>();
         private Timer _waitTimer;
 
@@ -232,17 +232,7 @@ namespace VpNet.Abstract
         private TUniverse Universe { get; set; }
         private TWorld World { get; set; }
 
-        private int GetNextReference()
-        {
-            lock (this)
-            {
-                if (_reference < int.MaxValue)
-                    _reference++;
-                else
-                    _reference = int.MinValue;
-                return _reference;
-            }
-        }
+
 
         internal void Init()
         {
@@ -572,7 +562,7 @@ namespace VpNet.Abstract
         virtual public TResult DeleteObject(TVpObject vpObject)
         {
             int rc;
-            var referenceNumber = GetNextReference();
+            var referenceNumber = ObjectReferenceCounter.GetNextReference();
             lock (this)
             {
                 _objectReferences.Add(referenceNumber, vpObject);
@@ -590,7 +580,7 @@ namespace VpNet.Abstract
         virtual public TResult AddObject(TVpObject vpObject)
         {
             int rc;
-            var referenceNumber = GetNextReference();
+            var referenceNumber = ObjectReferenceCounter.GetNextReference();
             lock (this)
             {
                 vpObject.ReferenceNumber = referenceNumber; // calculated a unqiue id for you.
@@ -620,7 +610,7 @@ namespace VpNet.Abstract
         virtual public TResult ChangeObject(TVpObject vpObject)
         {
             int rc;
-            var referenceNumber = GetNextReference();
+            var referenceNumber = ObjectReferenceCounter.GetNextReference();
             lock (this)
             {
                 _objectReferences.Add(referenceNumber, vpObject);

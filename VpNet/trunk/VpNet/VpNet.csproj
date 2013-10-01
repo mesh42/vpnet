@@ -153,6 +153,7 @@
     <Compile Include="ManagedApi\System\InstanceT2.cs" />
     <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IUniverseFunctions.cs" />
     <Compile Include="ManagedApi\System\Interfaces\IInstancePlugin.cs" />
+    <Compile Include="ManagedApi\System\ObjectReferenceCounter.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\EventHelpers.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\ConsoleMessageType.cs" />
     <Compile Include="ManagedApi\System\PluginFramework\Interfaces\IConsole.cs" />
