@@ -105,6 +105,14 @@ namespace VpNet.NativeApi
         /// <summary>
         /// Invalid arguments
         /// </summary>
-        InvalidArguments = 18
+        InvalidArguments = 18,
+        /// <summary>
+        /// Used when querying an object by an unknown ID.
+        /// </summary>
+        ObjectNotFound = 19,
+        /// <summary>
+        /// Unknown error
+        /// </summary>
+        UnknownError = 20,
     }
 }
