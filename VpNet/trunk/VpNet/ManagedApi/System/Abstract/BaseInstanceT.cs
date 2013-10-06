@@ -385,8 +385,6 @@ namespace VpNet.Abstract
         internal void OnTeleportNative1(IntPtr instance) { lock (this) { OnTeleportNativeEvent(instance); } }
         internal void OnUserAttributesNative1(IntPtr instance) { lock (this){OnUserAttributesNativeEvent(instance);} }
 
-        private bool _isDisposing;
-
         #region Methods
 
         #region IUniverseFunctions Implementations
@@ -1427,7 +1425,6 @@ namespace VpNet.Abstract
 
         public void Dispose()
         {
-            _isDisposing = true;
             if (_instance != IntPtr.Zero)
             {
                 if (Configuration.IsChildInstance)
