@@ -25,7 +25,6 @@ ____   ___.__         __               .__    __________                        
 
 using VpNet.CommandLine;
 using VpNet.CommandLine.Attributes;
-using VpNet.Extensions;
 using VpNet.PluginFramework;
 using VpNet.PluginFramework.Interfaces;
 

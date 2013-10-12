@@ -38,6 +38,7 @@ namespace VpNet.NativeApi
         FriendDelete,
         TerrainQuery,
         TerrainNodeSet,
+        ObjectGet,
         HighestCallback
     }
 }
