@@ -821,6 +821,47 @@ namespace VpNet.Abstract
         {
             return new TResult { Rc = Functions.vp_console_message(_instance, avatar.Session, name, message, (int)effects, red, green, blue) };
         }
+
+        virtual public TResult UrlSendOverlay(Avatar<TVector3> avatar, string url)
+        {
+            return new TResult { Rc = Functions.vp_url_send(_instance, avatar.Session, url, (int)Attribute.UrlTargetOverlay) };
+        }
+
+        virtual public TResult UrlSendOverlay(Avatar<TVector3> avatar, Uri url)
+        {
+            return new TResult { Rc = Functions.vp_url_send(_instance, avatar.Session, url.AbsoluteUri, (int)Attribute.UrlTargetOverlay) };
+        }
+
+        virtual public TResult UrlSendOverlay(int avatarSession, string url)
+        {
+            return new TResult { Rc = Functions.vp_url_send(_instance, avatarSession, url, (int)Attribute.UrlTargetOverlay) };
+        }
+
+        virtual public TResult UrlSendOverlay(int avatarSession, Uri url)
+        {
+            return new TResult { Rc = Functions.vp_url_send(_instance, avatarSession, url.AbsoluteUri, (int)Attribute.UrlTargetOverlay) };
+        }
+
+        virtual public TResult UrlSend(Avatar<TVector3> avatar, string url)
+        {
+            return new TResult { Rc = Functions.vp_url_send(_instance, avatar.Session, url, (int)Attribute.UrlTargetBrowser) };
+        }
+
+        virtual public TResult UrlSend(Avatar<TVector3> avatar, Uri url)
+        {
+            return new TResult { Rc = Functions.vp_url_send(_instance, avatar.Session, url.AbsoluteUri, (int)Attribute.UrlTargetBrowser) };
+        }
+
+        virtual public TResult UrlSend(int avatarSession, string url)
+        {
+            return new TResult { Rc = Functions.vp_url_send(_instance, avatarSession, url, (int)Attribute.UrlTargetBrowser) };
+        }
+
+        virtual public TResult UrlSend(int avatarSession, Uri url)
+        {
+            return new TResult { Rc = Functions.vp_url_send(_instance, avatarSession, url.AbsoluteUri, (int)Attribute.UrlTargetBrowser) };
+        }
+
         #endregion
 
         #endregion

@@ -107,6 +107,10 @@ namespace VpNet.NativeApi
         /// </summary>
         Teleport=18,
         /// <summary>
+        /// Url Event
+        /// </summary>
+        Url=19,
+        /// <summary>
         /// Highest event
         /// </summary>
         Highest

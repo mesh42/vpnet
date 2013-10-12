@@ -51,6 +51,7 @@
     <Compile Include="GreeterPlugin\GreeterPlugin.cs" />
     <Compile Include="LoggingPlugin\LoggingPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlPlugin\UrlPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AssemblyVersion.tt">
