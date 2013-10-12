@@ -103,7 +103,7 @@ namespace VpNet.Abstract
         TUniverseDisconnectEventargs,
         /* VpObject Event Args */
         TObjectChangeArgs, TObjectChangeCallbackArgs, TObjectClickArgs, TObjectCreateArgs,
-        TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs,
+        TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs, TObjectGetCallbackArgs,
         /* World Event Args */
             TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
           /* Teleport Event Args */
@@ -169,6 +169,7 @@ namespace VpNet.Abstract
         where TObjectCreateCallbackArgs : class, IObjectCreateCallbackArgs<TResult,TVpObject,TVector3>, new()
         where TObjectDeleteArgs : class, IObjectDeleteArgs<TAvatar,TVpObject,TVector3>,  new()
         where TObjectDeleteCallbackArgs : class,IObjectDeleteCallbackArgs<TResult,TVpObject,TVector3>,  new()
+        where TObjectGetCallbackArgs : class,IObjectGetCallbackArgs<TResult, TVpObject, TVector3>, new()
         /* World Event Args */
         where TWorldDisconnectEventArg : class, IWorldDisconnectEventArgs<TWorld>, new()
         where TWorldListEventargs : class, IWorldListEventArgs<TWorld>,new()
@@ -258,6 +259,7 @@ namespace VpNet.Abstract
             OnObjectCreateNativeEvent += OnObjectCreateNative;
             OnObjectClickNativeEvent += OnObjectClickNative;
             OnObjectDeleteNativeEvent += OnObjectDeleteNative;
+
             OnQueryCellEndNativeEvent += OnQueryCellEndNative;
             OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
             OnTeleportNativeEvent += OnTeleportNative;
@@ -266,6 +268,8 @@ namespace VpNet.Abstract
             OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
             OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
             OnObjectDeleteCallbackNativeEvent += OnObjectDeleteCallbackNative;
+            OnObjectGetCallbackNativeEvent += OnObjectGetCallbackNative;
+
             OnFriendAddCallbackNativeEvent += OnFriendAddCallbackNative;
             OnFriendDeleteCallbackNativeEvent += OnFriendDeleteCallbackNative;
             OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
@@ -299,6 +303,8 @@ namespace VpNet.Abstract
             parentInstance.OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
             parentInstance.OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
             parentInstance.OnObjectDeleteCallbackNativeEvent += OnObjectDeleteCallbackNative;
+            parentInstance.OnObjectGetCallbackNativeEvent += OnObjectGetCallbackNative;
+
             parentInstance.OnFriendAddCallbackNativeEvent += OnFriendAddCallbackNative;
             parentInstance.OnFriendDeleteCallbackNativeEvent += OnFriendDeleteCallbackNative;
             parentInstance.OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
@@ -350,6 +356,7 @@ namespace VpNet.Abstract
             SetNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallbackNative1);
             SetNativeCallback(Callbacks.ObjectChange, OnObjectChangeCallbackNative1);
             SetNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallbackNative1);
+            SetNativeCallback(Callbacks.ObjectGet, OnObjectGetCallbackNative1);
             SetNativeCallback(Callbacks.FriendAdd, OnFriendAddCallbackNative1);
             SetNativeCallback(Callbacks.FriendDelete, OnFriendDeleteCallbackNative1);
             SetNativeCallback(Callbacks.GetFriends, OnGetFriendsCallbackNative1);
@@ -364,6 +371,7 @@ namespace VpNet.Abstract
         internal void OnObjectCreateCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectCreateCallbackNativeEvent(instance, rc, reference); } }
         internal void OnObjectChangeCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectChangeCallbackNativeEvent(instance, rc, reference); } }
         internal void OnObjectDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectDeleteCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnObjectGetCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectGetCallbackNativeEvent(instance, rc, reference); } }
         internal void OnFriendAddCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendAddCallbackNativeEvent(instance, rc, reference); } }
         internal void OnFriendDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
         internal void OnGetFriendsCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } } 
@@ -632,6 +640,14 @@ namespace VpNet.Abstract
                 _objectReferences.Remove(referenceNumber);
             }
             return new TResult {Rc = rc};
+        }
+
+        virtual public TResult GetObject(int id)
+        {
+            lock (this)
+            {
+                return new TResult {Rc= Functions.vp_object_get(_instance, id)};
+            }
         }
 
         #endregion
@@ -910,6 +926,7 @@ namespace VpNet.Abstract
         public delegate void ObjectCreateCallback(T sender, TObjectCreateCallbackArgs args);
         public delegate void ObjectChangeCallback(T sender, TObjectChangeCallbackArgs args);
         public delegate void ObjectDeleteCallback(T sender, TObjectDeleteCallbackArgs args);
+        public delegate void ObjectGetCallback(T sender, TObjectGetCallbackArgs args);
 
         public delegate void QueryCellResultDelegate(T sender, TQueryCellResultArgs args);
         public delegate void QueryCellEndDelegate(T sender, TQueryCellEndArgs args);
@@ -940,6 +957,7 @@ namespace VpNet.Abstract
         public event ObjectCreateCallback OnObjectCreateCallback;
         public event ObjectDeleteCallback OnObjectDeleteCallback;
         public event ObjectChangeCallback OnObjectChangeCallback;
+        public event ObjectGetCallback OnObjectGetCallback; 
 
         public event WorldListEventDelegate OnWorldList;
         public event WorldSettingsChangedDelegate OnWorldSettingsChanged;
@@ -1003,6 +1021,19 @@ namespace VpNet.Abstract
                 if (OnObjectDeleteCallback != null)
                 {
                     OnObjectDeleteCallback(Implementor, new TObjectDeleteCallbackArgs { Result = new TResult { Rc = rc }, VpObject = vpObject });
+                }
+            }
+        }
+
+        void OnObjectGetCallbackNative(IntPtr sender, int rc, int reference)
+        {
+            lock (this)
+            {
+                TVpObject vpObject;
+                GetVpObject(sender,out vpObject);
+                if (OnObjectGetCallback != null)
+                {
+                    OnObjectGetCallback(Implementor, new TObjectGetCallbackArgs { Result = new TResult { Rc = rc }, VpObject = vpObject });
                 }
             }
         }
@@ -1322,6 +1353,37 @@ namespace VpNet.Abstract
             }
         }
 
+        private void GetVpObject(IntPtr sender, out TVpObject vpObject)
+        {
+            vpObject = new TVpObject
+            {
+                Action = Functions.vp_string(sender, Attribute.ObjectAction),
+                Description = Functions.vp_string(sender, Attribute.ObjectDescription),
+                Id = Functions.vp_int(sender, Attribute.ObjectId),
+                Model = Functions.vp_string(sender, Attribute.ObjectModel),
+
+                Rotation = new TVector3
+                {
+                    X = Functions.vp_float(sender, Attribute.ObjectRotationX),
+                    Y = Functions.vp_float(sender, Attribute.ObjectRotationY),
+                    Z = Functions.vp_float(sender, Attribute.ObjectRotationZ)
+                },
+
+                Time =
+                    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
+                        Functions.vp_int(sender, Attribute.ObjectTime)),
+                ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
+                Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
+                Position = new TVector3
+                {
+                    X = Functions.vp_float(sender, Attribute.ObjectX),
+                    Y = Functions.vp_float(sender, Attribute.ObjectY),
+                    Z = Functions.vp_float(sender, Attribute.ObjectZ)
+                },
+                Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle)
+            };
+        }
+
         private void OnObjectChangeNative(IntPtr sender)
         {
             if (OnObjectChange == null) return;
@@ -1329,33 +1391,7 @@ namespace VpNet.Abstract
             int sessionId;
             lock (this)
             {
-                vpObject = new TVpObject
-                    {
-                        Action = Functions.vp_string(sender, Attribute.ObjectAction),
-                        Description = Functions.vp_string(sender, Attribute.ObjectDescription),
-                        Id = Functions.vp_int(sender, Attribute.ObjectId),
-                        Model = Functions.vp_string(sender, Attribute.ObjectModel),
-
-                        Rotation = new TVector3
-                        {
-                            X = Functions.vp_float(sender, Attribute.ObjectRotationX),
-                            Y = Functions.vp_float(sender, Attribute.ObjectRotationY),
-                            Z = Functions.vp_float(sender, Attribute.ObjectRotationZ)
-                        },
-
-                        Time =
-                            new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
-                                Functions.vp_int(sender, Attribute.ObjectTime)),
-                        ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
-                        Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
-                        Position = new TVector3
-                            {
-                                X = Functions.vp_float(sender, Attribute.ObjectX),
-                                Y = Functions.vp_float(sender, Attribute.ObjectY),
-                                Z = Functions.vp_float(sender, Attribute.ObjectZ)
-                            },
-                        Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle)
-                    };
+                GetVpObject(sender,out vpObject);
                 sessionId = Functions.vp_int(sender, Attribute.AvatarSession);
             }
             OnObjectChange(Implementor, new TObjectChangeArgs { Avatar = GetAvatar(sessionId).Copy(), VpObject = vpObject });
@@ -1546,6 +1582,7 @@ namespace VpNet.Abstract
         override internal event CallbackDelegate OnObjectCreateCallbackNativeEvent;
         override internal event CallbackDelegate OnObjectChangeCallbackNativeEvent;
         override internal event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
+        override internal event CallbackDelegate OnObjectGetCallbackNativeEvent;
         override internal event CallbackDelegate OnFriendAddCallbackNativeEvent;
         override internal event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
         override internal event CallbackDelegate OnGetFriendsCallbackNativeEvent;

@@ -51,7 +51,7 @@ namespace VpNet.Abstract
         TUniverseDisconnectEventargs,
         /* VpObject Event Args */
         TObjectChangeArgs, TObjectChangeCallbackArgs, TObjectClickArgs, TObjectCreateArgs,
-        TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs,
+        TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs, TObjectGetCallbackArgs,
         /* World Event Args */
             TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
           /* Teleport Event Args */
@@ -106,6 +106,7 @@ namespace VpNet.Abstract
         where TObjectCreateCallbackArgs : class, IObjectCreateCallbackArgs<TResult,TVpObject,TVector3>, new()
         where TObjectDeleteArgs : class, IObjectDeleteArgs<TAvatar,TVpObject,TVector3>,  new()
         where TObjectDeleteCallbackArgs : class,IObjectDeleteCallbackArgs<TResult,TVpObject,TVector3>,  new()
+        where TObjectGetCallbackArgs : class,IObjectGetCallbackArgs<TResult, TVpObject, TVector3>, new()
         /* World Event Args */
         where TWorldDisconnectEventArg : class, IWorldDisconnectEventArgs<TWorld>, new()
         where TWorldListEventargs : class, IWorldListEventArgs<TWorld>,new()
