@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -79,6 +79,8 @@
     <Compile Include="ManagedApi\Events\User\UserAttributesArgsImplementationMappings.cs" />
     <Compile Include="ManagedApi\Events\User\UserAttributesArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\User\Interfaces\IUserAttributesEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectGetCallbackArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectGetCallbackArgs.cs" />
     <Compile Include="ManagedApi\Events\VpObject\ObjectArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldEnterEventArgs.cs" />
     <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldLeaveEventArgs.cs" />

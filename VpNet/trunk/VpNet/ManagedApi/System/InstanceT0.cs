@@ -68,6 +68,7 @@ namespace VpNet
         ObjectCreateCallbackArgsT<RcDefault, VpObject<Vector3>, Vector3>,
         ObjectDeleteArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3>,
         ObjectDeleteCallbackArgsT<RcDefault, VpObject<Vector3>, Vector3>,
+        ObjectGetCallbackArgsT<RcDefault, VpObject<Vector3>, Vector3>,
         WorldDisconnectEventArgs,
         WorldListEventArgs,
         WorldSettingsChangedEventArgs,

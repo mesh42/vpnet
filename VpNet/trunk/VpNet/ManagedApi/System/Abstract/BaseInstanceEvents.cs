@@ -32,6 +32,7 @@ namespace VpNet.Abstract
         internal abstract event CallbackDelegate OnObjectCreateCallbackNativeEvent;
         internal abstract event CallbackDelegate OnObjectChangeCallbackNativeEvent;
         internal abstract event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
+        internal abstract event CallbackDelegate OnObjectGetCallbackNativeEvent;
         internal abstract event CallbackDelegate OnFriendAddCallbackNativeEvent;
         internal abstract event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
         internal abstract event CallbackDelegate OnGetFriendsCallbackNativeEvent;

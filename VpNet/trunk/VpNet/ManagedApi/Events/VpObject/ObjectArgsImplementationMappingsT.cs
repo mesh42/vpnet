@@ -91,4 +91,13 @@ namespace VpNet
         where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     { }
+    /// <summary>
+    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
+    /// </summary>
+    [XmlRoot("OnObjectGetCallback", Namespace = Global.XmlNsEvent)]
+    public class ObjectGetCallbackArgsT<TResult, TVpObject, TVector3> : Abstract.BaseObjectGetCallbackArgs<TResult, TVpObject, TVector3>
+        where TResult : class, IRc, new()
+        where TVector3 : struct, IVector3
+        where TVpObject : class, IVpObject<TVector3>, new()
+    { }
 }
