@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet", "VpNet\VpNet.csproj", "{DBE501A7-0176-473F-B2E8-F4ADA721917F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{FD3C7436-CC7D-4470-8763-1897F8E3285C}"
@@ -22,9 +24,20 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.VpConsole", "VpNet.VpConsole\VpNet.VpConsole.csproj", "{D66218D0-E532-4D70-B592-A59F3E02DB57}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = VpNet\\VpNet.csproj
+		SccProjectName1 = VpNet
+		SccLocalPath1 = VpNet
+		SccProjectUniqueName2 = VpNet.Plugins\\VpNet.Plugins.csproj
+		SccProjectName2 = VpNet.Plugins
+		SccLocalPath2 = VpNet.Plugins
+		SccProjectUniqueName3 = VpNet.VpConsole\\VpNet.VpConsole.csproj
+		SccProjectName3 = VpNet.VpConsole
+		SccLocalPath3 = VpNet.VpConsole
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,5 +62,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BD066E75-E7D9-43FC-818D-38E7BE4AF77A} = {FD3C7436-CC7D-4470-8763-1897F8E3285C}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
