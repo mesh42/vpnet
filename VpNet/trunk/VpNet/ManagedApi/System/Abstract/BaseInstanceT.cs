@@ -565,6 +565,27 @@ namespace VpNet.Abstract
             }
         }
 
+        public TResult ClickObject(TVpObject vpObject, TAvatar avatar)
+        {
+            lock (this)
+            {
+                return ClickObject(vpObject.Id, avatar.Session);
+            }
+        }
+
+        public TResult ClickObject(int objectId, int toSession)
+        {
+            lock (this)
+            {
+                Functions.vp_int_set(_instance, Attributes.ObjectId, objectId);
+                Functions.vp_int_set(_instance, Attributes.ClickSessionTo, toSession);
+                return new TResult
+                {
+                    Rc = Functions.vp_object_click(_instance)
+                };
+            }
+        }
+
         virtual public TResult DeleteObject(TVpObject vpObject)
         {
             int rc;
