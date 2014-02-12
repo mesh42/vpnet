@@ -261,7 +261,7 @@ ____   ____.__         __               .__    __________                       
 
         static void Vp_OnAvatarEnter(Instance sender, AvatarEnterEventArgsT<Avatar<Vector3>, Vector3> args)
         {
-            Cli.WriteLine(ConsoleMessageType.Event, "   *** " + args.Avatar.Name + " enters.");
+            Cli.WriteLine(ConsoleMessageType.Event, "   *** " + args.Avatar.Name + "(" + args.Avatar.Session + ") enters.");
         }
 
         static string EnterWorldPrompt()
