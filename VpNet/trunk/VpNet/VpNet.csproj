@@ -156,6 +156,7 @@
     <Compile Include="ManagedApi\Events\World\Interfaces\IWorldListEventArgs.cs" />
     <Compile Include="ManagedApi\Events\World\Interfaces\IWorldSettingsChangedEventArgs.cs" />
     <Compile Include="ManagedApi\Scene\Abstract\BaseTerrain.cs" />
+    <Compile Include="ManagedApi\System\InstanceT3.cs" />
     <Compile Include="ManagedApi\System\InstanceT2.cs" />
     <Compile Include="ManagedApi\System\Interfaces\ApiFunctions\IUniverseFunctions.cs" />
     <Compile Include="ManagedApi\System\Interfaces\IInstancePlugin.cs" />
