@@ -187,6 +187,7 @@ namespace VpNet.Abstract
         private Timer _waitTimer;
 
         private Dictionary<int, TAvatar> _avatars;
+      //  private Dictionary<int, TVpObject> _objects;
 
         public T Implementor { get; set; }
 
@@ -1346,7 +1347,14 @@ namespace VpNet.Abstract
         {
             lock (_avatars)
             {
-                _avatars[avatar.Session].CopyFrom(avatar);
+                var cache = _avatars[avatar.Session];
+                cache.CopyFrom(avatar, false);
+                foreach (var prop in cache.GetType().GetFields())
+                {
+                    if (prop.FieldType.BaseType!=null && prop.FieldType.BaseType.Name.StartsWith("BaseInstanceT"))
+                        prop.SetValue(cache, this);
+                }
+                _avatars[avatar.Session] = cache;
             }
         }
     
@@ -1365,7 +1373,7 @@ namespace VpNet.Abstract
             {
                 if (_avatars.ContainsKey(avatar.Session))
                 {
-                    _avatars[avatar.Session] = avatar;
+                    _avatars[avatar.Session].CopyFrom(avatar,true);
                 }
                 else
                 {
@@ -1609,8 +1617,6 @@ namespace VpNet.Abstract
         override internal event CallbackDelegate OnGetFriendsCallbackNativeEvent;
 
         #endregion
-
-
 
         #region Implementation of IAvatarFunctions<out TResult,TAvatar,in TVector3>
 
