@@ -38,7 +38,6 @@ namespace VpNet
     [TypeConverter(typeof(Vector3Converter))]
     public struct Vector3 : IEquatable<Vector3>, IVector3
     {
-
         [XmlAttribute]
         float IVector3.X
         {
@@ -226,6 +225,18 @@ namespace VpNet
             float a = v1V0.LengthSquared()*v2V1.LengthSquared();
             float dot = Vector3.Dot(v1V0, v2V1);
             return (a - dot*dot)/v2V1.LengthSquared();
+        }
+
+        /// <summary>
+        /// Finds the point along line.
+        /// </summary>
+        /// <param name="v1">The v1.</param>
+        /// <param name="v2">The v2.</param>
+        /// <param name="d">The distance</param>
+        /// <returns></returns>
+        private static Vector3 PointAlongLine(Vector3 v1, Vector3 v2, float d)
+        {
+            return new Vector3(v1.X + (v2.X - v1.X) * d, v1.Y + (v2.Y - v1.Y) * d, v1.Z + (v2.Z - v1.Z) * d);
         }
 
         public Vector2 Xz()
