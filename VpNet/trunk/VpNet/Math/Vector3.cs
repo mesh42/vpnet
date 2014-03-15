@@ -234,7 +234,7 @@ namespace VpNet
         /// <param name="v2">The v2.</param>
         /// <param name="d">The distance</param>
         /// <returns></returns>
-        private static Vector3 PointAlongLine(Vector3 v1, Vector3 v2, float d)
+        public static Vector3 PointAlongLine(Vector3 v1, Vector3 v2, float d)
         {
             return new Vector3(v1.X + (v2.X - v1.X) * d, v1.Y + (v2.Y - v1.Y) * d, v1.Z + (v2.Z - v1.Z) * d);
         }
