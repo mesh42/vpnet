@@ -489,10 +489,13 @@ namespace VpNet.Abstract
             lock (this)
             {
                 Configuration.World = world.Copy();
-                return new TResult
+                var result =  new TResult
                 {
-                     Rc= Functions.vp_enter(_instance, world.Name)
-                };
+                    Rc = Functions.vp_enter(_instance, world.Name)
+                };                
+                if (result.Rc == 0 && OnWorldEnter != null)
+                    OnWorldEnter(Implementor, new TWorldEnterEventArgs() { World = Configuration.World.Copy() });
+                return result;
             }
         }
 
