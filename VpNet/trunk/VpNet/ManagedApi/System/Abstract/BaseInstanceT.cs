@@ -863,12 +863,12 @@ namespace VpNet.Abstract
             return new TResult { Rc = Functions.vp_console_message(_instance, avatar.Session, name, message, (int)effects, red, green, blue) };
         }
 
-        virtual public TResult UrlSendOverlay(Avatar<TVector3> avatar, string url)
+        virtual public TResult UrlSendOverlay(TAvatar avatar, string url)
         {
             return new TResult { Rc = Functions.vp_url_send(_instance, avatar.Session, url, (int)Attribute.UrlTargetOverlay) };
         }
 
-        virtual public TResult UrlSendOverlay(Avatar<TVector3> avatar, Uri url)
+        virtual public TResult UrlSendOverlay(TAvatar avatar, Uri url)
         {
             return new TResult { Rc = Functions.vp_url_send(_instance, avatar.Session, url.AbsoluteUri, (int)Attribute.UrlTargetOverlay) };
         }
@@ -883,12 +883,12 @@ namespace VpNet.Abstract
             return new TResult { Rc = Functions.vp_url_send(_instance, avatarSession, url.AbsoluteUri, (int)Attribute.UrlTargetOverlay) };
         }
 
-        virtual public TResult UrlSend(Avatar<TVector3> avatar, string url)
+        virtual public TResult UrlSend(TAvatar avatar, string url)
         {
             return new TResult { Rc = Functions.vp_url_send(_instance, avatar.Session, url, (int)Attribute.UrlTargetBrowser) };
         }
 
-        virtual public TResult UrlSend(Avatar<TVector3> avatar, Uri url)
+        virtual public TResult UrlSend(TAvatar avatar, Uri url)
         {
             return new TResult { Rc = Functions.vp_url_send(_instance, avatar.Session, url.AbsoluteUri, (int)Attribute.UrlTargetBrowser) };
         }
