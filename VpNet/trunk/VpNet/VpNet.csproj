@@ -292,6 +292,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Rc.en-US.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tools\ShortGuid.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />
