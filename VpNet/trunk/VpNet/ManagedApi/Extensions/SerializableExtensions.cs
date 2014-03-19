@@ -146,7 +146,7 @@ namespace VpNet.Extensions
         //    return obj;
         //}
 
-        internal static T1 CopyFrom<T1, T2>(this T1 obj, T2 otherObject, bool isCopyOnlyBaseProperties)
+        public static T1 CopyFrom<T1, T2>(this T1 obj, T2 otherObject, bool isCopyOnlyBaseProperties)
             where T1 : class, new()
             where T2 : class
         {
