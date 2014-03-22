@@ -49,6 +49,19 @@ namespace VpNet.Extensions
             if (!typeof(T).IsSerializable)
                 throw new ArgumentException("The type must be serializable.", typeof(T).ToString());
 
+            // decouple from instance before copy.
+            //object instance = null;
+            //var result =
+            //    o.GetType()
+            //        .GetFields()
+            //        .Where(p => p.FieldType.BaseType != null && p.FieldType.BaseType.Name.StartsWith("BaseInstanceT"))
+            //        .SingleOrDefault();
+            //if (result != null)
+            //{
+            //    instance = result.GetValue(o);
+            //    result.SetValue(o, null);
+            //}
+
             var formatter = new BinaryFormatter();
             using (var stream = new MemoryStream())
             {
@@ -61,6 +74,7 @@ namespace VpNet.Extensions
                     if (fields[i].FieldType.BaseType != null && fields[i].FieldType.BaseType.Name.StartsWith("BaseInstanceT"))
                         fields[i].SetValue(oc, fields[i].GetValue(o));
                 }
+                
                 return oc;
             }
         }
@@ -182,8 +196,9 @@ namespace VpNet.Extensions
         {
             var xsn = new XmlSerializerNamespaces();
             var xws = new XmlWriterSettings {Indent = indentation};
-            xws.CheckCharacters = false;
+            xws.CheckCharacters = true;
             xws.OmitXmlDeclaration = ommitXmlDeclaration;
+           
             var xmlStr = new StringBuilder();
             var x = new XmlSerializer(o.GetType()/*, defaultNamespace*/);
             using (var writer = XmlTextWriter.Create(xmlStr, xws))
