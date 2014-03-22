@@ -194,7 +194,7 @@ namespace VpNet.Abstract
         Dictionary<string, TWorld> _worlds; 
 
         private bool _useAutoWaitTimer;
-        public int AutoWaitTimerMs = 30;
+        public int AutoWaitTimerMs = 1;
 
         public bool UseAutoWaitTimer
         {
