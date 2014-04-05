@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("VPNet")]
-[assembly: AssemblyCopyright("Copyright © Cube3 2012-2013 LGPL")]
+[assembly: AssemblyCopyright("Copyright © Cube3 2012-2014 LGPL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

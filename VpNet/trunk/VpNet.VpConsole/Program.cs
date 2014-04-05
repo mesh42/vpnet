@@ -8,7 +8,7 @@ ____   ___.__         __               .__    __________                        
                                      \/                      \/           \/     \/        \/     \/  
     This file is part of VPNET Version 1.0
 
-    Copyright (c) 2012-2013 CUBE3 (Cit:36)
+    Copyright (c) 2012-2014 CUBE3 (Cit:36)
 
     VPNET is free software: you can redistribute it and/or modify it under the terms of the 
     GNU Lesser General Public License (LGPL) as published by the Free Software Foundation, either
@@ -77,7 +77,7 @@ ____   ____.__         __               .__    __________                       
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("VP SDK Version: {0}", System.Reflection.Assembly.GetAssembly(typeof(Instance)).GetName().Version.ToString());
             Console.WriteLine("VP Console Version: {0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            Console.WriteLine("Copyright (c) 2012-2013 CUBE3 (Cit:36) under LGPL license\n");
+            Console.WriteLine("Copyright (c) 2012-2014 CUBE3 (Cit:36) under LGPL license\n");
             Connect();
         }
 
