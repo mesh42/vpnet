@@ -7,5 +7,9 @@ namespace VpNet
     {
         [XmlAttribute]
         DateTime CreationDateUtc { get; set; }
+        [XmlIgnore]
+        object Implementor { get;  set; }
+
+        void Initialize();
     }
 }
