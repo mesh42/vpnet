@@ -144,10 +144,10 @@ namespace VpNet.Abstract
         where T : class, new()
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
-        where TAvatarChangeEventArgs : class, IAvatarChangeEventArgs<TAvatar,TVector3>, new()
-        where TAvatarEnterEventArgs : class, IAvatarEnterEventArgs<TAvatar,TVector3>, new()
-        where TAvatarLeaveEventArgs : class, IAvatarLeaveEventArgs<TAvatar,TVector3>, new()
-        where TAvatarClickEventArgs : class, IAvatarClickEventArgs<TAvatar,TVector3>, new()
+        where TAvatarChangeEventArgs : class, IAvatarChangeEventArgs<TAvatar,TVector3>,ITimedEventArgs, new()
+        where TAvatarEnterEventArgs : class, IAvatarEnterEventArgs<TAvatar,TVector3>,ITimedEventArgs, new()
+        where TAvatarLeaveEventArgs : class, IAvatarLeaveEventArgs<TAvatar,TVector3>,ITimedEventArgs, new()
+        where TAvatarClickEventArgs : class, IAvatarClickEventArgs<TAvatar,TVector3>,ITimedEventArgs, new()
         /* Cell Event Args */
         where TQueryCellResultArgs : class, IQueryCellResultArgs<TVpObject,TVector3>, new()
         where TQueryCellEndArgs : class, IQueryCellEndArgs<TCell>, new()
@@ -1218,7 +1218,9 @@ namespace VpNet.Abstract
                     _avatars.Add(data.Session, data);
             }
             if (OnAvatarEnter == null) return;
-            OnAvatarEnter(Implementor, new TAvatarEnterEventArgs { Avatar = data.Copy() });
+            var args = new TAvatarEnterEventArgs {Avatar = data.Copy(), Implementor = Implementor};
+            args.Initialize();
+            OnAvatarEnter(Implementor, args);
         }
 
         private void OnAvatarChangeNative(IntPtr sender)

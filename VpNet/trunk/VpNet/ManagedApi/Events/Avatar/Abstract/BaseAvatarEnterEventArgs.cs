@@ -24,6 +24,7 @@ ____   ___.__         __               .__    __________                        
 #endregion
 
 using System;
+using VpNet.Extensions;
 using VpNet.Interfaces;
 
 namespace VpNet.Abstract
@@ -37,7 +38,7 @@ namespace VpNet.Abstract
 
         protected BaseAvatarEnterEventArgs(TAvatar avatar)
         {
-            Avatar = avatar;
+            Avatar = avatar.Copy();
         }
 
         protected BaseAvatarEnterEventArgs() { }

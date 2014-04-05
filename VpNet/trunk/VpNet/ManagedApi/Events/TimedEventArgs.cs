@@ -1,6 +1,6 @@
 using System;
+using System.ComponentModel;
 using System.Xml.Serialization;
-using VpNet.Abstract;
 
 namespace VpNet
 {
@@ -14,5 +14,10 @@ namespace VpNet
             get { return _creationDate; }
             set { _creationDate = value; }
         }
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void Initialize() { }
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual object Implementor { get; set; }
+
     }
 }
