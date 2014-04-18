@@ -50,7 +50,7 @@ namespace VpNet.GameExtensions
     [XmlRoot("OnAvatarEnter", Namespace = Global.XmlNsEvent)]
     public class GameAvatarEnterEventArgs : BaseAvatarEnterEventArgs<GameAvatar, Vector3>
     {
-        new internal object Implementor { get; set; }
+        //public object Implementor { get; set; }
 
         public GameAvatarEnterEventArgs(GameAvatar avatar) : base(avatar)
         {
