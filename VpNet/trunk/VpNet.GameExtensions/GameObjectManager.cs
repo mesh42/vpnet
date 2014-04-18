@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive;
+using System.Reactive.Linq;
 using VpNet.Extensions;
 
 namespace VpNet.GameExtensions
@@ -22,6 +24,17 @@ namespace VpNet.GameExtensions
         public event OnManagedObjectChangedCallbackDelegate OnManagedObjectChangedCallback;
         public event OnManagedObjectGetCallbackDelegate OnManagedObjectGetCallback;
         public event OnManagedObjectClickDelegate OnManagedObjectClick;
+
+        public IObservable<EventPattern<GameInstance,ObjectClickArgsT<GameAvatar, GameVpObject, Vector3>>> ObjectClickAsObservable
+        {
+            get
+            {
+                return Observable
+                    .FromEventPattern<OnManagedObjectClickDelegate,GameInstance,ObjectClickArgsT<GameAvatar, GameVpObject, Vector3>>(
+                        ev => OnManagedObjectClick += ev,
+                        ev => OnManagedObjectClick -= ev);
+            }
+        }
 
         public GameObjectManager(GameInstance instance)
         {
