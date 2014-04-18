@@ -1240,7 +1240,7 @@ namespace VpNet.Abstract
                 setAvatar(data);
             }
             if (OnAvatarChange != null)
-                OnAvatarChange(Implementor, new TAvatarChangeEventArgs { Avatar = data.Copy() });
+                OnAvatarChange(Implementor, new TAvatarChangeEventArgs { Avatar = _avatars[data.Session].Copy() });
         }
 
         private void OnAvatarDeleteNative(IntPtr sender)

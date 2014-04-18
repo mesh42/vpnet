@@ -35,74 +35,74 @@ namespace VpNet.Design
 {
     public class MathTypeConverter : ExpandableObjectConverter
     {
-		#region Fields
+        #region Fields
 		
         protected PropertyDescriptorCollection propertyDescriptions;
         protected bool supportStringConvert;
        
-		#endregion Fields
+        #endregion Fields
 		
-		#region Constructor
+        #region Constructor
 
         public MathTypeConverter()
         {
            supportStringConvert = true;
         }
 		
-		#endregion Constructor
+        #endregion Constructor
 		
-		#region Methods
+        #region Methods
 		
-		internal static string ConvertValuesToString (ITypeDescriptorContext context, CultureInfo culture, float[] values)
-		{
-			StringBuilder ret = new StringBuilder();
-			string delimiter = culture.TextInfo.ListSeparator + " ";
+        internal static string ConvertValuesToString (ITypeDescriptorContext context, CultureInfo culture, float[] values)
+        {
+            StringBuilder ret = new StringBuilder();
+            string delimiter = culture.TextInfo.ListSeparator + " ";
 			
-			TypeConverter converter = TypeDescriptor.GetConverter(typeof(float));
-			for (int i = 0; i < values.Length; i++)
-			{
-				ret.Append(converter.ConvertTo(context, culture, values[i], typeof(string)));
-				if (i < values.Length - 1)
-					ret.Append(delimiter);
-			}
-			return ret.ToString();
-		}
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(float));
+            for (int i = 0; i < values.Length; i++)
+            {
+                ret.Append(converter.ConvertTo(context, culture, values[i], typeof(string)));
+                if (i < values.Length - 1)
+                    ret.Append(delimiter);
+            }
+            return ret.ToString();
+        }
 		
-		internal static float[] ConvertStringToValues (ITypeDescriptorContext context, CultureInfo culture, string valuesString)
-		{
-			string[] delimiters = new string[] { culture.TextInfo.ListSeparator + " " };
-			string[] valueStrings = valuesString.Split(delimiters, StringSplitOptions.None);
-			float[] values = new float[valuesString.Length];
+        internal static float[] ConvertStringToValues (ITypeDescriptorContext context, CultureInfo culture, string valuesString)
+        {
+            string[] delimiters = new string[] { culture.TextInfo.ListSeparator + " " };
+            string[] valueStrings = valuesString.Split(delimiters, StringSplitOptions.None);
+            float[] values = new float[valuesString.Length];
 			
-			TypeConverter converter = TypeDescriptor.GetConverter(typeof(float));
-			for (int i = 0; i < values.Length; i++)
-				values[i] = (float)converter.ConvertFrom(context, culture, valueStrings[i]);
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(float));
+            for (int i = 0; i < values.Length; i++)
+                values[i] = (float)converter.ConvertFrom(context, culture, valueStrings[i]);
 			
-			return values;
-		}
+            return values;
+        }
 		
-		#endregion Methods
+        #endregion Methods
 		
-		#region ExpandableObjectConverter Overrides
+        #region ExpandableObjectConverter Overrides
 
         public override bool CanConvertFrom (ITypeDescriptorContext context, Type sourceType)
         {
-			if (sourceType == typeof(string) && supportStringConvert)
-				return true;
-			else if (sourceType == typeof(InstanceDescriptor))
-				return true;
+            if (sourceType == typeof(string) && supportStringConvert)
+                return true;
+            else if (sourceType == typeof(InstanceDescriptor))
+                return true;
 			
-			return base.CanConvertFrom(context,sourceType);
+            return base.CanConvertFrom(context,sourceType);
         }
 
         public override bool CanConvertTo (ITypeDescriptorContext context, Type destinationType)
         {
             if (destinationType == typeof(string) && supportStringConvert)
-				return true;
-			else if (destinationType == typeof(InstanceDescriptor))
-			    return true;
+                return true;
+            else if (destinationType == typeof(InstanceDescriptor))
+                return true;
 			
-			return base.CanConvertTo(context, destinationType);
+            return base.CanConvertTo(context, destinationType);
         }
 
         public override bool GetCreateInstanceSupported (ITypeDescriptorContext context)
@@ -120,7 +120,7 @@ namespace VpNet.Design
            return true;
         }
 		
-		#endregion ExpandableObjectConverter Overrides
+        #endregion ExpandableObjectConverter Overrides
 		
     }
 }

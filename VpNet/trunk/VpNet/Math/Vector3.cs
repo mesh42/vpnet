@@ -35,7 +35,7 @@ namespace VpNet
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    [TypeConverter(typeof(Vector3Converter))]
+    //[TypeConverter(typeof(Vector3Converter))]
     public struct Vector3 : IEquatable<Vector3>, IVector3
     {
         [XmlAttribute]
