@@ -75,6 +75,13 @@ namespace VpNet.GameExtensions
     {
         public GameAvatarLeaveEventArgs(GameAvatar avatar) : base(avatar) { }
         public GameAvatarLeaveEventArgs() { }
+
+        public override void Initialize()
+        {
+
+            Avatar.GameInstance = (GameInstance)Implementor;
+        }
+
     }
 
     /// <summary>
@@ -86,5 +93,10 @@ namespace VpNet.GameExtensions
         public GameAvatarClickEventArgs(GameAvatar avatar, GameAvatar clickedAvatar) : base(avatar, clickedAvatar) { }
         public GameAvatarClickEventArgs() { }
 
+        public override void Initialize()
+        {
+
+            Avatar.GameInstance = (GameInstance)Implementor;
+        }
     }
 }
