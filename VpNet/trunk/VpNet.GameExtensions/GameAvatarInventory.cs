@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 using VpNet.Extensions;
 using VpNet.GameExtensions.Abstract;
 
@@ -37,8 +38,8 @@ namespace VpNet.GameExtensions
         {
             if (File.Exists(GetPath(vpObject)))
                 return false;
-
-            vpObject.Serialize(GetPath(vpObject));
+            JsonConvert.SerializeObject(vpObject,Formatting.Indented).SaveTextFile(GetPath(vpObject));
+            //vpObject.Serialize(GetPath(vpObject));
             return true;
         }
 
@@ -51,7 +52,8 @@ namespace VpNet.GameExtensions
         {
             if (File.Exists(GetPath(vpObject)))
             {
-                return SerializableExtensions.Deserialize<GameVpObject>(GetPath(vpObject));
+                return JsonConvert.DeserializeObject<GameVpObject>(GetPath(vpObject).LoadTextFile());
+                //return SerializableExtensions.Deserialize<GameVpObject>(GetPath(vpObject));
             }
             return null;
         }
@@ -63,7 +65,8 @@ namespace VpNet.GameExtensions
             {
                 foreach (var file in new DirectoryInfo(StorageDirectory).GetFiles())
                 {
-                    items.Add(SerializableExtensions.Deserialize<GameVpObject>(file.FullName));
+                    items.Add(JsonConvert.DeserializeObject<GameVpObject>(file.FullName.LoadTextFile()));
+                    //items.Add(SerializableExtensions.Deserialize<GameVpObject>(file.FullName));
                 }
                 return items;
             }
