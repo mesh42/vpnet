@@ -35,6 +35,36 @@ namespace VpNet.GameExtensions
                         ev => OnManagedObjectClick -= ev);
             }
         }
+        public IObservable<EventPattern<GameInstance, ObjectChangeArgsT<GameAvatar, GameVpObject, Vector3>>> ObjectChangeAsObservable
+        {
+            get
+            {
+                return Observable
+                    .FromEventPattern<OnManagedObjectChangedDelegate, GameInstance, ObjectChangeArgsT<GameAvatar, GameVpObject, Vector3>>(
+                        ev => OnManagedObjectChanged += ev,
+                        ev => OnManagedObjectChanged -= ev);
+            }
+        }
+        public IObservable<EventPattern<GameInstance, ObjectGetCallbackArgsT<RcDefault, GameVpObject, Vector3>>> ObjectGetCallbackAsOvObservable
+        {
+            get
+            {
+                return Observable
+                    .FromEventPattern<OnManagedObjectGetCallbackDelegate, GameInstance, ObjectGetCallbackArgsT<RcDefault, GameVpObject, Vector3>>(
+                        ev => OnManagedObjectGetCallback += ev,
+                        ev => OnManagedObjectGetCallback -= ev);
+            }
+        }
+        public IObservable<EventPattern<GameInstance, ObjectChangeCallbackArgsT<RcDefault, GameVpObject, Vector3>>> ObjectChangedCallbackAsOvObservable
+        {
+            get
+            {
+                return Observable
+                    .FromEventPattern<OnManagedObjectChangedCallbackDelegate, GameInstance, ObjectChangeCallbackArgsT<RcDefault, GameVpObject, Vector3>>(
+                        ev => OnManagedObjectChangedCallback += ev,
+                        ev => OnManagedObjectChangedCallback -= ev);
+            }
+        }
 
         public GameObjectManager(GameInstance instance)
         {
