@@ -30,6 +30,7 @@ using System.Threading;
 using VpNet.Cache;
 using VpNet.Extensions;
 using VpNet.Interfaces;
+using VpNet.ManagedApi.Extensions;
 using VpNet.ManagedApi.System;
 using VpNet.NativeApi;
 using Attribute = VpNet.NativeApi.Attributes;
@@ -820,6 +821,14 @@ namespace VpNet.Abstract
             }
         }
 
+        virtual public TResult Say(string format, params object[] arg)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_say(_instance, string.Format(format,arg)) };
+            }
+        }
+
         public TResult ConsoleMessage(int targetSession, string name, string message, TextEffectTypes effects = (TextEffectTypes) 0, byte red = 0, byte green = 0, byte blue = 0)
         {
             return new TResult { Rc = Functions.vp_console_message(_instance, targetSession, name, message, (int)effects, red, green, blue) };
@@ -1230,12 +1239,22 @@ namespace VpNet.Abstract
                 data = new TAvatar{UserId=_avatars[Functions.vp_int(sender, Attribute.AvatarSession)].UserId, Name=Functions.vp_string(sender, Attribute.AvatarName),
                                   Session=Functions.vp_int(sender, Attribute.AvatarSession),
                                   AvatarType=Functions.vp_int(sender, Attribute.AvatarType),
-                                  Position=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarX),
-                                  Y=Functions.vp_float(sender, Attribute.AvatarY),
-                                  Z=Functions.vp_float(sender, Attribute.AvatarZ)},
-               Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch),
-                            Y=Functions.vp_float(sender, Attribute.AvatarYaw),
-                            Z=0 /* roll currently not supported*/}};            
+                                  Position=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarX).Truncate(3),
+                                  Y=Functions.vp_float(sender, Attribute.AvatarY).Truncate(3),
+                                  Z=Functions.vp_float(sender, Attribute.AvatarZ).Truncate(3)},
+               Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch).Truncate(3),
+                            Y=Functions.vp_float(sender, Attribute.AvatarYaw).Truncate(3),
+                            Z=0 /* roll currently not supported*/}};
+                var old = _avatars[data.Session];
+                // determine if the avatar actually changed.
+                if (data.Position.X == old.Position.X
+                    && data.Position.Y == old.Position.Y
+                    && data.Position.Z == old.Position.Z
+                    && data.Rotation.X == old.Rotation.X
+                    && data.Rotation.Y == old.Rotation.Y
+                    && data.Rotation.Z == old.Rotation.Z)
+                    return;
+
                 setAvatar(data);
             }
             if (OnAvatarChange != null)
