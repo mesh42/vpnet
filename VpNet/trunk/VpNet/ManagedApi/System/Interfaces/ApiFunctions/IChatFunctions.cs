@@ -33,6 +33,8 @@ namespace VpNet.Interfaces
         
     {
         TRc Say(string message);
+        TRc Say(string format, params object[] arg);
+
         TRc ConsoleMessage(TAvatar targetAvatar, string name, string message, TextEffectTypes effects = 0, byte red = 0, byte green = 0, byte blue = 0);
         TRc ConsoleMessage(int targetSession, string name, string message, TextEffectTypes effects = 0, byte red = 0, byte green = 0, byte blue = 0);
         TRc ConsoleMessage(TAvatar targetAvatar, string name, string message, TColor color, TextEffectTypes effects = 0);
