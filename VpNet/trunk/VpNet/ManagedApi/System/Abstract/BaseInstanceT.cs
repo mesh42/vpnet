@@ -281,7 +281,7 @@ namespace VpNet.Abstract
         {
             _instance = parentInstance._instance;
             Init();
-            _avatars = ((IAvatarFunctions<TResult, TAvatar, TVector3>) parentInstance).Avatars.Copy();
+            _avatars = ((IAvatarFunctions<TResult, TAvatar, TVector3>) parentInstance).Avatars;
             Configuration = parentInstance.Configuration;
             Configuration.IsChildInstance = true;
             parentInstance.OnChatNativeEvent += OnChatNative;
@@ -471,7 +471,7 @@ namespace VpNet.Abstract
                     Rc = Functions.vp_enter(_instance, worldname)
                 };
                 if (result.Rc == 0 && OnWorldEnter != null)
-                    OnWorldEnter(Implementor,new TWorldEnterEventArgs(){World = Configuration.World.Copy()});
+                    OnWorldEnter(Implementor,new TWorldEnterEventArgs(){World = Configuration.World});
                 return result;
 
             }
@@ -488,13 +488,13 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
-                Configuration.World = world.Copy();
+                Configuration.World = world;
                 var result =  new TResult
                 {
                     Rc = Functions.vp_enter(_instance, world.Name)
                 };                
                 if (result.Rc == 0 && OnWorldEnter != null)
-                    OnWorldEnter(Implementor, new TWorldEnterEventArgs() { World = Configuration.World.Copy() });
+                    OnWorldEnter(Implementor, new TWorldEnterEventArgs() { World = Configuration.World });
                 return result;
             }
         }
@@ -509,7 +509,7 @@ namespace VpNet.Abstract
                 var result = new TResult {Rc = Functions.vp_leave(_instance)};
                 if (result.Rc == 0 && OnWorldLeave !=null)
                 {
-                    OnWorldLeave(Implementor,new TWorldLeaveEventArgs {World = Configuration.World.Copy()});
+                    OnWorldLeave(Implementor,new TWorldLeaveEventArgs {World = Configuration.World});
                 }
                 return result;
             }
@@ -1137,7 +1137,6 @@ namespace VpNet.Abstract
             }
         }
 
-
         private void OnFriendDeleteCallbackNative(IntPtr sender, int rc, int reference)
         {
             // todo: implement this.
@@ -1168,7 +1167,7 @@ namespace VpNet.Abstract
                 if (OnChatMessage == null) return;
                 data = new TChatMessageEventArgs
                     {
-                        Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)].Copy(),
+                        Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)],
                         ChatMessage = new TChatMessage
                             {
                                 Type = (ChatMessageTypes)Functions.vp_int(sender, Attribute.ChatType),
@@ -1218,7 +1217,7 @@ namespace VpNet.Abstract
                     _avatars.Add(data.Session, data);
             }
             if (OnAvatarEnter == null) return;
-            var args = new TAvatarEnterEventArgs {Avatar = data.Copy(), Implementor = Implementor};
+            var args = new TAvatarEnterEventArgs {Avatar = data, Implementor = Implementor};
             args.Initialize();
             OnAvatarEnter(Implementor, args);
         }
@@ -1240,7 +1239,7 @@ namespace VpNet.Abstract
                 setAvatar(data);
             }
             if (OnAvatarChange != null)
-                OnAvatarChange(Implementor, new TAvatarChangeEventArgs { Avatar = _avatars[data.Session].Copy() });
+                OnAvatarChange(Implementor, new TAvatarChangeEventArgs { Avatar = _avatars[data.Session] });
         }
 
         private void OnAvatarDeleteNative(IntPtr sender)
@@ -1252,7 +1251,7 @@ namespace VpNet.Abstract
                 _avatars.Remove(data.Session);
             }
             if (OnAvatarLeave == null) return;
-            OnAvatarLeave(Implementor, new TAvatarLeaveEventArgs { Avatar = data.Copy() });
+            OnAvatarLeave(Implementor, new TAvatarLeaveEventArgs { Avatar = data });
         }
 
         private void OnAvatarClickNative(IntPtr sender)
@@ -1293,7 +1292,7 @@ namespace VpNet.Abstract
 
             OnObjectClick(Implementor,
                           new TObjectClickArgs
-                              {WorldHit=world, Avatar = _avatars[session].Copy(), VpObject = new TVpObject {Id = objectId}});
+                              {WorldHit=world, Avatar = _avatars[session], VpObject = new TVpObject {Id = objectId}});
         }
 
         private void OnObjectDeleteNative(IntPtr sender)
@@ -1306,7 +1305,7 @@ namespace VpNet.Abstract
                 session = Functions.vp_int(sender, Attribute.AvatarSession);
                 objectId = Functions.vp_int(sender, Attribute.ObjectId);
             }
-            OnObjectDelete(Implementor, new TObjectDeleteArgs{Avatar=_avatars[session].Copy(),VpObject = new TVpObject { Id = objectId }});
+            OnObjectDelete(Implementor, new TObjectDeleteArgs{Avatar=_avatars[session],VpObject = new TVpObject { Id = objectId }});
         }
 
         private void OnObjectCreateNative(IntPtr sender)
@@ -1337,15 +1336,15 @@ namespace VpNet.Abstract
 
             }
             if (session == -1 && OnQueryCellResult != null)
-                OnQueryCellResult(Implementor, new TQueryCellResultArgs{VpObject=vpObject.Copy()});
+                OnQueryCellResult(Implementor, new TQueryCellResultArgs{VpObject=vpObject});
             else
                 if (OnObjectCreate != null)
-                    OnObjectCreate(Implementor, new TObjectCreateArgs { Avatar =  _avatars[session].Copy(), VpObject = vpObject.Copy() });
+                    OnObjectCreate(Implementor, new TObjectCreateArgs { Avatar =  _avatars[session], VpObject = vpObject });
         }
 
         public List<TAvatar> Avatars()
         {
-            return _avatars.Values.ToList().Copy();
+            return _avatars.Values.ToList();
         } 
 
         public void Commit(TAvatar avatar)
@@ -1369,7 +1368,7 @@ namespace VpNet.Abstract
                 return _avatars[session];
             var avatar = new TAvatar { Session = session };
             _avatars.Add(session, avatar);
-            return avatar.Copy();
+            return avatar;
         }
 
         private void setAvatar(TAvatar avatar)
@@ -1428,7 +1427,7 @@ namespace VpNet.Abstract
                 GetVpObject(sender,out vpObject);
                 sessionId = Functions.vp_int(sender, Attribute.AvatarSession);
             }
-            OnObjectChange(Implementor, new TObjectChangeArgs { Avatar = GetAvatar(sessionId).Copy(), VpObject = vpObject });
+            OnObjectChange(Implementor, new TObjectChangeArgs { Avatar = GetAvatar(sessionId), VpObject = vpObject });
         }
 
         private void OnQueryCellEndNative(IntPtr sender)
@@ -1463,7 +1462,7 @@ namespace VpNet.Abstract
             if (_worlds.ContainsKey(data.Name))
                 _worlds.Remove(data.Name);
             _worlds.Add(data.Name,data);
-            OnWorldList(Implementor,new TWorldListEventargs{ World=data.Copy()});
+            OnWorldList(Implementor,new TWorldListEventargs{ World=data});
         }
 
         private void OnWorldSettingNativeEvent(IntPtr instance)
@@ -1488,7 +1487,7 @@ namespace VpNet.Abstract
                 ModelCacheProvider = new OpCacheProvider(_worlds[Configuration.World.Name].RawAttributes["objectpath"],world.LocalCachePath);
             }
             if (OnWorldSettingsChanged != null)
-                OnWorldSettingsChanged(Implementor, new TWorldSettingsChangedEventArg() { World = _worlds[Configuration.World.Name].Copy()});
+                OnWorldSettingsChanged(Implementor, new TWorldSettingsChangedEventArg() { World = _worlds[Configuration.World.Name]});
         }
 
         private void OnUniverseDisconnectNative(IntPtr sender)
