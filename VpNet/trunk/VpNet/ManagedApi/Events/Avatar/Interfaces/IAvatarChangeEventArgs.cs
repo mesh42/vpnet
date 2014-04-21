@@ -48,5 +48,12 @@ namespace VpNet.Interfaces
         /// The avatar previous.
         /// </value>
         TAvatar AvatarPrevious { get; set; }
+        /// <summary>
+        /// Gets or sets the time span of the change
+        /// </summary>
+        /// <value>
+        /// The time span.
+        /// </value>
+        System.TimeSpan TimeSpan { get; }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Xml.Serialization;
 
 namespace VpNet.Interfaces
@@ -9,6 +10,9 @@ namespace VpNet.Interfaces
     public interface IAvatar<TVector3>
         where TVector3 : struct, IVector3
     {
+        [XmlAttribute]
+        DateTime LastChanged { get; set; }
+
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>

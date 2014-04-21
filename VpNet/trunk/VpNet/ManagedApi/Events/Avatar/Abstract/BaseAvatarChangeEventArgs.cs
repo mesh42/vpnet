@@ -41,6 +41,15 @@ namespace VpNet.Abstract
         virtual public TAvatar Avatar { get; set; }
         virtual public TAvatar AvatarPrevious { get; set; }
 
+        public virtual System.TimeSpan TimeSpan
+        {
+            get
+            {
+                return Avatar.LastChanged - AvatarPrevious.LastChanged;
+
+            }
+        }
+
         protected BaseAvatarChangeEventArgs(TAvatar avatar, TAvatar avatarPrevious)
         {
             Avatar = avatar;

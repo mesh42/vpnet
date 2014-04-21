@@ -34,6 +34,8 @@ namespace VpNet.Abstract
         where TVector3 : struct, IVector3
     {
         [XmlAttribute]
+        virtual public DateTime LastChanged { get; set; }
+        [XmlAttribute]
         virtual public int UserId { get; set; }
         [XmlAttribute]
         virtual public string Name { get; set; }

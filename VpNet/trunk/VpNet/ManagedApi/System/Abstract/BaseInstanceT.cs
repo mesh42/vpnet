@@ -1216,15 +1216,16 @@ namespace VpNet.Abstract
                 Name = Functions.vp_string(sender, Attribute.AvatarName),
                 Session=Functions.vp_int(sender, Attribute.AvatarSession),
                 AvatarType=Functions.vp_int(sender, Attribute.AvatarType),
-                Position=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarX),
-                            Y=Functions.vp_float(sender, Attribute.AvatarY),
-                            Z=Functions.vp_float(sender, Attribute.AvatarZ)},
-                Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch),
-                            Y=Functions.vp_float(sender, Attribute.AvatarYaw),
+                Position=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarX).Truncate(3),
+                            Y=Functions.vp_float(sender, Attribute.AvatarY).Truncate(3),
+                            Z=Functions.vp_float(sender, Attribute.AvatarZ).Truncate(3)},
+                Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch).Truncate(3),
+                            Y=Functions.vp_float(sender, Attribute.AvatarYaw).Truncate(3),
                             Z=0 /* roll currently not supported*/}};
                 if (!_avatars.ContainsKey(data.Session))
                     _avatars.Add(data.Session, data);
             }
+            data.LastChanged = DateTime.UtcNow;
             if (OnAvatarEnter == null) return;
             var args = new TAvatarEnterEventArgs {Avatar = data, Implementor = Implementor};
             args.Initialize();
@@ -1247,7 +1248,7 @@ namespace VpNet.Abstract
                             Y=Functions.vp_float(sender, Attribute.AvatarYaw).Truncate(3),
                             Z=0 /* roll currently not supported*/}};
                 // determine if the avatar actually changed.
-                old = _avatars[data.Session];
+                old = new TAvatar().CopyFrom(_avatars[data.Session], true);
                 if (data.Position.X == old.Position.X
                     && data.Position.Y == old.Position.Y
                     && data.Position.Z == old.Position.Z
@@ -1255,8 +1256,9 @@ namespace VpNet.Abstract
                     && data.Rotation.Y == old.Rotation.Y
                     && data.Rotation.Z == old.Rotation.Z)
                     return;
-
+                data.LastChanged = DateTime.UtcNow;
                 setAvatar(data);
+
             }
             if (OnAvatarChange != null)
                 OnAvatarChange(Implementor, new TAvatarChangeEventArgs { Avatar = _avatars[data.Session], AvatarPrevious = old });
