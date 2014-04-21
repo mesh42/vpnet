@@ -99,6 +99,7 @@
     <Compile Include="ManagedApi\Events\World\WorldArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Extensions\CompassExtensions.cs" />
     <Compile Include="ManagedApi\Extensions\FileExtensions.cs" />
+    <Compile Include="ManagedApi\Extensions\NormalizationExtensions.cs" />
     <Compile Include="ManagedApi\Scene\Abstract\BaseTeleport.cs" />
     <Compile Include="ManagedApi\Scene\Abstract\BaseUserAttributes.cs" />
     <Compile Include="ManagedApi\Scene\Compass.cs" />

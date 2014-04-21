@@ -41,5 +41,12 @@ namespace VpNet.Interfaces
         /// The avatar.
         /// </value>
         TAvatar Avatar { get; set; }
+        /// <summary>
+        /// Gets or sets the avatar previous state.
+        /// </summary>
+        /// <value>
+        /// The avatar previous.
+        /// </value>
+        TAvatar AvatarPrevious { get; set; }
     }
 }

@@ -1233,6 +1233,7 @@ namespace VpNet.Abstract
 
         private void OnAvatarChangeNative(IntPtr sender)
         {
+            TAvatar old;
             TAvatar data;
             lock (this)
             {
@@ -1245,8 +1246,8 @@ namespace VpNet.Abstract
                Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch).Truncate(3),
                             Y=Functions.vp_float(sender, Attribute.AvatarYaw).Truncate(3),
                             Z=0 /* roll currently not supported*/}};
-                var old = _avatars[data.Session];
                 // determine if the avatar actually changed.
+                old = _avatars[data.Session];
                 if (data.Position.X == old.Position.X
                     && data.Position.Y == old.Position.Y
                     && data.Position.Z == old.Position.Z
@@ -1258,7 +1259,7 @@ namespace VpNet.Abstract
                 setAvatar(data);
             }
             if (OnAvatarChange != null)
-                OnAvatarChange(Implementor, new TAvatarChangeEventArgs { Avatar = _avatars[data.Session] });
+                OnAvatarChange(Implementor, new TAvatarChangeEventArgs { Avatar = _avatars[data.Session], AvatarPrevious = old });
         }
 
         private void OnAvatarDeleteNative(IntPtr sender)

@@ -39,10 +39,12 @@ namespace VpNet.Abstract
         where TAvatar : class, IAvatar<TVector3>, new()
     {
         virtual public TAvatar Avatar { get; set; }
+        virtual public TAvatar AvatarPrevious { get; set; }
 
-        protected BaseAvatarChangeEventArgs(TAvatar avatar)
+        protected BaseAvatarChangeEventArgs(TAvatar avatar, TAvatar avatarPrevious)
         {
             Avatar = avatar;
+            AvatarPrevious = avatarPrevious;
         }
 
         protected BaseAvatarChangeEventArgs() { }
