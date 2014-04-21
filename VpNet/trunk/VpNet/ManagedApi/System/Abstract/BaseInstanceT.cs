@@ -1347,19 +1347,20 @@ namespace VpNet.Abstract
             return _avatars.Values.ToList();
         } 
 
+        [Obsolete("Objects are not firewalled anymore, so commits are not needed.")]
         public void Commit(TAvatar avatar)
         {
-            lock (_avatars)
-            {
-                var cache = _avatars[avatar.Session];
-                cache.CopyFrom(avatar, false);
-                foreach (var prop in cache.GetType().GetFields())
-                {
-                    if (prop.FieldType.BaseType!=null && prop.FieldType.BaseType.Name.StartsWith("BaseInstanceT"))
-                        prop.SetValue(cache, this);
-                }
-                _avatars[avatar.Session] = cache;
-            }
+            //lock (_avatars)
+            //{
+            //    var cache = _avatars[avatar.Session];
+            //    cache.CopyFrom(avatar, false);
+            //    foreach (var prop in cache.GetType().GetFields())
+            //    {
+            //        if (prop.FieldType.BaseType!=null && prop.FieldType.BaseType.Name.StartsWith("BaseInstanceT"))
+            //            prop.SetValue(cache, this);
+            //    }
+            //    _avatars[avatar.Session] = cache;
+            //}
         }
     
         public TAvatar GetAvatar(int session)
@@ -1373,11 +1374,11 @@ namespace VpNet.Abstract
 
         private void setAvatar(TAvatar avatar)
         {
-            lock(this)
+            lock (this)
             {
                 if (_avatars.ContainsKey(avatar.Session))
                 {
-                    _avatars[avatar.Session].CopyFrom(avatar,true);
+                    _avatars[avatar.Session].CopyFrom(avatar, true);
                 }
                 else
                 {
