@@ -55,7 +55,7 @@ namespace VpNet.GameExtensions
                         ev => OnManagedObjectGetCallback -= ev);
             }
         }
-        public IObservable<EventPattern<GameInstance, ObjectChangeCallbackArgsT<RcDefault, GameVpObject, Vector3>>> ObjectChangedCallbackAsOvObservable
+        public IObservable<EventPattern<GameInstance, ObjectChangeCallbackArgsT<RcDefault, GameVpObject, Vector3>>> ObjectChangedCallbackAsObservable
         {
             get
             {
@@ -102,7 +102,7 @@ namespace VpNet.GameExtensions
         public RcDefault Add(GameVpObject prototype)
         {
             if (_list.ContainsKey(prototype.Id))
-                throw new Exception("This object is already managed.");
+                return new RcDefault(0);
             _list.Add(prototype.Id,prototype);
             // refresh the object.
             return _instance.GetObject(prototype.Id);

@@ -34,7 +34,7 @@ namespace VpNet.GameExtensions
     [XmlRoot("OnAvatarChange", Namespace = Global.XmlNsEvent)]
     public class GameAvatarChangeEventArgs : BaseAvatarChangeEventArgs<GameAvatar, Vector3>
     {
-        public GameAvatarChangeEventArgs(GameAvatar avatar) : base(avatar)
+        public GameAvatarChangeEventArgs(GameAvatar avatar, GameAvatar avatarPrevious) : base(avatar,avatarPrevious)
         {
         }
 
@@ -62,7 +62,6 @@ namespace VpNet.GameExtensions
 
         public override void Initialize()
         {
-            
             Avatar.GameInstance = (GameInstance)Implementor;
         }
     }
@@ -78,10 +77,8 @@ namespace VpNet.GameExtensions
 
         public override void Initialize()
         {
-
             Avatar.GameInstance = (GameInstance)Implementor;
         }
-
     }
 
     /// <summary>
