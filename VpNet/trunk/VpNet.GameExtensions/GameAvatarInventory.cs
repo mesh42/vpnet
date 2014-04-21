@@ -8,7 +8,7 @@ using VpNet.GameExtensions.Abstract;
 namespace VpNet.GameExtensions
 {
     [Serializable]
-    public sealed class GameAvatarInventory : BaseGameEntity
+    public sealed class GameAvatarInventory : BaseGameEntity<GameAvatarInventory>
     {
         private GameAvatar _avatar;
 
@@ -39,7 +39,6 @@ namespace VpNet.GameExtensions
             if (File.Exists(GetPath(vpObject)))
                 return false;
             JsonConvert.SerializeObject(vpObject,Formatting.Indented).SaveTextFile(GetPath(vpObject));
-            //vpObject.Serialize(GetPath(vpObject));
             return true;
         }
 
@@ -74,6 +73,11 @@ namespace VpNet.GameExtensions
             {
                 return items;
             }
+        }
+
+        public override IObservable<GameAvatarInventory> Changed
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

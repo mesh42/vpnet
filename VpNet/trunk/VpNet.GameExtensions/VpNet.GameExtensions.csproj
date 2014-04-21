@@ -90,11 +90,13 @@
   <ItemGroup>
     <Compile Include="Abstract\BaseEntity.cs" />
     <Compile Include="Abstract\BaseGameEntity.cs" />
+    <Compile Include="Abstract\BaseGameObjectEntity.cs" />
     <Compile Include="Events\GameCloudServiceConnectionArgs.cs" />
     <Compile Include="Events\GameAvatarArgsImplementationMappings.cs" />
     <Compile Include="Events\GameVpObjectArgsImplementationMappings.cs" />
     <Compile Include="GameAvatar.cs" />
     <Compile Include="GameAvatarInventory.cs" />
+    <Compile Include="GameAvatarManager.cs" />
     <Compile Include="GameCloudService.cs" />
     <Compile Include="GameHud.cs" />
     <Compile Include="GameHudMenu.cs" />
@@ -102,7 +104,9 @@
     <Compile Include="GameFinancial.cs" />
     <Compile Include="GameInstanceConfiguration.cs" />
     <Compile Include="GameObjectManager.cs" />
-    <Compile Include="GameTraits.cs" />
+    <Compile Include="GameStatistics\GameCharacterAttributes.cs" />
+    <Compile Include="GameStatistics\GameStatistics.cs" />
+    <Compile Include="GameStatistics\GameStatisticsAttribute.cs" />
     <Compile Include="GameVpObject.cs" />
     <Compile Include="GamePhysics.cs" />
     <Compile Include="GameWeapon.cs" />
@@ -137,6 +141,7 @@
       <Name>VpNet</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
