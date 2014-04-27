@@ -70,6 +70,7 @@ namespace VpNet.GameExtensions
         ObjectDeleteArgsT<GameAvatar, GameVpObject, Vector3>,
         ObjectDeleteCallbackArgsT<RcDefault, GameVpObject, Vector3>,
         ObjectGetCallbackArgsT<RcDefault, GameVpObject, Vector3>,
+        ObjectBumpArgsT<GameAvatar, GameVpObject, Vector3>,
         WorldDisconnectEventArgs,
         WorldListEventArgs,
         WorldSettingsChangedEventArgs,

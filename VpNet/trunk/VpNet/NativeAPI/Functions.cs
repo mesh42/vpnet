@@ -116,10 +116,12 @@ namespace VpNet.NativeApi
         public static extern int vp_object_change(IntPtr instance);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_object_delete(IntPtr instance);
+        public static extern int vp_object_delete(IntPtr instance, int object_id);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_object_click(IntPtr instance);
+        public static extern int vp_object_click(IntPtr instance, int object_id, 
+                              int session_to, float hit_x, 
+                              float hit_y, float hit_z);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_world_list(IntPtr instance, int time);

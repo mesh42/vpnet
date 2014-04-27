@@ -100,4 +100,12 @@ namespace VpNet
         where TVector3 : struct, IVector3
         where TVpObject : class, IVpObject<TVector3>, new()
     { }
+    /// <summary>
+    /// Default Event Arguments implementation mapping. You can define your own mappings when implementing VpNet.Abstract.BaseInstanceT
+    /// </summary>
+    [XmlRoot("OnObjectBump", Namespace = Global.XmlNsEvent)]
+    public class ObjectBumpArgsT<TAvatar, TVpObject, TVector3> : Abstract.BaseObjectBumpArgs<TAvatar, TVpObject, TVector3>
+        where TAvatar : class, IAvatar<TVector3>, new()
+        where TVector3 : struct, IVector3
+        where TVpObject : class, IVpObject<TVector3>, new() { }
 }

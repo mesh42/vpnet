@@ -121,23 +121,31 @@ namespace VpNet.GameExtensions
         }
 
         private readonly Subject<GameAvatar> _ingameChanged = new Subject<GameAvatar>();
-        public IObservable<GameAvatar> InGameChanged { get { return _ingameChanged.AsObservable(); } }
-
         private readonly Subject<GameAvatar> _positionChanged = new Subject<GameAvatar>();
-        private Vector3 _position;
+        private readonly Subject<GameAvatar> _rotationChanged = new Subject<GameAvatar>();
+
+        public IObservable<GameAvatar> InGameChanged { get { return _ingameChanged.AsObservable(); } }
         public IObservable<GameAvatar> PositionChanged { get { return _positionChanged.AsObservable(); } }
+        public IObservable<GameAvatar> RotationChanged { get { return _rotationChanged.AsObservable(); } }
 
         public override Vector3 Position
         {
-            get { return _position; }
+            get { return base.Position; }
             set
             {
-                PreviousPosition = _position;
-                _position = value;
+                base.Position = value;
                 _positionChanged.OnNext(this);
             }
         }
 
-        public Vector3 PreviousPosition { get; set; }
+        public override Vector3 Rotation
+        {
+            get { return base.Rotation; }
+            set
+            {
+                base.Rotation = value;
+                _rotationChanged.OnNext(this);
+            }
+        }
     }
 }

@@ -72,6 +72,7 @@ namespace VpNet.Abstract
     /// <typeparam name="TObjectChangeCallbackArgs">The type of the object change callback args.</typeparam>
     /// <typeparam name="TObjectClickArgs">The type of the object click args.</typeparam>
     /// <typeparam name="TObjectCreateArgs">The type of the object create args.</typeparam>
+    /// <typeparam name="TObjectBumpArgs">The type of the object bump args.</typeparam>
     /// <typeparam name="TObjectCreateCallbackArgs">The type of the object create callback args.</typeparam>
     /// <typeparam name="TObjectDeleteArgs">The type of the object delete args.</typeparam>
     /// <typeparam name="TObjectDeleteCallbackArgs">The type of the object delete callback args.</typeparam>
@@ -104,7 +105,7 @@ namespace VpNet.Abstract
         TUniverseDisconnectEventargs,
         /* VpObject Event Args */
         TObjectChangeArgs, TObjectChangeCallbackArgs, TObjectClickArgs, TObjectCreateArgs,
-        TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs, TObjectGetCallbackArgs,
+        TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs, TObjectGetCallbackArgs, TObjectBumpArgs,
         /* World Event Args */
             TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
           /* Teleport Event Args */
@@ -171,7 +172,7 @@ namespace VpNet.Abstract
         where TObjectDeleteArgs : class, IObjectDeleteArgs<TAvatar,TVpObject,TVector3>,  new()
         where TObjectDeleteCallbackArgs : class,IObjectDeleteCallbackArgs<TResult,TVpObject,TVector3>,  new()
         where TObjectGetCallbackArgs : class,IObjectGetCallbackArgs<TResult, TVpObject, TVector3>, new()
-        /* World Event Args */
+        where TObjectBumpArgs : class, IObjectBumpArgs<TAvatar,TVpObject,TVector3>, new() /* World Event Args */
         where TWorldDisconnectEventArg : class, IWorldDisconnectEventArgs<TWorld>, new()
         where TWorldListEventargs : class, IWorldListEventArgs<TWorld>,new()
         where TWorldSettingsChangedEventArg : class,IWorldSettingsChangedEventArgs<TWorld>, new()
@@ -260,6 +261,8 @@ namespace VpNet.Abstract
             OnObjectChangeNativeEvent += OnObjectChangeNative;
             OnObjectCreateNativeEvent += OnObjectCreateNative;
             OnObjectClickNativeEvent += OnObjectClickNative;
+            OnObjectBumpNativeEvent += OnObjectBumpNative;
+            OnObjectBumpEndNativeEvent += OnObjectBumpEndNative;
             OnObjectDeleteNativeEvent += OnObjectDeleteNative;
 
             OnQueryCellEndNativeEvent += OnQueryCellEndNative;
@@ -296,6 +299,8 @@ namespace VpNet.Abstract
             parentInstance.OnObjectChangeNativeEvent += OnObjectChangeNative;
             parentInstance.OnObjectCreateNativeEvent += OnObjectCreateNative;
             parentInstance.OnObjectClickNativeEvent += OnObjectClickNative;
+            parentInstance.OnObjectBumpNativeEvent += OnObjectBumpNative;
+            parentInstance.OnObjectBumpEndNativeEvent += OnObjectBumpEndNative; 
             parentInstance.OnObjectDeleteNativeEvent += OnObjectDeleteNative;
             parentInstance.OnQueryCellEndNativeEvent += OnQueryCellEndNative;
             parentInstance.OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
@@ -327,7 +332,7 @@ namespace VpNet.Abstract
             {
                 Init();
                 Configuration = new InstanceConfiguration<TWorld>(false);
-                int rc = Functions.vp_init(1);
+                int rc = Functions.vp_init(2);
                 if (rc != 0)
                 {
                     if (rc != 3)
@@ -349,6 +354,8 @@ namespace VpNet.Abstract
             SetNativeEvent(Events.ObjectChange, OnObjectChangeNative1);
             SetNativeEvent(Events.Object, OnObjectCreateNative1);
             SetNativeEvent(Events.ObjectClick, OnObjectClickNative1);
+            SetNativeEvent(Events.ObjectBumpBegin, OnObjectBumpNative1);
+            SetNativeEvent(Events.ObjectBumpEnd, OnObjectBumpEndNative1);
             SetNativeEvent(Events.ObjectDelete, OnObjectDeleteNative1);
             SetNativeEvent(Events.QueryCellEnd, OnQueryCellEndNative1);
             SetNativeEvent(Events.UniverseDisconnect, OnUniverseDisconnectNative1);
@@ -389,6 +396,8 @@ namespace VpNet.Abstract
         internal void OnObjectChangeNative1(IntPtr instance) { lock (this) { OnObjectChangeNativeEvent(instance); } }
         internal void OnObjectCreateNative1(IntPtr instance) { lock (this) { OnObjectCreateNativeEvent(instance); } }
         internal void OnObjectClickNative1(IntPtr instance) { lock (this) { OnObjectClickNativeEvent(instance); } }
+        internal void OnObjectBumpNative1(IntPtr instance) { lock (this) { OnObjectBumpNativeEvent(instance); } }
+        internal void OnObjectBumpEndNative1(IntPtr instance) { lock (this) { OnObjectBumpEndNativeEvent(instance); } }
         internal void OnObjectDeleteNative1(IntPtr instance) { lock (this) { OnObjectDeleteNativeEvent(instance); } }
         internal void OnQueryCellEndNative1(IntPtr instance) { lock (this) { OnQueryCellEndNativeEvent(instance); } }
         internal void OnUniverseDisconnectNative1(IntPtr instance) { lock (this) { OnUniverseDisconnectNativeEvent(instance); } }
@@ -562,10 +571,10 @@ namespace VpNet.Abstract
         {
             lock (this)
             {
-                Functions.vp_int_set(_instance, Attributes.ObjectId,objectId);
+               // Functions.vp_int_set(_instance, Attributes.ObjectId,objectId);
                 return new TResult
                 {
-                    Rc = Functions.vp_object_click(_instance)
+                    Rc = Functions.vp_object_click(_instance, objectId,0,0,0,0)
                 };
             }
         }
@@ -578,15 +587,58 @@ namespace VpNet.Abstract
             }
         }
 
+        public TResult ClickObject(TVpObject vpObject, TAvatar avatar, TVector3 worldHit)
+        {
+            lock (this)
+            {
+                return new TResult
+                {
+                    Rc = Functions.vp_object_click(_instance, vpObject.Id, avatar.Session, worldHit.X, worldHit.Y, worldHit.Z)
+                };
+            }
+        }
+
+        public TResult ClickObject(TVpObject vpObject, TVector3 worldHit)
+        {
+            lock (this)
+            {
+                return new TResult
+                {
+                    Rc = Functions.vp_object_click(_instance, vpObject.Id, 0, worldHit.X, worldHit.Y, worldHit.Z)
+                };
+            }
+        }
+
+        public TResult ClickObject(int objectId,int toSession, float worldHitX, float worldHitY, float worldHitZ)
+        {
+            lock (this)
+            {
+                return new TResult
+                {
+                    Rc = Functions.vp_object_click(_instance, objectId, toSession, worldHitX, worldHitY, worldHitZ)
+                };
+            }
+        }
+
+        public TResult ClickObject(int objectId, float worldHitX, float worldHitY, float worldHitZ)
+        {
+            lock (this)
+            {
+                return new TResult
+                {
+                    Rc = Functions.vp_object_click(_instance, objectId, 0, worldHitX, worldHitY, worldHitZ)
+                };
+            }
+        }
+
+
         public TResult ClickObject(int objectId, int toSession)
         {
             lock (this)
             {
-                Functions.vp_int_set(_instance, Attributes.ObjectId, objectId);
-                Functions.vp_int_set(_instance, Attributes.ClickSessionTo, toSession);
                 return new TResult
                 {
-                    Rc = Functions.vp_object_click(_instance)
+                    Rc = Functions.vp_object_click(_instance,objectId,toSession,0,0,0)
                 };
             }
         }
@@ -599,8 +651,7 @@ namespace VpNet.Abstract
             {
                 _objectReferences.Add(referenceNumber, vpObject);
                 Functions.vp_int_set(_instance, Attribute.ReferenceNumber, referenceNumber);
-                Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
-                rc = Functions.vp_object_delete(_instance);
+                rc = Functions.vp_object_delete(_instance,vpObject.Id);
             }
             if (rc != 0)
             {
@@ -955,6 +1006,7 @@ namespace VpNet.Abstract
         public delegate void ObjectChangeDelegate(T sender, TObjectChangeArgs args);
         public delegate void ObjectDeleteDelegate(T sender, TObjectDeleteArgs args);
         public delegate void ObjectClickDelegate(T sender, TObjectClickArgs args);
+        public delegate void ObjectBumpDelegate(T sender, TObjectBumpArgs args);
 
 
         public delegate void ObjectCreateCallback(T sender, TObjectCreateCallbackArgs args);
@@ -987,6 +1039,7 @@ namespace VpNet.Abstract
         public event ObjectChangeDelegate OnObjectChange;
         public event ObjectDeleteDelegate OnObjectDelete;
         public event ObjectClickDelegate OnObjectClick;
+        public event ObjectBumpDelegate OnObjectBump;
 
         public event ObjectCreateCallback OnObjectCreateCallback;
         public event ObjectDeleteCallback OnObjectDeleteCallback;
@@ -1317,6 +1370,38 @@ namespace VpNet.Abstract
                               {WorldHit=world, Avatar = _avatars[session], VpObject = new TVpObject {Id = objectId}});
         }
 
+        private void OnObjectBumpNative(IntPtr sender)
+        {
+            if (OnObjectBump == null) return;
+            int session;
+            int objectId;
+            TVector3 world;
+            lock (this)
+            {
+                session = Functions.vp_int(sender, Attribute.AvatarSession);
+                objectId = Functions.vp_int(sender, Attribute.ObjectId);
+            }
+
+            OnObjectBump(Implementor,
+                          new TObjectBumpArgs { BumpType=BumpType.BumpBegin, Avatar = _avatars[session], VpObject = new TVpObject { Id = objectId } });
+        }
+
+        private void OnObjectBumpEndNative(IntPtr sender)
+        {
+            if (OnObjectBump == null) return;
+            int session;
+            int objectId;
+            TVector3 world;
+            lock (this)
+            {
+                session = Functions.vp_int(sender, Attribute.AvatarSession);
+                objectId = Functions.vp_int(sender, Attribute.ObjectId);
+            }
+
+            OnObjectBump(Implementor,
+                          new TObjectBumpArgs { BumpType = BumpType.BumpEnd, Avatar = _avatars[session], VpObject = new TVpObject { Id = objectId } });
+        }
+
         private void OnObjectDeleteNative(IntPtr sender)
         {
             if (OnObjectDelete == null) return;
@@ -1542,6 +1627,7 @@ namespace VpNet.Abstract
                 OnObjectChangeCallback = null;
                 OnObjectDelete = null;
                 OnObjectClick = null;
+                OnObjectBump = null;
                 OnWorldList = null;
                 OnWorldDisconnect = null;
                 OnWorldSettingsChanged = null;
@@ -1630,6 +1716,8 @@ namespace VpNet.Abstract
         override internal event EventDelegate OnObjectCreateNativeEvent;
         override internal event EventDelegate OnObjectDeleteNativeEvent;
         override internal event EventDelegate OnObjectClickNativeEvent;
+        override internal event EventDelegate OnObjectBumpNativeEvent;
+        override internal event EventDelegate OnObjectBumpEndNativeEvent;
         override internal event EventDelegate OnQueryCellEndNativeEvent;
         override internal event EventDelegate OnUniverseDisconnectNativeEvent;
         override internal event EventDelegate OnWorldDisconnectNativeEvent;
