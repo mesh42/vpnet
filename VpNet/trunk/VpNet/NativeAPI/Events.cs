@@ -111,6 +111,14 @@ namespace VpNet.NativeApi
         /// </summary>
         Url=19,
         /// <summary>
+        /// The object bump begin
+        /// </summary>
+        ObjectBumpBegin,
+        /// <summary>
+        /// The object bump end
+        /// </summary>
+        ObjectBumpEnd,
+        /// <summary>
         /// Highest event
         /// </summary>
         Highest

@@ -31,11 +31,58 @@ using VpNet.Interfaces;
 
 namespace VpNet.Abstract
 {
+    /// <summary>
+    /// Abtract fully teamplated instance class, providing .NET encapsulation strict templated types to the native C wrapper.
+    /// </summary>
+    /// <typeparam name="T">Type of the abstract implementation</typeparam>
+    /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
+    /// <typeparam name="TColor">The type of the color.</typeparam>
+    /// <typeparam name="TFriend">The type of the friend.</typeparam>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <typeparam name="TTerrainCell">The type of the terrain cell.</typeparam>
+    /// <typeparam name="TTerrainNode">The type of the terrain node.</typeparam>
+    /// <typeparam name="TTerrainTile">The type of the terrain tile.</typeparam>
+    /// <typeparam name="TVector3">The type of the vector3.</typeparam>
+    /// <typeparam name="TVpObject">The type of the vp object.</typeparam>
+    /// <typeparam name="TWorld">The type of the world.</typeparam>
+    /// <typeparam name="TWorldAttributes">The type of the world attributes.</typeparam>
+    /// <typeparam name="TCell">The type of the cell.</typeparam>
+    /// <typeparam name="TChatMessage">The type of the chat message.</typeparam>
+    /// <typeparam name="TTerrain">The type of the terrain.</typeparam>
+    /// <typeparam name="TUniverse">The type of the universe.</typeparam>
+    /// <typeparam name="TTeleport">The type of the teleport.</typeparam>
+    /// <typeparam name="TAvatarChangeEventArgs">The type of the avatar change event args.</typeparam>
+    /// <typeparam name="TAvatarEnterEventArgs">The type of the avatar enter event args.</typeparam>
+    /// <typeparam name="TAvatarLeaveEventArgs">The type of the avatar leave event args.</typeparam>
+    /// <typeparam name="TQueryCellResultArgs">The type of the query cell result args.</typeparam>
+    /// <typeparam name="TQueryCellEndArgs">The type of the query cell end args.</typeparam>
+    /// <typeparam name="TChatMessageEventArgs">The type of the chat message event args.</typeparam>
+    /// <typeparam name="TFriendAddCallbackEventArgs">The type of the friend add callback event args.</typeparam>
+    /// <typeparam name="TFriendDeleteCallbackEventArgs">The type of the friend delete callback event args.</typeparam>
+    /// <typeparam name="TFriendsGetCallbackEventArgs">The type of the friends get callback event args.</typeparam>
+    /// <typeparam name="TTerainNodeEventArgs">The type of the terain node event args.</typeparam>
+    /// <typeparam name="TUniverseDisconnectEventargs">The type of the universe disconnect eventargs.</typeparam>
+    /// <typeparam name="TObjectChangeArgs">The type of the object change args.</typeparam>
+    /// <typeparam name="TObjectChangeCallbackArgs">The type of the object change callback args.</typeparam>
+    /// <typeparam name="TObjectClickArgs">The type of the object click args.</typeparam>
+    /// <typeparam name="TObjectCreateArgs">The type of the object create args.</typeparam>
+    /// <typeparam name="TObjectBumpArgs">The type of the object bump args.</typeparam>
+    /// <typeparam name="TObjectCreateCallbackArgs">The type of the object create callback args.</typeparam>
+    /// <typeparam name="TObjectDeleteArgs">The type of the object delete args.</typeparam>
+    /// <typeparam name="TObjectDeleteCallbackArgs">The type of the object delete callback args.</typeparam>
+    /// <typeparam name="TWorldDisconnectEventArg">The type of the world disconnect event arg.</typeparam>
+    /// <typeparam name="TWorldListEventargs">The type of the world list eventargs.</typeparam>
+    /// <typeparam name="TWorldSettingsChangedEventArg">The type of the world settings changed event arg.</typeparam>
+    /// <typeparam name="TTeleportEventArgs">The type of the teleport event args.</typeparam>
+    /// <typeparam name="TWorldEnterEventArgs">The type of the world enter event args.</typeparam>
+    /// <typeparam name="TWorldLeaveEventArgs">The type of the world leave event args.</typeparam>
+    /// <typeparam name="TAvatarClickEventArgs"> </typeparam>
     public abstract partial class BaseInstanceT<T,
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
         TAvatar, TColor, TFriend, TResult, TTerrainCell, TTerrainNode,
-        TTerrainTile, TVector3, TVpObject, TWorld, TWorldAttributes,TCell,TChatMessage,TTerrain,TUniverse,TTeleport,
+        TTerrainTile, TVector3, TVpObject, TWorld, TWorldAttributes, TCell, TChatMessage, TTerrain, TUniverse, TTeleport,
         TUserAttributes,
+
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
         TAvatarChangeEventArgs, TAvatarEnterEventArgs, TAvatarLeaveEventArgs, TAvatarClickEventArgs,
@@ -51,23 +98,34 @@ namespace VpNet.Abstract
         TUniverseDisconnectEventargs,
         /* VpObject Event Args */
         TObjectChangeArgs, TObjectChangeCallbackArgs, TObjectClickArgs, TObjectCreateArgs,
-        TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs, TObjectGetCallbackArgs,
+        TObjectCreateCallbackArgs, TObjectDeleteArgs, TObjectDeleteCallbackArgs, TObjectGetCallbackArgs, TObjectBumpArgs,
         /* World Event Args */
             TWorldDisconnectEventArg, TWorldListEventargs, TWorldSettingsChangedEventArg,
-          /* Teleport Event Args */
+        /* Teleport Event Args */
         TTeleportEventArgs,
         TWorldEnterEventArgs,
         TWorldLeaveEventArgs,
         TUserAttributesEventArgs
-        >
-/* Constraints ----------------------------------------------------------------------------------------------------------------------------------------------------*/
+        > :
+        /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
+        /* Functions */
+        BaseInstanceEvents<TWorld>,
+        IAvatarFunctions<TResult, TAvatar, TVector3>,
+        IChatFunctions<TResult, TAvatar, TColor, TVector3>,
+        IFriendFunctions<TResult, TFriend>,
+        ITeleportFunctions<TResult, TWorld, TAvatar, TVector3>,
+        ITerrainFunctions<TResult, TTerrainTile, TTerrainNode, TTerrainCell>,
+        IVpObjectFunctions<TResult, TVpObject, TVector3>,
+        IWorldFunctions<TResult, TWorld, TWorldAttributes>,
+        IUniverseFunctions<TResult>
+        /* Constraints ----------------------------------------------------------------------------------------------------------------------------------------------------*/
         where TUniverse : class, IUniverse, new()
         where TTerrain : class, ITerrain, new()
         where TCell : class, ICell, new()
         where TChatMessage : class, IChatMessage<TColor>, new()
         where TTerrainCell : class, ITerrainCell, new()
-        where TTerrainNode : class, ITerrainNode<TTerrainTile,TTerrainNode,TTerrainCell>, new()
-        where TTerrainTile : class, ITerrainTile<TTerrainTile,TTerrainNode, TTerrainCell>, new()
+        where TTerrainNode : class, ITerrainNode<TTerrainTile, TTerrainNode, TTerrainCell>, new()
+        where TTerrainTile : class, ITerrainTile<TTerrainTile, TTerrainNode, TTerrainCell>, new()
         where TResult : class, IRc, new()
         where TWorld : class, IWorld, new()
         where TAvatar : class, IAvatar<TVector3>, new()
@@ -76,7 +134,7 @@ namespace VpNet.Abstract
         where TVpObject : class, IVpObject<TVector3>, new()
         where TVector3 : struct, IVector3
         where TWorldAttributes : class, IWorldAttributes, new()
-        where TTeleport : class, ITeleport<TWorld,TAvatar,TVector3>, new()
+        where TTeleport : class, ITeleport<TWorld, TAvatar, TVector3>, new()
         where TUserAttributes : class, IUserAttributes, new()
         where T : class, new()
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -86,32 +144,32 @@ namespace VpNet.Abstract
         where TAvatarLeaveEventArgs : class, IAvatarLeaveEventArgs<TAvatar, TVector3>, ITimedEventArgs, new()
         where TAvatarClickEventArgs : class, IAvatarClickEventArgs<TAvatar, TVector3>, ITimedEventArgs, new()
         /* Cell Event Args */
-        where TQueryCellResultArgs : class, IQueryCellResultArgs<TVpObject,TVector3>, new()
+        where TQueryCellResultArgs : class, IQueryCellResultArgs<TVpObject, TVector3>, new()
         where TQueryCellEndArgs : class, IQueryCellEndArgs<TCell>, new()
         /* Chat Event Args */
-        where TChatMessageEventArgs : class, IChatMessageEventArgs<TAvatar,TChatMessage,TVector3,TColor>, new()
+        where TChatMessageEventArgs : class, IChatMessageEventArgs<TAvatar, TChatMessage, TVector3, TColor>, new()
         /* Friend Event Args */
         where TFriendAddCallbackEventArgs : class,IFriendAddCallbackEventArgs<TFriend>, new()
-        where TFriendDeleteCallbackEventArgs : class, IFriendDeleteCallbackEventArgs<TFriend>,  new()
-        where TFriendsGetCallbackEventArgs : class, IFriendsGetCallbackEventArgs<TFriend>,  new()
+        where TFriendDeleteCallbackEventArgs : class, IFriendDeleteCallbackEventArgs<TFriend>, new()
+        where TFriendsGetCallbackEventArgs : class, IFriendsGetCallbackEventArgs<TFriend>, new()
         /* Terrain Event Args */
-        where TTerainNodeEventArgs : class, ITerrainNodeEventArgs<TTerrain>,  new()
+        where TTerainNodeEventArgs : class, ITerrainNodeEventArgs<TTerrain>, new()
         /* Universe Event Args */
         where TUniverseDisconnectEventargs : class, IUniverseDisconnectEventArgs<TUniverse>, new()
         /* VpObject Event Args */
-        where TObjectChangeArgs : class,IObjectChangeArgs<TAvatar,TVpObject,TVector3>, new()
-        where TObjectChangeCallbackArgs : class,IObjectChangeCallbackArgs<TResult,TVpObject,TVector3>, new()
-        where TObjectClickArgs : class, IObjectClickArgs<TAvatar,TVpObject,TVector3>,  new()
-        where TObjectCreateArgs : class, IObjectCreateArgs<TAvatar,TVpObject,TVector3>, new()
-        where TObjectCreateCallbackArgs : class, IObjectCreateCallbackArgs<TResult,TVpObject,TVector3>, new()
-        where TObjectDeleteArgs : class, IObjectDeleteArgs<TAvatar,TVpObject,TVector3>,  new()
-        where TObjectDeleteCallbackArgs : class,IObjectDeleteCallbackArgs<TResult,TVpObject,TVector3>,  new()
+        where TObjectChangeArgs : class,IObjectChangeArgs<TAvatar, TVpObject, TVector3>, new()
+        where TObjectChangeCallbackArgs : class,IObjectChangeCallbackArgs<TResult, TVpObject, TVector3>, new()
+        where TObjectClickArgs : class, IObjectClickArgs<TAvatar, TVpObject, TVector3>, new()
+        where TObjectCreateArgs : class, IObjectCreateArgs<TAvatar, TVpObject, TVector3>, new()
+        where TObjectCreateCallbackArgs : class, IObjectCreateCallbackArgs<TResult, TVpObject, TVector3>, new()
+        where TObjectDeleteArgs : class, IObjectDeleteArgs<TAvatar, TVpObject, TVector3>, new()
+        where TObjectDeleteCallbackArgs : class,IObjectDeleteCallbackArgs<TResult, TVpObject, TVector3>, new()
         where TObjectGetCallbackArgs : class,IObjectGetCallbackArgs<TResult, TVpObject, TVector3>, new()
-        /* World Event Args */
+        where TObjectBumpArgs : class, IObjectBumpArgs<TAvatar, TVpObject, TVector3>, new() /* World Event Args */
         where TWorldDisconnectEventArg : class, IWorldDisconnectEventArgs<TWorld>, new()
-        where TWorldListEventargs : class, IWorldListEventArgs<TWorld>,new()
+        where TWorldListEventargs : class, IWorldListEventArgs<TWorld>, new()
         where TWorldSettingsChangedEventArg : class,IWorldSettingsChangedEventArgs<TWorld>, new()
-        where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport,TWorld,TAvatar,TVector3>, new()
+        where TTeleportEventArgs : class, ITeleportEventArgs<TTeleport, TWorld, TAvatar, TVector3>, new()
         where TWorldEnterEventArgs : class, IWorldEnterEventArgs<TWorld>, new()
         where TWorldLeaveEventArgs : class, IWorldLeaveEventArgs<TWorld>, new()
         where TUserAttributesEventArgs : class, IUserAttributesEventArgs<TUserAttributes>, new()

@@ -24,6 +24,8 @@ namespace VpNet.Abstract
         internal abstract event EventDelegate OnObjectCreateNativeEvent;
         internal abstract event EventDelegate OnObjectDeleteNativeEvent;
         internal abstract event EventDelegate OnObjectClickNativeEvent;
+        internal abstract event EventDelegate OnObjectBumpNativeEvent;
+        internal abstract event EventDelegate OnObjectBumpEndNativeEvent; 
         internal abstract event EventDelegate OnQueryCellEndNativeEvent;
         internal abstract event EventDelegate OnUniverseDisconnectNativeEvent;
         internal abstract event EventDelegate OnWorldDisconnectNativeEvent;

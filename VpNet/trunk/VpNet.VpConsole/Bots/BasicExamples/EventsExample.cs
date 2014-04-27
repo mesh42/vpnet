@@ -52,6 +52,7 @@ namespace VpNet.VpConsole
             vp.OnObjectChange += vp_OnObjectChange;
             vp.OnChatMessage += vp_OnChatMessage;
             vp.OnObjectClick += vp_OnObjectClick;
+            vp.OnObjectBump += vp_OnObjectBump;
 
             Console.WriteLine("Press any key to stop");
             do
@@ -63,6 +64,11 @@ namespace VpNet.VpConsole
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
                     
 
+        }
+
+        void vp_OnObjectBump(Instance sender, ObjectBumpArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
+        {
+            Console.WriteLine("Object bump received.\r\n{0}", args.Serialize());            
         }
 
         void vp_OnObjectClick(Instance sender, ObjectClickArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)

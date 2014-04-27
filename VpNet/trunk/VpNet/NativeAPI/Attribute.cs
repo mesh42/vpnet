@@ -175,9 +175,13 @@ namespace VpNet.NativeApi
         /// </summary>
         UrlTarget,
         /// <summary>
-        /// Click Session To
+        /// The current event
         /// </summary>
-        ClickSessionTo,
+        CurrentEvent,
+        /// <summary>
+        /// The current callback
+        /// </summary>
+        CurrentCallback,
         /// <summary>
         /// Integer attribute highest
         /// </summary>

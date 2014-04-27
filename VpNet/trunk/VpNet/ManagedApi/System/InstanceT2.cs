@@ -70,6 +70,7 @@ namespace VpNet
         ObjectDeleteArgsT<TAvatar, VpObject<TVector3>, TVector3>,
         ObjectDeleteCallbackArgsT<TResult, VpObject<TVector3>, TVector3>,
         ObjectGetCallbackArgsT<TResult, VpObject<TVector3>, TVector3>,
+        ObjectBumpArgsT<TAvatar, VpObject<TVector3>, TVector3>,
         WorldDisconnectEventArgs,
         WorldListEventArgs,
         WorldSettingsChangedEventArgs,

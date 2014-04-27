@@ -89,7 +89,10 @@
     <Compile Include="ManagedApi\Events\User\UserAttributesArgsImplementationMappings.cs" />
     <Compile Include="ManagedApi\Events\User\UserAttributesArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\User\Interfaces\IUserAttributesEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectBumpArgs.cs" />
     <Compile Include="ManagedApi\Events\VpObject\Abstract\BaseObjectGetCallbackArgs.cs" />
+    <Compile Include="ManagedApi\BumpType.cs" />
+    <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectBumpArgs.cs" />
     <Compile Include="ManagedApi\Events\VpObject\Interfaces\IObjectGetCallbackArgs.cs" />
     <Compile Include="ManagedApi\Events\VpObject\ObjectArgsImplementationMappingsT.cs" />
     <Compile Include="ManagedApi\Events\World\Abstract\BaseWorldEnterEventArgs.cs" />

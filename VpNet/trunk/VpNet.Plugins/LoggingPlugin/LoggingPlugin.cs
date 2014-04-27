@@ -54,6 +54,12 @@ namespace VpNet.Plugins
             Vp.OnObjectDelete += Vp_OnObjectDelete;
             Vp.OnWorldList += Vp_OnWorldList;
             Vp.OnTeleport += Vp_OnTeleport;
+            Vp.OnObjectBump += Vp_OnObjectBump;
+        }
+
+        void Vp_OnObjectBump(Instance sender, ObjectBumpArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
+        {
+            args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void Vp_OnTeleport(Instance sender, TeleportEventArgsT<Teleport<World, Avatar<Vector3>, Vector3>, World, Avatar<Vector3>, Vector3> args)

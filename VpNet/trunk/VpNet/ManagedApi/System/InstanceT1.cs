@@ -71,6 +71,7 @@ namespace VpNet
         ObjectDeleteArgsT<Avatar<TVector3>, VpObject<TVector3>, TVector3>,
         ObjectDeleteCallbackArgsT<TResult, VpObject<TVector3>, TVector3>,
         ObjectGetCallbackArgsT<TResult, VpObject<TVector3>, TVector3>,
+        ObjectBumpArgsT<Avatar<TVector3>, VpObject<TVector3>, TVector3>,
         WorldDisconnectEventArgs,
         WorldListEventArgs,
         WorldSettingsChangedEventArgs,
