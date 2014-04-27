@@ -50,6 +50,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSScriptLibrary">
+      <HintPath>..\packages\CS-Script.3.7.2.0\lib\net45\CSScriptLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
@@ -61,6 +64,9 @@
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.0.3\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.CSharp">
+      <HintPath>..\packages\CS-Script.3.7.2.0\lib\net45\Mono.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -104,6 +110,9 @@
     <Compile Include="GameFinancial.cs" />
     <Compile Include="GameInstanceConfiguration.cs" />
     <Compile Include="GameObjectManager.cs" />
+    <Compile Include="Abstract\BaseGameScript.cs" />
+    <Compile Include="GameScene.cs" />
+    <Compile Include="GameSceneNode.cs" />
     <Compile Include="GameStatistics\GameCharacterAttributes.cs" />
     <Compile Include="GameStatistics\GameStatistics.cs" />
     <Compile Include="GameStatistics\GameStatisticsAttribute.cs" />
@@ -115,6 +124,7 @@
     <Compile Include="Interfaces\Hubs\Entities\IGameAchievement.cs" />
     <Compile Include="Interfaces\Hubs\GameTitle.cs" />
     <Compile Include="Interfaces\Hubs\IGameWeaponsHub.cs" />
+    <Compile Include="Interfaces\IGameScriptVpObject.cs" />
     <Compile Include="Interfaces\IHubQueryable.cs" />
     <Compile Include="GameState\Events.cs" />
     <Compile Include="GameState\Exceptions.cs" />
@@ -124,6 +134,7 @@
     <Compile Include="GameState\SolidState.cs" />
     <Compile Include="GameState\StateConfiguration.cs" />
     <Compile Include="GameState\TriggerConfiguration.cs" />
+    <Compile Include="Scripting.cs" />
     <Compile Include="VpObjectInventory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -141,7 +152,9 @@
       <Name>VpNet</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GameConfig\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
