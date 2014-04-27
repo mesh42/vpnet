@@ -23,7 +23,6 @@ namespace VpNet.GameExtensions
         }
     }
 
-
     [Serializable]
     public class ExtendedData
     {

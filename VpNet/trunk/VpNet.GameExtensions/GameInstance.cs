@@ -80,6 +80,7 @@ namespace VpNet.GameExtensions
         UserAttributesEventArgsT<UserAttributes>
         >
     {
+        public GameScene GameScene;
         private readonly string _gameCloudServiceUrl;
         private readonly string _hudServiceUrl;
         public GameInstanceConfiguration GameInstanceConfiguration { get; private set; }
@@ -90,6 +91,7 @@ namespace VpNet.GameExtensions
             string gameCloudServiceUrl = "http://localhost/Bootstrap", string storageDataPath = ".\\GameData", 
             string hudServiceUrl = "http://localhost/Bootstrap/VpHud")
         {
+            GameScene = new GameScene(this);
             _gameCloudServiceUrl = gameCloudServiceUrl;
             _hudServiceUrl = hudServiceUrl;
             Implementor = this;
