@@ -1,5 +1,5 @@
-#ifndef __VP_SDK
-#define __VP_SDK
+#ifndef VPSDK_VP_h__
+#define VPSDK_VP_h__
 
 #if defined(WIN32) || defined(UNDER_CE)
 #   ifdef VPSDK_EXPORTS
@@ -95,6 +95,7 @@ typedef enum vp_event_t
 /**
  *	Called when a new object is created or sent as a result to a query. The
  *	following attributes are set when the event is called:
+ *      - #VP_AVATAR_SESSION (set to 0 if this event is in response to a query)
  *		- #VP_OBJECT_ID
  *		- #VP_OBJECT_USER_ID
  *		- #VP_OBJECT_TIME
@@ -115,6 +116,7 @@ typedef enum vp_event_t
 /**
  *	Called when an object is changed by another user. The following attributes
  *	are set when the event is called:
+ *      - #VP_AVATAR_SESSION
  *		- #VP_OBJECT_ID
  *		- #VP_OBJECT_USER_ID
  *		- #VP_OBJECT_TIME
@@ -262,6 +264,15 @@ typedef enum vp_event_t
     *  - VP_OBJECT_ID
     */
     VP_EVENT_OBJECT_BUMP_END,
+
+    /**
+    *   Attributes:
+    *   - VP_TERRAIN_TILE_X
+    *   - VP_TERRAIN_TILE_Z
+    *   - VP_TERRAIN_NODE_X
+    *   - VP_TERRAIN_NODE_Z
+    */
+    VP_EVENT_TERRAIN_NODE_CHANGED,
     
 	VP_HIGHEST_EVENT
 } vp_event_t;
@@ -311,6 +322,23 @@ typedef enum vp_callback_t
      * - #VP_OBJECT_ACTION
      */
     VP_CALLBACK_OBJECT_GET,
+    
+    /**
+     * Reason codes
+     * - #VP_RC_SUCCESS
+     * - #VP_RC_NOT_ALLOWED
+     # - #VP_DATABASE_ERROR
+     */
+    VP_CALLBACK_OBJECT_LOAD,
+    
+    /**
+     *  Attributes:
+     *  - VP_MY_USER_ID
+     */
+    VP_CALLBACK_LOGIN,
+
+    VP_CALLBACK_ENTER,
+    
 	VP_HIGHEST_CALLBACK
 } vp_callback_t;
 
@@ -337,6 +365,9 @@ typedef enum vp_int_attribute_t
 	VP_USER_ONLINE_TIME,
 	VP_USER_LAST_LOGIN,
 	
+    /**
+     *  @deprecated
+     */
 	VP_FRIEND_ID,
 	VP_FRIEND_USER_ID,
 	VP_FRIEND_ONLINE,
@@ -519,12 +550,11 @@ enum vp_text_effect {
 };
 
 /** \fn VPSDK_API int vp_init(int version=VPSDK_VERSION)
- *  Initialize the Virtual Paradise SDK API. This function should be called 
- *  before calling any other VPSDK functions.
+ *  Check if the version of the VPSDK used to build the application matches the
+ *  version that is currently loaded.
  *  \param      version
  *  \returns    #VP_RC_SUCCESS              if successful
- *  \returns    #VP_RC_VERSION_MISMATCH     if the header version does not match the library version
- *  \returns    #VP_RC_ALREADY_INITIALIZED  if the API has already been initialized
+ *  \returns    #VP_RC_VERSION_MISMATCH     if the versions don't match
  */
 #ifdef __cplusplus
 VPSDK_API int vp_init(int version=VPSDK_VERSION);
@@ -548,7 +578,8 @@ VPSDK_API int vp_destroy(VPInstance instance);
  *  \param instance
  *  \param host Host address of server to connect to.
  *  \param port TCP port of remote server.
- *  \return Zero when successful, otherwise nonzero. See RC.h
+ *  \returns #VP_RC_SUCCESS
+ *  \returns #VP_RC_CONNECTION_ERROR
  */
 VPSDK_API int vp_connect_universe(VPInstance instance, const char * host, int port);
 
@@ -706,6 +737,8 @@ VPSDK_API int vp_query_cell(VPInstance instance, int x, int z);
  */
 VPSDK_API int vp_object_add(VPInstance instance);
 
+VPSDK_API int vp_object_load(VPInstance instance);
+
 /**
  *  Send a object contact begin event to other users in the world
  *  \param object_id
@@ -791,7 +824,7 @@ VPSDK_API int vp_user_attributes_by_name(VPInstance instance, const char * name)
 
 VPSDK_API int vp_friends_get(VPInstance instance);
 VPSDK_API int vp_friend_add_by_name(VPInstance instance, const char* name);
-VPSDK_API int vp_friend_delete(VPInstance instance, int friend_id);
+VPSDK_API int vp_friend_delete(VPInstance instance, int friend_user_id);
 
 /**
  *  Query a terrain tile
