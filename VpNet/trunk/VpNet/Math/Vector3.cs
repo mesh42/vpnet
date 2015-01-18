@@ -267,6 +267,36 @@ namespace VpNet
             ret = (float)Math.Sqrt((double)n4);
         }
 
+        public static double RotateTo(Vector3 source, double currentAngle, Vector3 target)
+        {
+            var deltaX = source.X - target.X;
+            var deltaY = source.Z - target.Z;
+            var newAngle = (Math.Atan2(deltaY, deltaX) * 180 / Math.PI) - 90;
+            var offset = Math.Floor(currentAngle / 360.0) * 360;
+
+            newAngle += offset;
+
+            var difference = currentAngle - newAngle;
+
+            return Math.Abs(difference) > 180.0
+                ? newAngle + 360 * Math.Sign(difference)
+                : newAngle;
+        }
+
+        public static Vector3 MoveTo(Vector3 source, Vector3 target, double distance)
+        {
+            var deltaX = source.X - target.X;
+            var deltaY = source.Z - target.Z;
+            var newAngle = (Math.Atan2(deltaY, deltaX) * 180 / Math.PI) - 90;
+
+            return new Vector3
+            {
+                X = source.X + (float)(distance * (float)Math.Sin(MathHelper.ToRadians((float)newAngle))),
+                Y = target.Y,
+                Z = source.Z + -(float)(distance * (float)Math.Cos(MathHelper.ToRadians((float)newAngle)))
+            };
+        }
+
         public static float DistanceSquared(Vector3 v1, Vector3 v2)
         {
             float n = v1.X - v2.X;
