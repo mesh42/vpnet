@@ -39,6 +39,8 @@ namespace VpNet.NativeApi
         TerrainQuery,
         TerrainNodeSet,
         ObjectGet,
+        ObjectLoad,
+        Login,
         HighestCallback
     }
 }
