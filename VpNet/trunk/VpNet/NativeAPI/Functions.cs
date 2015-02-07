@@ -111,6 +111,9 @@ namespace VpNet.NativeApi
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_object_add(IntPtr instance);
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int vp_object_load(IntPtr instance);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_object_change(IntPtr instance);
@@ -141,7 +144,7 @@ namespace VpNet.NativeApi
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string name);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_friend_delete(IntPtr instance, int friendId);
+        public static extern int vp_friend_delete(IntPtr instance, int friendUserId);
 
         public static byte[] GetData(IntPtr instance, Attributes attribute)
         {
