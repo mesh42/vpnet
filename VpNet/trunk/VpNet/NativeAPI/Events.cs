@@ -117,7 +117,11 @@ namespace VpNet.NativeApi
         /// <summary>
         /// The object bump end
         /// </summary>
-        ObjectBumpEnd,
+        ObjectBumpEnd,        
+        /// <summary>
+        /// Terrain node changed
+        /// </summary>
+        TerrainNodeChanged,
         /// <summary>
         /// Highest event
         /// </summary>
