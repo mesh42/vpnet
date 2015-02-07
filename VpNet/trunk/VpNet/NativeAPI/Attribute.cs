@@ -23,6 +23,8 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
+
 namespace VpNet.NativeApi
 {
     /// <summary>
@@ -93,14 +95,17 @@ namespace VpNet.NativeApi
         /// <summary>
         /// Friend id
         /// </summary>
+        [Obsolete]
         FriendId,
         /// <summary>
         /// Friend user id
         /// </summary>
+        [Obsolete]
         FriendUserId,
         /// <summary>
         /// Friend online
         /// </summary>
+        [Obsolete]
         FriendOnline,
         /// <summary>
         /// My user id
