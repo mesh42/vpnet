@@ -189,6 +189,8 @@ namespace VpNet.Abstract
         private bool _autowaitWasUsed;
         private List<TCell> _cacheScanning;
 
+        public List<TVpObject> CacheObjects { get { return _objects; } } 
+
         public int Cells { 
             get { return _cache.Count(); }
         }
