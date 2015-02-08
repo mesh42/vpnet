@@ -110,10 +110,25 @@ namespace VpNet.ManagedApi.System.CommandLine
                                 }
                                 else if ((p[0].GetType() == typeof(LiteralAttribute)))
                                 {
-                                    var LiteralAttribute = (LiteralAttribute)p[0];
-                                    if (LiteralAttribute.ArgumentIndex==-1)
-                                        throw new Exception("Literal attributes need to contain an argument index.");
-                                    prop.SetValue(cmd,_args[LiteralAttribute.ArgumentIndex].Trim('"'),null);
+                                    try { 
+                                        var LiteralAttribute = (LiteralAttribute)p[0];
+                                    //if (LiteralAttribute.ArgumentIndex==-1)
+                                    //    throw new Exception("Literal attributes need to contain an argument index.");
+                                        if (prop.PropertyType == typeof (Int32))
+                                        {
+                                            prop.SetValue(cmd, int.Parse(_args[LiteralAttribute.ArgumentIndex].Trim('"')), null);
+                                        }
+                                        else
+                                        {
+                                            prop.SetValue(cmd, _args[LiteralAttribute.ArgumentIndex].Trim('"'), null);
+
+                                        }
+                                    }
+                                    catch (IndexOutOfRangeException ex)
+                                    {
+                                        
+                                       // throw new Exception("Command needs more arguments.");
+                                    }
                                 }
                             }
                         }

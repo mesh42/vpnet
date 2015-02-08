@@ -31,6 +31,7 @@ namespace VpNet.Interfaces
         where TVpObject: class, IVpObject<TVector3>, new()
     {
         TRc ChangeObject(TVpObject vpObject);
+        TRc LoadObject(TVpObject vpObject);
         TRc AddObject(TVpObject vpObject);
         TRc DeleteObject(TVpObject vpObject);
         TRc QueryCell(int cellX, int cellZ);

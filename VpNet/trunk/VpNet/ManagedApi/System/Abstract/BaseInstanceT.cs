@@ -660,6 +660,38 @@ namespace VpNet.Abstract
             return new TResult {Rc = rc};
         }
 
+        virtual public TResult LoadObject(TVpObject vpObject)
+        {
+            int rc;
+            var referenceNumber = ObjectReferenceCounter.GetNextReference();
+            lock (this)
+            {
+                vpObject.ReferenceNumber = referenceNumber; // calculated a unqiue id for you.
+                _objectReferences.Add(referenceNumber, vpObject);
+                Functions.vp_int_set(_instance, Attribute.ReferenceNumber, referenceNumber);
+                Functions.vp_int_set(_instance, Attribute.ObjectId, vpObject.Id);
+                Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
+                Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
+                Functions.vp_string_set(_instance, Attribute.ObjectModel, vpObject.Model);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
+                Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.Position.X);
+                Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
+                Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
+                Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
+                Functions.vp_int_set(_instance, Attribute.ObjectType, vpObject.ObjectType);
+                Functions.vp_int_set(_instance, Attribute.ObjectUserId, vpObject.Owner);
+                Functions.vp_int_set(_instance, Attribute.ObjectTime, (vpObject.Time - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).Seconds);
+                rc = Functions.vp_object_load(_instance);
+            }
+            if (rc != 0)
+            {
+                _objectReferences.Remove(referenceNumber);
+            }
+            return new TResult {Rc = rc};
+        }
+
         virtual public TResult AddObject(TVpObject vpObject)
         {
             int rc;
@@ -1442,7 +1474,7 @@ namespace VpNet.Abstract
                     };
 
             }
-            if (session == -1 && OnQueryCellResult != null)
+            if (session == 0 && OnQueryCellResult != null)
                 OnQueryCellResult(Implementor, new TQueryCellResultArgs{VpObject=vpObject});
             else
                 if (OnObjectCreate != null)
