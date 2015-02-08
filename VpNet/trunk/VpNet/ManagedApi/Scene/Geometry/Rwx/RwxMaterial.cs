@@ -33,13 +33,13 @@ namespace VpNet.Geometry.Rwx
     public struct RwxMaterial
     {
         [XmlAttribute]
-        public float Diffuse;
+        public double Diffuse;
         [XmlAttribute]
-        public float Ambient;
+        public double Ambient;
         [XmlAttribute]
-        public float Opacity;
+        public double Opacity;
         [XmlAttribute]
-        public float Specular;
+        public double Specular;
         public Vector3 Color;
         public Vector3 Surface;
         [XmlAttribute]

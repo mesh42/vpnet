@@ -54,7 +54,7 @@ namespace VpNet.Abstract
         /// The terrain scale.
         /// </value>
         /// <Author>8/5/2012 6:28 PM cube3</Author>
-        public float TerrainScale { get; set; }
+        public double TerrainScale { get; set; }
         /// <summary>
         /// Gets or sets the ground model. db key: gound
         /// </summary>

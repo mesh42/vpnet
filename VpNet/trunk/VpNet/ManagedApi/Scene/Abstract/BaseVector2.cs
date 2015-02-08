@@ -33,11 +33,11 @@ namespace VpNet.Abstract
     public abstract class BaseVector2 : IVector2
     {
         [XmlAttribute]
-        public float X { get; set; }
+        public double X { get; set; }
         [XmlAttribute]
-        public float Y { get; set; }
+        public double Y { get; set; }
 
-        protected BaseVector2(float x, float y)
+        protected BaseVector2(double x, double y)
         {
             X = x;
             Y = y;

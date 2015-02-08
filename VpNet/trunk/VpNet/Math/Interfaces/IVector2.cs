@@ -27,7 +27,7 @@ namespace VpNet.Interfaces
 {
     public interface IVector2
     {
-        float X { get; set; }
-        float Y { get; set; }
+        double X { get; set; }
+        double Y { get; set; }
     }
 }

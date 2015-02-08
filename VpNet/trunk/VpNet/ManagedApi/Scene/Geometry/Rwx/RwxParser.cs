@@ -81,9 +81,9 @@ namespace VpNet.Geometry.Rwx
                         a = proto;
                         break;
                     case "surface":
-                        a.Material.Ambient = float.Parse(items[1], CultureInfo.InvariantCulture);
-                        a.Material.Diffuse = float.Parse(items[2], CultureInfo.InvariantCulture);
-                        a.Material.Specular = float.Parse(items[3], CultureInfo.InvariantCulture);
+                        a.Material.Ambient = double.Parse(items[1], CultureInfo.InvariantCulture);
+                        a.Material.Diffuse = double.Parse(items[2], CultureInfo.InvariantCulture);
+                        a.Material.Specular = double.Parse(items[3], CultureInfo.InvariantCulture);
                         break;
                     case "texturemodes":
                         for (int i = 1; i < items.Length; i++)
@@ -110,11 +110,11 @@ namespace VpNet.Geometry.Rwx
                         a.Transforms.Add(new RwxTransform { Matrix = new Matrix(items.Skip(1).Take(16).ToArray()) });
                         break;
                     case "vertex":
-                        a.Vertices.Add(float.Parse(items[1], CultureInfo.InvariantCulture));
-                        a.Vertices.Add(float.Parse(items[2], CultureInfo.InvariantCulture));
-                        a.Vertices.Add(float.Parse(items[3], CultureInfo.InvariantCulture));
-                        a.Uvs.Add(float.Parse(items[5], CultureInfo.InvariantCulture));
-                        a.Uvs.Add(float.Parse(items[6], CultureInfo.InvariantCulture));
+                        a.Vertices.Add(double.Parse(items[1], CultureInfo.InvariantCulture));
+                        a.Vertices.Add(double.Parse(items[2], CultureInfo.InvariantCulture));
+                        a.Vertices.Add(double.Parse(items[3], CultureInfo.InvariantCulture));
+                        a.Uvs.Add(double.Parse(items[5], CultureInfo.InvariantCulture));
+                        a.Uvs.Add(double.Parse(items[6], CultureInfo.InvariantCulture));
                         a.Uvs.Add(0);
                         break;
                     case "color":
@@ -123,7 +123,7 @@ namespace VpNet.Geometry.Rwx
                         break;
                     case "opacity":
                         if (items.Length > 1)
-                            a.Material.Opacity = (float.Parse(items[1], CultureInfo.InvariantCulture));
+                            a.Material.Opacity = (double.Parse(items[1], CultureInfo.InvariantCulture));
                         break;
                     case "texture":
                         if (items.Length > 1)
@@ -151,15 +151,15 @@ namespace VpNet.Geometry.Rwx
                         break;
                     case "ambient":
                         if (items.Length > 1)
-                            a.Material.Ambient = (float.Parse(items[1], CultureInfo.InvariantCulture));
+                            a.Material.Ambient = (double.Parse(items[1], CultureInfo.InvariantCulture));
                         break;
                     case "diffuse":
                         if (items.Length > 1)
-                            a.Material.Diffuse = (float.Parse(items[1], CultureInfo.InvariantCulture));
+                            a.Material.Diffuse = (double.Parse(items[1], CultureInfo.InvariantCulture));
                         break;
                     case "rotate":
                         if (items.Length > 4)
-                            a.AddTransform(new Vector3(items[1], items[2], items[3]), float.Parse(items[4], CultureInfo.InvariantCulture));
+                            a.AddTransform(new Vector3(items[1], items[2], items[3]), double.Parse(items[4], CultureInfo.InvariantCulture));
                         break;
                     case "scale":
                         if (items.Length > 3)

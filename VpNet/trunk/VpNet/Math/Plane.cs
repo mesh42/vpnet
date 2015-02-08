@@ -38,7 +38,7 @@ namespace VpNet
     {
         #region Public Fields
 
-        public float D;
+        public double D;
         public Vector3 Normal;
 
         #endregion Public Fields
@@ -52,7 +52,7 @@ namespace VpNet
 
         }
 
-        public Plane(Vector3 normal, float d)
+        public Plane(Vector3 normal, double d)
         {
             Normal = normal;
             D = d;
@@ -68,7 +68,7 @@ namespace VpNet
             D = -(Vector3.Dot(cross, a));
         }
 
-        public Plane(float a, float b, float c, float d)
+        public Plane(double a, double b, double c, double d)
             : this(new Vector3(a, b, c), d)
         {
 
@@ -79,32 +79,32 @@ namespace VpNet
 
         #region Public Methods
 
-        public float Dot(Vector4 value)
+        public double Dot(Vector4 value)
         {
             return ((((this.Normal.X * value.X) + (this.Normal.Y * value.Y)) + (this.Normal.Z * value.Z)) + (this.D * value.W));
         }
 
-        public void Dot(ref Vector4 value, out float result)
+        public void Dot(ref Vector4 value, out double result)
         {
             result = (((this.Normal.X * value.X) + (this.Normal.Y * value.Y)) + (this.Normal.Z * value.Z)) + (this.D * value.W);
         }
 
-        public float DotCoordinate(Vector3 value)
+        public double DotCoordinate(Vector3 value)
         {
             return ((((this.Normal.X * value.X) + (this.Normal.Y * value.Y)) + (this.Normal.Z * value.Z)) + this.D);
         }
 
-        public void DotCoordinate(ref Vector3 value, out float result)
+        public void DotCoordinate(ref Vector3 value, out double result)
         {
             result = (((this.Normal.X * value.X) + (this.Normal.Y * value.Y)) + (this.Normal.Z * value.Z)) + this.D;
         }
 
-        public float DotNormal(Vector3 value)
+        public double DotNormal(Vector3 value)
         {
             return (((this.Normal.X * value.X) + (this.Normal.Y * value.Y)) + (this.Normal.Z * value.Z));
         }
 
-        public void DotNormal(ref Vector3 value, out float result)
+        public void DotNormal(ref Vector3 value, out double result)
         {
             result = ((this.Normal.X * value.X) + (this.Normal.Y * value.Y)) + (this.Normal.Z * value.Z);
         }
@@ -131,11 +131,11 @@ namespace VpNet
 
         public void Normalize()
         {
-			float factor;
+			double factor;
 			Vector3 normal = Normal;
 			Normal = Vector3.Normalize(Normal);
-			factor = (float)Math.Sqrt(Normal.X * Normal.X + Normal.Y * Normal.Y + Normal.Z * Normal.Z) / 
-					(float)Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
+			factor = (double)Math.Sqrt(Normal.X * Normal.X + Normal.Y * Normal.Y + Normal.Z * Normal.Z) / 
+					(double)Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
 			D = D * factor;
         }
 
@@ -148,10 +148,10 @@ namespace VpNet
 
         public static void Normalize(ref Plane value, out Plane result)
         {
-			float factor;
+			double factor;
 			result.Normal = Vector3.Normalize(value.Normal);
-			factor = (float)Math.Sqrt(result.Normal.X * result.Normal.X + result.Normal.Y * result.Normal.Y + result.Normal.Z * result.Normal.Z) / 
-					(float)Math.Sqrt(value.Normal.X * value.Normal.X + value.Normal.Y * value.Normal.Y + value.Normal.Z * value.Normal.Z);
+			factor = (double)Math.Sqrt(result.Normal.X * result.Normal.X + result.Normal.Y * result.Normal.Y + result.Normal.Z * result.Normal.Z) / 
+					(double)Math.Sqrt(value.Normal.X * value.Normal.X + value.Normal.Y * value.Normal.Y + value.Normal.Z * value.Normal.Z);
 			result.D = value.D * factor;
         }
 

@@ -52,10 +52,10 @@ namespace VpNet
 
         #region Public Fields
 
-        public float X;
-        public float Y;
-        public float Z;
-        public float W;
+        public double X;
+        public double Y;
+        public double Z;
+        public double W;
 
         #endregion Public Fields
 
@@ -97,7 +97,7 @@ namespace VpNet
 
         #region Constructors
 
-        public Vector4(float x, float y, float z, float w)
+        public Vector4(double x, double y, double z, double w)
         {
             this.X = x;
             this.Y = y;
@@ -105,7 +105,7 @@ namespace VpNet
             this.W = w;
         }
 
-        public Vector4(Vector2 value, float z, float w)
+        public Vector4(Vector2 value, double z, double w)
         {
             this.X = value.X;
             this.Y = value.Y;
@@ -113,7 +113,7 @@ namespace VpNet
             this.W = w;
         }
 
-        public Vector4(Vector3 value, float w)
+        public Vector4(Vector3 value, double w)
         {
             this.X = value.X;
             this.Y = value.Y;
@@ -121,7 +121,7 @@ namespace VpNet
             this.W = w;
         }
 
-        public Vector4(float value)
+        public Vector4(double value)
         {
             this.X = value;
             this.Y = value;
@@ -151,7 +151,7 @@ namespace VpNet
             result.Z = value1.Z + value2.Z;
         }
 
-        public static Vector4 Barycentric(Vector4 value1, Vector4 value2, Vector4 value3, float amount1, float amount2)
+        public static Vector4 Barycentric(Vector4 value1, Vector4 value2, Vector4 value3, double amount1, double amount2)
         {
             return new Vector4(
                 MathHelper.Barycentric(value1.X, value2.X, value3.X, amount1, amount2),
@@ -160,7 +160,7 @@ namespace VpNet
                 MathHelper.Barycentric(value1.W, value2.W, value3.W, amount1, amount2));
         }
 
-        public static void Barycentric(ref Vector4 value1, ref Vector4 value2, ref Vector4 value3, float amount1, float amount2, out Vector4 result)
+        public static void Barycentric(ref Vector4 value1, ref Vector4 value2, ref Vector4 value3, double amount1, double amount2, out Vector4 result)
         {
             result = new Vector4(
                 MathHelper.Barycentric(value1.X, value2.X, value3.X, amount1, amount2),
@@ -169,7 +169,7 @@ namespace VpNet
                 MathHelper.Barycentric(value1.W, value2.W, value3.W, amount1, amount2));
         }
 
-        public static Vector4 CatmullRom(Vector4 value1, Vector4 value2, Vector4 value3, Vector4 value4, float amount)
+        public static Vector4 CatmullRom(Vector4 value1, Vector4 value2, Vector4 value3, Vector4 value4, double amount)
         {
             return new Vector4(
                 MathHelper.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount),
@@ -178,7 +178,7 @@ namespace VpNet
                 MathHelper.CatmullRom(value1.W, value2.W, value3.W, value4.W, amount));
         }
 
-        public static void CatmullRom(ref Vector4 value1, ref Vector4 value2, ref Vector4 value3, ref Vector4 value4, float amount, out Vector4 result)
+        public static void CatmullRom(ref Vector4 value1, ref Vector4 value2, ref Vector4 value3, ref Vector4 value4, double amount, out Vector4 result)
         {
             result = new Vector4(
                 MathHelper.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount),
@@ -205,23 +205,23 @@ namespace VpNet
                 MathHelper.Clamp(value1.W, min.W, max.W));
         }
 
-        public static float Distance(Vector4 value1, Vector4 value2)
+        public static double Distance(Vector4 value1, Vector4 value2)
         {
-            return (float)Math.Sqrt((value1.W - value2.W) * (value1.W - value2.W) +
+            return (double)Math.Sqrt((value1.W - value2.W) * (value1.W - value2.W) +
                      (value1.X - value2.X) * (value1.X - value2.X) +
                      (value1.Y - value2.Y) * (value1.Y - value2.Y) +
                      (value1.Z - value2.Z) * (value1.Z - value2.Z));
         }
 
-        public static void Distance(ref Vector4 value1, ref Vector4 value2, out float result)
+        public static void Distance(ref Vector4 value1, ref Vector4 value2, out double result)
         {
-            result = (float)Math.Sqrt((value1.W - value2.W) * (value1.W - value2.W) +
+            result = (double)Math.Sqrt((value1.W - value2.W) * (value1.W - value2.W) +
                      (value1.X - value2.X) * (value1.X - value2.X) +
                      (value1.Y - value2.Y) * (value1.Y - value2.Y) +
                      (value1.Z - value2.Z) * (value1.Z - value2.Z));
         }
 
-        public static float DistanceSquared(Vector4 value1, Vector4 value2)
+        public static double DistanceSquared(Vector4 value1, Vector4 value2)
         {
             return (value1.W - value2.W) * (value1.W - value2.W) +
                      (value1.X - value2.X) * (value1.X - value2.X) +
@@ -229,7 +229,7 @@ namespace VpNet
                      (value1.Z - value2.Z) * (value1.Z - value2.Z);
         }
 
-        public static void DistanceSquared(ref Vector4 value1, ref Vector4 value2, out float result)
+        public static void DistanceSquared(ref Vector4 value1, ref Vector4 value2, out double result)
         {
             result = (value1.W - value2.W) * (value1.W - value2.W) +
                      (value1.X - value2.X) * (value1.X - value2.X) +
@@ -246,9 +246,9 @@ namespace VpNet
             return value1;
         }
 
-        public static Vector4 Divide(Vector4 value1, float divider)
+        public static Vector4 Divide(Vector4 value1, double divider)
         {
-            float factor = 1f / divider;
+            double factor = 1f / divider;
             value1.W *= factor;
             value1.X *= factor;
             value1.Y *= factor;
@@ -256,9 +256,9 @@ namespace VpNet
             return value1;
         }
 
-        public static void Divide(ref Vector4 value1, float divider, out Vector4 result)
+        public static void Divide(ref Vector4 value1, double divider, out Vector4 result)
         {
-            float factor = 1f / divider;
+            double factor = 1f / divider;
             result.W = value1.W * factor;
             result.X = value1.X * factor;
             result.Y = value1.Y * factor;
@@ -273,12 +273,12 @@ namespace VpNet
             result.Z = value1.Z / value2.Z;
         }
 
-        public static float Dot(Vector4 vector1, Vector4 vector2)
+        public static double Dot(Vector4 vector1, Vector4 vector2)
         {
             return vector1.X * vector2.X + vector1.Y * vector2.Y + vector1.Z * vector2.Z + vector1.W * vector2.W;
         }
 
-        public static void Dot(ref Vector4 vector1, ref Vector4 vector2, out float result)
+        public static void Dot(ref Vector4 vector1, ref Vector4 vector2, out double result)
         {
             result = vector1.X * vector2.X + vector1.Y * vector2.Y + vector1.Z * vector2.Z + vector1.W * vector2.W;
         }
@@ -301,7 +301,7 @@ namespace VpNet
             return (int)(this.W + this.X + this.Y + this.Y);
         }
 
-        public static Vector4 Hermite(Vector4 value1, Vector4 tangent1, Vector4 value2, Vector4 tangent2, float amount)
+        public static Vector4 Hermite(Vector4 value1, Vector4 tangent1, Vector4 value2, Vector4 tangent2, double amount)
         {
             value1.W = MathHelper.Hermite(value1.W, tangent1.W, value2.W, tangent2.W, amount);
             value1.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
@@ -311,7 +311,7 @@ namespace VpNet
             return value1;
         }
 
-        public static void Hermite(ref Vector4 value1, ref Vector4 tangent1, ref Vector4 value2, ref Vector4 tangent2, float amount, out Vector4 result)
+        public static void Hermite(ref Vector4 value1, ref Vector4 tangent1, ref Vector4 value2, ref Vector4 tangent2, double amount, out Vector4 result)
         {
             result.W = MathHelper.Hermite(value1.W, tangent1.W, value2.W, tangent2.W, amount);
             result.X = MathHelper.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
@@ -319,17 +319,17 @@ namespace VpNet
             result.Z = MathHelper.Hermite(value1.Z, tangent1.Z, value2.Z, tangent2.Z, amount);
         }
 
-        public float Length()
+        public double Length()
         {
-            return (float)Math.Sqrt((double)(X * X + Y * Y + Z * Z + W * W));
+            return (double)Math.Sqrt((double)(X * X + Y * Y + Z * Z + W * W));
         }
 
-        public float LengthSquared()
+        public double LengthSquared()
         {
             return X * X + Y * Y + Z * Z + W * W;
         }
 
-        public static Vector4 Lerp(Vector4 value1, Vector4 value2, float amount)
+        public static Vector4 Lerp(Vector4 value1, Vector4 value2, double amount)
         {
             return new Vector4(
                 MathHelper.Lerp(value1.X, value2.X, amount),
@@ -338,7 +338,7 @@ namespace VpNet
                 MathHelper.Lerp(value1.W, value2.W, amount));
         }
 
-        public static void Lerp(ref Vector4 value1, ref Vector4 value2, float amount, out Vector4 result)
+        public static void Lerp(ref Vector4 value1, ref Vector4 value2, double amount, out Vector4 result)
         {
             result = new Vector4(
                 MathHelper.Lerp(value1.X, value2.X, amount),
@@ -392,7 +392,7 @@ namespace VpNet
             return value1;
         }
 
-        public static Vector4 Multiply(Vector4 value1, float scaleFactor)
+        public static Vector4 Multiply(Vector4 value1, double scaleFactor)
         {
             value1.W *= scaleFactor;
             value1.X *= scaleFactor;
@@ -401,7 +401,7 @@ namespace VpNet
             return value1;
         }
 
-        public static void Multiply(ref Vector4 value1, float scaleFactor, out Vector4 result)
+        public static void Multiply(ref Vector4 value1, double scaleFactor, out Vector4 result)
         {
             result.W = value1.W * scaleFactor;
             result.X = value1.X * scaleFactor;
@@ -436,7 +436,7 @@ namespace VpNet
 
         public void Normalize()
         {
-            float factor = 1f / (float)Math.Sqrt((double)(X * X + Y * Y + Z * Z + W * W));
+            double factor = 1f / (double)Math.Sqrt((double)(X * X + Y * Y + Z * Z + W * W));
 
             W = W * factor;
             X = X * factor;
@@ -446,7 +446,7 @@ namespace VpNet
 
         public static Vector4 Normalize(Vector4 vector)
         {
-            float factor = 1f / (float)Math.Sqrt((double)(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z + vector.W * vector.W));
+            double factor = 1f / (double)Math.Sqrt((double)(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z + vector.W * vector.W));
 
             vector.W = vector.W * factor;
             vector.X = vector.X * factor;
@@ -458,7 +458,7 @@ namespace VpNet
 
         public static void Normalize(ref Vector4 vector, out Vector4 result)
         {
-            float factor = 1f / (float)Math.Sqrt((double)(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z + vector.W * vector.W));
+            double factor = 1f / (double)Math.Sqrt((double)(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z + vector.W * vector.W));
 
             result.W = vector.W * factor;
             result.X = vector.X * factor;
@@ -466,7 +466,7 @@ namespace VpNet
             result.Z = vector.Z * factor;
         }
 
-        public static Vector4 SmoothStep(Vector4 value1, Vector4 value2, float amount)
+        public static Vector4 SmoothStep(Vector4 value1, Vector4 value2, double amount)
         {
             return new Vector4(
                 MathHelper.SmoothStep(value1.X, value2.X, amount),
@@ -475,7 +475,7 @@ namespace VpNet
                 MathHelper.SmoothStep(value1.W, value2.W, amount));
         }
 
-        public static void SmoothStep(ref Vector4 value1, ref Vector4 value2, float amount, out Vector4 result)
+        public static void SmoothStep(ref Vector4 value1, ref Vector4 value2, double amount, out Vector4 result)
         {
             result = new Vector4(
                 MathHelper.SmoothStep(value1.X, value2.X, amount),
@@ -667,7 +667,7 @@ namespace VpNet
             return value1;
         }
 
-        public static Vector4 operator *(Vector4 value1, float scaleFactor)
+        public static Vector4 operator *(Vector4 value1, double scaleFactor)
         {
             value1.W *= scaleFactor;
             value1.X *= scaleFactor;
@@ -676,7 +676,7 @@ namespace VpNet
             return value1;
         }
 
-        public static Vector4 operator *(float scaleFactor, Vector4 value1)
+        public static Vector4 operator *(double scaleFactor, Vector4 value1)
         {
             value1.W *= scaleFactor;
             value1.X *= scaleFactor;
@@ -694,9 +694,9 @@ namespace VpNet
             return value1;
         }
 
-        public static Vector4 operator /(Vector4 value1, float divider)
+        public static Vector4 operator /(Vector4 value1, double divider)
         {
-            float factor = 1f / divider;
+            double factor = 1f / divider;
             value1.W *= factor;
             value1.X *= factor;
             value1.Y *= factor;

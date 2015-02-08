@@ -32,7 +32,7 @@ namespace VpNet.Interfaces
         /// The terrain scale.
         /// </value>
         /// <Author>8/5/2012 6:28 PM cube3</Author>
-        float TerrainScale { get; set; }
+        double TerrainScale { get; set; }
 
         /// <summary>
         /// Gets or sets the ground model. db key: gound

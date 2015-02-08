@@ -30,10 +30,10 @@ namespace VpNet.Interfaces
     public interface IVector3
     {
         [XmlAttribute]
-        float X { get; set; }
+        double X { get; set; }
         [XmlAttribute]
-        float Y { get; set; }
+        double Y { get; set; }
         [XmlAttribute]
-        float Z { get; set; }
+        double Z { get; set; }
     }
 }

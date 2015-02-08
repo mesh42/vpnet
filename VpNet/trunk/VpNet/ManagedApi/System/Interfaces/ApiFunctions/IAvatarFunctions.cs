@@ -51,7 +51,7 @@ namespace VpNet.Interfaces
         /// <param name="yaw">Yaw.</param>
         /// <param name="pitch">Pitch.</param>
         /// <returns>Result object</returns>
-        TRc UpdateAvatar(float x = 0.0f, float y = 0.0f, float z = 0.0f, float yaw = 0.0f, float pitch = 0.0f);
+        TRc UpdateAvatar(double x = 0.0f, double y = 0.0f, double z = 0.0f, double yaw = 0.0f, double pitch = 0.0f);
         /// <summary>
         /// Announce your bot at a given location with default pitch and yaw.
         /// </summary>

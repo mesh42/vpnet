@@ -34,8 +34,8 @@ namespace VpNet.Geometry.Rwx
     public class RwxClump
     {
         public RwxMaterial Material = new RwxMaterial();
-        public List<float> Vertices = new List<float>();
-        public List<float> Uvs = new List<float>();
+        public List<double> Vertices = new List<double>();
+        public List<double> Uvs = new List<double>();
         public List<int> Indices = new List<int>();
         [XmlAttribute]
         public string Name = string.Empty;
@@ -48,7 +48,7 @@ namespace VpNet.Geometry.Rwx
             Transforms.Add(new RwxScale() { Scale = scale });
         }
 
-        public void AddTransform(Vector3 rotation, float angle)
+        public void AddTransform(Vector3 rotation, double angle)
         {
             Transforms.Add(new RwxRotate() { Angle = angle, Rotate = rotation });
         }

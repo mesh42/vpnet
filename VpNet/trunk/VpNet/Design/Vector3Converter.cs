@@ -54,7 +54,7 @@
 //        {
 //            if (value.GetType() == typeof(string) && supportStringConvert)
 //            {
-//                float[] values = MathTypeConverter.ConvertStringToValues(context, culture, (string)value);
+//                double[] values = MathTypeConverter.ConvertStringToValues(context, culture, (string)value);
 //                return new Vector3(values[0], values[1], values[2]);
 //            }
 //            return base.ConvertFrom(context, culture, value);
@@ -65,12 +65,12 @@
 //            Vector3 vector = (Vector3)value; 
 //            if (destinationType == typeof(string) && supportStringConvert)
 //            {
-//                float[] values = new float[] { vector.X, vector.Y, vector.Z };						
+//                double[] values = new double[] { vector.X, vector.Y, vector.Z };						
 //                return MathTypeConverter.ConvertValuesToString(context, culture, values);
 //            }
 //            else if (destinationType == typeof(InstanceDescriptor))
 //            {
-//                MemberInfo constructorInfo = typeof(Vector3).GetConstructor(new Type[] { typeof(float), typeof(float), typeof(float) });
+//                MemberInfo constructorInfo = typeof(Vector3).GetConstructor(new Type[] { typeof(double), typeof(double), typeof(double) });
 //                object[] parameters = new object[] { vector.X, vector.Y, vector.Z };
 //                return new InstanceDescriptor(constructorInfo, parameters);	
 //            }

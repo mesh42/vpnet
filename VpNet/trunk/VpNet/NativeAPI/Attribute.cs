@@ -304,9 +304,9 @@ namespace VpNet.NativeApi
         /// </summary>
         ClickHitZ,
         /// <summary>
-        /// Float attribute highest
+        /// double attribute highest
         /// </summary>
-        FloatAttributeHighest,
+        doubleAttributeHighest,
         /// <summary>
         /// Avatar name
         /// </summary>

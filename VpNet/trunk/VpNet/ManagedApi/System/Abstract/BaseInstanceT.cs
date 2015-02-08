@@ -332,7 +332,7 @@ namespace VpNet.Abstract
             {
                 Init();
                 Configuration = new InstanceConfiguration<TWorld>(false);
-                int rc = Functions.vp_init(2);
+                int rc = Functions.vp_init(3);
                 if (rc != 0)
                 {
                     if (rc != 3)
@@ -593,7 +593,7 @@ namespace VpNet.Abstract
             {
                 return new TResult
                 {
-                    Rc = Functions.vp_object_click(_instance, vpObject.Id, avatar.Session, worldHit.X, worldHit.Y, worldHit.Z)
+                    Rc = Functions.vp_object_click(_instance, vpObject.Id, avatar.Session, (float)worldHit.X, (float)worldHit.Y, (float)worldHit.Z)
                 };
             }
         }
@@ -604,29 +604,29 @@ namespace VpNet.Abstract
             {
                 return new TResult
                 {
-                    Rc = Functions.vp_object_click(_instance, vpObject.Id, 0, worldHit.X, worldHit.Y, worldHit.Z)
+                    Rc = Functions.vp_object_click(_instance, vpObject.Id, 0, (float)worldHit.X, (float)worldHit.Y, (float)worldHit.Z)
                 };
             }
         }
 
-        public TResult ClickObject(int objectId,int toSession, float worldHitX, float worldHitY, float worldHitZ)
+        public TResult ClickObject(int objectId,int toSession, double worldHitX, double worldHitY, double worldHitZ)
         {
             lock (this)
             {
                 return new TResult
                 {
-                    Rc = Functions.vp_object_click(_instance, objectId, toSession, worldHitX, worldHitY, worldHitZ)
+                    Rc = Functions.vp_object_click(_instance, objectId, toSession, (float)worldHitX, (float)worldHitY, (float)worldHitZ)
                 };
             }
         }
 
-        public TResult ClickObject(int objectId, float worldHitX, float worldHitY, float worldHitZ)
+        public TResult ClickObject(int objectId, double worldHitX, double worldHitY, double worldHitZ)
         {
             lock (this)
             {
                 return new TResult
                 {
-                    Rc = Functions.vp_object_click(_instance, objectId, 0, worldHitX, worldHitY, worldHitZ)
+                    Rc = Functions.vp_object_click(_instance, objectId, 0, (float)worldHitX, (float)worldHitY, (float)worldHitZ)
                 };
             }
         }
@@ -673,13 +673,13 @@ namespace VpNet.Abstract
                 Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
                 Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
                 Functions.vp_string_set(_instance, Attribute.ObjectModel, vpObject.Model);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
-                Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.Position.X);
-                Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
-                Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
+                Functions.vp_double_set(_instance, Attribute.ObjectX, vpObject.Position.X);
+                Functions.vp_double_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
+                Functions.vp_double_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
                 Functions.vp_int_set(_instance, Attribute.ObjectType, vpObject.ObjectType);
                 Functions.vp_int_set(_instance, Attribute.ObjectUserId, vpObject.Owner);
                 Functions.vp_int_set(_instance, Attribute.ObjectTime, (vpObject.Time - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)).Seconds);
@@ -705,13 +705,13 @@ namespace VpNet.Abstract
                 Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
                 Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
                 Functions.vp_string_set(_instance, Attribute.ObjectModel, vpObject.Model);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
-                Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.Position.X);
-                Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
-                Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
+                Functions.vp_double_set(_instance, Attribute.ObjectX, vpObject.Position.X);
+                Functions.vp_double_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
+                Functions.vp_double_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
                 Functions.vp_int_set(_instance, Attribute.ObjectType, vpObject.ObjectType);
                 rc = Functions.vp_object_add(_instance);
             }
@@ -734,13 +734,13 @@ namespace VpNet.Abstract
                 Functions.vp_string_set(_instance, Attribute.ObjectAction, vpObject.Action);
                 Functions.vp_string_set(_instance, Attribute.ObjectDescription, vpObject.Description);
                 Functions.vp_string_set(_instance, Attribute.ObjectModel, vpObject.Model);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
-                Functions.vp_float_set(_instance, Attribute.ObjectX, vpObject.Position.X);
-                Functions.vp_float_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
-                Functions.vp_float_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
-                Functions.vp_float_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationX, vpObject.Rotation.X);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationY, vpObject.Rotation.Y);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationZ, vpObject.Rotation.Z);
+                Functions.vp_double_set(_instance, Attribute.ObjectX, vpObject.Position.X);
+                Functions.vp_double_set(_instance, Attribute.ObjectY, vpObject.Position.Y);
+                Functions.vp_double_set(_instance, Attribute.ObjectZ, vpObject.Position.Z);
+                Functions.vp_double_set(_instance, Attribute.ObjectRotationAngle, vpObject.Angle);
                 Functions.vp_int_set(_instance, Attribute.ObjectType, vpObject.ObjectType);
                 rc = Functions.vp_object_change(_instance);
             }
@@ -763,35 +763,35 @@ namespace VpNet.Abstract
 
         #region ITeleportFunctions Implementations
 
-        virtual public TResult TeleportAvatar(TAvatar avatar, string world, float x, float y, float z, float yaw, float pitch)
+        virtual public TResult TeleportAvatar(TAvatar avatar, string world, double x, double y, double z, double yaw, double pitch)
         {
             return new TResult
                 {
-                    Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world, x, y, z, yaw, pitch)
+                    Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world, (float)x, (float)y, (float)z, (float)yaw, (float)pitch)
                 };
         }
 
-        virtual public TResult TeleportAvatar(int targetSession, string world, float x, float y, float z, float yaw, float pitch)
+        virtual public TResult TeleportAvatar(int targetSession, string world, double x, double y, double z, double yaw, double pitch)
         {
             return new TResult
                 {
-                    Rc = Functions.vp_teleport_avatar(_instance, targetSession, world, x, y, z, yaw, pitch)
+                    Rc = Functions.vp_teleport_avatar(_instance, targetSession, world, (float)x, (float)y, (float)z, (float)yaw, (float)pitch)
                 };
         }
 
-        virtual public TResult TeleportAvatar(TAvatar avatar, string world, TVector3 position, float yaw, float pitch)
+        virtual public TResult TeleportAvatar(TAvatar avatar, string world, TVector3 position, double yaw, double pitch)
         {
             return new TResult
             {
-                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world, position.X, position.Y, position.Z, yaw, pitch)
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world, (float)position.X, (float)position.Y, (float)position.Z, (float)yaw, (float)pitch)
             };
         }
 
-        virtual public TResult TeleportAvatar(int targetSession, string world, TVector3 position, float yaw, float pitch)
+        virtual public TResult TeleportAvatar(int targetSession, string world, TVector3 position, double yaw, double pitch)
         {
             return new TResult
             {
-                Rc = Functions.vp_teleport_avatar(_instance, targetSession, world, position.X, position.Y, position.Z, yaw, pitch)
+                Rc = Functions.vp_teleport_avatar(_instance, targetSession, world, (float)position.X, (float)position.Y, (float)position.Z, (float)yaw, (float)pitch)
             };
 
         }
@@ -800,7 +800,7 @@ namespace VpNet.Abstract
         {
             return new TResult
             {
-                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world, position.X, position.Y, position.Z, rotation.Y, rotation.X)
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world, (float)position.X, (float)position.Y, (float)position.Z, (float)rotation.Y, (float)rotation.X)
             };
 
         }
@@ -809,7 +809,7 @@ namespace VpNet.Abstract
         {
             return new TResult
             {
-                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world.Name, position.X, position.Y, position.Z, rotation.Y, rotation.X)
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, world.Name, (float)position.X, (float)position.Y, (float)position.Z, (float)rotation.Y, (float)rotation.X)
             };
         }
 
@@ -817,7 +817,7 @@ namespace VpNet.Abstract
         {
             return new TResult
             {
-                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, string.Empty, position.X, position.Y, position.Z, rotation.Y, rotation.X)
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, string.Empty, (float)position.X, (float)position.Y, (float)position.Z, (float)rotation.Y, (float)rotation.X)
             };
         }
 
@@ -825,7 +825,7 @@ namespace VpNet.Abstract
         {
             return new TResult
             {
-                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, string.Empty, avatar.Position.X, avatar.Position.Y, avatar.Position.Z, avatar.Rotation.Y, avatar.Rotation.X)
+                Rc = Functions.vp_teleport_avatar(_instance, avatar.Session, string.Empty, (float)avatar.Position.X, (float)avatar.Position.Y, (float)avatar.Position.Z, (float)avatar.Rotation.Y, (float)avatar.Rotation.X)
             };
         }
 
@@ -855,15 +855,15 @@ namespace VpNet.Abstract
             return GetUserProfile(profile.UserId);
         }
 
-        virtual public TResult UpdateAvatar(float x = 0.0f, float y = 0.0f, float z = 0.0f,float yaw = 0.0f, float pitch = 0.0f)
+        virtual public TResult UpdateAvatar(double x = 0.0f, double y = 0.0f, double z = 0.0f,double yaw = 0.0f, double pitch = 0.0f)
         {
             lock (this)
             {
-                Functions.vp_float_set(_instance, Attribute.MyX, x);
-                Functions.vp_float_set(_instance, Attribute.MyY, y);
-                Functions.vp_float_set(_instance, Attribute.MyZ, z);
-                Functions.vp_float_set(_instance, Attribute.MyYaw, yaw);
-                Functions.vp_float_set(_instance, Attribute.MyPitch, pitch);
+                Functions.vp_double_set(_instance, Attribute.MyX, x);
+                Functions.vp_double_set(_instance, Attribute.MyY, y);
+                Functions.vp_double_set(_instance, Attribute.MyZ, z);
+                Functions.vp_double_set(_instance, Attribute.MyYaw, yaw);
+                Functions.vp_double_set(_instance, Attribute.MyPitch, pitch);
                 return new TResult
                 {
                     Rc = Functions.vp_state_change(_instance)
@@ -1197,14 +1197,14 @@ namespace VpNet.Abstract
                         Avatar = GetAvatar(Functions.vp_int(sender, Attribute.AvatarSession)),
                         Position = new TVector3
                             {
-                                X = Functions.vp_float(sender, Attribute.TeleportX),
-                                Y = Functions.vp_float(sender, Attribute.TeleportY),
-                                Z = Functions.vp_float(sender, Attribute.TeleportZ)
+                                X = Functions.vp_double(sender, Attribute.TeleportX),
+                                Y = Functions.vp_double(sender, Attribute.TeleportY),
+                                Z = Functions.vp_double(sender, Attribute.TeleportZ)
                             },
                         Rotation = new TVector3
                             {
-                                X = Functions.vp_float(sender, Attribute.TeleportPitch),
-                                Y = Functions.vp_float(sender, Attribute.TeleportYaw),
+                                X = Functions.vp_double(sender, Attribute.TeleportPitch),
+                                Y = Functions.vp_double(sender, Attribute.TeleportYaw),
                                 Z = 0 /* Roll not implemented yet */
                             },
                             // TODO: maintain user count and world state statistics.
@@ -1301,11 +1301,11 @@ namespace VpNet.Abstract
                 Name = Functions.vp_string(sender, Attribute.AvatarName),
                 Session=Functions.vp_int(sender, Attribute.AvatarSession),
                 AvatarType=Functions.vp_int(sender, Attribute.AvatarType),
-                Position=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarX).Truncate(3),
-                            Y=Functions.vp_float(sender, Attribute.AvatarY).Truncate(3),
-                            Z=Functions.vp_float(sender, Attribute.AvatarZ).Truncate(3)},
-                Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch).Truncate(3),
-                            Y=Functions.vp_float(sender, Attribute.AvatarYaw).Truncate(3),
+                Position=new TVector3{X=Functions.vp_double(sender, Attribute.AvatarX).Truncate(3),
+                            Y=Functions.vp_double(sender, Attribute.AvatarY).Truncate(3),
+                            Z=Functions.vp_double(sender, Attribute.AvatarZ).Truncate(3)},
+                Rotation=new TVector3{X=Functions.vp_double(sender, Attribute.AvatarPitch).Truncate(3),
+                            Y=Functions.vp_double(sender, Attribute.AvatarYaw).Truncate(3),
                             Z=0 /* roll currently not supported*/}};
                 if (!_avatars.ContainsKey(data.Session))
                     _avatars.Add(data.Session, data);
@@ -1326,11 +1326,11 @@ namespace VpNet.Abstract
                 data = new TAvatar{UserId=_avatars[Functions.vp_int(sender, Attribute.AvatarSession)].UserId, Name=Functions.vp_string(sender, Attribute.AvatarName),
                                   Session=Functions.vp_int(sender, Attribute.AvatarSession),
                                   AvatarType=Functions.vp_int(sender, Attribute.AvatarType),
-                                  Position=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarX).Truncate(3),
-                                  Y=Functions.vp_float(sender, Attribute.AvatarY).Truncate(3),
-                                  Z=Functions.vp_float(sender, Attribute.AvatarZ).Truncate(3)},
-               Rotation=new TVector3{X=Functions.vp_float(sender, Attribute.AvatarPitch).Truncate(3),
-                            Y=Functions.vp_float(sender, Attribute.AvatarYaw).Truncate(3),
+                                  Position=new TVector3{X=Functions.vp_double(sender, Attribute.AvatarX).Truncate(3),
+                                  Y=Functions.vp_double(sender, Attribute.AvatarY).Truncate(3),
+                                  Z=Functions.vp_double(sender, Attribute.AvatarZ).Truncate(3)},
+               Rotation=new TVector3{X=Functions.vp_double(sender, Attribute.AvatarPitch).Truncate(3),
+                            Y=Functions.vp_double(sender, Attribute.AvatarYaw).Truncate(3),
                             Z=0 /* roll currently not supported*/}};
                 // determine if the avatar actually changed.
                 old = new TAvatar().CopyFrom(_avatars[data.Session], true);
@@ -1391,9 +1391,9 @@ namespace VpNet.Abstract
                 objectId = Functions.vp_int(sender, Attribute.ObjectId);
                 world = new TVector3
                     {
-                        X = Functions.vp_float(sender, Attribute.ClickHitX),
-                        Y = Functions.vp_float(sender, Attribute.ClickHitY),
-                        Z = Functions.vp_float(sender, Attribute.ClickHitZ)
+                        X = Functions.vp_double(sender, Attribute.ClickHitX),
+                        Y = Functions.vp_double(sender, Attribute.ClickHitY),
+                        Z = Functions.vp_double(sender, Attribute.ClickHitZ)
                     };
             }
 
@@ -1462,15 +1462,15 @@ namespace VpNet.Abstract
                         Description = Functions.vp_string(sender, Attribute.ObjectDescription),
                         Id = Functions.vp_int(sender, Attribute.ObjectId),
                         Model = Functions.vp_string(sender, Attribute.ObjectModel),
-                        Rotation = new TVector3 { X = Functions.vp_float(sender, Attribute.ObjectRotationX), Y = Functions.vp_float(sender, Attribute.ObjectRotationY), Z = Functions.vp_float(sender, Attribute.ObjectRotationZ) },
+                        Rotation = new TVector3 { X = Functions.vp_double(sender, Attribute.ObjectRotationX), Y = Functions.vp_double(sender, Attribute.ObjectRotationY), Z = Functions.vp_double(sender, Attribute.ObjectRotationZ) },
                         Time =
                             new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Functions.vp_int(sender,
                                                                                           Attribute.
                                                                                               ObjectTime)),
                         ObjectType = Functions.vp_int(sender, Attribute.ObjectType),
                         Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
-                        Position = new TVector3 { X = Functions.vp_float(sender, Attribute.ObjectX), Y = Functions.vp_float(sender, Attribute.ObjectY), Z = Functions.vp_float(sender, Attribute.ObjectZ) },
-                        Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle)
+                        Position = new TVector3 { X = Functions.vp_double(sender, Attribute.ObjectX), Y = Functions.vp_double(sender, Attribute.ObjectY), Z = Functions.vp_double(sender, Attribute.ObjectZ) },
+                        Angle = Functions.vp_double(sender, Attribute.ObjectRotationAngle)
                     };
 
             }
@@ -1537,9 +1537,9 @@ namespace VpNet.Abstract
 
                 Rotation = new TVector3
                 {
-                    X = Functions.vp_float(sender, Attribute.ObjectRotationX),
-                    Y = Functions.vp_float(sender, Attribute.ObjectRotationY),
-                    Z = Functions.vp_float(sender, Attribute.ObjectRotationZ)
+                    X = Functions.vp_double(sender, Attribute.ObjectRotationX),
+                    Y = Functions.vp_double(sender, Attribute.ObjectRotationY),
+                    Z = Functions.vp_double(sender, Attribute.ObjectRotationZ)
                 },
 
                 Time =
@@ -1549,11 +1549,11 @@ namespace VpNet.Abstract
                 Owner = Functions.vp_int(sender, Attribute.ObjectUserId),
                 Position = new TVector3
                 {
-                    X = Functions.vp_float(sender, Attribute.ObjectX),
-                    Y = Functions.vp_float(sender, Attribute.ObjectY),
-                    Z = Functions.vp_float(sender, Attribute.ObjectZ)
+                    X = Functions.vp_double(sender, Attribute.ObjectX),
+                    Y = Functions.vp_double(sender, Attribute.ObjectY),
+                    Z = Functions.vp_double(sender, Attribute.ObjectZ)
                 },
-                Angle = Functions.vp_float(sender, Attribute.ObjectRotationAngle)
+                Angle = Functions.vp_double(sender, Attribute.ObjectRotationAngle)
             };
         }
 

@@ -27,7 +27,7 @@ namespace VpNet.Interfaces
         TVector3 Rotation { get; set; }
 
         [XmlAttribute]
-        float Angle { get; set; }
+        double Angle { get; set; }
 
         [XmlAttribute]
         string Action { get; set; }

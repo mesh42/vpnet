@@ -30,7 +30,7 @@ namespace VpNet.Interfaces
     public interface ITerrainCell
     {
         [XmlAttribute]
-        float Height { get; set; }
+        double Height { get; set; }
 
         [XmlIgnore]
         ushort Attributes { get; set; }

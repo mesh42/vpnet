@@ -48,7 +48,7 @@ namespace VpNet.Interfaces
         /// <param name="yaw">The yaw.</param>
         /// <param name="pitch">The pitch.</param>
         /// <returns></returns>
-        TRc TeleportAvatar(TAvatar avatar, string world, float x, float y, float z, float yaw, float pitch);
+        TRc TeleportAvatar(TAvatar avatar, string world, double x, double y, double z, double yaw, double pitch);
         /// <summary>
         /// Teleports the avatar.
         /// </summary>
@@ -58,7 +58,7 @@ namespace VpNet.Interfaces
         /// <param name="yaw">The yaw.</param>
         /// <param name="pitch">The pitch.</param>
         /// <returns></returns>
-        TRc TeleportAvatar(TAvatar avatar, string world, TVector3 position, float yaw, float pitch);
+        TRc TeleportAvatar(TAvatar avatar, string world, TVector3 position, double yaw, double pitch);
         /// <summary>
         /// Teleports the avatar.
         /// </summary>
@@ -70,7 +70,7 @@ namespace VpNet.Interfaces
         /// <param name="yaw">The yaw.</param>
         /// <param name="pitch">The pitch.</param>
         /// <returns></returns>
-        TRc TeleportAvatar(int targetSession, string world, float x, float y, float z, float yaw, float pitch);
+        TRc TeleportAvatar(int targetSession, string world, double x, double y, double z, double yaw, double pitch);
         /// <summary>
         /// Teleports the avatar.
         /// </summary>
@@ -80,7 +80,7 @@ namespace VpNet.Interfaces
         /// <param name="yaw">The yaw.</param>
         /// <param name="pitch">The pitch.</param>
         /// <returns></returns>
-        TRc TeleportAvatar(int targetSession, string world, TVector3 position, float yaw, float pitch);
+        TRc TeleportAvatar(int targetSession, string world, TVector3 position, double yaw, double pitch);
         /// <summary>
         /// Teleports the avatar.
         /// </summary>

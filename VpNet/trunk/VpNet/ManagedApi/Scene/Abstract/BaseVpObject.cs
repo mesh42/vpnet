@@ -57,7 +57,7 @@ namespace VpNet.Abstract
         }
         public TVector3 Rotation { get; set; }
         [XmlAttribute]
-        public float Angle { get; set; }
+        public double Angle { get; set; }
         [XmlAttribute]
         public string Action { get; set; }
         [XmlAttribute]
@@ -69,7 +69,7 @@ namespace VpNet.Abstract
         [XmlIgnore]
         public int ReferenceNumber { get; set; }
 
-        protected BaseVpObject(int id, int type, DateTime time, int owner, TVector3 position, TVector3 rotation, float angle, string action, string description, int objectType, string model)
+        protected BaseVpObject(int id, int type, DateTime time, int owner, TVector3 position, TVector3 rotation, double angle, string action, string description, int objectType, string model)
         {
             Id = id;
             Type = type;
@@ -86,7 +86,7 @@ namespace VpNet.Abstract
 
         protected BaseVpObject()
         {
-            Angle = float.MaxValue;
+            Angle = double.MaxValue;
             Time = DateTime.UtcNow;
         }
 

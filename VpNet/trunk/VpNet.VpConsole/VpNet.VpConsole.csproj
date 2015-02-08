@@ -64,6 +64,7 @@
     <Compile Include="Bots\BasicExamples\TeleportExample.cs" />
     <Compile Include="Commands\AutoLogin.cs" />
     <Compile Include="Commands\Plugin.cs" />
+    <Compile Include="Commands\Query.cs" />
     <Compile Include="Gui\ConsoleHelpers.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

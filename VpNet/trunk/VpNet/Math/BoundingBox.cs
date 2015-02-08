@@ -203,8 +203,8 @@ namespace VpNet
 
             // TODO: Just check that Count > 0
             bool empty = true;
-            Vector3 vector2 = new Vector3(float.MaxValue);
-            Vector3 vector1 = new Vector3(float.MinValue);
+            Vector3 vector2 = new Vector3(double.MaxValue);
+            Vector3 vector1 = new Vector3(double.MinValue);
             foreach (Vector3 vector3 in points)
             {
                 vector2 = Vector3.Min(vector2, vector3);
@@ -376,11 +376,11 @@ namespace VpNet
         {
             //check all corner side of plane
             Vector3[] corners = this.GetCorners();
-            float lastdistance = Vector3.Dot(plane.Normal, corners[0]) + plane.D;
+            double lastdistance = Vector3.Dot(plane.Normal, corners[0]) + plane.D;
 
             for (int i = 1; i < corners.Length; i++)
             {
-                float distance = Vector3.Dot(plane.Normal, corners[i]) + plane.D;
+                double distance = Vector3.Dot(plane.Normal, corners[i]) + plane.D;
                 if ((distance <= 0.0f && lastdistance > 0.0f) || (distance >= 0.0f && lastdistance < 0.0f))
                     return PlaneIntersectionType.Intersecting;
                 lastdistance = distance;
@@ -398,12 +398,12 @@ namespace VpNet
             result = Intersects(plane);
         }
 
-        public Nullable<float> Intersects(Ray ray)
+        public Nullable<double> Intersects(Ray ray)
         {
             return ray.Intersects(this);
         }
 
-        public void Intersects(ref Ray ray, out Nullable<float> result)
+        public void Intersects(ref Ray ray, out Nullable<double> result)
         {
             result = Intersects(ray);
         }
