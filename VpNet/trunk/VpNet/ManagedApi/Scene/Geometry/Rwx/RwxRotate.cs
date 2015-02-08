@@ -34,7 +34,7 @@ namespace VpNet.Geometry.Rwx
     {
         public Vector3 Rotate;
         [XmlAttribute]
-        public float Angle;
+        public double Angle;
         public void Transform(RwxClump mesh)
         {
             throw new NotImplementedException();

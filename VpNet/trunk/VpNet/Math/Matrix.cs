@@ -40,22 +40,22 @@ namespace VpNet
     {
         #region Public Fields
 
-        public float M11;
-        public float M12;
-        public float M13;
-        public float M14;
-        public float M21;
-        public float M22;
-        public float M23;
-        public float M24;
-        public float M31;
-        public float M32;
-        public float M33;
-        public float M34;
-        public float M41;
-        public float M42;
-        public float M43;
-        public float M44;
+        public double M11;
+        public double M12;
+        public double M13;
+        public double M14;
+        public double M21;
+        public double M22;
+        public double M23;
+        public double M24;
+        public double M31;
+        public double M32;
+        public double M33;
+        public double M34;
+        public double M41;
+        public double M42;
+        public double M43;
+        public double M44;
 
         #endregion Public Fields
 
@@ -205,8 +205,8 @@ namespace VpNet
         /// <param name="m44">
         /// A <see cref="System.Single"/>
         /// </param>
-        public Matrix(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
-                              float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+        public Matrix(double m11, double m12, double m13, double m14, double m21, double m22, double m23, double m24,
+                              double m31, double m32, double m33, double m34, double m41, double m42, double m43, double m44)
         {
             this.M11 = m11;
             this.M12 = m12;
@@ -230,22 +230,22 @@ namespace VpNet
         {
             if (m.Length != 16)
                 throw new Exception();
-            this.M11 = float.Parse(m[0], CultureInfo.InvariantCulture);
-            this.M12 = float.Parse(m[1], CultureInfo.InvariantCulture);
-            this.M13 = float.Parse(m[2], CultureInfo.InvariantCulture);
-            this.M14 = float.Parse(m[3], CultureInfo.InvariantCulture);
-            this.M21 = float.Parse(m[4], CultureInfo.InvariantCulture);
-            this.M22 = float.Parse(m[5], CultureInfo.InvariantCulture);
-            this.M23 = float.Parse(m[6], CultureInfo.InvariantCulture);
-            this.M24 = float.Parse(m[7], CultureInfo.InvariantCulture);
-            this.M31 = float.Parse(m[8], CultureInfo.InvariantCulture);
-            this.M32 = float.Parse(m[9], CultureInfo.InvariantCulture);
-            this.M33 = float.Parse(m[10], CultureInfo.InvariantCulture);
-            this.M34 = float.Parse(m[11], CultureInfo.InvariantCulture);
-            this.M41 = float.Parse(m[12], CultureInfo.InvariantCulture);
-            this.M42 = float.Parse(m[13], CultureInfo.InvariantCulture);
-            this.M43 = float.Parse(m[14], CultureInfo.InvariantCulture);
-            this.M44 = float.Parse(m[15], CultureInfo.InvariantCulture);
+            this.M11 = double.Parse(m[0], CultureInfo.InvariantCulture);
+            this.M12 = double.Parse(m[1], CultureInfo.InvariantCulture);
+            this.M13 = double.Parse(m[2], CultureInfo.InvariantCulture);
+            this.M14 = double.Parse(m[3], CultureInfo.InvariantCulture);
+            this.M21 = double.Parse(m[4], CultureInfo.InvariantCulture);
+            this.M22 = double.Parse(m[5], CultureInfo.InvariantCulture);
+            this.M23 = double.Parse(m[6], CultureInfo.InvariantCulture);
+            this.M24 = double.Parse(m[7], CultureInfo.InvariantCulture);
+            this.M31 = double.Parse(m[8], CultureInfo.InvariantCulture);
+            this.M32 = double.Parse(m[9], CultureInfo.InvariantCulture);
+            this.M33 = double.Parse(m[10], CultureInfo.InvariantCulture);
+            this.M34 = double.Parse(m[11], CultureInfo.InvariantCulture);
+            this.M41 = double.Parse(m[12], CultureInfo.InvariantCulture);
+            this.M42 = double.Parse(m[13], CultureInfo.InvariantCulture);
+            this.M43 = double.Parse(m[14], CultureInfo.InvariantCulture);
+            this.M44 = double.Parse(m[15], CultureInfo.InvariantCulture);
 
         }
 
@@ -290,7 +290,7 @@ namespace VpNet
             // http://msdn.microsoft.com/en-us/library/bb205364(v=VS.85).aspx
 
             Plane p = Plane.Normalize(plane);
-            float d = Vector3.Dot(p.Normal, lightDirection);
+            double d = Vector3.Dot(p.Normal, lightDirection);
 
             result.M11 = -1 * p.Normal.X * lightDirection.X + d;
             result.M12 = -1 * p.Normal.X * lightDirection.Y;
@@ -342,7 +342,7 @@ namespace VpNet
             return ret;
         }
 
-        public static Matrix CreateFromYawPitchRoll(float yaw, float pitch, float roll)
+        public static Matrix CreateFromYawPitchRoll(double yaw, double pitch, double roll)
         {
             Matrix matrix;
             Quaternion quaternion;
@@ -351,7 +351,7 @@ namespace VpNet
             return matrix;
         }
 
-        public static void CreateFromYawPitchRoll(float yaw, float pitch, float roll, out Matrix result)
+        public static void CreateFromYawPitchRoll(double yaw, double pitch, double roll, out Matrix result)
         {
             Quaternion quaternion;
             Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll, out quaternion);
@@ -376,7 +376,7 @@ namespace VpNet
             translation.X = this.M41;
             translation.Y = this.M42;
             translation.Z = this.M43;
-            float xs, ys, zs;
+            double xs, ys, zs;
 
             if (Math.Sign(M11 * M12 * M13 * M14) < 0)
                 xs = -1f;
@@ -393,9 +393,9 @@ namespace VpNet
             else
                 zs = 1f;
 
-            scale.X = xs * (float)Math.Sqrt(this.M11 * this.M11 + this.M12 * this.M12 + this.M13 * this.M13);
-            scale.Y = ys * (float)Math.Sqrt(this.M21 * this.M21 + this.M22 * this.M22 + this.M23 * this.M23);
-            scale.Z = zs * (float)Math.Sqrt(this.M31 * this.M31 + this.M32 * this.M32 + this.M33 * this.M33);
+            scale.X = xs * (double)Math.Sqrt(this.M11 * this.M11 + this.M12 * this.M12 + this.M13 * this.M13);
+            scale.Y = ys * (double)Math.Sqrt(this.M21 * this.M21 + this.M22 * this.M22 + this.M23 * this.M23);
+            scale.Z = zs * (double)Math.Sqrt(this.M31 * this.M31 + this.M32 * this.M32 + this.M33 * this.M33);
 
             if (scale.X == 0.0 || scale.Y == 0.0 || scale.Z == 0.0)
             {
@@ -517,13 +517,13 @@ namespace VpNet
         }
 
 
-        public static Matrix CreateFromAxisAngle(Vector3 axis, float angle)
+        public static Matrix CreateFromAxisAngle(Vector3 axis, double angle)
         {
             throw new NotImplementedException();
         }
 
 
-        public static void CreateFromAxisAngle(ref Vector3 axis, float angle, out Matrix result)
+        public static void CreateFromAxisAngle(ref Vector3 axis, double angle, out Matrix result)
         {
             throw new NotImplementedException();
         }
@@ -583,7 +583,7 @@ namespace VpNet
             result.M43 = -Vector3.Dot(vz, cameraPosition);
         }
 
-        public static Matrix CreateOrthographic(float width, float height, float zNearPlane, float zFarPlane)
+        public static Matrix CreateOrthographic(double width, double height, double zNearPlane, double zFarPlane)
         {
             Matrix ret;
             CreateOrthographic(width, height, zNearPlane, zFarPlane, out ret);
@@ -591,7 +591,7 @@ namespace VpNet
         }
 
 
-        public static void CreateOrthographic(float width, float height, float zNearPlane, float zFarPlane, out Matrix result)
+        public static void CreateOrthographic(double width, double height, double zNearPlane, double zFarPlane, out Matrix result)
         {
             result.M11 = 2 / width;
             result.M12 = 0;
@@ -612,7 +612,7 @@ namespace VpNet
         }
 
 
-        public static Matrix CreateOrthographicOffCenter(float left, float right, float bottom, float top, float zNearPlane, float zFarPlane)
+        public static Matrix CreateOrthographicOffCenter(double left, double right, double bottom, double top, double zNearPlane, double zFarPlane)
         {
             Matrix ret;
             CreateOrthographicOffCenter(left, right, bottom, top, zNearPlane, zFarPlane, out ret);
@@ -620,8 +620,8 @@ namespace VpNet
         }
 
 
-        public static void CreateOrthographicOffCenter(float left, float right, float bottom, float top,
-            float zNearPlane, float zFarPlane, out Matrix result)
+        public static void CreateOrthographicOffCenter(double left, double right, double bottom, double top,
+            double zNearPlane, double zFarPlane, out Matrix result)
         {
             result.M11 = 2 / (right - left);
             result.M12 = 0;
@@ -642,19 +642,19 @@ namespace VpNet
         }
 
 
-        public static Matrix CreatePerspective(float width, float height, float zNearPlane, float zFarPlane)
+        public static Matrix CreatePerspective(double width, double height, double zNearPlane, double zFarPlane)
         {
             throw new NotImplementedException();
         }
 
 
-        public static void CreatePerspective(float width, float height, float zNearPlane, float zFarPlane, out Matrix result)
+        public static void CreatePerspective(double width, double height, double zNearPlane, double zFarPlane, out Matrix result)
         {
             throw new NotImplementedException();
         }
 
 
-        public static Matrix CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
+        public static Matrix CreatePerspectiveFieldOfView(double fieldOfView, double aspectRatio, double nearPlaneDistance, double farPlaneDistance)
         {
             Matrix ret;
             CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance, out ret);
@@ -662,7 +662,7 @@ namespace VpNet
         }
 
 
-        public static void CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance, out Matrix result)
+        public static void CreatePerspectiveFieldOfView(double fieldOfView, double aspectRatio, double nearPlaneDistance, double farPlaneDistance, out Matrix result)
         {
             // http://msdn.microsoft.com/en-us/library/bb205351(v=VS.85).aspx
             // http://msdn.microsoft.com/en-us/library/bb195665.aspx
@@ -681,8 +681,8 @@ namespace VpNet
             if (farPlaneDistance <= nearPlaneDistance)
                 throw new ArgumentOutOfRangeException("nearPlaneDistance", "Near plane distance is larger than Far plane distance. Near plane distance must be smaller than Far plane distance.");
 
-            float yscale = (float)1 / (float)Math.Tan(fieldOfView / 2);
-            float xscale = yscale / aspectRatio;
+            double yscale = (double)1 / (double)Math.Tan(fieldOfView / 2);
+            double xscale = yscale / aspectRatio;
 
             result.M11 = xscale;
             result.M22 = yscale;
@@ -692,24 +692,24 @@ namespace VpNet
         }
 
 
-        public static Matrix CreatePerspectiveOffCenter(float left, float right, float bottom, float top, float zNearPlane, float zFarPlane)
+        public static Matrix CreatePerspectiveOffCenter(double left, double right, double bottom, double top, double zNearPlane, double zFarPlane)
         {
             throw new NotImplementedException();
         }
 
 
-        public static void CreatePerspectiveOffCenter(float left, float right, float bottom, float top, float nearPlaneDistance, float farPlaneDistance, out Matrix result)
+        public static void CreatePerspectiveOffCenter(double left, double right, double bottom, double top, double nearPlaneDistance, double farPlaneDistance, out Matrix result)
         {
             throw new NotImplementedException();
         }
 
 
-        public static Matrix CreateRotationX(float radians)
+        public static Matrix CreateRotationX(double radians)
         {
             Matrix returnMatrix = Matrix.Identity;
 
-            returnMatrix.M22 = (float)Math.Cos(radians);
-            returnMatrix.M23 = (float)Math.Sin(radians);
+            returnMatrix.M22 = (double)Math.Cos(radians);
+            returnMatrix.M23 = (double)Math.Sin(radians);
             returnMatrix.M32 = -returnMatrix.M23;
             returnMatrix.M33 = returnMatrix.M22;
 
@@ -717,23 +717,23 @@ namespace VpNet
         }
 
 
-        public static void CreateRotationX(float radians, out Matrix result)
+        public static void CreateRotationX(double radians, out Matrix result)
         {
             result = Matrix.Identity;
 
-            result.M22 = (float)Math.Cos(radians);
-            result.M23 = (float)Math.Sin(radians);
+            result.M22 = (double)Math.Cos(radians);
+            result.M23 = (double)Math.Sin(radians);
             result.M32 = -result.M23;
             result.M33 = result.M22;
         }
 
 
-        public static Matrix CreateRotationY(float radians)
+        public static Matrix CreateRotationY(double radians)
         {
             Matrix returnMatrix = Matrix.Identity;
 
-            returnMatrix.M11 = (float)Math.Cos(radians);
-            returnMatrix.M13 = (float)Math.Sin(radians);
+            returnMatrix.M11 = (double)Math.Cos(radians);
+            returnMatrix.M13 = (double)Math.Sin(radians);
             returnMatrix.M31 = -returnMatrix.M13;
             returnMatrix.M33 = returnMatrix.M11;
 
@@ -741,23 +741,23 @@ namespace VpNet
         }
 
 
-        public static void CreateRotationY(float radians, out Matrix result)
+        public static void CreateRotationY(double radians, out Matrix result)
         {
             result = Matrix.Identity;
 
-            result.M11 = (float)Math.Cos(radians);
-            result.M13 = (float)Math.Sin(radians);
+            result.M11 = (double)Math.Cos(radians);
+            result.M13 = (double)Math.Sin(radians);
             result.M31 = -result.M13;
             result.M33 = result.M11;
         }
 
 
-        public static Matrix CreateRotationZ(float radians)
+        public static Matrix CreateRotationZ(double radians)
         {
             Matrix returnMatrix = Matrix.Identity;
 
-            returnMatrix.M11 = (float)Math.Cos(radians);
-            returnMatrix.M12 = (float)Math.Sin(radians);
+            returnMatrix.M11 = (double)Math.Cos(radians);
+            returnMatrix.M12 = (double)Math.Sin(radians);
             returnMatrix.M21 = -returnMatrix.M12;
             returnMatrix.M22 = returnMatrix.M11;
 
@@ -765,18 +765,18 @@ namespace VpNet
         }
 
 
-        public static void CreateRotationZ(float radians, out Matrix result)
+        public static void CreateRotationZ(double radians, out Matrix result)
         {
             result = Matrix.Identity;
 
-            result.M11 = (float)Math.Cos(radians);
-            result.M12 = (float)Math.Sin(radians);
+            result.M11 = (double)Math.Cos(radians);
+            result.M12 = (double)Math.Sin(radians);
             result.M21 = -result.M12;
             result.M22 = result.M11;
         }
 
 
-        public static Matrix CreateScale(float scale)
+        public static Matrix CreateScale(double scale)
         {
             Matrix returnMatrix = Matrix.Identity;
 
@@ -788,7 +788,7 @@ namespace VpNet
         }
 
 
-        public static void CreateScale(float scale, out Matrix result)
+        public static void CreateScale(double scale, out Matrix result)
         {
             result = Matrix.Identity;
 
@@ -798,7 +798,7 @@ namespace VpNet
         }
 
 
-        public static Matrix CreateScale(float xScale, float yScale, float zScale)
+        public static Matrix CreateScale(double xScale, double yScale, double zScale)
         {
             Matrix returnMatrix = Matrix.Identity;
 
@@ -810,7 +810,7 @@ namespace VpNet
         }
 
 
-        public static void CreateScale(float xScale, float yScale, float zScale, out Matrix result)
+        public static void CreateScale(double xScale, double yScale, double zScale, out Matrix result)
         {
             result = Matrix.Identity;
 
@@ -842,7 +842,7 @@ namespace VpNet
         }
 
 
-        public static Matrix CreateTranslation(float xPosition, float yPosition, float zPosition)
+        public static Matrix CreateTranslation(double xPosition, double yPosition, double zPosition)
         {
             Matrix returnMatrix = Matrix.Identity;
 
@@ -854,7 +854,7 @@ namespace VpNet
         }
 
 
-        public static void CreateTranslation(float xPosition, float yPosition, float zPosition, out Matrix result)
+        public static void CreateTranslation(double xPosition, double yPosition, double zPosition, out Matrix result)
         {
             result = Matrix.Identity;
 
@@ -938,9 +938,9 @@ namespace VpNet
         }
 
 
-        public static Matrix Divide(Matrix matrix1, float divider)
+        public static Matrix Divide(Matrix matrix1, double divider)
         {
-            float inverseDivider = 1.0f / divider;
+            double inverseDivider = 1.0f / divider;
 
             matrix1.M11 = matrix1.M11 * inverseDivider;
             matrix1.M12 = matrix1.M12 * inverseDivider;
@@ -963,9 +963,9 @@ namespace VpNet
         }
 
 
-        public static void Divide(ref Matrix matrix1, float divider, out Matrix result)
+        public static void Divide(ref Matrix matrix1, double divider, out Matrix result)
         {
-            float inverseDivider = 1.0f / divider;
+            double inverseDivider = 1.0f / divider;
             result.M11 = matrix1.M11 * inverseDivider;
             result.M12 = matrix1.M12 * inverseDivider;
             result.M13 = matrix1.M13 * inverseDivider;
@@ -1000,22 +1000,22 @@ namespace VpNet
             // 2. Create the adjugate matrix, which satisfies: A * adj(A) = det(A) * I
             // 3. Divide adjugate matrix with the determinant to find the inverse
 
-            float det1 = matrix.M11 * matrix.M22 - matrix.M12 * matrix.M21;
-            float det2 = matrix.M11 * matrix.M23 - matrix.M13 * matrix.M21;
-            float det3 = matrix.M11 * matrix.M24 - matrix.M14 * matrix.M21;
-            float det4 = matrix.M12 * matrix.M23 - matrix.M13 * matrix.M22;
-            float det5 = matrix.M12 * matrix.M24 - matrix.M14 * matrix.M22;
-            float det6 = matrix.M13 * matrix.M24 - matrix.M14 * matrix.M23;
-            float det7 = matrix.M31 * matrix.M42 - matrix.M32 * matrix.M41;
-            float det8 = matrix.M31 * matrix.M43 - matrix.M33 * matrix.M41;
-            float det9 = matrix.M31 * matrix.M44 - matrix.M34 * matrix.M41;
-            float det10 = matrix.M32 * matrix.M43 - matrix.M33 * matrix.M42;
-            float det11 = matrix.M32 * matrix.M44 - matrix.M34 * matrix.M42;
-            float det12 = matrix.M33 * matrix.M44 - matrix.M34 * matrix.M43;
+            double det1 = matrix.M11 * matrix.M22 - matrix.M12 * matrix.M21;
+            double det2 = matrix.M11 * matrix.M23 - matrix.M13 * matrix.M21;
+            double det3 = matrix.M11 * matrix.M24 - matrix.M14 * matrix.M21;
+            double det4 = matrix.M12 * matrix.M23 - matrix.M13 * matrix.M22;
+            double det5 = matrix.M12 * matrix.M24 - matrix.M14 * matrix.M22;
+            double det6 = matrix.M13 * matrix.M24 - matrix.M14 * matrix.M23;
+            double det7 = matrix.M31 * matrix.M42 - matrix.M32 * matrix.M41;
+            double det8 = matrix.M31 * matrix.M43 - matrix.M33 * matrix.M41;
+            double det9 = matrix.M31 * matrix.M44 - matrix.M34 * matrix.M41;
+            double det10 = matrix.M32 * matrix.M43 - matrix.M33 * matrix.M42;
+            double det11 = matrix.M32 * matrix.M44 - matrix.M34 * matrix.M42;
+            double det12 = matrix.M33 * matrix.M44 - matrix.M34 * matrix.M43;
 
-            float detMatrix = (float)(det1 * det12 - det2 * det11 + det3 * det10 + det4 * det9 - det5 * det8 + det6 * det7);
+            double detMatrix = (double)(det1 * det12 - det2 * det11 + det3 * det10 + det4 * det9 - det5 * det8 + det6 * det7);
 
-            float invDetMatrix = 1f / detMatrix;
+            double invDetMatrix = 1f / detMatrix;
 
             Matrix ret; // Allow for matrix and result to point to the same structure
 
@@ -1040,13 +1040,13 @@ namespace VpNet
         }
 
 
-        public static Matrix Lerp(Matrix matrix1, Matrix matrix2, float amount)
+        public static Matrix Lerp(Matrix matrix1, Matrix matrix2, double amount)
         {
             throw new NotImplementedException();
         }
 
 
-        public static void Lerp(ref Matrix matrix1, ref Matrix matrix2, float amount, out Matrix result)
+        public static void Lerp(ref Matrix matrix1, ref Matrix matrix2, double amount, out Matrix result)
         {
             throw new NotImplementedException();
         }
@@ -1103,7 +1103,7 @@ namespace VpNet
         }
 
 
-        public static Matrix Multiply(Matrix matrix1, float factor)
+        public static Matrix Multiply(Matrix matrix1, double factor)
         {
             matrix1.M11 *= factor;
             matrix1.M12 *= factor;
@@ -1125,7 +1125,7 @@ namespace VpNet
         }
 
 
-        public static void Multiply(ref Matrix matrix1, float factor, out Matrix result)
+        public static void Multiply(ref Matrix matrix1, double factor, out Matrix result)
         {
             result.M11 = matrix1.M11 * factor;
             result.M12 = matrix1.M12 * factor;
@@ -1284,9 +1284,9 @@ namespace VpNet
 
         #region Public Methods
 
-        public float Determinant()
+        public double Determinant()
         {
-            float minor1, minor2, minor3, minor4, minor5, minor6;
+            double minor1, minor2, minor3, minor4, minor5, minor6;
 
             minor1 = M31 * M42 - M32 * M41;
             minor2 = M31 * M43 - M33 * M41;
@@ -1365,9 +1365,9 @@ namespace VpNet
             return result;
         }
 
-        public static Matrix operator /(Matrix matrix1, float divider)
+        public static Matrix operator /(Matrix matrix1, double divider)
         {
-            float inverseDivider = 1.0f / divider;
+            double inverseDivider = 1.0f / divider;
 
             matrix1.M11 = matrix1.M11 * inverseDivider;
             matrix1.M12 = matrix1.M12 * inverseDivider;
@@ -1440,7 +1440,7 @@ namespace VpNet
             return result;
         }
 
-        public static Matrix operator *(Matrix matrix, float scaleFactor)
+        public static Matrix operator *(Matrix matrix, double scaleFactor)
         {
             matrix.M11 = matrix.M11 * scaleFactor;
             matrix.M12 = matrix.M12 * scaleFactor;
@@ -1461,7 +1461,7 @@ namespace VpNet
             return matrix;
         }
 
-        public static Matrix operator *(float scaleFactor, Matrix matrix)
+        public static Matrix operator *(double scaleFactor, Matrix matrix)
         {
             matrix.M11 = matrix.M11 * scaleFactor;
             matrix.M12 = matrix.M12 * scaleFactor;

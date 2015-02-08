@@ -42,14 +42,14 @@ namespace VpNet
         #region Public Fields
 
         public Vector3 Center;
-        public float Radius;
+        public double Radius;
 
         #endregion Public Fields
 
 
         #region Constructors
 
-        public BoundingSphere(Vector3 center, float radius)
+        public BoundingSphere(Vector3 center, double radius)
         {
             this.Center = center;
             this.Radius = radius;
@@ -64,14 +64,14 @@ namespace VpNet
         {
             BoundingSphere sphere = new BoundingSphere();
             sphere.Center = Vector3.Transform(this.Center, matrix);
-            sphere.Radius = this.Radius * ((float)Math.Sqrt((double)Math.Max(((matrix.M11 * matrix.M11) + (matrix.M12 * matrix.M12)) + (matrix.M13 * matrix.M13), Math.Max(((matrix.M21 * matrix.M21) + (matrix.M22 * matrix.M22)) + (matrix.M23 * matrix.M23), ((matrix.M31 * matrix.M31) + (matrix.M32 * matrix.M32)) + (matrix.M33 * matrix.M33)))));
+            sphere.Radius = this.Radius * ((double)Math.Sqrt((double)Math.Max(((matrix.M11 * matrix.M11) + (matrix.M12 * matrix.M12)) + (matrix.M13 * matrix.M13), Math.Max(((matrix.M21 * matrix.M21) + (matrix.M22 * matrix.M22)) + (matrix.M23 * matrix.M23), ((matrix.M31 * matrix.M31) + (matrix.M32 * matrix.M32)) + (matrix.M33 * matrix.M33)))));
             return sphere;
         }
 
         public void Transform(ref Matrix matrix, out BoundingSphere result)
         {
             result.Center = Vector3.Transform(this.Center, matrix);
-            result.Radius = this.Radius * ((float)Math.Sqrt((double)Math.Max(((matrix.M11 * matrix.M11) + (matrix.M12 * matrix.M12)) + (matrix.M13 * matrix.M13), Math.Max(((matrix.M21 * matrix.M21) + (matrix.M22 * matrix.M22)) + (matrix.M23 * matrix.M23), ((matrix.M31 * matrix.M31) + (matrix.M32 * matrix.M32)) + (matrix.M33 * matrix.M33)))));
+            result.Radius = this.Radius * ((double)Math.Sqrt((double)Math.Max(((matrix.M11 * matrix.M11) + (matrix.M12 * matrix.M12)) + (matrix.M13 * matrix.M13), Math.Max(((matrix.M21 * matrix.M21) + (matrix.M22 * matrix.M22)) + (matrix.M23 * matrix.M23), ((matrix.M31 * matrix.M31) + (matrix.M32 * matrix.M32)) + (matrix.M33 * matrix.M33)))));
         }
 
         public ContainmentType Contains(BoundingBox box)
@@ -154,7 +154,7 @@ namespace VpNet
 
         public ContainmentType Contains(BoundingSphere sphere)
         {
-            float val = Vector3.Distance(sphere.Center, Center);
+            double val = Vector3.Distance(sphere.Center, Center);
 
             if (val > sphere.Radius + Radius)
                 return ContainmentType.Disjoint;
@@ -173,7 +173,7 @@ namespace VpNet
 
         public ContainmentType Contains(Vector3 point)
         {
-            float distance = Vector3.Distance(point, Center);
+            double distance = Vector3.Distance(point, Center);
 
             if (distance > this.Radius)
                 return ContainmentType.Disjoint;
@@ -197,7 +197,7 @@ namespace VpNet
                                          (box.Min.Z + box.Max.Z) / 2.0f);
 
             // Find the distance between the center and one of the corners of the box.
-            float radius = Vector3.Distance(center, box.Max);
+            double radius = Vector3.Distance(center, box.Max);
 
             return new BoundingSphere(center, radius);
         }
@@ -217,7 +217,7 @@ namespace VpNet
             if (points == null)
                 throw new ArgumentNullException("points");
 
-            float radius = 0;
+            double radius = 0;
             Vector3 center = new Vector3();
             // First, we'll find the center of gravity for the point 'cloud'.
             int num_points = 0; // The number of points (there MUST be a better way to get this instead of counting the number of points one by one?)
@@ -228,12 +228,12 @@ namespace VpNet
                 ++num_points;
             }
             
-            center /= (float)num_points;
+            center /= (double)num_points;
 
             // Calculate the radius of the needed sphere (it equals the distance between the center and the point further away).
             foreach (Vector3 v in points)
             {
-                float distance = ((Vector3)(v - center)).Length();
+                double distance = ((Vector3)(v - center)).Length();
                 
                 if (distance > radius)
                     radius = distance;
@@ -245,7 +245,7 @@ namespace VpNet
         public static BoundingSphere CreateMerged(BoundingSphere original, BoundingSphere additional)
         {
             Vector3 ocenterToaCenter = Vector3.Subtract(additional.Center, original.Center);
-            float distance = ocenterToaCenter.Length();
+            double distance = ocenterToaCenter.Length();
             if (distance <= original.Radius + additional.Radius)//intersect
             {
                 if (distance <= original.Radius - additional.Radius)//original contain additional
@@ -255,8 +255,8 @@ namespace VpNet
             }
 
             //else find center of new sphere and radius
-            float leftRadius = Math.Max(original.Radius - distance, additional.Radius);
-            float Rightradius = Math.Max(original.Radius + distance, additional.Radius);
+            double leftRadius = Math.Max(original.Radius - distance, additional.Radius);
+            double Rightradius = Math.Max(original.Radius + distance, additional.Radius);
             ocenterToaCenter = ocenterToaCenter + (((leftRadius - Rightradius) / (2 * ocenterToaCenter.Length())) * ocenterToaCenter);//oCenterToResultCenter
             
             BoundingSphere result = new BoundingSphere();
@@ -308,7 +308,7 @@ namespace VpNet
 
         public bool Intersects(BoundingSphere sphere)
         {
-            float val = Vector3.Distance(sphere.Center, Center);
+            double val = Vector3.Distance(sphere.Center, Center);
 			if (val > sphere.Radius + Radius)
 				return false;
 			return true;
@@ -321,7 +321,7 @@ namespace VpNet
 
         public PlaneIntersectionType Intersects(Plane plane)
         {
-			float distance = Vector3.Dot(plane.Normal, this.Center) + plane.D;
+			double distance = Vector3.Dot(plane.Normal, this.Center) + plane.D;
 			if (distance > this.Radius)
 				return PlaneIntersectionType.Front;
 			if (distance < -this.Radius)
@@ -335,12 +335,12 @@ namespace VpNet
 			result = Intersects(plane);
         }
 
-        public Nullable<float> Intersects(Ray ray)
+        public Nullable<double> Intersects(Ray ray)
         {
             return ray.Intersects(this);
         }
 
-        public void Intersects(ref Ray ray, out Nullable<float> result)
+        public void Intersects(ref Ray ray, out Nullable<double> result)
         {
 			result = Intersects(ray);
         }

@@ -81,9 +81,12 @@ namespace VpNet.NativeApi
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_int(IntPtr instance, [MarshalAs(UnmanagedType.I4)]Attributes name);
-        
+
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern float vp_float(IntPtr instance, [MarshalAs(UnmanagedType.I4)]Attributes name);
+        
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern double vp_double(IntPtr instance, [MarshalAs(UnmanagedType.I4)]Attributes name);
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToManaged))]
@@ -94,9 +97,12 @@ namespace VpNet.NativeApi
              
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_int_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]Attributes name, int value);
-        
+
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_float_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]Attributes name, float value);
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int vp_double_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]Attributes name, double value);
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern void vp_string_set(IntPtr instance, 

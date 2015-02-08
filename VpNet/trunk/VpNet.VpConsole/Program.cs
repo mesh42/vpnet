@@ -60,6 +60,7 @@ namespace VpNet.VpConsole
             _context.Cli = Cli;
             _context.Plugins = new HotSwapPlugins<BaseInstancePlugin>();
             _context.Plugins.OnPluginUnloaded += _plugins_OnPluginUnloaded;
+            Console.BufferHeight = 9999;
             Console.Title = "Virtual Paradise Console";
             Console.CursorSize = 100;
             Console.SetWindowSize(120,40);

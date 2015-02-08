@@ -74,7 +74,7 @@ namespace VpNet
         }
 
         
-        public float? Intersects(BoundingBox box)
+        public double? Intersects(BoundingBox box)
         {
 			//first test if start in box
 			if (Position.X >= box.Min.X
@@ -108,7 +108,7 @@ namespace VpNet
 				if (maxT.X < 0.0f)
 					return null;// ray go on opposite of face
 				//coordonate of hit point of face of cube
-				float coord = Position.Z + maxT.X * Direction.Z;
+				double coord = Position.Z + maxT.X * Direction.Z;
 				// if hit point coord ( intersect face with ray) is out of other plane coord it miss 
 				if (coord < box.Min.Z || coord > box.Max.Z)
 					return null;
@@ -122,7 +122,7 @@ namespace VpNet
 				if (maxT.Y < 0.0f)
 					return null;// ray go on opposite of face
 				//coordonate of hit point of face of cube
-				float coord = Position.Z + maxT.Y * Direction.Z;
+				double coord = Position.Z + maxT.Y * Direction.Z;
 				// if hit point coord ( intersect face with ray) is out of other plane coord it miss 
 				if (coord < box.Min.Z || coord > box.Max.Z)
 					return null;
@@ -136,7 +136,7 @@ namespace VpNet
 				if (maxT.Z < 0.0f)
 					return null;// ray go on opposite of face
 				//coordonate of hit point of face of cube
-				float coord = Position.X + maxT.Z * Direction.X;
+				double coord = Position.X + maxT.Z * Direction.X;
 				// if hit point coord ( intersect face with ray) is out of other plane coord it miss 
 				if (coord < box.Min.X || coord > box.Max.X)
 					return null;
@@ -148,44 +148,44 @@ namespace VpNet
         }
 
 
-        public void Intersects(ref BoundingBox box, out float? result)
+        public void Intersects(ref BoundingBox box, out double? result)
         {
 			result = Intersects(box);
         }
 
 
-        public float? Intersects(BoundingFrustum frustum)
+        public double? Intersects(BoundingFrustum frustum)
         {
             throw new NotImplementedException();
         }
 
 
-        public float? Intersects(BoundingSphere sphere)
+        public double? Intersects(BoundingSphere sphere)
         {
-            float? result;
+            double? result;
             Intersects(ref sphere, out result);
             return result;
         }
 
-        public float? Intersects(Plane plane)
+        public double? Intersects(Plane plane)
         {
             throw new NotImplementedException();
         }
 
-        public void Intersects(ref Plane plane, out float? result)
+        public void Intersects(ref Plane plane, out double? result)
         {
             throw new NotImplementedException();
         }
 
-        public void Intersects(ref BoundingSphere sphere, out float? result)
+        public void Intersects(ref BoundingSphere sphere, out double? result)
         {
             // Find the vector between where the ray starts the the sphere's centre
             Vector3 difference = sphere.Center - this.Position;
 
-            float differenceLengthSquared = difference.LengthSquared();
-            float sphereRadiusSquared = sphere.Radius * sphere.Radius;
+            double differenceLengthSquared = difference.LengthSquared();
+            double sphereRadiusSquared = sphere.Radius * sphere.Radius;
 
-            float distanceAlongRay;
+            double distanceAlongRay;
 
             // If the distance between the ray start and the sphere's centre is less than
             // the radius of the sphere, it means we've intersected. N.B. checking the LengthSquared is faster.
@@ -208,9 +208,9 @@ namespace VpNet
             // if y = distance between ray position and sphere centre
             // if z = the distance we've travelled along the ray
             // if x^2 + z^2 - y^2 < 0, we do not intersect
-            float dist = sphereRadiusSquared + distanceAlongRay * distanceAlongRay - differenceLengthSquared;
+            double dist = sphereRadiusSquared + distanceAlongRay * distanceAlongRay - differenceLengthSquared;
 
-            result = (dist < 0) ? null : distanceAlongRay - (float?)Math.Sqrt(dist);
+            result = (dist < 0) ? null : distanceAlongRay - (double?)Math.Sqrt(dist);
         }
 
 

@@ -7,11 +7,11 @@ namespace VpNet.ManagedApi.Extensions
 {
     public static class NormalizationExtensions
     {
-        public static float Truncate(this float value, int digits)
+        public static double Truncate(this double value, int digits)
         {
             double mult = Math.Pow(10.0, digits);
             double result = Math.Truncate(mult * value) / mult;
-            return (float)result;
+            return (double)result;
         }
     }
 }

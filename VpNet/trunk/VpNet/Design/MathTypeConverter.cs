@@ -53,12 +53,12 @@ namespace VpNet.Design
 		
         #region Methods
 		
-        internal static string ConvertValuesToString (ITypeDescriptorContext context, CultureInfo culture, float[] values)
+        internal static string ConvertValuesToString (ITypeDescriptorContext context, CultureInfo culture, double[] values)
         {
             StringBuilder ret = new StringBuilder();
             string delimiter = culture.TextInfo.ListSeparator + " ";
 			
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(float));
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(double));
             for (int i = 0; i < values.Length; i++)
             {
                 ret.Append(converter.ConvertTo(context, culture, values[i], typeof(string)));
@@ -68,15 +68,15 @@ namespace VpNet.Design
             return ret.ToString();
         }
 		
-        internal static float[] ConvertStringToValues (ITypeDescriptorContext context, CultureInfo culture, string valuesString)
+        internal static double[] ConvertStringToValues (ITypeDescriptorContext context, CultureInfo culture, string valuesString)
         {
             string[] delimiters = new string[] { culture.TextInfo.ListSeparator + " " };
             string[] valueStrings = valuesString.Split(delimiters, StringSplitOptions.None);
-            float[] values = new float[valuesString.Length];
+            double[] values = new double[valuesString.Length];
 			
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(float));
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(double));
             for (int i = 0; i < values.Length; i++)
-                values[i] = (float)converter.ConvertFrom(context, culture, valueStrings[i]);
+                values[i] = (double)converter.ConvertFrom(context, culture, valueStrings[i]);
 			
             return values;
         }

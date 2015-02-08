@@ -36,14 +36,14 @@ namespace VpNet
     [TypeConverter(typeof(QuaternionConverter))]
     public struct Quaternion : IEquatable<Quaternion>
     {
-        public float X;
-        public float Y;
-        public float Z;
-        public float W;
+        public double X;
+        public double Y;
+        public double Z;
+        public double W;
         static Quaternion identity = new Quaternion(0, 0, 0, 1);
 
         
-        public Quaternion(float x, float y, float z, float w)
+        public Quaternion(double x, double y, double z, double w)
         {
             this.X = x;
             this.Y = y;
@@ -52,7 +52,7 @@ namespace VpNet
         }
         
         
-        public Quaternion(Vector3 vectorPart, float scalarPart)
+        public Quaternion(Vector3 vectorPart, double scalarPart)
         {
             this.X = vectorPart.X;
             this.Y = vectorPart.Y;
@@ -127,38 +127,38 @@ namespace VpNet
             result.W = (value2.W * value1.W) - ((value2.X * value1.X) + (value2.Y * value1.Y)) + (value2.Z * value1.Z);
         }
 
-        public static Quaternion CreateFromYawPitchRoll(float yaw, float pitch, float roll)
+        public static Quaternion CreateFromYawPitchRoll(double yaw, double pitch, double roll)
         {
             Quaternion quaternion;
-            quaternion.X = (((float)Math.Cos((double)(yaw * 0.5f)) * (float)Math.Sin((double)(pitch * 0.5f))) * (float)Math.Cos((double)(roll * 0.5f))) + (((float)Math.Sin((double)(yaw * 0.5f)) * (float)Math.Cos((double)(pitch * 0.5f))) * (float)Math.Sin((double)(roll * 0.5f)));
-            quaternion.Y = (((float)Math.Sin((double)(yaw * 0.5f)) * (float)Math.Cos((double)(pitch * 0.5f))) * (float)Math.Cos((double)(roll * 0.5f))) - (((float)Math.Cos((double)(yaw * 0.5f)) * (float)Math.Sin((double)(pitch * 0.5f))) * (float)Math.Sin((double)(roll * 0.5f)));
-            quaternion.Z = (((float)Math.Cos((double)(yaw * 0.5f)) * (float)Math.Cos((double)(pitch * 0.5f))) * (float)Math.Sin((double)(roll * 0.5f))) - (((float)Math.Sin((double)(yaw * 0.5f)) * (float)Math.Sin((double)(pitch * 0.5f))) * (float)Math.Cos((double)(roll * 0.5f)));
-            quaternion.W = (((float)Math.Cos((double)(yaw * 0.5f)) * (float)Math.Cos((double)(pitch * 0.5f))) * (float)Math.Cos((double)(roll * 0.5f))) + (((float)Math.Sin((double)(yaw * 0.5f)) * (float)Math.Sin((double)(pitch * 0.5f))) * (float)Math.Sin((double)(roll * 0.5f)));
+            quaternion.X = (((double)Math.Cos((double)(yaw * 0.5f)) * (double)Math.Sin((double)(pitch * 0.5f))) * (double)Math.Cos((double)(roll * 0.5f))) + (((double)Math.Sin((double)(yaw * 0.5f)) * (double)Math.Cos((double)(pitch * 0.5f))) * (double)Math.Sin((double)(roll * 0.5f)));
+            quaternion.Y = (((double)Math.Sin((double)(yaw * 0.5f)) * (double)Math.Cos((double)(pitch * 0.5f))) * (double)Math.Cos((double)(roll * 0.5f))) - (((double)Math.Cos((double)(yaw * 0.5f)) * (double)Math.Sin((double)(pitch * 0.5f))) * (double)Math.Sin((double)(roll * 0.5f)));
+            quaternion.Z = (((double)Math.Cos((double)(yaw * 0.5f)) * (double)Math.Cos((double)(pitch * 0.5f))) * (double)Math.Sin((double)(roll * 0.5f))) - (((double)Math.Sin((double)(yaw * 0.5f)) * (double)Math.Sin((double)(pitch * 0.5f))) * (double)Math.Cos((double)(roll * 0.5f)));
+            quaternion.W = (((double)Math.Cos((double)(yaw * 0.5f)) * (double)Math.Cos((double)(pitch * 0.5f))) * (double)Math.Cos((double)(roll * 0.5f))) + (((double)Math.Sin((double)(yaw * 0.5f)) * (double)Math.Sin((double)(pitch * 0.5f))) * (double)Math.Sin((double)(roll * 0.5f)));
             return quaternion;
         }
 
-        public static void CreateFromYawPitchRoll(float yaw, float pitch, float roll, out Quaternion result)
+        public static void CreateFromYawPitchRoll(double yaw, double pitch, double roll, out Quaternion result)
         {
-            result.X = (((float)Math.Cos((double)(yaw * 0.5f)) * (float)Math.Sin((double)(pitch * 0.5f))) * (float)Math.Cos((double)(roll * 0.5f))) + (((float)Math.Sin((double)(yaw * 0.5f)) * (float)Math.Cos((double)(pitch * 0.5f))) * (float)Math.Sin((double)(roll * 0.5f)));
-            result.Y = (((float)Math.Sin((double)(yaw * 0.5f)) * (float)Math.Cos((double)(pitch * 0.5f))) * (float)Math.Cos((double)(roll * 0.5f))) - (((float)Math.Cos((double)(yaw * 0.5f)) * (float)Math.Sin((double)(pitch * 0.5f))) * (float)Math.Sin((double)(roll * 0.5f)));
-            result.Z = (((float)Math.Cos((double)(yaw * 0.5f)) * (float)Math.Cos((double)(pitch * 0.5f))) * (float)Math.Sin((double)(roll * 0.5f))) - (((float)Math.Sin((double)(yaw * 0.5f)) * (float)Math.Sin((double)(pitch * 0.5f))) * (float)Math.Cos((double)(roll * 0.5f)));
-            result.W = (((float)Math.Cos((double)(yaw * 0.5f)) * (float)Math.Cos((double)(pitch * 0.5f))) * (float)Math.Cos((double)(roll * 0.5f))) + (((float)Math.Sin((double)(yaw * 0.5f)) * (float)Math.Sin((double)(pitch * 0.5f))) * (float)Math.Sin((double)(roll * 0.5f)));
+            result.X = (((double)Math.Cos((double)(yaw * 0.5f)) * (double)Math.Sin((double)(pitch * 0.5f))) * (double)Math.Cos((double)(roll * 0.5f))) + (((double)Math.Sin((double)(yaw * 0.5f)) * (double)Math.Cos((double)(pitch * 0.5f))) * (double)Math.Sin((double)(roll * 0.5f)));
+            result.Y = (((double)Math.Sin((double)(yaw * 0.5f)) * (double)Math.Cos((double)(pitch * 0.5f))) * (double)Math.Cos((double)(roll * 0.5f))) - (((double)Math.Cos((double)(yaw * 0.5f)) * (double)Math.Sin((double)(pitch * 0.5f))) * (double)Math.Sin((double)(roll * 0.5f)));
+            result.Z = (((double)Math.Cos((double)(yaw * 0.5f)) * (double)Math.Cos((double)(pitch * 0.5f))) * (double)Math.Sin((double)(roll * 0.5f))) - (((double)Math.Sin((double)(yaw * 0.5f)) * (double)Math.Sin((double)(pitch * 0.5f))) * (double)Math.Cos((double)(roll * 0.5f)));
+            result.W = (((double)Math.Cos((double)(yaw * 0.5f)) * (double)Math.Cos((double)(pitch * 0.5f))) * (double)Math.Cos((double)(roll * 0.5f))) + (((double)Math.Sin((double)(yaw * 0.5f)) * (double)Math.Sin((double)(pitch * 0.5f))) * (double)Math.Sin((double)(roll * 0.5f)));
         }
 
-        public static Quaternion CreateFromAxisAngle(Vector3 axis, float angle)
+        public static Quaternion CreateFromAxisAngle(Vector3 axis, double angle)
         {
-            float sin_a = (float)Math.Sin(angle / 2.0f);
-            return new Quaternion(axis.X * sin_a,axis.Y * sin_a,axis.Z * sin_a,(float)Math.Cos(angle / 2.0f));
+            double sin_a = (double)Math.Sin(angle / 2.0f);
+            return new Quaternion(axis.X * sin_a,axis.Y * sin_a,axis.Z * sin_a,(double)Math.Cos(angle / 2.0f));
         }
 
 
-        public static void CreateFromAxisAngle(ref Vector3 axis, float angle, out Quaternion result)
+        public static void CreateFromAxisAngle(ref Vector3 axis, double angle, out Quaternion result)
         {
-            float sin_a = (float)Math.Sin(angle / 2.0f);
+            double sin_a = (double)Math.Sin(angle / 2.0f);
             result.X = axis.X * sin_a;
             result.Y = axis.Y * sin_a;
             result.Z = axis.Z * sin_a;
-            result.W = (float)Math.Cos(angle / 2.0f);
+            result.W = (double)Math.Cos(angle / 2.0f);
         }
 
 
@@ -167,7 +167,7 @@ namespace VpNet
             Quaternion result;
             if ((matrix.M11 + matrix.M22 + matrix.M33) > 0.0F)
             {
-                float M1 = (float)System.Math.Sqrt((double)(matrix.M11 + matrix.M22 + matrix.M33 + 1.0F));
+                double M1 = (double)System.Math.Sqrt((double)(matrix.M11 + matrix.M22 + matrix.M33 + 1.0F));
                 result.W = M1 * 0.5F;
                 M1 = 0.5F / M1;
                 result.X = (matrix.M23 - matrix.M32) * M1;
@@ -177,8 +177,8 @@ namespace VpNet
             }
             if ((matrix.M11 >= matrix.M22) && (matrix.M11 >= matrix.M33))
             {
-                float M2 = (float)System.Math.Sqrt((double)(1.0F + matrix.M11 - matrix.M22 - matrix.M33));
-                float M3 = 0.5F / M2;
+                double M2 = (double)System.Math.Sqrt((double)(1.0F + matrix.M11 - matrix.M22 - matrix.M33));
+                double M3 = 0.5F / M2;
                 result.X = 0.5F * M2;
                 result.Y = (matrix.M12 + matrix.M21) * M3;
                 result.Z = (matrix.M13 + matrix.M31) * M3;
@@ -187,16 +187,16 @@ namespace VpNet
             }
             if (matrix.M22 > matrix.M33)
             {
-                float M4 = (float)System.Math.Sqrt((double)(1.0F + matrix.M22 - matrix.M11 - matrix.M33));
-                float M5 = 0.5F / M4;
+                double M4 = (double)System.Math.Sqrt((double)(1.0F + matrix.M22 - matrix.M11 - matrix.M33));
+                double M5 = 0.5F / M4;
                 result.X = (matrix.M21 + matrix.M12) * M5;
                 result.Y = 0.5F * M4;
                 result.Z = (matrix.M32 + matrix.M23) * M5;
                 result.W = (matrix.M31 - matrix.M13) * M5;
                 return result;
             }
-            float M6 = (float)System.Math.Sqrt((double)(1.0F + matrix.M33 - matrix.M11 - matrix.M22));
-            float M7 = 0.5F / M6;
+            double M6 = (double)System.Math.Sqrt((double)(1.0F + matrix.M33 - matrix.M11 - matrix.M22));
+            double M7 = 0.5F / M6;
             result.X = (matrix.M31 + matrix.M13) * M7;
             result.Y = (matrix.M32 + matrix.M23) * M7;
             result.Z = 0.5F * M6;
@@ -209,7 +209,7 @@ namespace VpNet
         {
             if ((matrix.M11 + matrix.M22 + matrix.M33) > 0.0F)
             {
-                float M1 = (float)System.Math.Sqrt((double)(matrix.M11 + matrix.M22 + matrix.M33 + 1.0F));
+                double M1 = (double)System.Math.Sqrt((double)(matrix.M11 + matrix.M22 + matrix.M33 + 1.0F));
                 result.W = M1 * 0.5F;
                 M1 = 0.5F / M1;
                 result.X = (matrix.M23 - matrix.M32) * M1;
@@ -219,8 +219,8 @@ namespace VpNet
             }
             if ((matrix.M11 >= matrix.M22) && (matrix.M11 >= matrix.M33))
             {
-                float M2 = (float)System.Math.Sqrt((double)(1.0F + matrix.M11 - matrix.M22 - matrix.M33));
-                float M3 = 0.5F / M2;
+                double M2 = (double)System.Math.Sqrt((double)(1.0F + matrix.M11 - matrix.M22 - matrix.M33));
+                double M3 = 0.5F / M2;
                 result.X = 0.5F * M2;
                 result.Y = (matrix.M12 + matrix.M21) * M3;
                 result.Z = (matrix.M13 + matrix.M31) * M3;
@@ -229,16 +229,16 @@ namespace VpNet
             }
             if (matrix.M22 > matrix.M33)
             {
-                float M4 = (float)System.Math.Sqrt((double)(1.0F + matrix.M22 - matrix.M11 - matrix.M33));
-                float M5 = 0.5F / M4;
+                double M4 = (double)System.Math.Sqrt((double)(1.0F + matrix.M22 - matrix.M11 - matrix.M33));
+                double M5 = 0.5F / M4;
                 result.X = (matrix.M21 + matrix.M12) * M5;
                 result.Y = 0.5F * M4;
                 result.Z = (matrix.M32 + matrix.M23) * M5;
                 result.W = (matrix.M31 - matrix.M13) * M5;
                 return;
             }
-            float M6 = (float)System.Math.Sqrt((double)(1.0F + matrix.M33 - matrix.M11 - matrix.M22));
-            float M7 = 0.5F / M6;
+            double M6 = (double)System.Math.Sqrt((double)(1.0F + matrix.M33 - matrix.M11 - matrix.M22));
+            double M7 = 0.5F / M6;
             result.X = (matrix.M31 + matrix.M13) * M7;
             result.Y = (matrix.M32 + matrix.M23) * M7;
             result.Z = 0.5F * M6;
@@ -250,11 +250,11 @@ namespace VpNet
         {
             Quaternion result;
 
-            float w5 = 1.0F / ((quaternion2.X * quaternion2.X) + (quaternion2.Y * quaternion2.Y) + (quaternion2.Z * quaternion2.Z) + (quaternion2.W * quaternion2.W));
-            float w4 = -quaternion2.X * w5;
-            float w3 = -quaternion2.Y * w5;
-            float w2 = -quaternion2.Z * w5;
-            float w1 = quaternion2.W * w5;
+            double w5 = 1.0F / ((quaternion2.X * quaternion2.X) + (quaternion2.Y * quaternion2.Y) + (quaternion2.Z * quaternion2.Z) + (quaternion2.W * quaternion2.W));
+            double w4 = -quaternion2.X * w5;
+            double w3 = -quaternion2.Y * w5;
+            double w2 = -quaternion2.Z * w5;
+            double w1 = quaternion2.W * w5;
 
             result.X = (quaternion1.X * w1) + (w4 * quaternion1.W) + ((quaternion1.Y * w2) - (quaternion1.Z * w3));
             result.Y = (quaternion1.Y * w1) + (w3 * quaternion1.W) + ((quaternion1.Z * w4) - (quaternion1.X * w2));
@@ -266,11 +266,11 @@ namespace VpNet
 
         public static void Divide(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
         {
-            float w5 = 1.0F / ((quaternion2.X * quaternion2.X) + (quaternion2.Y * quaternion2.Y) + (quaternion2.Z * quaternion2.Z) + (quaternion2.W * quaternion2.W));
-            float w4 = -quaternion2.X * w5;
-            float w3 = -quaternion2.Y * w5;
-            float w2 = -quaternion2.Z * w5;
-            float w1 = quaternion2.W * w5;
+            double w5 = 1.0F / ((quaternion2.X * quaternion2.X) + (quaternion2.Y * quaternion2.Y) + (quaternion2.Z * quaternion2.Z) + (quaternion2.W * quaternion2.W));
+            double w4 = -quaternion2.X * w5;
+            double w3 = -quaternion2.Y * w5;
+            double w2 = -quaternion2.Z * w5;
+            double w1 = quaternion2.W * w5;
 
             result.X = (quaternion1.X * w1) + (w4 * quaternion1.W) + ((quaternion1.Y * w2) - (quaternion1.Z * w3));
             result.Y = (quaternion1.Y * w1) + (w3 * quaternion1.W) + ((quaternion1.Z * w4) - (quaternion1.X * w2));
@@ -279,13 +279,13 @@ namespace VpNet
         }
 
 
-        public static float Dot(Quaternion quaternion1, Quaternion quaternion2)
+        public static double Dot(Quaternion quaternion1, Quaternion quaternion2)
         {
             return (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z) + (quaternion1.W * quaternion2.W);
         }
 
 
-        public static void Dot(ref Quaternion quaternion1, ref Quaternion quaternion2, out float result)
+        public static void Dot(ref Quaternion quaternion1, ref Quaternion quaternion2, out double result)
         {
            result = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z) + (quaternion1.W * quaternion2.W);
         }
@@ -314,7 +314,7 @@ namespace VpNet
         public static Quaternion Inverse(Quaternion quaternion)
         {
             Quaternion result;
-            float m1 = 1.0F / ((quaternion.X * quaternion.X) + (quaternion.Y * quaternion.Y) + (quaternion.Z * quaternion.Z) + (quaternion.W * quaternion.W));
+            double m1 = 1.0F / ((quaternion.X * quaternion.X) + (quaternion.Y * quaternion.Y) + (quaternion.Z * quaternion.Z) + (quaternion.W * quaternion.W));
             result.X = -quaternion.X * m1;
             result.Y = -quaternion.Y * m1;
             result.Z = -quaternion.Z * m1;
@@ -325,7 +325,7 @@ namespace VpNet
 
         public static void Inverse(ref Quaternion quaternion, out Quaternion result)
         {
-            float m1 = 1.0F / ((quaternion.X * quaternion.X) + (quaternion.Y * quaternion.Y) + (quaternion.Z * quaternion.Z) + (quaternion.W * quaternion.W));
+            double m1 = 1.0F / ((quaternion.X * quaternion.X) + (quaternion.Y * quaternion.Y) + (quaternion.Z * quaternion.Z) + (quaternion.W * quaternion.W));
             result.X = -quaternion.X * m1;
             result.Y = -quaternion.Y * m1;
             result.Z = -quaternion.Z * m1;
@@ -333,22 +333,22 @@ namespace VpNet
         }
 
 
-        public float Length()
+        public double Length()
         {
-            return (float)System.Math.Sqrt((double)((X * X) + (Y * Y) + (Z * Z) + (W * W)));
+            return (double)System.Math.Sqrt((double)((X * X) + (Y * Y) + (Z * Z) + (W * W)));
         }
 
 
-        public float LengthSquared()
+        public double LengthSquared()
         {
             return (X * X) + (Y * Y) + (Z * Z) + (W * W);
         }
 
 
-        public static Quaternion Lerp(Quaternion quaternion1, Quaternion quaternion2, float amount)
+        public static Quaternion Lerp(Quaternion quaternion1, Quaternion quaternion2, double amount)
         {
             Quaternion result;
-            float f2 = 1.0F - amount;
+            double f2 = 1.0F - amount;
             if (((quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z) + (quaternion1.W * quaternion2.W)) >= 0.0F)
             {
                 result.X = (f2 * quaternion1.X) + (amount * quaternion2.X);
@@ -363,8 +363,8 @@ namespace VpNet
                 result.Z = (f2 * quaternion1.Z) - (amount * quaternion2.Z);
                 result.W = (f2 * quaternion1.W) - (amount * quaternion2.W);
             }
-            float f4 = (result.X * result.X) + (result.Y * result.Y) + (result.Z * result.Z) + (result.W * result.W);
-            float f3 = 1.0F / (float)System.Math.Sqrt((double)f4);
+            double f4 = (result.X * result.X) + (result.Y * result.Y) + (result.Z * result.Z) + (result.W * result.W);
+            double f3 = 1.0F / (double)System.Math.Sqrt((double)f4);
             result.X *= f3;
             result.Y *= f3;
             result.Z *= f3;
@@ -373,9 +373,9 @@ namespace VpNet
         }
 
 
-        public static void Lerp(ref Quaternion quaternion1, ref Quaternion quaternion2, float amount, out Quaternion result)
+        public static void Lerp(ref Quaternion quaternion1, ref Quaternion quaternion2, double amount, out Quaternion result)
         {
-            float m2 = 1.0F - amount;
+            double m2 = 1.0F - amount;
             if (((quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z) + (quaternion1.W * quaternion2.W)) >= 0.0F)
             {
                 result.X = (m2 * quaternion1.X) + (amount * quaternion2.X);
@@ -390,8 +390,8 @@ namespace VpNet
                 result.Z = (m2 * quaternion1.Z) - (amount * quaternion2.Z);
                 result.W = (m2 * quaternion1.W) - (amount * quaternion2.W);
             }
-            float m4 = (result.X * result.X) + (result.Y * result.Y) + (result.Z * result.Z) + (result.W * result.W);
-            float m3 = 1.0F / (float)System.Math.Sqrt((double)m4);
+            double m4 = (result.X * result.X) + (result.Y * result.Y) + (result.Z * result.Z) + (result.W * result.W);
+            double m3 = 1.0F / (double)System.Math.Sqrt((double)m4);
             result.X *= m3;
             result.Y *= m3;
             result.Z *= m3;
@@ -399,12 +399,12 @@ namespace VpNet
         }
 
 
-        public static Quaternion Slerp(Quaternion quaternion1, Quaternion quaternion2, float amount)
+        public static Quaternion Slerp(Quaternion quaternion1, Quaternion quaternion2, double amount)
         {
             Quaternion result;
-            float q2, q3;
+            double q2, q3;
 
-            float q4 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z) + (quaternion1.W * quaternion2.W);
+            double q4 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z) + (quaternion1.W * quaternion2.W);
             bool flag = false;
             if (q4 < 0.0F)
             {
@@ -418,10 +418,10 @@ namespace VpNet
             }
             else
             {
-                float q5 = (float)System.Math.Acos((double)q4);
-                float q6 = (float)(1.0 / System.Math.Sin((double)q5));
-                q3 = (float)System.Math.Sin((double)((1.0F - amount) * q5)) * q6;
-                q2 = flag ? (float)-System.Math.Sin((double)(amount * q5)) * q6 : (float)System.Math.Sin((double)(amount * q5)) * q6;
+                double q5 = (double)System.Math.Acos((double)q4);
+                double q6 = (double)(1.0 / System.Math.Sin((double)q5));
+                q3 = (double)System.Math.Sin((double)((1.0F - amount) * q5)) * q6;
+                q2 = flag ? (double)-System.Math.Sin((double)(amount * q5)) * q6 : (double)System.Math.Sin((double)(amount * q5)) * q6;
             }
             result.X = (q3 * quaternion1.X) + (q2 * quaternion2.X);
             result.Y = (q3 * quaternion1.Y) + (q2 * quaternion2.Y);
@@ -431,11 +431,11 @@ namespace VpNet
         }
 
 
-        public static void Slerp(ref Quaternion quaternion1, ref Quaternion quaternion2, float amount, out Quaternion result)
+        public static void Slerp(ref Quaternion quaternion1, ref Quaternion quaternion2, double amount, out Quaternion result)
         {
-            float q2, q3;
+            double q2, q3;
 
-            float q4 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z) + (quaternion1.W * quaternion2.W);
+            double q4 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z) + (quaternion1.W * quaternion2.W);
             bool flag = false;
             if (q4 < 0.0F)
             {
@@ -449,10 +449,10 @@ namespace VpNet
             }
             else
             {
-                float q5 = (float)System.Math.Acos((double)q4);
-                float q6 = (float)(1.0 / System.Math.Sin((double)q5));
-                q3 = (float)System.Math.Sin((double)((1.0F - amount) * q5)) * q6;
-                q2 = flag ? (float)-System.Math.Sin((double)(amount * q5)) * q6 : (float)System.Math.Sin((double)(amount * q5)) * q6;
+                double q5 = (double)System.Math.Acos((double)q4);
+                double q6 = (double)(1.0 / System.Math.Sin((double)q5));
+                q3 = (double)System.Math.Sin((double)((1.0F - amount) * q5)) * q6;
+                q2 = flag ? (double)-System.Math.Sin((double)(amount * q5)) * q6 : (double)System.Math.Sin((double)(amount * q5)) * q6;
             }
             result.X = (q3 * quaternion1.X) + (q2 * quaternion2.X);
             result.Y = (q3 * quaternion1.Y) + (q2 * quaternion2.Y);
@@ -483,10 +483,10 @@ namespace VpNet
         public static Quaternion Multiply(Quaternion quaternion1, Quaternion quaternion2)
         {
             Quaternion result;
-            float f12 = (quaternion1.Y * quaternion2.Z) - (quaternion1.Z * quaternion2.Y);
-            float f11 = (quaternion1.Z * quaternion2.X) - (quaternion1.X * quaternion2.Z);
-            float f10 = (quaternion1.X * quaternion2.Y) - (quaternion1.Y * quaternion2.X);
-            float f9 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z);
+            double f12 = (quaternion1.Y * quaternion2.Z) - (quaternion1.Z * quaternion2.Y);
+            double f11 = (quaternion1.Z * quaternion2.X) - (quaternion1.X * quaternion2.Z);
+            double f10 = (quaternion1.X * quaternion2.Y) - (quaternion1.Y * quaternion2.X);
+            double f9 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z);
             result.X = (quaternion1.X * quaternion2.W) + (quaternion2.X * quaternion1.W) + f12;
             result.Y = (quaternion1.Y * quaternion2.W) + (quaternion2.Y * quaternion1.W) + f11;
             result.Z = (quaternion1.Z * quaternion2.W) + (quaternion2.Z * quaternion1.W) + f10;
@@ -495,7 +495,7 @@ namespace VpNet
         }
 
 
-        public static Quaternion Multiply(Quaternion quaternion1, float scaleFactor)
+        public static Quaternion Multiply(Quaternion quaternion1, double scaleFactor)
         {
             quaternion1.X *= scaleFactor;
             quaternion1.Y *= scaleFactor;
@@ -505,7 +505,7 @@ namespace VpNet
         }
 
 
-        public static void Multiply(ref Quaternion quaternion1, float scaleFactor, out Quaternion result)
+        public static void Multiply(ref Quaternion quaternion1, double scaleFactor, out Quaternion result)
         {
             result.X = quaternion1.X * scaleFactor;
             result.Y = quaternion1.Y * scaleFactor;
@@ -516,10 +516,10 @@ namespace VpNet
 
         public static void Multiply(ref Quaternion quaternion1, ref Quaternion quaternion2, out Quaternion result)
         {
-            float f12 = (quaternion1.Y * quaternion2.Z) - (quaternion1.Z * quaternion2.Y);
-            float f11 = (quaternion1.Z * quaternion2.X) - (quaternion1.X * quaternion2.Z);
-            float f10 = (quaternion1.X * quaternion2.Y) - (quaternion1.Y * quaternion2.X);
-            float f9 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z);
+            double f12 = (quaternion1.Y * quaternion2.Z) - (quaternion1.Z * quaternion2.Y);
+            double f11 = (quaternion1.Z * quaternion2.X) - (quaternion1.X * quaternion2.Z);
+            double f10 = (quaternion1.X * quaternion2.Y) - (quaternion1.Y * quaternion2.X);
+            double f9 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z);
             result.X = (quaternion1.X * quaternion2.W) + (quaternion2.X * quaternion1.W) + f12;
             result.Y = (quaternion1.Y * quaternion2.W) + (quaternion2.Y * quaternion1.W) + f11;
             result.Z = (quaternion1.Z * quaternion2.W) + (quaternion2.Z * quaternion1.W) + f10;
@@ -549,7 +549,7 @@ namespace VpNet
 
         public void Normalize()
         {
-            float f1 = 1.0F / (float)System.Math.Sqrt((double)((this.X * this.X) + (this.Y * this.Y) + (this.Z * this.Z) + (this.W * this.W)));
+            double f1 = 1.0F / (double)System.Math.Sqrt((double)((this.X * this.X) + (this.Y * this.Y) + (this.Z * this.Z) + (this.W * this.W)));
             this.X *= f1;
             this.Y *= f1;
             this.Z *= f1;
@@ -560,7 +560,7 @@ namespace VpNet
         public static Quaternion Normalize(Quaternion quaternion)
         {
             Quaternion result;
-            float f1 = 1.0F / (float)System.Math.Sqrt((double)((quaternion.X * quaternion.X) + (quaternion.Y * quaternion.Y) + (quaternion.Z * quaternion.Z) + (quaternion.W * quaternion.W)));
+            double f1 = 1.0F / (double)System.Math.Sqrt((double)((quaternion.X * quaternion.X) + (quaternion.Y * quaternion.Y) + (quaternion.Z * quaternion.Z) + (quaternion.W * quaternion.W)));
             result.X = quaternion.X * f1;
             result.Y = quaternion.Y * f1;
             result.Z = quaternion.Z * f1;
@@ -571,7 +571,7 @@ namespace VpNet
 
         public static void Normalize(ref Quaternion quaternion, out Quaternion result)
         {
-            float f1 = 1.0F / (float)System.Math.Sqrt((double)((quaternion.X * quaternion.X) + (quaternion.Y * quaternion.Y) + (quaternion.Z * quaternion.Z) + (quaternion.W * quaternion.W)));
+            double f1 = 1.0F / (double)System.Math.Sqrt((double)((quaternion.X * quaternion.X) + (quaternion.Y * quaternion.Y) + (quaternion.Z * quaternion.Z) + (quaternion.W * quaternion.W)));
             result.X = quaternion.X * f1;
             result.Y = quaternion.Y * f1;
             result.Z = quaternion.Z * f1;
@@ -593,11 +593,11 @@ namespace VpNet
         {
             Quaternion result;
 
-            float w5 = 1.0F / ((quaternion2.X * quaternion2.X) + (quaternion2.Y * quaternion2.Y) + (quaternion2.Z * quaternion2.Z) + (quaternion2.W * quaternion2.W));
-            float w4 = -quaternion2.X * w5;
-            float w3 = -quaternion2.Y * w5;
-            float w2 = -quaternion2.Z * w5;
-            float w1 = quaternion2.W * w5;
+            double w5 = 1.0F / ((quaternion2.X * quaternion2.X) + (quaternion2.Y * quaternion2.Y) + (quaternion2.Z * quaternion2.Z) + (quaternion2.W * quaternion2.W));
+            double w4 = -quaternion2.X * w5;
+            double w3 = -quaternion2.Y * w5;
+            double w2 = -quaternion2.Z * w5;
+            double w1 = quaternion2.W * w5;
 
             result.X = (quaternion1.X * w1) + (w4 * quaternion1.W) + ((quaternion1.Y * w2) - (quaternion1.Z * w3));
             result.Y = (quaternion1.Y * w1) + (w3 * quaternion1.W) + ((quaternion1.Z * w4) - (quaternion1.X * w2));
@@ -628,10 +628,10 @@ namespace VpNet
         public static Quaternion operator *(Quaternion quaternion1, Quaternion quaternion2)
         {
             Quaternion result;
-            float f12 = (quaternion1.Y * quaternion2.Z) - (quaternion1.Z * quaternion2.Y);
-            float f11 = (quaternion1.Z * quaternion2.X) - (quaternion1.X * quaternion2.Z);
-            float f10 = (quaternion1.X * quaternion2.Y) - (quaternion1.Y * quaternion2.X);
-            float f9 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z);
+            double f12 = (quaternion1.Y * quaternion2.Z) - (quaternion1.Z * quaternion2.Y);
+            double f11 = (quaternion1.Z * quaternion2.X) - (quaternion1.X * quaternion2.Z);
+            double f10 = (quaternion1.X * quaternion2.Y) - (quaternion1.Y * quaternion2.X);
+            double f9 = (quaternion1.X * quaternion2.X) + (quaternion1.Y * quaternion2.Y) + (quaternion1.Z * quaternion2.Z);
             result.X = (quaternion1.X * quaternion2.W) + (quaternion2.X * quaternion1.W) + f12;
             result.Y = (quaternion1.Y * quaternion2.W) + (quaternion2.Y * quaternion1.W) + f11;
             result.Z = (quaternion1.Z * quaternion2.W) + (quaternion2.Z * quaternion1.W) + f10;
@@ -640,7 +640,7 @@ namespace VpNet
         }
 
 
-        public static Quaternion operator *(Quaternion quaternion1, float scaleFactor)
+        public static Quaternion operator *(Quaternion quaternion1, double scaleFactor)
         {
             quaternion1.X *= scaleFactor;
             quaternion1.Y *= scaleFactor;

@@ -35,7 +35,7 @@ namespace VpNet.Abstract
     public abstract class BaseTerrainCell : ITerrainCell
     {
         [XmlAttribute]
-        public float Height { get; set; }
+        public double Height { get; set; }
         [XmlIgnore]
         public ushort Attributes { get; set; }
 

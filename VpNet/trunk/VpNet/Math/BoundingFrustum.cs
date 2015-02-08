@@ -213,7 +213,7 @@ namespace VpNet
 
         public void Contains(ref BoundingSphere sphere, out ContainmentType result)
         {
-            float val;
+            double val;
             ContainmentType contained;
 
             // We first check if the sphere is inside the frustum
@@ -289,7 +289,7 @@ namespace VpNet
 
         public void Contains(ref Vector3 point, out ContainmentType result)
         {
-            float val;
+            double val;
             // If a point is on the POSITIVE side of the plane, then the point is not contained within the frustum
 
             // Check the top
@@ -401,12 +401,12 @@ namespace VpNet
             throw new NotImplementedException();
         }
 
-        public Nullable<float> Intersects(Ray ray)
+        public Nullable<double> Intersects(Ray ray)
         {
             throw new NotImplementedException();
         }
 
-        public void Intersects(ref Ray ray, out Nullable<float> result)
+        public void Intersects(ref Ray ray, out Nullable<double> result)
         {
             throw new NotImplementedException();
         }
@@ -488,7 +488,7 @@ namespace VpNet
             // Note: N refers to the normal, d refers to the displacement. '.' means dot product. '*' means cross product
 
             Vector3 v1, v2, v3;
-            float f = -Vector3.Dot(a.Normal, Vector3.Cross(b.Normal, c.Normal));
+            double f = -Vector3.Dot(a.Normal, Vector3.Cross(b.Normal, c.Normal));
 
             v1 = (a.D * (Vector3.Cross(b.Normal, c.Normal)));
             v2 = (b.D * (Vector3.Cross(c.Normal, a.Normal)));
@@ -500,7 +500,7 @@ namespace VpNet
         
         private void NormalizePlane(ref Plane p)
         {
-            float factor = 1f / p.Normal.Length();
+            double factor = 1f / p.Normal.Length();
             p.Normal.X *= factor;
             p.Normal.Y *= factor;
             p.Normal.Z *= factor;
