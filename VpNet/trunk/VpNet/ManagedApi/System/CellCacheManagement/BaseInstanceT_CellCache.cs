@@ -176,10 +176,14 @@ namespace VpNet.Abstract
     {
         public delegate void CellRangeQueryCompletedDelegate(T sender, CellRangeQueryCompletedArgs<TVpObject,TVector3> args);
         public delegate void CellRangeObjectChangedDelegate(T sender, TObjectChangeArgs args);
+        public delegate void CellRangeObjectCreatedDelegate(T sender, TObjectCreateArgs args);
+        public delegate void CellRangeObjectDeletedDelegate(T sender, TObjectDeleteArgs args);
 
         public event CellRangeQueryCompletedDelegate OnQueryCellRangeEnd;
         public event CellRangeObjectChangedDelegate OnObjectCellRangeChange;
-        
+        public event CellRangeObjectChangedDelegate OnObjectCellRangeDelete;
+        public event CellRangeObjectChangedDelegate OnObjectCellRangeCreate;
+
         private List<TVpObject> _objects; 
         private List<TCell> _cache;
         private bool _isScanning;
@@ -214,6 +218,8 @@ namespace VpNet.Abstract
                     OnQueryCellResult += BaseInstanceT_CellCache_OnQueryCellResult;
                     OnQueryCellEnd += BaseInstanceT_CellCache_OnQueryCellEnd;
                     OnObjectChange += BaseInstanceT_CellCache_OnObjectChange;
+                    OnObjectDelete += BaseInstanceT_OnObjectDelete;
+                    OnObjectCreate += BaseInstanceT_OnObjectCreate;
                 }
                 else
                 {
@@ -225,13 +231,38 @@ namespace VpNet.Abstract
             }
         }
 
+        bool IsInCellCacheRange(TVpObject vpObject)
+        {
+            return  _cacheScanned.Exists(p => p.X == vpObject.Cell.X && p.Z == vpObject.Cell.Z);
+        }
+
+        void BaseInstanceT_OnObjectCreate(T sender, TObjectCreateArgs args)
+        {
+            if (!IsInCellCacheRange(args.VpObject))
+                return;
+            _objects.Add(args.VpObject);
+
+        }
+
+        void BaseInstanceT_OnObjectDelete(T sender, TObjectDeleteArgs args)
+        {
+            if (!IsInCellCacheRange(args.VpObject))
+                return;
+            var o = _objects.Find(p => p.Id == args.VpObject.Id);
+            _objects.Remove(o);
+        }
+
         void BaseInstanceT_CellCache_OnObjectChange(T sender, TObjectChangeArgs args)
         {
-            // TODO: remove object from cache when it moves out of the cell range currently managed by this cache.
             lock (this)
             {
-                var cell = _cacheScanned.Find(p => p.X == args.VpObject.Cell.X && p.Z == args.VpObject.Cell.Z);
-                if (cell == null) return;
+                if (!IsInCellCacheRange(args.VpObject))
+                {
+                    // check if object was in cell range prior.
+                    var prev = _objects.Find(p => p.Id == args.VpObject.Id);
+                    _objects.Remove(prev);
+                    return;
+                }
                 var o = _objects.Find(p => p.Id == args.VpObject.Id);
                 _objects.Remove(o);
                 _objects.Add(args.VpObject);
