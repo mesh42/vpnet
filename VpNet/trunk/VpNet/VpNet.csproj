@@ -315,6 +315,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
     </None>
+    <None Include="VpNet.nuspec" />
     <None Include="VpNet.snk" />
   </ItemGroup>
   <ItemGroup>
