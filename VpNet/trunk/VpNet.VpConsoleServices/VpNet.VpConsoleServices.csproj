@@ -1,24 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D66218D0-E532-4D70-B592-A59F3E02DB57}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VpNet.VpConsole</RootNamespace>
-    <AssemblyName>VpConsole</AssemblyName>
+    <RootNamespace>VpNet.VpConsoleServices</RootNamespace>
+    <AssemblyName>VpNet.VpConsoleServices</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -28,7 +27,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -36,17 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>VpNet.VpConsole.Program</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -55,53 +45,28 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Bots\AdvancedExamples\CasinoAvatar.cs" />
-    <Compile Include="Bots\AdvancedExamples\InstanceTemplating.cs" />
-    <Compile Include="Bots\AdvancedExamples\InterWorldChat.cs" />
-    <Compile Include="Bots\AdvancedExamples\RpgAvatar.cs" />
-    <Compile Include="Bots\BasicExamples\EventsExample.cs" />
-    <Compile Include="Bots\BasicExamples\GreeterExample.cs" />
-    <Compile Include="Bots\BasicExamples\HelloWorldExample.cs" />
-    <Compile Include="Bots\BasicExamples\TeleportExample.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Console\Commands\AutoLogin.cs" />
+    <Compile Include="Console\Commands\Plugin.cs" />
+    <Compile Include="Console\Commands\Query.cs" />
+    <Compile Include="Console\Gui\ConsoleHelpers.cs" />
+    <Compile Include="Console\ProgramInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Dependencies\vp-linux-amd64\libvpsdk.a">
-      <Link>libvpsdk.a</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\Dependencies\vp-linux-centos-x86_64\libvpsdk.so">
-      <Link>libvpsdk.so</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="AssemblyVersion.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VpNet.VpConsoleServices\VpNet.VpConsoleServices.csproj">
-      <Project>{df887ab6-db46-44c4-8cf9-12e8b31d26ba}</Project>
-      <Name>VpNet.VpConsoleServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VpNet\VpNet.csproj">
       <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
       <Name>VpNet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Dependencies\vpsdk.dll">
-      <Link>vpsdk.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="license.txt" />
+    <Resource Include="Console\1373283311_118830.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <None Include="AssemblyVersion.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
+    </None>
+    <None Include="VpNet.VpConsoleServices.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
