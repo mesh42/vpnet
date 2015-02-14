@@ -32,9 +32,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7BB71D
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.VpConsoleServices", "VpNet.VpConsoleServices\VpNet.VpConsoleServices.csproj", "{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -50,6 +52,9 @@ Global
 		SccProjectUniqueName4 = VpNet.GameExtensions\\VpNet.GameExtensions.csproj
 		SccProjectName4 = VpNet.GameExtensions
 		SccLocalPath4 = VpNet.GameExtensions
+		SccProjectUniqueName5 = VpNet.VpConsoleServices\\VpNet.VpConsoleServices.csproj
+		SccProjectName5 = VpNet.VpConsoleServices
+		SccLocalPath5 = VpNet.VpConsoleServices
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (Signed)|Any CPU = Debug (Signed)|Any CPU
@@ -81,6 +86,12 @@ Global
 		{EB638059-941E-4C0A-A3D7-488FB0125271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB638059-941E-4C0A-A3D7-488FB0125271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB638059-941E-4C0A-A3D7-488FB0125271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}.Debug (Signed)|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}.Debug (Signed)|Any CPU.Build.0 = Debug|Any CPU
+		{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

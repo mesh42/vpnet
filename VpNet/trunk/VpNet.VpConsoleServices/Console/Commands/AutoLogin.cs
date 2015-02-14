@@ -23,23 +23,36 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
-using VpNet.ManagedApi.System.ConsoleEx;
+using System.IO;
+using VpNet.CommandLine;
+using VpNet.CommandLine.Attributes;
+using VpNet.Extensions;
+using VpNet.PluginFramework;
+using VpNet.PluginFramework.Interfaces;
 
-namespace VpNet.VpConsole
+namespace VpNet.VpConsole.Commands
 {
-    /// <summary>
-    /// VpNet Examples Console Application.
-    /// </summary>
-    class Program
+    [Command(Literal="autologin")]
+    public class AutoLogin : IParsableCommand<VpPluginContext>
     {
+        [BoolFlag(False="disable", True="enable")]
+        public bool Enabled { get; set; }
+        public static string LoginconfigurationXmlPath = @"loginConfiguration.xml";
 
-        /// <summary>
-        /// Mains entry point of the VpNet Examples.
-        /// </summary>
-        /// <param name="args">The args.</param>
-        static void Main(string[] args)
+        public bool Execute(VpPluginContext context)
         {
-            new ProgramInstance();
+            if (Enabled)
+            {
+                context.Vp.Configuration.Serialize(LoginconfigurationXmlPath);
+                context.Cli.WriteLine(ConsoleMessageType.Information,"autologin configuration saved and enabled.");
+            }
+            else
+            {
+                if (File.Exists(LoginconfigurationXmlPath))
+                    File.Delete(LoginconfigurationXmlPath);
+                context.Cli.WriteLine(ConsoleMessageType.Information, "autologin configuration deleted and disabled.");
+            }
+            return true;
         }
     }
 }
