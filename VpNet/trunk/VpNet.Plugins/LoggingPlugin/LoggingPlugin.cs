@@ -55,6 +55,12 @@ namespace VpNet.Plugins
             Vp.OnWorldList += Vp_OnWorldList;
             Vp.OnTeleport += Vp_OnTeleport;
             Vp.OnObjectBump += Vp_OnObjectBump;
+            Vp.OnObjectGetCallback += Vp_OnObjectGetCallback;
+        }
+
+        void Vp_OnObjectGetCallback(Instance sender, ObjectGetCallbackArgsT<RcDefault, VpObject<Vector3>, Vector3> args)
+        {
+            args.Serialize().AppendTextFile(LogName(args.GetType()));
         }
 
         void Vp_OnObjectBump(Instance sender, ObjectBumpArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
@@ -94,6 +100,7 @@ namespace VpNet.Plugins
         {
             if (!args.Avatar.IsBot)
                 args.Serialize().AppendTextFile(LogName(args.GetType()));
+            sender.GetObject(args.VpObject.Id);
         }
 
         void Vp_OnObjectChange(Instance sender, ObjectChangeArgsT<Avatar<Vector3>, VpObject<Vector3>, Vector3> args)
