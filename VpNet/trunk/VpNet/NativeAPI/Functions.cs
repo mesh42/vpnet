@@ -114,7 +114,10 @@ namespace VpNet.NativeApi
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_query_cell(IntPtr instance, int x, int z);
-        
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int vp_query_cell_revision(IntPtr instance, int x, int z, int revision);
+
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_object_add(IntPtr instance);
 

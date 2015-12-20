@@ -26,9 +26,9 @@ namespace VpNet.GameExtensions
         /// <param name="weaponPosition">The weapon position.</param>
         /// <param name="potentialVictims">The potential victims.</param>
         /// <returns></returns>
-        public System.Collections.Generic.Dictionary<int,float> Detonate(Vector3 weaponPosition, IEnumerable<GameAvatar> potentialVictims)
+        public System.Collections.Generic.Dictionary<int,double> Detonate(Vector3 weaponPosition, IEnumerable<GameAvatar> potentialVictims)
         {
-            var damageResults = new System.Collections.Generic.Dictionary<int,float>();
+            var damageResults = new System.Collections.Generic.Dictionary<int,double>();
             foreach (var potentialVictim in potentialVictims)
             {
                 var distance = Vector3.Distance(weaponPosition, potentialVictim.Position);
@@ -51,9 +51,9 @@ namespace VpNet.GameExtensions
         /// <param name="attackerSkillPercentage">The attacker skill percentage.</param>
         /// <param name="potentialVictims">The potential victims.</param>
         /// <returns></returns>
-        public System.Collections.Generic.Dictionary<int, float> Throw(GameAvatar attackerPosition, GameAvatar targettedVictim,  float attackerSkillPercentage, IEnumerable<GameAvatar> potentialVictims)
+        public System.Collections.Generic.Dictionary<int, double> Throw(GameAvatar attackerPosition, GameAvatar targettedVictim,  float attackerSkillPercentage, IEnumerable<GameAvatar> potentialVictims)
         {
-            var damageResults = new System.Collections.Generic.Dictionary<int, float>();
+            var damageResults = new System.Collections.Generic.Dictionary<int, double>();
             var throwingDistance = Vector3.Distance(targettedVictim.Position, attackerPosition.Position)* (attackerSkillPercentage/100);
             var impact = Vector3.PointAlongLine(attackerPosition.Position,targettedVictim.Position, throwingDistance);
            
