@@ -555,6 +555,14 @@ namespace VpNet.Abstract
             }
         }
 
+        virtual public TResult QueryCell(int cellX, int cellZ, int revision)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_query_cell_revision(_instance, cellX, cellZ,revision) };
+            }
+        }
+
         #endregion
 
         #region IVpObjectFunctions implementations
@@ -1354,11 +1362,18 @@ namespace VpNet.Abstract
             TAvatar data;
             lock (this)
             {
-                data = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)];
-                _avatars.Remove(data.Session);
+                try
+                {
+                    data = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)];
+                    _avatars.Remove(data.Session);
+                    if (OnAvatarLeave == null) return;
+                    OnAvatarLeave(Implementor, new TAvatarLeaveEventArgs { Avatar = data });
+                }
+                catch
+                {
+                    
+                }
             }
-            if (OnAvatarLeave == null) return;
-            OnAvatarLeave(Implementor, new TAvatarLeaveEventArgs { Avatar = data });
         }
 
         private void OnAvatarClickNative(IntPtr sender)

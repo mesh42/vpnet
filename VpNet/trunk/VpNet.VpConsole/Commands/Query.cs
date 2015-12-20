@@ -38,7 +38,8 @@ namespace VpNet.VpConsole.Commands
                 _cli = executionContext.Cli;
                 executionContext.Vp.OnQueryCellRangeEnd += Vp_OnQueryCellRangeEnd;
                 _st.Start();
-                executionContext.Vp.AddCellRange(new Cell(-40, -40), new Cell(40, 40));
+                // executionContext.Vp.AddCellRange(new Cell(-40, -40), new Cell(40, 40));
+                executionContext.Vp.AddCellRange(new Cell(0, 6), new Cell(0, 6));
 
                 //if (Cell1X==0&&Cell2X==0&&Cell1Z==0&&Cell2Z==0)
                 //    executionContext.Cli.WriteLine(ConsoleMessageType.Error,"?Query please enter valid arguments to performa query.");
