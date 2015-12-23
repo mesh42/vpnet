@@ -1388,8 +1388,8 @@ namespace VpNet.Abstract
                     OnAvatarClick(Implementor, 
                         new TAvatarClickEventArgs
                             {
-                                Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)],
-                                ClickedAvatar = _avatars[clickedAvatar]
+                                Avatar = GetAvatar(Functions.vp_int(sender, Attribute.AvatarSession)),
+                                ClickedAvatar = GetAvatar(clickedAvatar)
                             });
             }
         }
@@ -1411,10 +1411,10 @@ namespace VpNet.Abstract
                         Z = Functions.vp_double(sender, Attribute.ClickHitZ)
                     };
             }
-
+            
             OnObjectClick(Implementor,
                           new TObjectClickArgs
-                              {WorldHit=world, Avatar = _avatars[session], VpObject = new TVpObject {Id = objectId}});
+                              {WorldHit=world, Avatar = GetAvatar(session), VpObject = new TVpObject {Id = objectId}});
         }
 
         private void OnObjectBumpNative(IntPtr sender)
@@ -1430,7 +1430,7 @@ namespace VpNet.Abstract
             }
 
             OnObjectBump(Implementor,
-                          new TObjectBumpArgs { BumpType=BumpType.BumpBegin, Avatar = _avatars[session], VpObject = new TVpObject { Id = objectId } });
+                          new TObjectBumpArgs { BumpType=BumpType.BumpBegin, Avatar = GetAvatar(session), VpObject = new TVpObject { Id = objectId } });
         }
 
         private void OnObjectBumpEndNative(IntPtr sender)
@@ -1446,7 +1446,7 @@ namespace VpNet.Abstract
             }
 
             OnObjectBump(Implementor,
-                          new TObjectBumpArgs { BumpType = BumpType.BumpEnd, Avatar = _avatars[session], VpObject = new TVpObject { Id = objectId } });
+                          new TObjectBumpArgs { BumpType = BumpType.BumpEnd, Avatar = GetAvatar(session), VpObject = new TVpObject { Id = objectId } });
         }
 
         private void OnObjectDeleteNative(IntPtr sender)
@@ -1459,7 +1459,7 @@ namespace VpNet.Abstract
                 session = Functions.vp_int(sender, Attribute.AvatarSession);
                 objectId = Functions.vp_int(sender, Attribute.ObjectId);
             }
-            OnObjectDelete(Implementor, new TObjectDeleteArgs{Avatar=_avatars[session],VpObject = new TVpObject { Id = objectId }});
+            OnObjectDelete(Implementor, new TObjectDeleteArgs{Avatar=GetAvatar(session),VpObject = new TVpObject { Id = objectId }});
         }
 
         private void OnObjectCreateNative(IntPtr sender)
@@ -1493,7 +1493,7 @@ namespace VpNet.Abstract
                 OnQueryCellResult(Implementor, new TQueryCellResultArgs{VpObject=vpObject});
             else
                 if (OnObjectCreate != null)
-                    OnObjectCreate(Implementor, new TObjectCreateArgs { Avatar =  _avatars[session], VpObject = vpObject });
+                    OnObjectCreate(Implementor, new TObjectCreateArgs { Avatar =  GetAvatar(session), VpObject = vpObject });
         }
 
         public List<TAvatar> Avatars()
