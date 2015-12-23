@@ -100,6 +100,23 @@ ____   ____.__         __               .__    __________                       
             _context.Plugins.Activate(args.NewInstance);
         }
 
+        private void AutoReconnect()
+        {
+            if (IsAutoReconnect)
+            {
+                Cli.WriteLine(ConsoleMessageType.Error, "Can't connect to universe. Reconnecting in 10 seconds...");
+                // start a reconnect timer.
+                new Timer(Reconnect, null, 10000, 0);
+            }
+            else
+            {
+                Cli.WriteLine(ConsoleMessageType.Error, "Can't connect to universe.");
+                Cli.GetPromptTarget = RetryPrompt;
+                Cli.ParseCommandLine = RetryuniverseConnect;
+                Cli.ReadLine();
+            }
+        }
+
         private void Connect()
         {
             Cli.WriteLine(ConsoleMessageType.Information, "Connecting...");
@@ -128,7 +145,9 @@ ____   ____.__         __               .__    __________                       
                             // the sdk does not seem to connect properly.
                             Connect();
                         }
-                        Cli.WriteLine(ConsoleMessageType.Information, "Autologin failed, please login manually.");
+                        Cli.WriteLine(ConsoleMessageType.Information,
+                            "Autologin failed. Reason" + ex.Reason.ToString() + " " + ex.Message);
+                        AutoReconnect();
                     }
                 }
                 else
@@ -140,19 +159,7 @@ ____   ____.__         __               .__    __________                       
             }
             catch (VpException ex)
             {
-                if (IsAutoReconnect)
-                {
-                    Cli.WriteLine(ConsoleMessageType.Error, "Can't connect to universe. Reconnecting in 10 seconds...");
-                    // start a reconnect timer.
-                    new Timer(Reconnect, null, 10000, 0);
-                }
-                else
-                {
-                    Cli.WriteLine(ConsoleMessageType.Error, "Can't connect to universe.");
-                    Cli.GetPromptTarget = RetryPrompt;
-                    Cli.ParseCommandLine = RetryuniverseConnect;
-                    Cli.ReadLine();
-                }
+                AutoReconnect();
             }
         }
 

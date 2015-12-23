@@ -26,6 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 
 namespace VpNet.Extensions
@@ -34,17 +35,17 @@ namespace VpNet.Extensions
     {
         public static string LoadTextFile(this string path)
         {
-            using (var sr = new StreamReader(path)) return sr.ReadToEnd();
+            using (var sr = new StreamReader(path, System.Text.Encoding.Unicode)) return sr.ReadToEnd();
         }       
 
         public static string LoadTextFile(this FileInfo path)
         {
-            using (var sr = new StreamReader(path.FullName)) return sr.ReadToEnd();
+            using (var sr = new StreamReader(path.FullName, System.Text.Encoding.Unicode)) return sr.ReadToEnd();
         }
 
         public static void SaveTextFile(this FileInfo path, string contents)
         {
-            using (var sw = new StreamWriter(path.FullName)) { sw.Write(contents); };
+            using (var sw = new StreamWriter(path.FullName, false,System.Text.Encoding.Unicode)) { sw.Write(contents); };
         }
 
         public static void SaveTextFile(this string contents, string path)
@@ -53,7 +54,7 @@ namespace VpNet.Extensions
             {
                 Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
             }
-            using (var sw = new StreamWriter(path))
+            using (var sw = new StreamWriter(path,false, System.Text.Encoding.Unicode))
             {
                 sw.Write(contents);
             };
@@ -78,7 +79,7 @@ namespace VpNet.Extensions
             {
                 try
                 {
-                    return new StreamWriter(fileName,append);
+                    return new StreamWriter(fileName,append, System.Text.Encoding.Unicode);
                 }
                 catch (IOException e)
                 {

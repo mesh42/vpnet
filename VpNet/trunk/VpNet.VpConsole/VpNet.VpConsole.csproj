@@ -84,16 +84,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VpNet.VpConsoleServices\VpNet.VpConsoleServices.csproj">
-      <Project>{df887ab6-db46-44c4-8cf9-12e8b31d26ba}</Project>
-      <Name>VpNet.VpConsoleServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VpNet\VpNet.csproj">
-      <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
-      <Name>VpNet</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\Dependencies\vpsdk.dll">
       <Link>vpsdk.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -102,6 +92,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VpNet.VpConsoleServices\VpNet.VpConsoleServices.csproj">
+      <Project>{df887ab6-db46-44c4-8cf9-12e8b31d26ba}</Project>
+      <Name>VpNet.VpConsoleServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VpNet\VpNet.csproj">
+      <Project>{dbe501a7-0176-473f-b2e8-f4ada721917f}</Project>
+      <Name>VpNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
