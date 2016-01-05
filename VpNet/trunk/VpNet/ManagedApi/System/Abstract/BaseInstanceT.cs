@@ -189,7 +189,6 @@ namespace VpNet.Abstract
         private Timer _waitTimer;
 
         private Dictionary<int, TAvatar> _avatars;
-      //  private Dictionary<int, TVpObject> _objects;
 
         public T Implementor { get; set; }
 
@@ -205,8 +204,7 @@ namespace VpNet.Abstract
             {
                 if (value)
                 {
-                    if (Configuration.IsChildInstance)
-                        throw new Exception("Auto wait timer should only be activated from the main instance.");
+                    if (Configuration.IsChildInstance) { /*TODO: allow this child instance to modify auto wait timer on the parent instance. */}
                     if (!_isInitialized)
                         return;
                     if (_waitTimer != null)
@@ -279,7 +277,6 @@ namespace VpNet.Abstract
             OnFriendDeleteCallbackNativeEvent += OnFriendDeleteCallbackNative;
             OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
         }
-
 
         internal protected BaseInstanceT(BaseInstanceEvents<TWorld> parentInstance)
         {
