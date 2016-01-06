@@ -36,10 +36,12 @@ namespace VpNet.VpConsole.Commands
             {
                 _st = new Stopwatch();
                 _cli = executionContext.Cli;
+                executionContext.Vp.UseCellCache = true;
                 executionContext.Vp.OnQueryCellRangeEnd += Vp_OnQueryCellRangeEnd;
                 _st.Start();
                 // executionContext.Vp.AddCellRange(new Cell(-40, -40), new Cell(40, 40));
-                executionContext.Vp.AddCellRange(new Cell(0, 6), new Cell(0, 6));
+                executionContext.Vp.AddCellRange(new Cell(-10,-10), new Cell(10,10));
+  //Cell(5, 6), New Cell(0, 6)
 
                 //if (Cell1X==0&&Cell2X==0&&Cell1Z==0&&Cell2Z==0)
                 //    executionContext.Cli.WriteLine(ConsoleMessageType.Error,"?Query please enter valid arguments to performa query.");
@@ -90,19 +92,19 @@ namespace VpNet.VpConsole.Commands
 
                 }
             }
-            string s = "";
-            _cli.WriteLine(string.Format("Cubes\tPoints\tSelectable\tPLayer"));
-            s += string.Format("Cubes\tPoints\tSelectable\tPLayer") + "\r\n";
-            foreach (var p in stat)
-            {
-                _cli.WriteLine(string.Format("{0}\t{1}\t{2}\t{3}", p.Value.Cubes, p.Value.Points,p.Value.MoveablePoints, p.Key));
-                s += string.Format("{0}\t{1}\t{2}\t{3}", p.Value.Cubes, p.Value.Points, p.Value.MoveablePoints, p.Key) + "\r\n";
-            }
+            //string s = "";
+            //_cli.WriteLine(string.Format("Cubes\tPoints\tSelectable\tPLayer"));
+            //s += string.Format("Cubes\tPoints\tSelectable\tPLayer") + "\r\n";
+            //foreach (var p in stat)
+            //{
+            //    _cli.WriteLine(string.Format("{0}\t{1}\t{2}\t{3}", p.Value.Cubes, p.Value.Points,p.Value.MoveablePoints, p.Key));
+            //    s += string.Format("{0}\t{1}\t{2}\t{3}", p.Value.Cubes, p.Value.Points, p.Value.MoveablePoints, p.Key) + "\r\n";
+            //}
 
-            var m = _sender.CacheObjects.Find(p => p.Model == "zsign");
-            {
-                m.Description = s;
-            }
+            //var m = _sender.CacheObjects.Find(p => p.Model == "zsign");
+            //{
+            //    m.Description = s;
+            //}
        //     _sender.ChangeObject(m);
         }
 
