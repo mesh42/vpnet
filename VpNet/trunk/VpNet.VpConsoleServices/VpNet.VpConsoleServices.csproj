@@ -40,9 +40,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <Reference Include="VpNet, Version=1.0.8.1844, Culture=neutral, PublicKeyToken=59c6dba8997fd469, processorArchitecture=MSIL">
+    <Reference Include="VpNet, Version=1.0.8.1857, Culture=neutral, PublicKeyToken=59c6dba8997fd469, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\VpNet.1.0.8.1844\lib\net40\VpNet.dll</HintPath>
+      <HintPath>..\packages\VpNet.1.0.8.1857\lib\net40\VpNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
