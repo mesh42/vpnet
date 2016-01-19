@@ -26,6 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using VpNet.Cache;
 using VpNet.Extensions;
@@ -278,8 +279,11 @@ namespace VpNet.Abstract
             OnGetFriendsCallbackNativeEvent += OnGetFriendsCallbackNative;
         }
 
+        private bool HasParentInstance { get;set; }
+
         internal protected BaseInstanceT(BaseInstanceEvents<TWorld> parentInstance)
         {
+            HasParentInstance = true;
             _instance = parentInstance._instance;
             Init();
             _avatars = ((IAvatarFunctions<TResult, TAvatar, TVector3>) parentInstance).Avatars;
@@ -1261,20 +1265,23 @@ namespace VpNet.Abstract
                         };
                     _avatars.Add(avatar.Session, avatar);
                 }
-                
-
-                if (OnChatMessage == null) return;
                 data = new TChatMessageEventArgs
+                {
+                    Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)],
+                    ChatMessage = new TChatMessage
                     {
-                        Avatar = _avatars[Functions.vp_int(sender, Attribute.AvatarSession)],
-                        ChatMessage = new TChatMessage
-                            {
-                                Type = (ChatMessageTypes)Functions.vp_int(sender, Attribute.ChatType),
-                                Message = Functions.vp_string(sender, Attribute.ChatMessage),
-                                Name = Functions.vp_string(sender, Attribute.AvatarName),
-                                TextEffectTypes = (TextEffectTypes)Functions.vp_int(sender,Attributes.ChatEffects)
-                            }
-                    };
+                        Type = (ChatMessageTypes)Functions.vp_int(sender, Attribute.ChatType),
+                        Message = Functions.vp_string(sender, Attribute.ChatMessage),
+                        Name = Functions.vp_string(sender, Attribute.AvatarName),
+                        TextEffectTypes = (TextEffectTypes)Functions.vp_int(sender, Attributes.ChatEffects)
+                    }
+                };
+                OperatingSystem os = Environment.OSVersion;
+
+                if (data.ChatMessage.Message == string.Format("{0} version", Configuration.BotName) && !HasParentInstance )
+                    ConsoleMessage(data.Avatar, "VPNET",
+                        string.Format("Version {0} running on {1}", Assembly.GetAssembly(typeof (RcDefault)).GetName().Version,os.VersionString),TextEffectTypes.Bold,0,0,127);
+                if (OnChatMessage == null) return;
                 if (data.ChatMessage.Type == ChatMessageTypes.Console)
                 {
                     data.ChatMessage.Color = new TColor

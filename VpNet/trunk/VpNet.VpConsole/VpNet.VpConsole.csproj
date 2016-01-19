@@ -86,7 +86,7 @@
   <ItemGroup>
     <Content Include="..\Dependencies\vpsdk.dll">
       <Link>vpsdk.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="license.txt" />
   </ItemGroup>
