@@ -488,6 +488,29 @@ namespace VpNet.Abstract
             }
         }
 
+        virtual public TAvatar My()
+        {
+            return new TAvatar
+            {
+                UserId = Functions.vp_int(_instance, Attribute.MyUserId),
+                Name = Configuration.BotName,
+                AvatarType = Functions.vp_int(_instance, Attribute.MyType),
+                Position = new TVector3
+                {
+                    X = Functions.vp_double(_instance, Attribute.MyX).Truncate(3),
+                    Y = Functions.vp_double(_instance, Attribute.MyY).Truncate(3),
+                    Z = Functions.vp_double(_instance, Attribute.MyZ).Truncate(3)
+                },
+                Rotation = new TVector3
+                {
+                    X = Functions.vp_double(_instance, Attribute.MyPitch).Truncate(3),
+                    Y = Functions.vp_double(_instance, Attribute.MyYaw).Truncate(3),
+                    Z = 0 /* roll currently not supported*/
+                },
+                LastChanged = DateTime.Now
+            };
+        }
+
         virtual public TResult Enter()
         {
             if (Configuration==null || Configuration.World==null || string.IsNullOrEmpty(Configuration.World.Name))
