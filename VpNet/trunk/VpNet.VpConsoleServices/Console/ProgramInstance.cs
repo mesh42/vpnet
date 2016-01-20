@@ -44,7 +44,7 @@ ____   ____.__         __               .__    __________                       
             Console.ForegroundColor = ConsoleColor.Gray;
            // Console.WriteLine("VP SDK Version: {0}", System.Reflection.Assembly.GetAssembly(typeof(Instance)).GetName().Version.ToString());
            // Console.WriteLine("VP Console Version: {0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
-           // Console.WriteLine("Copyright (c) 2012-2014 CUBE3 (Cit:36) under LGPL license\n");
+           // Console.WriteLine("Copyright (c) 2012-2016 CUBE3 (Cit:36) under LGPL license\n");
             Connect();
 
         }

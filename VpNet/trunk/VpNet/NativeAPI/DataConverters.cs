@@ -8,7 +8,7 @@ ____   ___.__         __               .__    __________                        
                                      \/                      \/           \/     \/        \/     \/  
     This file is part of VPNET Version 1.0
 
-    Copyright (c) 2012-2014 CUBE3 (Cit:36)
+    Copyright (c) 2012-2016 CUBE3 (Cit:36)
     Portions herein taken from: Roy Curtis (Cit:182)
     https://github.com/RoyCurtis/VPNet
     30-05-2013 cube3: added Generics
