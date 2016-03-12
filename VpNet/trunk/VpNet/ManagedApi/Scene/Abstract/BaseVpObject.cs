@@ -40,8 +40,6 @@ namespace VpNet.Abstract
         [XmlAttribute]
         public int Id { get; set; }
         [XmlAttribute]
-        public int Type { get; set; }
-        [XmlAttribute]
         public DateTime Time { get; set; }
         [XmlAttribute]
         public int Owner { get; set; }
@@ -71,10 +69,10 @@ namespace VpNet.Abstract
         [XmlIgnore]
         public int ReferenceNumber { get; set; }
 
-        protected BaseVpObject(int id, int type, DateTime time, int owner, TVector3 position, TVector3 rotation, double angle, string action, string description, int objectType, string model, byte[] data)
+        protected BaseVpObject(int id, int objectType, DateTime time, int owner, TVector3 position, TVector3 rotation, double angle, string action, string description, string model, byte[] data)
         {
             Id = id;
-            Type = type;
+            ObjectType = objectType;
             Time = time;
             Owner = owner;
             Position = position;
@@ -82,7 +80,6 @@ namespace VpNet.Abstract
             Angle = angle;
             Action = action;
             Description = description;
-            ObjectType = objectType;
             Model = model;
             Data = data;
         }
