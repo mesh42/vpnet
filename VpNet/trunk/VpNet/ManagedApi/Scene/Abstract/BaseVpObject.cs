@@ -66,10 +66,12 @@ namespace VpNet.Abstract
         public int ObjectType { get; set; }
         [XmlAttribute]
         public string Model { get; set; }
+
+        public byte[] Data { get; set; }
         [XmlIgnore]
         public int ReferenceNumber { get; set; }
 
-        protected BaseVpObject(int id, int type, DateTime time, int owner, TVector3 position, TVector3 rotation, double angle, string action, string description, int objectType, string model)
+        protected BaseVpObject(int id, int type, DateTime time, int owner, TVector3 position, TVector3 rotation, double angle, string action, string description, int objectType, string model, byte[] data)
         {
             Id = id;
             Type = type;
@@ -82,6 +84,7 @@ namespace VpNet.Abstract
             Description = description;
             ObjectType = objectType;
             Model = model;
+            Data = data;
         }
 
         protected BaseVpObject()

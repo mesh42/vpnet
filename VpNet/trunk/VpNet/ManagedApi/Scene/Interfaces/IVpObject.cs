@@ -64,6 +64,8 @@ namespace VpNet.Interfaces
 
         [XmlAttribute]
         string Model { get; set; }
+        
+        byte[] Data { get; set; }
 
         [XmlIgnore]
         int ReferenceNumber { get; set; }

@@ -110,7 +110,7 @@ namespace VpNet.NativeApi
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string value);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int vp_data_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]Attributes name, int length, IntPtr data);
+        public static extern int vp_data_set(IntPtr instance, [MarshalAs(UnmanagedType.I4)]Attributes name, int length, byte[] data);
         
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_query_cell(IntPtr instance, int x, int z);
@@ -162,6 +162,11 @@ namespace VpNet.NativeApi
             var result = new byte[length];
             Marshal.Copy(ptr, result, 0, length);
             return result;
+        }
+
+        public static void SetData(IntPtr instance, Attributes attribute, byte[] data)
+        {
+            vp_data_set(instance, attribute, data != null ? data.Length : 0, data);
         }
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
