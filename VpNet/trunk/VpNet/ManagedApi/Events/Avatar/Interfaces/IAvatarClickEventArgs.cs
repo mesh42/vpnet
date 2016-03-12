@@ -48,5 +48,12 @@ namespace VpNet.Interfaces
         /// The avatar.
         /// </value>
         TAvatar ClickedAvatar { get; set; }
+        /// <summary>
+        /// Gets or sets the world hit coordinates
+        /// </summary>
+        /// <value>
+        /// The world hit coordinates
+        /// </value>
+        TVector3 WorldHit { get; set; }
     }
 }

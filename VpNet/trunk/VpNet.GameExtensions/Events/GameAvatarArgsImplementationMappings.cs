@@ -87,7 +87,7 @@ namespace VpNet.GameExtensions
     [XmlRoot("OnAvatarClick", Namespace = Global.XmlNsEvent)]
     public class GameAvatarClickEventArgs : BaseAvatarClickEventArgs<GameAvatar, Vector3>
     {
-        public GameAvatarClickEventArgs(GameAvatar avatar, GameAvatar clickedAvatar) : base(avatar, clickedAvatar) { }
+        public GameAvatarClickEventArgs(GameAvatar avatar, GameAvatar clickedAvatar, Vector3 worldHit) : base(avatar, clickedAvatar, worldHit) { }
         public GameAvatarClickEventArgs() { }
 
         public override void Initialize()
