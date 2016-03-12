@@ -39,9 +39,6 @@ namespace VpNet.Interfaces
         int Id { get; set; }
 
         [XmlAttribute]
-        int Type { get; set; }
-
-        [XmlAttribute]
         DateTime Time { get; set; }
 
         [XmlAttribute]
