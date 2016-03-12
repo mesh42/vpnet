@@ -35,11 +35,13 @@ namespace VpNet.Abstract
     {
         public virtual TAvatar Avatar { get; set; }
         public virtual TAvatar ClickedAvatar { get; set; }
+        public virtual TVector3 WorldHit { get; set; }
 
-        protected BaseAvatarClickEventArgs(TAvatar avatar, TAvatar clickedAvatar)
+        protected BaseAvatarClickEventArgs(TAvatar avatar, TAvatar clickedAvatar, TVector3 worldHit)
         {
             Avatar = avatar;
             ClickedAvatar = clickedAvatar;
+            WorldHit = worldHit;
         }
 
         protected BaseAvatarClickEventArgs()

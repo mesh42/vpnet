@@ -1412,12 +1412,18 @@ namespace VpNet.Abstract
                 if (clickedAvatar == 0)
                     clickedAvatar = Functions.vp_int(sender, Attribute.AvatarSession);
 
-                    OnAvatarClick(Implementor, 
-                        new TAvatarClickEventArgs
-                            {
-                                Avatar = GetAvatar(Functions.vp_int(sender, Attribute.AvatarSession)),
-                                ClickedAvatar = GetAvatar(clickedAvatar)
-                            });
+                OnAvatarClick(Implementor,
+                    new TAvatarClickEventArgs
+                    {
+                        Avatar = GetAvatar(Functions.vp_int(sender, Attribute.AvatarSession)),
+                        ClickedAvatar = GetAvatar(clickedAvatar),
+                        WorldHit = new TVector3
+                        {
+                            X = Functions.vp_double(sender, Attribute.ClickHitX),
+                            Y = Functions.vp_double(sender, Attribute.ClickHitY),
+                            Z = Functions.vp_double(sender, Attribute.ClickHitZ)
+                        }
+                    });
             }
         }
 
