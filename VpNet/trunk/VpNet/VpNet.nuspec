@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>VpNet</id>
-        <version>1.0.8.1857</version>
+        <version>1.0.8.1966</version>
         <title>Virtual Paradise .NET SDK</title>
         <authors>Sjef van Leeuwen,Edwin Rijkee</authors>
         <licenseUrl>https://vpnet.codeplex.com/license</licenseUrl>
@@ -25,7 +25,7 @@ Ultimately it allows you to create rich media networked applications such as 3D 
     </metadata>
     <files>
         <file src="..\Dependencies\vp-linux-centos-x86_64\libvpsdk.so" target="content\libvpsdk.so" />
-        <file src="..\Dependencies\VPSDK.dll" target="content\VPSDK.dll" />
+        <file src="..\Dependencies\vpsdk.dll" target="content\VPSDK.dll" />
         <file src="bin\Debug\VpNet.dll" target="lib\net40\VpNet.dll" />
     </files>
 </package>
