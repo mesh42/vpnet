@@ -105,18 +105,25 @@ namespace VpNet.PluginFramework
                     continue;
                 }
                 bool isAdded = false;
-                foreach (var type in assembly.GetTypes())
+                try
                 {
-                    if (!type.IsClass || type.IsNotPublic) continue;
-                    if (type.BaseType == typeof (T))
+                    foreach (var type in assembly.GetTypes())
                     {
-                        if (!isAdded)
+                        if (!type.IsClass || type.IsNotPublic) continue;
+                        if (type.BaseType == typeof(T))
                         {
-                            _assemblies.Add(assembly);
+                            if (!isAdded)
+                            {
+                                _assemblies.Add(assembly);
+                            }
+                            _instances.Add(Activator.CreateInstance(type) as T);
+                            isAdded = true;
                         }
-                        _instances.Add(Activator.CreateInstance(type) as T);
-                        isAdded = true;
                     }
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    continue;
                 }
             }
             _watcher = new FileSystemWatcher(_pluginPath, "*.dll");
