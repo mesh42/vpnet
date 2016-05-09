@@ -26,6 +26,7 @@ ____   ___.__         __               .__    __________                        
 using System;
 using System.Xml.Serialization;
 using VpNet.Abstract;
+using VpNet.Interfaces;
 
 namespace VpNet
 {
@@ -49,6 +50,7 @@ namespace VpNet
         Universe,
         Teleport<World,Avatar<Vector3>,Vector3>,
         UserAttributes,
+        IHud<Avatar<Vector3>,Vector3>,
         AvatarChangeEventArgsT<Avatar<Vector3>,Vector3>,
         AvatarEnterEventArgsT<Avatar<Vector3>,Vector3>,
         AvatarLeaveEventArgsT<Avatar<Vector3>,Vector3>,

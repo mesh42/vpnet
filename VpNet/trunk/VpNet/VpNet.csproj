@@ -117,6 +117,7 @@
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxScale.cs" />
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxTransform.cs" />
     <Compile Include="ManagedApi\Scene\Geometry\Rwx\RwxTranslate.cs" />
+    <Compile Include="ManagedApi\Scene\Interfaces\IHud.cs" />
     <Compile Include="ManagedApi\Scene\Interfaces\ITeleport.cs" />
     <Compile Include="ManagedApi\Scene\Interfaces\IUserAttributes.cs" />
     <Compile Include="ManagedApi\Scene\Teleport.cs" />
