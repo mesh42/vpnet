@@ -25,7 +25,7 @@ ____   ___.__         __               .__    __________                        
 
 using System;
 using System.Xml.Serialization;
-
+using VpNet.Interfaces;
 using VpNet.Abstract;
 
 namespace VpNet.GameExtensions
@@ -50,6 +50,7 @@ namespace VpNet.GameExtensions
         Universe,
         Teleport<World, GameAvatar, Vector3>,
         UserAttributes,
+        IHud<GameAvatar, Vector3>,
         GameAvatarChangeEventArgs,
         GameAvatarEnterEventArgs,
         GameAvatarLeaveEventArgs,

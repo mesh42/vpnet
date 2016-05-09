@@ -89,7 +89,7 @@ namespace VpNet.Abstract
         /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
         TAvatar, TColor, TFriend, TResult, TTerrainCell, TTerrainNode,
         TTerrainTile, TVector3, TVpObject, TWorld, TWorldAttributes,TCell,TChatMessage,TTerrain,TUniverse,TTeleport,
-        TUserAttributes,
+        TUserAttributes,THud,
 
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
@@ -144,6 +144,7 @@ namespace VpNet.Abstract
         where TWorldAttributes : class, IWorldAttributes, new()
         where TTeleport : class, ITeleport<TWorld,TAvatar,TVector3>, new()
         where TUserAttributes : class, IUserAttributes, new()
+        where THud : IHud<TAvatar,TVector3>
         where T : class, new()
         /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /* Avatar Event Args */
@@ -197,6 +198,10 @@ namespace VpNet.Abstract
 
         private bool _useAutoWaitTimer;
         public int AutoWaitTimerMs = 1;
+
+        private static IHud<TAvatar,TVector3> _hud;
+
+        public IHud<TAvatar, TVector3> Hud { get { return _hud; } set { _hud = value; } }
 
         public bool UseAutoWaitTimer
         {

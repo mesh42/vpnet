@@ -50,6 +50,7 @@ namespace VpNet
         Universe,
         Teleport<World,TAvatar,TVector3>,
         UserAttributes,
+        IHud<TAvatar, TVector3>,
         AvatarChangeEventArgsT<TAvatar, TVector3>,
         AvatarEnterEventArgsT<TAvatar, TVector3>,
         AvatarLeaveEventArgsT<TAvatar, TVector3>,
