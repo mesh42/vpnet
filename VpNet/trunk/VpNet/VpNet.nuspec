@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>VpNet</id>
-        <version>1.0.9.1968-alpha</version>
+        <version>1.0.9.1973-alpha</version>
         <title>Virtual Paradise .NET SDK</title>
         <authors>Sjef van Leeuwen,Edwin Rijkee</authors>
         <licenseUrl>https://vpnet.codeplex.com/license</licenseUrl>
