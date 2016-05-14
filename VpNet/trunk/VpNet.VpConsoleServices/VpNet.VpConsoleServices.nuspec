@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>VpNet.VpConsoleServices</id>
-        <version>1.0.9.1968-alpha</version>
+        <version>1.0.9.1973-alpha</version>
         <title>Virtual Paradise .NET SDK Console Services</title>
         <authors>Sjef van Leeuwen,Edwin Rijkee</authors>
         <licenseUrl>https://vpnet.codeplex.com/license</licenseUrl>
@@ -18,7 +18,7 @@ Ultimately it allows you to create rich media networked applications such as 3D 
         <copyright>2012-2016</copyright>
         <language>en-US</language>
         <dependencies>
-            <dependency id="VpNet" version="1.0.9.1968-alpha" />
+            <dependency id="VpNet" version="1.0.9.1973-alpha" />
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System.Xml" targetFramework=".NETFramework4.6.1" />

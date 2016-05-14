@@ -69,7 +69,9 @@
       <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
     </None>
     <None Include="libvpsdk.so" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="VpNet.VpConsoleServices.nuspec">
       <SubType>Designer</SubType>
     </None>
