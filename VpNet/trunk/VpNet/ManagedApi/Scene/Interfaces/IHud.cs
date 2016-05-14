@@ -31,7 +31,7 @@ namespace VpNet.Interfaces
     /// <typeparam name="TAvatar">The type of the avatar.</typeparam>
     /// <typeparam name="TVector3">The type of the vector3.</typeparam>
     /// <param name="elementId">The element identifier.</param>
-    public delegate void OnClickHudElement<TAvatar, TVector3>(string elementId)
+    public delegate void OnClickHudElement<TAvatar, TVector3>(TAvatar avatar, string elementId)
     where TVector3 : struct, IVector3
     where TAvatar : class, IAvatar<TVector3>, new();
 
