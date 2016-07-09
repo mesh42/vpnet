@@ -396,6 +396,18 @@ namespace VpNet.NativeApi
         /// </summary>
         Url,
         /// <summary>
+        /// The join world
+        /// </summary>
+        JoinWorld,
+        /// <summary>
+        /// The join name
+        /// </summary>
+        JoinName,
+        /// <summary>
+        /// The start world
+        /// </summary>
+        StartWorld,
+        /// <summary>
         /// String attribute highest
         /// </summary>
 	    StringAttributeHighest,
