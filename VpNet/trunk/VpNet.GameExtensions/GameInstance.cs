@@ -78,7 +78,8 @@ namespace VpNet.GameExtensions
         TeleportEventArgsT<Teleport<World, GameAvatar, Vector3>, World, GameAvatar, Vector3>,
         WorldEnterEventArgsT<World>,
         WorldLeaveEventArgsT<World>,
-        UserAttributesEventArgsT<UserAttributes>
+        UserAttributesEventArgsT<UserAttributes>,
+        JoinEventArgsT
         >
     {
         public GameScene GameScene;

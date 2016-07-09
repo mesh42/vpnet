@@ -72,7 +72,9 @@
     <Compile Include="ManagedApi\Dictionary.cs" />
     <Compile Include="ManagedApi\DisconnectType.cs" />
     <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseAvatarClickEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseJoinEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Avatar\Interfaces\IAvatarClickEventArgs.cs" />
+    <Compile Include="ManagedApi\Events\Avatar\Interfaces\IJoinEventArgs.cs" />
     <Compile Include="ManagedApi\Events\ITimedEventArgs.cs" />
     <Compile Include="ManagedApi\Events\TimedEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Avatar\AvatarArgsImplementationMappingsT.cs" />
