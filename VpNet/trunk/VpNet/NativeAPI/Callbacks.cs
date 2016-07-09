@@ -41,6 +41,12 @@ namespace VpNet.NativeApi
         ObjectGet,
         ObjectLoad,
         Login,
+        Enter,
+        Join,
+        ConnectUniverse,
+        WorldPermissionUserSet,
+        WorldPermissionSessionSet,
+        WorldSettingSet,
         HighestCallback
     }
 }
