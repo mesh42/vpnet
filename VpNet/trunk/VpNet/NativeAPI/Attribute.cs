@@ -188,6 +188,18 @@ namespace VpNet.NativeApi
         /// </summary>
         CurrentCallback,
         /// <summary>
+        /// The cell revision
+        /// </summary>
+        CellRevision,
+        /// <summary>
+        /// The cell status
+        /// </summary>
+        CellStatus,
+        /// <summary>
+        /// The join identifier
+        /// </summary>
+        JoinId,
+        /// <summary>
         /// Integer attribute highest
         /// </summary>
         IntegerAttributeHighest,
