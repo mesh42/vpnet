@@ -23,6 +23,8 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System;
+
 namespace VpNet.NativeApi
 {
     /// <summary>
@@ -41,10 +43,12 @@ namespace VpNet.NativeApi
         /// <summary>
         /// Instance not initalized
         /// </summary>
+        [Obsolete]
         NotInitialized=2,
         /// <summary>
         /// Instance already initialized
         /// </summary>
+        [Obsolete]
         AlreadyInitialized=3,
         /// <summary>
         /// String too long
@@ -114,5 +118,29 @@ namespace VpNet.NativeApi
         /// Unknown error
         /// </summary>
         UnknownError = 20,
+        /// <summary>
+        /// The recursive wait
+        /// </summary>
+        RecursiveWait = 21,
+        /// <summary>
+        /// The join declined
+        /// </summary>
+        JoinDeclined = 22,
+        /// <summary>
+        /// The secure connection required
+        /// </summary>
+        SecureConnectionRequired = 23,
+        /// <summary>
+        /// The handshake failed
+        /// </summary>
+        HandshakeFailed = 24,
+        /// <summary>
+        /// The verifciation failed
+        /// </summary>
+        VerifciationFailed = 25,
+        /// <summary>
+        /// The no such session
+        /// </summary>
+        NoSuchSession = 26
     }
 }
