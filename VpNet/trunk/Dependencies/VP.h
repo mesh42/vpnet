@@ -273,6 +273,15 @@ typedef enum vp_event_t
     *   - VP_TERRAIN_NODE_Z
     */
     VP_EVENT_TERRAIN_NODE_CHANGED,
+
+	/**
+	 *  A join request was received
+	 *  Attributes:
+	 *  - VP_JOIN_ID
+	 *  - VP_JOIN_NAME
+	 *  - VP_USER_ID
+	 */
+	VP_EVENT_JOIN,
     
 	VP_HIGHEST_EVENT
 } vp_event_t;
@@ -338,6 +347,13 @@ typedef enum vp_callback_t
     VP_CALLBACK_LOGIN,
 
     VP_CALLBACK_ENTER,
+
+	VP_CALLBACK_JOIN,
+	VP_CALLBACK_CONNECT_UNIVERSE,
+
+    VP_CALLBACK_WORLD_PERMISSION_USER_SET,
+    VP_CALLBACK_WORLD_PERMISSION_SESSION_SET,
+    VP_CALLBACK_WORLD_SETTING_SET,
     
 	VP_HIGHEST_CALLBACK
 } vp_callback_t;
@@ -401,6 +417,8 @@ typedef enum vp_int_attribute_t
 
     VP_CELL_REVISION,
     VP_CELL_STATUS,
+
+	VP_JOIN_ID,
 	
 	VP_HIGHEST_INT
 } vp_int_attribute_t;
@@ -452,6 +470,12 @@ typedef enum vp_float_attribute_t
     VP_CLICK_HIT_X,
     VP_CLICK_HIT_Y,
     VP_CLICK_HIT_Z,
+
+	VP_JOIN_X,
+	VP_JOIN_Y,
+	VP_JOIN_Z,
+	VP_JOIN_YAW,
+	VP_JOIN_PITCH,
 	
 	VP_HIGHEST_FLOAT
 } vp_float_attribute_t;
@@ -480,6 +504,10 @@ typedef enum vp_string_attribute_t
     VP_TELEPORT_WORLD,
     
     VP_URL,
+	VP_JOIN_WORLD,
+	VP_JOIN_NAME,
+    
+    VP_START_WORLD,
 	
 	VP_HIGHEST_STRING
 } vp_string_attribute_t;
@@ -903,5 +931,16 @@ VPSDK_API int vp_url_send(VPInstance instance,
                           int session_id,
                           const char* url,
                           vp_url_target_t url_target);
+
+VPSDK_API int vp_join(vp_instance_t instance, int user_id);
+VPSDK_API int vp_join_accept(vp_instance_t instance, int requestId, 
+                             const char* world, double x, double y, double z,
+                             float yaw, float pitch);
+VPSDK_API int vp_join_decline(vp_instance_t instance, int requestId);
+
+VPSDK_API int vp_world_permission_user_set(vp_instance_t instance, const char* permission, int user_id, int enable);
+VPSDK_API int vp_world_permission_session_set(vp_instance_t instance, const char* permission, int session_id, int enable);
+
+VPSDK_API int vp_world_setting_set(vp_instance_t instance, const char* setting, const char* value, int session_to);
 
 #endif

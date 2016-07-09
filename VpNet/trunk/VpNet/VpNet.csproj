@@ -138,6 +138,7 @@
     <Compile Include="ManagedApi\System\CommandLine\Attributes\NamedFlagAttribute.cs" />
     <Compile Include="ManagedApi\System\CommandLine\CommandLineParser.cs" />
     <Compile Include="ManagedApi\System\CommandLine\IParsableCommand.cs" />
+    <Compile Include="ManagedApi\System\Enumerations\WorldPermissions.cs" />
     <Compile Include="ManagedApi\System\Exceptions\VpUniverseException.cs" />
     <Compile Include="ManagedApi\System\InstanceConfiguration.cs" />
     <Compile Include="ManagedApi\System\InstanceT0.cs" />
@@ -309,9 +310,7 @@
       <LastGenOutput>Rc.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ManagedApi\System\Enumerations\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="AssemblyVersion.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

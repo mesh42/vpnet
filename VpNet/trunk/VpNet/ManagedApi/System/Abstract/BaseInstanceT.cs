@@ -1036,6 +1036,155 @@ namespace VpNet.Abstract
 
         #endregion
 
+        #region IJoinFunctions Implementations
+        public virtual TResult Join(TAvatar avatar)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_join(_instance, avatar.UserId) };
+            }
+        }
+
+        public virtual TResult Join(int userId)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_join(_instance, userId) };
+            }
+        }
+
+
+        public virtual TResult JoinAccept(int requestId, string world, TVector3 location, float yaw, float pitch)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_join_accept(_instance, requestId, world,location.X,location.Y,location.Z,yaw,pitch) };
+            }
+        }
+
+        public virtual TResult JoinAccept(int requestId, string world, double x, double y, double z, float yaw, float pitch)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_join_accept(_instance, requestId, world, x, y, z, yaw, pitch) };
+            }
+        }
+
+        public virtual TResult JoinDecline(int requestId)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_join_decline(_instance, requestId) };
+            }
+        }
+
+        #endregion
+
+        #region  IWorldPermissionFunctions Implementations
+
+        public virtual TResult WorldPermissionUser(string permission, int userId, int enable)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, permission, userId, enable) };
+            }
+        }
+
+        public virtual TResult WorldPermissionUserEnable(WorldPermissions permission, TAvatar avatar)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, Enum.GetName(typeof(WorldPermissions), permission),avatar.UserId,1) };
+            }
+        }
+
+        public virtual TResult WorldPermissionUserEnable(WorldPermissions permission, int userId)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, Enum.GetName(typeof(WorldPermissions), permission), userId, 1) };
+            }
+        }
+
+        public virtual TResult WorldPermissionUserDisable(WorldPermissions permission, TAvatar avatar)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, Enum.GetName(typeof(WorldPermissions), permission), avatar.UserId, 0) };
+            }
+        }
+
+        public virtual TResult WorldPermissionUserDisable(WorldPermissions permission, int userId)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, Enum.GetName(typeof(WorldPermissions), permission), userId, 0) };
+            }
+        }
+
+        public virtual TResult WorldPermissionSession(string permission, int sessionId, int enable)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_session_set(_instance, permission, sessionId, enable) };
+            }
+        }
+
+        public virtual TResult WorldPermissionSessionEnable(WorldPermissions permission, TAvatar avatar)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, Enum.GetName(typeof(WorldPermissions), permission), avatar.Session, 1) };
+            }
+        }
+
+        public virtual TResult WorldPermissionSessionEnable(WorldPermissions permission, int session)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, Enum.GetName(typeof(WorldPermissions), permission), session, 1) };
+            }
+        }
+
+
+        public virtual TResult WorldPermissionSessionDisable(WorldPermissions permission, TAvatar avatar)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, Enum.GetName(typeof(WorldPermissions), permission), avatar.Session, 0) };
+            }
+        }
+
+        public virtual TResult WorldPermissionSessionDisable(WorldPermissions permission, int session)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_permission_user_set(_instance, Enum.GetName(typeof(WorldPermissions), permission), session, 0) };
+            }
+        }
+
+        #endregion
+
+        #region IWorldSettingsFunctions Implementations
+
+        public virtual TResult WorldSettingSession(string setting, string value, TAvatar toAvatar)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_setting_set(_instance, setting, value, toAvatar.Session) };
+            }
+        }
+
+        public virtual TResult WorldSettingSession(string setting, string value, int  toSession)
+        {
+            lock (this)
+            {
+                return new TResult { Rc = Functions.vp_world_setting_set(_instance, setting, value, toSession) };
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Events
@@ -1795,6 +1944,8 @@ namespace VpNet.Abstract
         override internal event EventDelegate OnWorldDisconnectNativeEvent;
         override internal event EventDelegate OnTeleportNativeEvent;
         override internal event EventDelegate OnUserAttributesNativeEvent;
+        override internal event EventDelegate OnJoinNativeEvent;
+
         override internal event CallbackDelegate OnObjectCreateCallbackNativeEvent;
         override internal event CallbackDelegate OnObjectChangeCallbackNativeEvent;
         override internal event CallbackDelegate OnObjectDeleteCallbackNativeEvent;
@@ -1802,6 +1953,16 @@ namespace VpNet.Abstract
         override internal event CallbackDelegate OnFriendAddCallbackNativeEvent;
         override internal event CallbackDelegate OnFriendDeleteCallbackNativeEvent;
         override internal event CallbackDelegate OnGetFriendsCallbackNativeEvent;
+
+        override internal event CallbackDelegate OnObjectLoadCallbackNativeEvent;
+        override internal event CallbackDelegate OnLoginCallbackNativeEvent;
+        override internal event CallbackDelegate OnEnterCallbackNativeEvent;
+        override internal event CallbackDelegate OnJoinCallbackNativeEvent;
+        override internal event CallbackDelegate OnConnectUniverseCallbackNativeEvent;
+        override internal event CallbackDelegate OnWorldPermissionUserSetNativeEvent;
+        override internal event CallbackDelegate OnWorldPermissionSessionSet;
+        override internal event CallbackDelegate OnWorldSettingsSet;
+
 
         #endregion
 
