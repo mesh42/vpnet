@@ -316,6 +316,26 @@ namespace VpNet.NativeApi
         /// </summary>
         ClickHitZ,
         /// <summary>
+        /// The join x
+        /// </summary>
+        JoinX,
+        /// <summary>
+        /// The join y
+        /// </summary>
+        JoinY,
+        /// <summary>
+        /// The join z
+        /// </summary>
+        JoinZ,
+        /// <summary>
+        /// The join yaw
+        /// </summary>
+        JoinYaw,
+        /// <summary>
+        /// The join pitch
+        /// </summary>
+        JoinPitch,
+        /// <summary>
         /// double attribute highest
         /// </summary>
         doubleAttributeHighest,
