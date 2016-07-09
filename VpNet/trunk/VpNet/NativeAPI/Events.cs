@@ -123,6 +123,10 @@ namespace VpNet.NativeApi
         /// </summary>
         TerrainNodeChanged,
         /// <summary>
+        /// Join Event
+        /// </summary>
+        Join,
+        /// <summary>
         /// Highest event
         /// </summary>
         Highest
