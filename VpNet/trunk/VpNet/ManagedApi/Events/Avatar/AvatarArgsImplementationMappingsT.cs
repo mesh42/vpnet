@@ -69,4 +69,7 @@ namespace VpNet
         where TVector3 : struct, IVector3
         where TAvatar : class, IAvatar<TVector3>, new()
     { }
+
+    [XmlRoot("OnJoin", Namespace = Global.XmlNsEvent)]
+    public class JoinEventArgsT : Abstract.BaseJoinEventArgs { }
 }

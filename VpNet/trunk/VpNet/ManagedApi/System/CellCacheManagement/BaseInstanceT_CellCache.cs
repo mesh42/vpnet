@@ -105,7 +105,8 @@ namespace VpNet.Abstract
         TTeleportEventArgs,
         TWorldEnterEventArgs,
         TWorldLeaveEventArgs,
-        TUserAttributesEventArgs
+        TUserAttributesEventArgs,
+        TJoinEventArgs
         > :
         /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
@@ -174,6 +175,7 @@ namespace VpNet.Abstract
         where TWorldEnterEventArgs : class, IWorldEnterEventArgs<TWorld>, new()
         where TWorldLeaveEventArgs : class, IWorldLeaveEventArgs<TWorld>, new()
         where TUserAttributesEventArgs : class, IUserAttributesEventArgs<TUserAttributes>, new()
+        where TJoinEventArgs : class, IJoinEventArgs, new()
     {
         public delegate void CellRangeQueryCompletedDelegate(T sender, CellRangeQueryCompletedArgs<TVpObject,TVector3> args);
         public delegate void CellRangeObjectChangedDelegate(T sender, TObjectChangeArgs args);

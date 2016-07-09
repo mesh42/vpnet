@@ -78,7 +78,8 @@ namespace VpNet
         TeleportEventArgsT<Teleport<World,Avatar<Vector3>,Vector3>,World,Avatar<Vector3>,Vector3>,
         WorldEnterEventArgsT<World>,
         WorldLeaveEventArgsT<World>,
-        UserAttributesEventArgsT<UserAttributes>
+        UserAttributesEventArgsT<UserAttributes>,
+        JoinEventArgsT
         >
       
            

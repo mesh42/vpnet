@@ -48,4 +48,8 @@ namespace VpNet
     /// </summary>
     [XmlRoot("OnAvatarClick", Namespace = Global.XmlNsEvent)]
     public class AvatarClickEventArgs : Abstract.BaseAvatarClickEventArgs<Avatar<Vector3>,Vector3> { }
+
+    [XmlRoot("OnJoin", Namespace = Global.XmlNsEvent)]
+    public class JoinEventArgs : Abstract.BaseJoinEventArgs { }
+
 }

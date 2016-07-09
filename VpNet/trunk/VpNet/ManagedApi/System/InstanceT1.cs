@@ -78,7 +78,8 @@ namespace VpNet
         TeleportEventArgsT<Teleport<World,Avatar<TVector3>,TVector3>,World,Avatar<TVector3>,TVector3>,
         WorldEnterEventArgsT<World>,
         WorldLeaveEventArgsT<World>,
-        UserAttributesEventArgsT<UserAttributes>
+        UserAttributesEventArgsT<UserAttributes>,
+        JoinEventArgsT
         >
 
          where TVector3 : struct, IVector3

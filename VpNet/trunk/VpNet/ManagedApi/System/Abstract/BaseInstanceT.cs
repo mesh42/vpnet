@@ -113,7 +113,8 @@ namespace VpNet.Abstract
         TTeleportEventArgs,
         TWorldEnterEventArgs,
         TWorldLeaveEventArgs,
-        TUserAttributesEventArgs
+        TUserAttributesEventArgs,
+        TJoinEventArgs
         > :
         /* Interface specifications -----------------------------------------------------------------------------------------------------------------------------------------*/
         /* Functions */
@@ -182,6 +183,7 @@ namespace VpNet.Abstract
         where TWorldEnterEventArgs : class, IWorldEnterEventArgs<TWorld>, new()
         where TWorldLeaveEventArgs : class, IWorldLeaveEventArgs<TWorld>, new()
         where TUserAttributesEventArgs : class, IUserAttributesEventArgs<TUserAttributes>, new()
+        where TJoinEventArgs : class, IJoinEventArgs, new()
     {
         bool _isInitialized;
 
@@ -1241,6 +1243,7 @@ namespace VpNet.Abstract
         public delegate void WorldDisconnectDelegate(T sender, TWorldDisconnectEventArg args);
 
         public delegate void UniverseDisconnectDelegate(T sender, TUniverseDisconnectEventargs args);
+        public delegate void JoinDelegate(T sender, TJoinEventArgs args);
 
         public delegate void FriendAddCallbackDelegate(T sender, TFriendAddCallbackEventArgs args);
         public delegate void FriendDeleteCallbackDelegate(T sender, TFriendDeleteCallbackEventArgs args);
@@ -1251,6 +1254,7 @@ namespace VpNet.Abstract
         public event AvatarChangeDelegate OnAvatarChange;
         public event AvatarLeaveDelegate OnAvatarLeave;
         public event AvatarClickDelegate OnAvatarClick;
+        public event JoinDelegate OnJoin;
 
         public event TeleportDelegate OnTeleport;
         public event UserAttributesDelegate OnUserAttributes;
@@ -1344,6 +1348,15 @@ namespace VpNet.Abstract
                 }
             }
         }
+
+        private void OnObjectLoadCallbackNative(IntPtr sender, int rc, int reference){ }
+        private void OnLoginCallbackNative(IntPtr sender, int rc, int reference) { }
+        private void OnEnterCallbackNative(IntPtr sender, int rc, int reference) { }
+        private void OnJoinCallbackNative(IntPtr sender, int rc, int reference) { }
+        private void OnConnectUniverseCallbackNative(IntPtr sender, int rc, int reference) { }
+        private void OnWorldPermissionUserSetCallbackNative(IntPtr sender, int rc, int reference) { }
+        private void OnWorldPermissionSessionSetCallbackNative(IntPtr sender, int rc, int reference) { }
+        private void OnWorldSettingsSetCallbackNative(IntPtr sender, int rc, int reference) { }
 
         #endregion
 
@@ -1668,6 +1681,8 @@ namespace VpNet.Abstract
                     OnObjectCreate(Implementor, new TObjectCreateArgs { Avatar =  GetAvatar(session), VpObject = vpObject });
         }
 
+
+
         public List<TAvatar> Avatars()
         {
             return _avatars.Values.ToList();
@@ -1831,6 +1846,16 @@ namespace VpNet.Abstract
             OnWorldDisconnect(Implementor,new TWorldDisconnectEventArg{World=World});
         }
 
+        private void OnJoinNative(IntPtr sender)
+        {
+            if (OnJoin == null) return;
+            OnJoin(Implementor, new TJoinEventArgs {
+                UserId = Functions.vp_int(sender, Attributes.UserId),
+                Id = Functions.vp_int(sender, Attributes.JoinId),
+                Name = Functions.vp_string(sender, Attributes.JoinName)
+            });
+        }
+
         #endregion
 
         #region Cleanup
@@ -1959,9 +1984,9 @@ namespace VpNet.Abstract
         override internal event CallbackDelegate OnEnterCallbackNativeEvent;
         override internal event CallbackDelegate OnJoinCallbackNativeEvent;
         override internal event CallbackDelegate OnConnectUniverseCallbackNativeEvent;
-        override internal event CallbackDelegate OnWorldPermissionUserSetNativeEvent;
-        override internal event CallbackDelegate OnWorldPermissionSessionSet;
-        override internal event CallbackDelegate OnWorldSettingsSet;
+        override internal event CallbackDelegate OnWorldPermissionUserSetCallbackNativeEvent;
+        override internal event CallbackDelegate OnWorldPermissionSessionSetCallbackNativeEvent;
+        override internal event CallbackDelegate OnWorldSettingsSetCallbackNativeEvent;
 
 
         #endregion
