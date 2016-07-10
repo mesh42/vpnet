@@ -380,14 +380,14 @@ namespace VpNet.Abstract
             SetNativeCallback(Callbacks.FriendAdd, OnFriendAddCallbackNative1);
             SetNativeCallback(Callbacks.FriendDelete, OnFriendDeleteCallbackNative1);
             SetNativeCallback(Callbacks.GetFriends, OnGetFriendsCallbackNative1);
-            SetNativeCallback(Callbacks.ObjectLoad, OnObjectLoadCallbackNative1);
-            SetNativeCallback(Callbacks.Login, OnLoginCallbackNative1);
-            SetNativeCallback(Callbacks.Enter, OnEnterCallbackNativeEvent1);
-            SetNativeCallback(Callbacks.Join, OnJoinCallbackNativeEvent1);
-            SetNativeCallback(Callbacks.ConnectUniverse, OnConnectUniverseCallbackNative1);
-            SetNativeCallback(Callbacks.WorldPermissionUserSet, OnWorldPermissionUserSetCallbackNative1);
-            SetNativeCallback(Callbacks.WorldPermissionSessionSet, OnWorldPermissionSessionSetCallbackNative1);
-            SetNativeCallback(Callbacks.WorldSettingSet, OnWorldSettingsSetCallbackNative1);
+            //SetNativeCallback(Callbacks.ObjectLoad, OnObjectLoadCallbackNative1);
+            //SetNativeCallback(Callbacks.Login, OnLoginCallbackNative1);
+            //SetNativeCallback(Callbacks.Enter, OnEnterCallbackNativeEvent1);
+            //SetNativeCallback(Callbacks.Join, OnJoinCallbackNativeEvent1);
+            //SetNativeCallback(Callbacks.ConnectUniverse, OnConnectUniverseCallbackNative1);
+            //SetNativeCallback(Callbacks.WorldPermissionUserSet, OnWorldPermissionUserSetCallbackNative1);
+            //SetNativeCallback(Callbacks.WorldPermissionSessionSet, OnWorldPermissionSessionSetCallbackNative1);
+            //SetNativeCallback(Callbacks.WorldSettingSet, OnWorldSettingsSetCallbackNative1);
         }
 
         protected BaseInstanceT()
