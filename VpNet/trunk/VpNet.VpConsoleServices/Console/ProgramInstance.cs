@@ -30,7 +30,7 @@ namespace VpNet.ManagedApi.System.ConsoleEx
             Console.Title = "Virtual Paradise Console";
             Console.CursorSize = 100;
             Console.SetWindowSize(120, 40);
-            //Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(@"
