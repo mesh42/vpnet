@@ -275,6 +275,7 @@ namespace VpNet.Abstract
             OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
             OnTeleportNativeEvent += OnTeleportNative;
             OnUserAttributesNativeEvent += OnUserAttributesNative;
+            OnJoinNativeEvent += OnJoinNative;
 
             OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
             OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
@@ -314,6 +315,7 @@ namespace VpNet.Abstract
             parentInstance.OnUniverseDisconnectNativeEvent += OnUniverseDisconnectNative;
             parentInstance.OnTeleportNativeEvent += OnTeleportNative;
             parentInstance.OnUserAttributesNativeEvent += OnUserAttributesNative;
+            parentInstance.OnJoinNativeEvent += OnJoinNative;
 
             parentInstance.OnObjectCreateCallbackNativeEvent += OnObjectCreateCallbackNative;
             parentInstance.OnObjectChangeCallbackNativeEvent += OnObjectChangeCallbackNative;
@@ -370,6 +372,7 @@ namespace VpNet.Abstract
             SetNativeEvent(Events.WorldDisconnect, OnWorldDisconnectNative1);
             SetNativeEvent(Events.Teleport, OnTeleportNative1);
             SetNativeEvent(Events.UserAttributes, OnUserAttributesNative1);
+            SetNativeEvent(Events.Join, OnJoinNative1);
             SetNativeCallback(Callbacks.ObjectAdd, OnObjectCreateCallbackNative1);
             SetNativeCallback(Callbacks.ObjectChange, OnObjectChangeCallbackNative1);
             SetNativeCallback(Callbacks.ObjectDelete, OnObjectDeleteCallbackNative1);
@@ -377,6 +380,14 @@ namespace VpNet.Abstract
             SetNativeCallback(Callbacks.FriendAdd, OnFriendAddCallbackNative1);
             SetNativeCallback(Callbacks.FriendDelete, OnFriendDeleteCallbackNative1);
             SetNativeCallback(Callbacks.GetFriends, OnGetFriendsCallbackNative1);
+            SetNativeCallback(Callbacks.ObjectLoad, OnObjectLoadCallbackNative1);
+            SetNativeCallback(Callbacks.Login, OnLoginCallbackNative1);
+            SetNativeCallback(Callbacks.Enter, OnEnterCallbackNativeEvent1);
+            SetNativeCallback(Callbacks.Join, OnJoinCallbackNativeEvent1);
+            SetNativeCallback(Callbacks.ConnectUniverse, OnConnectUniverseCallbackNative1);
+            SetNativeCallback(Callbacks.WorldPermissionUserSet, OnWorldPermissionUserSetCallbackNative1);
+            SetNativeCallback(Callbacks.WorldPermissionSessionSet, OnWorldPermissionSessionSetCallbackNative1);
+            SetNativeCallback(Callbacks.WorldSettingSet, OnWorldSettingsSetCallbackNative1);
         }
 
         protected BaseInstanceT()
@@ -391,7 +402,18 @@ namespace VpNet.Abstract
         internal void OnObjectGetCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectGetCallbackNativeEvent(instance, rc, reference); } }
         internal void OnFriendAddCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendAddCallbackNativeEvent(instance, rc, reference); } }
         internal void OnFriendDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
-        internal void OnGetFriendsCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } } 
+        internal void OnGetFriendsCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnObjectLoadCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectLoadCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnLoginCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnLoginCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnEnterCallbackNativeEvent1(IntPtr instance, int rc, int reference) { lock (this) { OnEnterCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnJoinCallbackNativeEvent1(IntPtr instance, int rc, int reference) { lock (this) { OnJoinCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnConnectUniverseCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnConnectUniverseCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnWorldPermissionUserSetCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnWorldPermissionUserSetCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnWorldPermissionSessionSetCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnWorldPermissionSessionSetCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnWorldSettingsSetCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnWorldSettingsSetCallbackNativeEvent(instance, rc, reference); } }
+
+
+
         internal void OnChatNative1(IntPtr instance) { lock (this) { OnChatNativeEvent(instance); } }
         internal void OnAvatarAddNative1(IntPtr instance) { lock (this) { OnAvatarAddNativeEvent(instance); } }
         internal void OnAvatarChangeNative1(IntPtr instance) { lock (this) { OnAvatarChangeNativeEvent(instance); } }
@@ -411,6 +433,7 @@ namespace VpNet.Abstract
         internal void OnUniverseDisconnectNative1(IntPtr instance) { lock (this) { OnUniverseDisconnectNativeEvent(instance); } }
         internal void OnTeleportNative1(IntPtr instance) { lock (this) { OnTeleportNativeEvent(instance); } }
         internal void OnUserAttributesNative1(IntPtr instance) { lock (this){OnUserAttributesNativeEvent(instance);} }
+        internal void OnJoinNative1(IntPtr instance) { lock (this) { OnJoinNativeEvent(instance); } }
 
         #region Methods
 
@@ -1270,6 +1293,7 @@ namespace VpNet.Abstract
         public event ObjectChangeCallback OnObjectChangeCallback;
         public event ObjectGetCallback OnObjectGetCallback; 
 
+
         public event WorldListEventDelegate OnWorldList;
         public event WorldSettingsChangedDelegate OnWorldSettingsChanged;
         public event FriendAddCallbackDelegate OnFriendAddCallback;
@@ -1349,14 +1373,14 @@ namespace VpNet.Abstract
             }
         }
 
-        private void OnObjectLoadCallbackNative(IntPtr sender, int rc, int reference){ }
-        private void OnLoginCallbackNative(IntPtr sender, int rc, int reference) { }
-        private void OnEnterCallbackNative(IntPtr sender, int rc, int reference) { }
-        private void OnJoinCallbackNative(IntPtr sender, int rc, int reference) { }
-        private void OnConnectUniverseCallbackNative(IntPtr sender, int rc, int reference) { }
-        private void OnWorldPermissionUserSetCallbackNative(IntPtr sender, int rc, int reference) { }
-        private void OnWorldPermissionSessionSetCallbackNative(IntPtr sender, int rc, int reference) { }
-        private void OnWorldSettingsSetCallbackNative(IntPtr sender, int rc, int reference) { }
+        private void OnObjectLoadCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */ }
+        private void OnLoginCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
+        private void OnEnterCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
+        private void OnJoinCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
+        private void OnConnectUniverseCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
+        private void OnWorldPermissionUserSetCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
+        private void OnWorldPermissionSessionSetCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
+        private void OnWorldSettingsSetCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
 
         #endregion
 
