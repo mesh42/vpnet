@@ -29,7 +29,7 @@ namespace VpNet.Interfaces
 {
     public interface IInstanceT<TImplementor,
 /* Scene Type specifications ----------------------------------------------------------------------------------------------------------------------------------------------*/
-        TAvatar, in TColor, in TFriend, out TResult, TTerrainCell, TTerrainNode,
+        TAvatar, in TColor, in TFriend, TResult, TTerrainCell, TTerrainNode,
         in TTerrainTile, TVector3, in TVpObject, in TWorld, in TWorldAttributes,
         in TCell,TChatMessage,TTerrain,TUniverse,TTeleport,
 /* Event Arg types --------------------------------------------------------------------------------------------------------------------------------------------------------*/

@@ -40,7 +40,7 @@
 #endif
 
 /* API Version */
-#define VPSDK_VERSION 3
+#define VPSDK_VERSION 4
 
 /**
  *	Events can be registered using #vp_event_set
@@ -336,7 +336,7 @@ typedef enum vp_callback_t
      * Reason codes
      * - #VP_RC_SUCCESS
      * - #VP_RC_NOT_ALLOWED
-     # - #VP_DATABASE_ERROR
+     # - #VP_RC_DATABASE_ERROR
      */
     VP_CALLBACK_OBJECT_LOAD,
     
@@ -599,29 +599,39 @@ VPSDK_API int vp_init(int version=VPSDK_VERSION);
 VPSDK_API int vp_init(int version);
 #endif
 
+typedef struct vp_net_config vp_net_config;
 /**
  *  Create a new instance.
+ *  \param net_config network configuration for the instance or NULL to use 
+ *                    the default select-based implementation. The contents of 
+ *                    the structure will be copied.
  *  \return New instance or NULL on failure.
  */
-VPSDK_API VPInstance vp_create(void);
+VPSDK_API vp_instance_t vp_create(const vp_net_config* net_config);
 
 /**
  *  Destroy a Virtual Paradise SDK instance.
  */
-VPSDK_API int vp_destroy(VPInstance instance);
+VPSDK_API int vp_destroy(vp_instance_t instance);
 
 /**
- *  Connect to a universe server
+ *  Connect to a universe server. If a #VP_CALLBACK_CONNECT_UNIVERSE callback
+ *  is set this function will return immediately and return the result using 
+ *  the callback, otherwise it will call #vp_wait in a loop until done.
+ *
  *  \param instance
  *  \param host Host address of server to connect to.
  *  \param port TCP port of remote server.
  *  \returns #VP_RC_SUCCESS
  *  \returns #VP_RC_CONNECTION_ERROR
  */
-VPSDK_API int vp_connect_universe(VPInstance instance, const char * host, int port);
+VPSDK_API int vp_connect_universe(vp_instance_t instance, const char * host, int port);
 
 /**
- *  Login to the universe server
+ *  Login to the universe server. If a #VP_CALLBACK_LOGIN callback is set this 
+ *  function will return immediately and return the result using the callback, 
+ *  otherwise it will call #vp_wait in a loop until done.
+ *
  *  \param instance
  *  \param username
  *  \param password
@@ -632,52 +642,65 @@ VPSDK_API int vp_connect_universe(VPInstance instance, const char * host, int po
  *  \returns #VP_RC_TIMEOUT
  *  \returns #VP_RC_NOT_IN_UNIVERSE
  */
-VPSDK_API int vp_login(VPInstance instance, const char * username, const char * password, const char * botname);
+VPSDK_API int vp_login(vp_instance_t instance, const char * username, const char * password, const char * botname);
 
 /**
  *  Process incoming and outgoing data. Waits for connection to be ready for 
  *  sending or receiving. This function needs to be called for events to fire.
+ *
+ *  \param instance
  *  \param milliseconds The maximum time to wait in milliseconds.
  *  \warning Not reentrant when used with the same instance, may not be called from event handlers unless it is for a different instance.
- *  \return Zero when successful, otherwise nonzero. See RC.h
+ *  \return #VP_RC_SUCCESS success
+ *  \return #VP_RC_NOT_SUPPORTED #vp_wait is not supported by this instance, for example a custom vp_net_config was passed to #vp_create
+ *  \return #VP_RC_RECURSIVE_WAIT #vp_wait was called recursively on the same instance
+ *  \return #VP_RC_CONNECTION_ERROR waiting for data failed or there are no connections to wait for events on
  */
-VPSDK_API int vp_wait(VPInstance instance, int milliseconds);
+VPSDK_API int vp_wait(vp_instance_t instance, int milliseconds);
 
 /**
- *  Enter a world, the current world will be left.
+ *  Enter a world, the current world will be left. If a #VP_CALLBACK_ENTER 
+ *  callback is set this function will return immediately and return the result
+ *  using the callback, otherwise it will call #vp_wait in a loop until done.
+ *
+ *  \param instance
+ *  \param world_name the name of the world to enter
  *  \warning This function uses #vp_wait internally, the same warnings apply.
- *  \returns #VP_RC_SUCCESS if successful
- *  \returns #VP_RC_STRING_TOO_LONG
- *  \returns #VP_RC_CONNECTION_ERROR
- *  \returns #VP_RC_WORLD_NOT_FOUND
- *  \returns #VP_RC_WORLD_LOGIN_ERROR
+ *  \returns #VP_RC_SUCCESS success
+ *  \returns #VP_RC_STRING_TOO_LONG world name was longer than 255 bytes
+ *  \returns #VP_RC_CONNECTION_ERROR disconnected from universe while sending or connecting to the world failed
+ *  \returns #VP_RC_WORLD_NOT_FOUND world not found
+ *  \returns #VP_RC_WORLD_LOGIN_ERROR failed to log in on the world server
  *  \returns #VP_RC_TIMEOUT
  *  \returns #VP_RC_NOT_IN_UNIVERSE
  */
-VPSDK_API int vp_enter(VPInstance instance, const char * worldname);
+VPSDK_API int vp_enter(vp_instance_t instance, const char * world_name);
 
 /**
  *	Leave the current world.
+ *  \param instance
  *  \returns #VP_RC_SUCCESS
  *  \returns #VP_RC_NOT_IN_WORLD
  */
-VPSDK_API int vp_leave(VPInstance instance);
+VPSDK_API int vp_leave(vp_instance_t instance);
 
 /**
  *  Send a simple message to everyone in the current world.
+ *  \param instance
  *  \param message The message to send.
  *  \returns #VP_RC_SUCCESS
  *  \returns #VP_RC_NOT_IN_WORLD
  *  \returns #VP_RC_STRING_TOO_LONG
  */
-VPSDK_API int vp_say(VPInstance instance, const char * message);
+VPSDK_API int vp_say(vp_instance_t instance, const char * message);
 
 /**
  *  Send a console message.
+ *  \param instance
  *  \param session The session ID to send the message to. Zero to send to everyone
  *  \param name The name to use for the chat message. Empty string to hide name.
  *  \param message Chat message contents
- *  \param effects Text effects (combination of #VPTextEffect flags)
+ *  \param effects Text effects (combination of #vp_text_effect flags)
  *  \param red Red component of the text color(0-255)
  *  \param green Green component of the text color(0-255)
  *  \param blue Blue component of the text color(0-255)
@@ -685,7 +708,7 @@ VPSDK_API int vp_say(VPInstance instance, const char * message);
  *  \returns #VP_RC_NOT_IN_WORLD
  *  \returns #VP_RC_STRING_TOO_LONG
  */
-VPSDK_API int vp_console_message(VPInstance instance,
+VPSDK_API int vp_console_message(vp_instance_t instance,
                                  int session,
                                  const char* name,
                                  const char* message,
@@ -696,28 +719,36 @@ VPSDK_API int vp_console_message(VPInstance instance,
 
 /**
  *  Register an event handler.
+ *  \param instance
+ *  \param event_name
+ *  \param event function pointer for the event handler
  *  \return Zero when successful, otherwise nonzero. See RC.h
  */
-VPSDK_API int vp_event_set(VPInstance instance, vp_event_t eventname, VPEventHandler event);
+VPSDK_API int vp_event_set(vp_instance_t instance, vp_event_t event_name, VPEventHandler event);
 
 /**
  *  Register a callback function.
+ *  \param instance
+ *  \param callbackname
+ *  \param callback
  *  \return Zero when successful, otherwise nonzero. See RC.h
  */
-VPSDK_API int vp_callback_set(VPInstance instance, vp_callback_t callbackname, VPCallbackHandler callback);
+VPSDK_API int vp_callback_set(vp_instance_t instance, vp_callback_t callbackname, VPCallbackHandler callback);
 
 /**
  *  Retrieve the pointer to user-defined data for this instance.
+ *  \param instance
  *  \return Pointer to user-defined data.
  */
-VPSDK_API void * vp_user_data(VPInstance instance);
+VPSDK_API void * vp_user_data(vp_instance_t instance);
 
 /**
  *  Sets a pointer to user-defined data for this instance.
  *  This pointer is not accessed in any way, allocating and freeing it is the responsibility of the application programmer.
+ *  \param instance
  *  \param data The pointer to your user-defined data.
  */
-VPSDK_API void vp_user_data_set(VPInstance instance, void * data);
+VPSDK_API void vp_user_data_set(vp_instance_t instance, void * data);
 
 /**
  *  Update avatar
@@ -729,34 +760,108 @@ VPSDK_API void vp_user_data_set(VPInstance instance, void * data);
  *  - #VP_MY_YAW
  *  - #VP_MY_PITCH
  *  - #VP_MY_TYPE
+ *  \param instance
  *  \return #VP_RC_SUCCESS
  *  \return #VP_RC_NOT_IN_WORLD
  */
-VPSDK_API int vp_state_change(VPInstance instance);
+VPSDK_API int vp_state_change(vp_instance_t instance);
 
-VPSDK_API int vp_int(VPInstance instance, vp_int_attribute_t attr);
-VPSDK_API float vp_float(VPInstance instance, vp_float_attribute_t attr);
+/**
+ *  \param instance
+ *  \param attr attribute key
+ *  \return the value of the attribute
+ */
+VPSDK_API int vp_int(vp_instance_t instance, vp_int_attribute_t attr);
+
+/**
+ *  \param instance
+ *  \param attr attribute key
+ *  \return the value of the attribute
+ */
+VPSDK_API float vp_float(vp_instance_t instance, vp_float_attribute_t attr);
+
+/**
+ *  \param instance
+ *  \param attr attribute key
+ *  \return the value of the attribute
+ */
 VPSDK_API double vp_double(vp_instance_t instance, vp_float_attribute_t attr);
-VPSDK_API const char* vp_string(VPInstance instance, vp_string_attribute_t attr);
-VPSDK_API const char* vp_data(VPInstance instance, vp_data_attribute_t attr, int* length);
 
-VPSDK_API int vp_int_get(VPInstance instance, vp_int_attribute_t attr, int* value);
-VPSDK_API int vp_float_get(VPInstance instance, vp_float_attribute_t attr, float* value);
-VPSDK_API int vp_double_get(VPInstance instance, vp_float_attribute_t attr, double* value);
-VPSDK_API int vp_string_get(VPInstance instance, vp_string_attribute_t attr, char** value);
+/**
+ *  \param instance
+ *  \param attr attribute key
+ *  \return the value of the attribute
+ */
+VPSDK_API const char* vp_string(vp_instance_t instance, vp_string_attribute_t attr);
 
-VPSDK_API int vp_int_set(VPInstance instance, vp_int_attribute_t name, int value);
+/**
+ *  \param instance
+ *  \param attr attribute key
+ *  \param length pointer to the int where the length of the data will be written
+ *  \return the value of the attribute
+ */
+VPSDK_API const char* vp_data(vp_instance_t instance, vp_data_attribute_t attr, int* length);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
+VPSDK_API int vp_int_get(vp_instance_t instance, vp_int_attribute_t attr, int* value);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
+VPSDK_API int vp_float_get(vp_instance_t instance, vp_float_attribute_t attr, float* value);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
+VPSDK_API int vp_double_get(vp_instance_t instance, vp_float_attribute_t attr, double* value);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
+VPSDK_API int vp_string_get(vp_instance_t instance, vp_string_attribute_t attr, char** value);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
+VPSDK_API int vp_int_set(vp_instance_t instance, vp_int_attribute_t name, int value);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
 VPSDK_API int vp_float_set(vp_instance_t instance, vp_float_attribute_t name, float value);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
 VPSDK_API int vp_double_set(vp_instance_t instance, vp_float_attribute_t attr, double value);
-VPSDK_API void vp_string_set(VPInstance instance, vp_string_attribute_t name, const char * str);
-VPSDK_API int vp_data_set(VPInstance instance, vp_data_attribute_t name, int length, const char* data);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
+VPSDK_API void vp_string_set(vp_instance_t instance, vp_string_attribute_t name, const char * str);
+
+/**
+ *  \return #VP_RC_SUCCESS
+ *  \return #VP_RC_NO_SUCH_ATTRIBUTE
+ */
+VPSDK_API int vp_data_set(vp_instance_t instance, vp_data_attribute_t name, int length, const char* data);
 
 /**
  *	Query the objects in a single cell
  *	Each object will be sent in a #VP_EVENT_OBJECT event. After all the objects
  *  for the cell have been sent, a #VP_EVENT_CELL_END event will be raised.
  */
-VPSDK_API int vp_query_cell(VPInstance instance, int x, int z);
+VPSDK_API int vp_query_cell(vp_instance_t instance, int x, int z);
 VPSDK_API int vp_query_cell_revision(vp_instance_t instance, int x, int z, int revision);
 
 /**
@@ -776,12 +881,13 @@ VPSDK_API int vp_query_cell_revision(vp_instance_t instance, int x, int z, int r
  *  - #VP_OBJECT_DESCRIPTION
  *  - #VP_OBJECT_DATA
  */
-VPSDK_API int vp_object_add(VPInstance instance);
+VPSDK_API int vp_object_add(vp_instance_t instance);
 
-VPSDK_API int vp_object_load(VPInstance instance);
+VPSDK_API int vp_object_load(vp_instance_t instance);
 
 /**
  *  Send a object contact begin event to other users in the world
+ *  \param instance
  *  \param object_id
  *  \param session_to Session ID to send a bump event to, or 0 to send to everyone
  */
@@ -790,6 +896,7 @@ VPSDK_API int vp_object_bump_begin(vp_instance_t instance,
 
 /**
 *  Send a object contact end event to other users in the world
+*  \param instance
 *  \param object_id
 *  \param session_to Session ID to send a bump event to, or 0 to send to everyone
 */
@@ -814,71 +921,76 @@ VPSDK_API int vp_object_bump_end(vp_instance_t instance,
  *  - #VP_OBJECT_DESCRIPTION
  *  - #VP_OBJECT_DATA
  */
-VPSDK_API int vp_object_change(VPInstance instance);
+VPSDK_API int vp_object_change(vp_instance_t instance);
 
 /**
  *  Sends an object click event to other users in the world.
+ *  \param instance
  *  \param object_id            Object ID of the clicked object
  *  \param session_to           Target session, or 0 to send to everyone
  *  \param hit_x,hit_y,hit_z    Position where the object was hit
  *  \returns #VP_RC_SUCCESS
  *  \returns #VP_RC_NOT_IN_WORLD
  */
-VPSDK_API int vp_object_click(VPInstance instance, int object_id, 
+VPSDK_API int vp_object_click(vp_instance_t instance, int object_id, 
                               int session_to, float hit_x, 
                               float hit_y, float hit_z);
 
 /**
  *  Delete an object
+ *  \param instance
  *  \param object_id ID of the object to be deleted
  */
-VPSDK_API int vp_object_delete(VPInstance instance, int object_id);
+VPSDK_API int vp_object_delete(vp_instance_t instance, int object_id);
 
 /**
  *  Request the attributes of a single object. The result will be returned in
  *  the #VP_CALLBACK_OBJECT_GET callback.
  */
-VPSDK_API int vp_object_get(VPInstance instance, int object_id);
+VPSDK_API int vp_object_get(vp_instance_t instance, int object_id);
 
 /**
  *  Request the world list.
  *  The worlds will be listed in the #VP_EVENT_WORLD_LIST event. See vp_event_set().
+ *  \param instance
  *  \param time Time since your last update. This is not used yet, the whole list will be requested.
  */
-VPSDK_API int vp_world_list(VPInstance instance, int time);
+VPSDK_API int vp_world_list(vp_instance_t instance, int time);
 
-/* VPSDK_API void* vp_callback_pointer(VPInstance instance); */
-/* VPSDK_API void vp_callback_pointer_set(VPInstance instance, void* ptr); */
+/* VPSDK_API void* vp_callback_pointer(vp_instance_t instance); */
+/* VPSDK_API void vp_callback_pointer_set(vp_instance_t instance, void* ptr); */
 
 /**
  *  Request user attributes by user ID.
  *  The user attributes will be returned in the #VP_EVENT_USER_ATTRIBUTES event.
  *  \return Zero when successful, otherwise nonzero
  */
-VPSDK_API int vp_user_attributes_by_id(VPInstance instance, int user_id);
+VPSDK_API int vp_user_attributes_by_id(vp_instance_t instance, int user_id);
 
 /**
  *  Get user attributes by user name. Not implemented.
  *  \returns #VP_RC_NOT_IMPLEMENTED
  */
-VPSDK_API int vp_user_attributes_by_name(VPInstance instance, const char * name);
+VPSDK_API int vp_user_attributes_by_name(vp_instance_t instance, const char * name);
 
-VPSDK_API int vp_friends_get(VPInstance instance);
-VPSDK_API int vp_friend_add_by_name(VPInstance instance, const char* name);
-VPSDK_API int vp_friend_delete(VPInstance instance, int friend_user_id);
+VPSDK_API int vp_friends_get(vp_instance_t instance);
+VPSDK_API int vp_friend_add_by_name(vp_instance_t instance, const char* name);
+VPSDK_API int vp_friend_delete(vp_instance_t instance, int friend_user_id);
 
 /**
  *  Query a terrain tile
+ *  \param instance
  *  \param  tile_x
  *  \param  tile_z
  *  \param  revision 16 node revision numbers (4x4: revision[z][x])
  *  \return #VP_RC_SUCCESS
  *  \return #VP_RC_NOT_IN_WORLD
  */
-VPSDK_API int vp_terrain_query(VPInstance instance, int tile_x, int tile_z, int revision[][4]);
+VPSDK_API int vp_terrain_query(vp_instance_t instance, int tile_x, int tile_z, int revision[][4]);
 
 /**
  *  Replace terrain node data
+ *  \param  instance
  *  \param  tile_x
  *  \param  tile_z
  *  \param  node_x
@@ -887,7 +999,7 @@ VPSDK_API int vp_terrain_query(VPInstance instance, int tile_x, int tile_z, int 
  *  \return #VP_RC_SUCCESS
  *  \return #VP_RC_NOT_IN_WORLD
  */
-VPSDK_API int vp_terrain_node_set(VPInstance instance, 
+VPSDK_API int vp_terrain_node_set(vp_instance_t instance, 
                                   int tile_x, int tile_z, 
                                   int node_x, int node_z, 
                                   struct vp_terrain_cell_t* cells);
@@ -899,15 +1011,17 @@ VPSDK_API int vp_terrain_node_set(VPInstance instance,
  *  - #VP_CLICK_HIT_Y
  *  - #VP_CLICK_HIT_Z
  *
+ *  \param      instance
  *  \param      avatar_session The session id of the clicked avatar
  *  \returns    #VP_RC_SUCCESS
  *  \returns    #VP_RC_NOT_IN_WORLD
  */
-VPSDK_API int vp_avatar_click(VPInstance instance, int avatar_session);
+VPSDK_API int vp_avatar_click(vp_instance_t instance, int avatar_session);
 
 /**
  *  Request that another avatar teleports to a new location.
  *  \note this is only a request and receiving client can choose to ignore it
+ *  \param instance
  *  \param target_session   session ID of the avatar to teleport
  *  \param world            destination world, empty string to teleport avatar in current world
  *  \param x,y,z            avatar position
@@ -915,7 +1029,7 @@ VPSDK_API int vp_avatar_click(VPInstance instance, int avatar_session);
  *  \returns                #VP_RC_SUCCESS
  *  \returns                #VP_RC_NOT_IN_WORLD (this is about the bot instance, not the avatar to be teleported)
  */
-VPSDK_API int vp_teleport_avatar(VPInstance instance,
+VPSDK_API int vp_teleport_avatar(vp_instance_t instance,
                                  int target_session,
                                  const char* world,
                                  float x, float y, float z,
@@ -923,11 +1037,12 @@ VPSDK_API int vp_teleport_avatar(VPInstance instance,
 
 /**
  *  Send a URL to a user
+ *  \param instance
  *  \param session_id   target session id
  *  \param url          the URL to send to the target session ID
  *  \param url_target   Where to open the URL, see #vp_url_target_t
  */
-VPSDK_API int vp_url_send(VPInstance instance,
+VPSDK_API int vp_url_send(vp_instance_t instance,
                           int session_id,
                           const char* url,
                           vp_url_target_t url_target);

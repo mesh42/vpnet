@@ -27,7 +27,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using VpNet.Cache;
 using VpNet.Extensions;
 using VpNet.Interfaces;
@@ -190,59 +192,24 @@ namespace VpNet.Abstract
         public OpCacheProvider ModelCacheProvider { get; internal set; }
   
         private readonly Dictionary<int, TVpObject> _objectReferences = new Dictionary<int, TVpObject>();
-        private Timer _waitTimer;
 
         private Dictionary<int, TAvatar> _avatars;
 
         public T Implementor { get; set; }
 
-        Dictionary<string, TWorld> _worlds; 
-
-        private bool _useAutoWaitTimer;
-        public int AutoWaitTimerMs = 1;
+        Dictionary<string, TWorld> _worlds;
 
         private static IHud<TAvatar,TVector3> _hud;
 
         public IHud<TAvatar, TVector3> Hud { get { return _hud; } set { _hud = value; } }
 
-        public bool UseAutoWaitTimer
-        {
-            get { return _useAutoWaitTimer; }
-            set
-            {
-                if (value)
-                {
-                    if (Configuration.IsChildInstance) { /*TODO: allow this child instance to modify auto wait timer on the parent instance. */}
-                    if (!_isInitialized)
-                        return;
-                    if (_waitTimer != null)
-                        _waitTimer.Dispose();
-                    _waitTimer = new Timer(WaitTimerCallback,this,0,AutoWaitTimerMs);
-              
-                }
-                _useAutoWaitTimer = value;
-            }
-        }
-
-        private void WaitTimerCallback(object state)
-        {
-            lock (this)
-            {
-                if (_isInitialized)
-                {
-                    Wait(0);
-                    return;
-                }
-                _useAutoWaitTimer = false;
-                if (_waitTimer != null)
-                    _waitTimer.Dispose();
-            }
-        }
-
         private TUniverse Universe { get; set; }
         private TWorld World { get; set; }
-
-
+        private NetConfig netConfig;
+        private GCHandle instanceHandle;
+        private TaskCompletionSource<TResult> ConnectCompletionSource;
+        private TaskCompletionSource<TResult> LoginCompletionSource;
+        private TaskCompletionSource<TResult> EnterCompletionSource;
 
         internal void Init()
         {
@@ -256,6 +223,15 @@ namespace VpNet.Abstract
 
         internal void InitOnce()
         {
+            instanceHandle = GCHandle.Alloc(this);
+            netConfig.Context = GCHandle.ToIntPtr(instanceHandle);
+            netConfig.Create = Connection.CreateNative;
+            netConfig.Destroy = Connection.DestroyNative;
+            netConfig.Connect = Connection.ConnectNative;
+            netConfig.Receive = Connection.ReceiveNative;
+            netConfig.Send = Connection.SendNative;
+            netConfig.Timeout = Connection.TimeoutNative;
+
             OnChatNativeEvent += OnChatNative;
             OnAvatarAddNativeEvent += OnAvatarAddNative;
             OnAvatarChangeNativeEvent += OnAvatarChangeNative;
@@ -334,7 +310,7 @@ namespace VpNet.Abstract
             // this can't be a child instance.
             configuration.IsChildInstance = false;
             Configuration = configuration;
-        } 
+        }
 
         private void InitVpNative()
         {
@@ -342,7 +318,7 @@ namespace VpNet.Abstract
             {
                 Init();
                 Configuration = new InstanceConfiguration<TWorld>(false);
-                int rc = Functions.vp_init(3);
+                int rc = Functions.vp_init(4);
                 if (rc != 0)
                 {
                     if (rc != 3)
@@ -351,7 +327,7 @@ namespace VpNet.Abstract
                 }
 
             }
-            _instance = Functions.vp_create();
+            _instance = Functions.vp_create(ref netConfig);
 
             SetNativeEvent(Events.Chat, OnChatNative1);
             SetNativeEvent(Events.AvatarAdd, OnAvatarAddNative1);
@@ -381,10 +357,10 @@ namespace VpNet.Abstract
             SetNativeCallback(Callbacks.FriendDelete, OnFriendDeleteCallbackNative1);
             SetNativeCallback(Callbacks.GetFriends, OnGetFriendsCallbackNative1);
             //SetNativeCallback(Callbacks.ObjectLoad, OnObjectLoadCallbackNative1);
-            //SetNativeCallback(Callbacks.Login, OnLoginCallbackNative1);
-            //SetNativeCallback(Callbacks.Enter, OnEnterCallbackNativeEvent1);
+            SetNativeCallback(Callbacks.Login, OnLoginCallbackNative1);
+            SetNativeCallback(Callbacks.Enter, OnEnterCallbackNativeEvent1);
             //SetNativeCallback(Callbacks.Join, OnJoinCallbackNativeEvent1);
-            //SetNativeCallback(Callbacks.ConnectUniverse, OnConnectUniverseCallbackNative1);
+            SetNativeCallback(Callbacks.ConnectUniverse, OnConnectUniverseCallbackNative1);
             //SetNativeCallback(Callbacks.WorldPermissionUserSet, OnWorldPermissionUserSetCallbackNative1);
             //SetNativeCallback(Callbacks.WorldPermissionSessionSet, OnWorldPermissionSessionSetCallbackNative1);
             //SetNativeCallback(Callbacks.WorldSettingSet, OnWorldSettingsSetCallbackNative1);
@@ -404,10 +380,28 @@ namespace VpNet.Abstract
         internal void OnFriendDeleteCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
         internal void OnGetFriendsCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnFriendDeleteCallbackNativeEvent(instance, rc, reference); } }
         internal void OnObjectLoadCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnObjectLoadCallbackNativeEvent(instance, rc, reference); } }
-        internal void OnLoginCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnLoginCallbackNativeEvent(instance, rc, reference); } }
-        internal void OnEnterCallbackNativeEvent1(IntPtr instance, int rc, int reference) { lock (this) { OnEnterCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnLoginCallbackNative1(IntPtr instance, int rc, int reference)
+        {
+            lock (this)
+            {
+                LoginCompletionSource.SetResult(new TResult { Rc = rc });
+            }
+        }
+        internal void OnEnterCallbackNativeEvent1(IntPtr instance, int rc, int reference)
+        {
+            lock (this)
+            {
+                EnterCompletionSource.SetResult(new TResult { Rc = rc });
+            }
+        }
         internal void OnJoinCallbackNativeEvent1(IntPtr instance, int rc, int reference) { lock (this) { OnJoinCallbackNativeEvent(instance, rc, reference); } }
-        internal void OnConnectUniverseCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnConnectUniverseCallbackNativeEvent(instance, rc, reference); } }
+        internal void OnConnectUniverseCallbackNative1(IntPtr instance, int rc, int reference)
+        {
+            lock (this)
+            {
+                ConnectCompletionSource.SetResult(new TResult { Rc = rc });
+            }
+        }
         internal void OnWorldPermissionUserSetCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnWorldPermissionUserSetCallbackNativeEvent(instance, rc, reference); } }
         internal void OnWorldPermissionSessionSetCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnWorldPermissionSessionSetCallbackNativeEvent(instance, rc, reference); } }
         internal void OnWorldSettingsSetCallbackNative1(IntPtr instance, int rc, int reference) { lock (this) { OnWorldSettingsSetCallbackNativeEvent(instance, rc, reference); } }
@@ -439,33 +433,36 @@ namespace VpNet.Abstract
 
         #region IUniverseFunctions Implementations
 
-        virtual public TResult Connect(string host = "universe.virtualparadise.org", ushort port = 57000)
+        virtual public Task<TResult> Connect(string host = "universe.virtualparadise.org", ushort port = 57000)
         {
             Universe.Host = host;
             Universe.Port = port;
 
             lock (this)
             {
-                return new TResult
-                    {
-                        Rc = Functions.vp_connect_universe(_instance, host, port)
-                    };
+                ConnectCompletionSource = new TaskCompletionSource<TResult>();
+                var rc = Functions.vp_connect_universe(_instance, host, port);
+                if (rc != 0)
+                {
+                    ConnectCompletionSource.SetResult(new TResult { Rc = rc });
+                }
+                return ConnectCompletionSource.Task;
             }
         }
 
-        virtual public TResult LoginAndEnter(bool announceAvatar = true)
+        virtual public async Task<TResult> LoginAndEnter(bool announceAvatar = true)
         {
-            Connect();
-            Login();
+            await Connect();
+            await Login();
             if (announceAvatar)
             {
-                Enter();
+                await Enter();
                 return UpdateAvatar();
             }
-            return Enter();
+            return await Enter();
         }
 
-        virtual public TResult Login()
+        virtual public async Task<TResult> Login()
         {
             if (Configuration == null ||
                 string.IsNullOrEmpty(Configuration.BotName) ||
@@ -475,46 +472,64 @@ namespace VpNet.Abstract
             {
                 throw new ArgumentException("Can't login because of Incomplete login configuration.");
             }
-            return Login(Configuration.UserName, Configuration.Password, Configuration.BotName);
+            return await Login(Configuration.UserName, Configuration.Password, Configuration.BotName);
         }
 
-        virtual public TResult Login(string username, string password, string botname)
+        virtual public Task<TResult> Login(string username, string password, string botname)
         {
             lock (this)
             {
                 Configuration.BotName = botname;
                 Configuration.UserName = username;
                 Configuration.Password = password;
-                return new TResult
-                    {
-                    Rc = Functions.vp_login(_instance, username, password, botname)
-                };
+
+                LoginCompletionSource = new TaskCompletionSource<TResult>();
+                var rc = Functions.vp_login(_instance, username, password, botname);
+                if (rc != 0)
+                {
+                    return Task.FromResult(new TResult { Rc = rc });
+                }
+
+                return LoginCompletionSource.Task;
             }
         }
 
         #endregion
 
         #region IWorldFunctions Implementations
-
+        [Obsolete("No longer necessary for network IO to occur")]
         virtual public TResult Wait(int milliseconds = 10)
         {
-            return new TResult { Rc = Functions.vp_wait(_instance, milliseconds) };
+            Thread.Sleep(milliseconds);
+            return new TResult { Rc = 0 };
         }
 
-        virtual public TResult Enter(string worldname)
+        virtual public Task<TResult> Enter(string worldname)
+        {
+            return Enter(new TWorld { Name = worldname });
+        }
+
+        virtual public Task<TResult> Enter()
+        {
+            if (Configuration == null || Configuration.World == null || string.IsNullOrEmpty(Configuration.World.Name))
+                throw new ArgumentException("Can't login because of Incomplete instance world configuration.");
+            return Enter(Configuration.World);
+        }
+
+        virtual public Task<TResult> Enter(TWorld world)
         {
             lock (this)
             {
-                Configuration.World = new TWorld{Name=worldname};
+                Configuration.World = world;
 
-                var result = new TResult
+                EnterCompletionSource = new TaskCompletionSource<TResult>();
+                var rc = Functions.vp_enter(_instance, world.Name);
+                if (rc != 0)
                 {
-                    Rc = Functions.vp_enter(_instance, worldname)
-                };
-                if (result.Rc == 0 && OnWorldEnter != null)
-                    OnWorldEnter(Implementor,new TWorldEnterEventArgs(){World = Configuration.World});
-                return result;
+                    return Task.FromResult(new TResult { Rc = rc });
+                }
 
+                return EnterCompletionSource.Task;
             }
         }
 
@@ -539,28 +554,6 @@ namespace VpNet.Abstract
                 },
                 LastChanged = DateTime.Now
             };
-        }
-
-        virtual public TResult Enter()
-        {
-            if (Configuration==null || Configuration.World==null || string.IsNullOrEmpty(Configuration.World.Name))
-                   throw new ArgumentException("Can't login because of Incomplete instance world configuration.");
-            return Enter(Configuration.World);
-        }
-
-        virtual public TResult Enter(TWorld world)
-        {
-            lock (this)
-            {
-                Configuration.World = world;
-                var result =  new TResult
-                {
-                    Rc = Functions.vp_enter(_instance, world.Name)
-                };                
-                if (result.Rc == 0 && OnWorldEnter != null)
-                    OnWorldEnter(Implementor, new TWorldEnterEventArgs() { World = Configuration.World });
-                return result;
-            }
         }
 
         /// <summary>
@@ -1377,7 +1370,9 @@ namespace VpNet.Abstract
         private void OnLoginCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
         private void OnEnterCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
         private void OnJoinCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
-        private void OnConnectUniverseCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
+        private void OnConnectUniverseCallbackNative(IntPtr sender, int rc, int reference) {
+            ConnectCompletionSource.SetResult(new TResult { Rc = rc });
+        }
         private void OnWorldPermissionUserSetCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
         private void OnWorldPermissionSessionSetCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
         private void OnWorldSettingsSetCallbackNative(IntPtr sender, int rc, int reference) { /* todo: implement this */  }
@@ -1918,13 +1913,14 @@ namespace VpNet.Abstract
             {
                 if (Configuration.IsChildInstance)
                     return;
-                if (_waitTimer != null)
-                {
-                    _waitTimer.Dispose();
-                    _waitTimer = null;
-                }
                 Functions.vp_destroy(_instance);
             }
+
+            if (instanceHandle != null)
+            {
+                instanceHandle.Free();
+            }
+
             GC.SuppressFinalize(this);
         }
 
@@ -2004,10 +2000,7 @@ namespace VpNet.Abstract
         override internal event CallbackDelegate OnGetFriendsCallbackNativeEvent;
 
         override internal event CallbackDelegate OnObjectLoadCallbackNativeEvent;
-        override internal event CallbackDelegate OnLoginCallbackNativeEvent;
-        override internal event CallbackDelegate OnEnterCallbackNativeEvent;
         override internal event CallbackDelegate OnJoinCallbackNativeEvent;
-        override internal event CallbackDelegate OnConnectUniverseCallbackNativeEvent;
         override internal event CallbackDelegate OnWorldPermissionUserSetCallbackNativeEvent;
         override internal event CallbackDelegate OnWorldPermissionSessionSetCallbackNativeEvent;
         override internal event CallbackDelegate OnWorldSettingsSetCallbackNativeEvent;

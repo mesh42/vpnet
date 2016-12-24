@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet", "VpNet\VpNet.csproj", "{DBE501A7-0176-473F-B2E8-F4ADA721917F}"
 EndProject
@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 	ProjectSection(SolutionItems) = preProject
 		Dependencies\rc.h = Dependencies\rc.h
 		Dependencies\VP.h = Dependencies\VP.h
+		Dependencies\VP_Net.h = Dependencies\VP_Net.h
+		Dependencies\VP_Win32.h = Dependencies\VP_Win32.h
 		Dependencies\vpsdk.dll = Dependencies\vpsdk.dll
 	EndProjectSection
 EndProject
@@ -35,27 +37,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VpNet.VpConsoleServices", "VpNet.VpConsoleServices\VpNet.VpConsoleServices.csproj", "{DF887AB6-DB46-44C4-8CF9-12E8B31D26BA}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = VpNet\\VpNet.csproj
-		SccProjectName1 = VpNet
-		SccLocalPath1 = VpNet
-		SccProjectUniqueName2 = VpNet.Plugins\\VpNet.Plugins.csproj
-		SccProjectName2 = VpNet.Plugins
-		SccLocalPath2 = VpNet.Plugins
-		SccProjectUniqueName3 = VpNet.VpConsole\\VpNet.VpConsole.csproj
-		SccProjectName3 = VpNet.VpConsole
-		SccLocalPath3 = VpNet.VpConsole
-		SccProjectUniqueName4 = VpNet.GameExtensions\\VpNet.GameExtensions.csproj
-		SccProjectName4 = VpNet.GameExtensions
-		SccLocalPath4 = VpNet.GameExtensions
-		SccProjectUniqueName5 = VpNet.VpConsoleServices\\VpNet.VpConsoleServices.csproj
-		SccProjectName5 = VpNet.VpConsoleServices
-		SccLocalPath5 = VpNet.VpConsoleServices
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (Signed)|Any CPU = Debug (Signed)|Any CPU
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +79,27 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BD066E75-E7D9-43FC-818D-38E7BE4AF77A} = {FD3C7436-CC7D-4470-8763-1897F8E3285C}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = VpNet\\VpNet.csproj
+		SccProjectName1 = VpNet
+		SccLocalPath1 = VpNet
+		SccProjectUniqueName2 = VpNet.Plugins\\VpNet.Plugins.csproj
+		SccProjectName2 = VpNet.Plugins
+		SccLocalPath2 = VpNet.Plugins
+		SccProjectUniqueName3 = VpNet.VpConsole\\VpNet.VpConsole.csproj
+		SccProjectName3 = VpNet.VpConsole
+		SccLocalPath3 = VpNet.VpConsole
+		SccProjectUniqueName4 = VpNet.GameExtensions\\VpNet.GameExtensions.csproj
+		SccProjectName4 = VpNet.GameExtensions
+		SccLocalPath4 = VpNet.GameExtensions
+		SccProjectUniqueName5 = VpNet.VpConsoleServices\\VpNet.VpConsoleServices.csproj
+		SccProjectName5 = VpNet.VpConsoleServices
+		SccLocalPath5 = VpNet.VpConsoleServices
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
