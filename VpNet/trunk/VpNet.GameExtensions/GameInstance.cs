@@ -107,8 +107,6 @@ namespace VpNet.GameExtensions
             };
             GameObjectManager = new GameObjectManager(this);
             Cloud = new GameCloudService(this,gameCloudServiceUrl,hudServiceUrl);
-            AutoWaitTimerMs = 1;
-            UseAutoWaitTimer = true;
         }
         public GameInstance() { }
     }

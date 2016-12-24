@@ -23,6 +23,7 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System.Threading.Tasks;
 using VpNet.ManagedApi.System.ConsoleEx;
 
 namespace VpNet.VpConsole
@@ -39,7 +40,12 @@ namespace VpNet.VpConsole
         /// <param name="args">The args.</param>
         static void Main(string[] args)
         {
-            new ProgramInstance();
+            var program = new ProgramInstance();
+            Task.Run(async () =>
+            {
+                await program.Run();
+            }).GetAwaiter().GetResult();
+
         }
     }
 }

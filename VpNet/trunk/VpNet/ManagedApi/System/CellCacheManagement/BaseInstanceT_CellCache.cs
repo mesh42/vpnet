@@ -193,7 +193,6 @@ namespace VpNet.Abstract
 
         private List<TCell> _cacheScanned;
         private bool _useCellCache;
-        private bool _autowaitWasUsed;
         private List<TCell> _cacheScanning;
 
         public List<TVpObject> CacheObjects { get { return _objects; } } 
@@ -283,7 +282,6 @@ namespace VpNet.Abstract
                 if (_cache.Count == 0)
                 {
                     _isScanning = false;
-                    UseAutoWaitTimer = _autowaitWasUsed;
                     if (OnQueryCellRangeEnd != null)
                         OnQueryCellRangeEnd(Implementor, new CellRangeQueryCompletedArgs<TVpObject,TVector3> { VpObjects = _objects.Copy() });
                 }
@@ -319,7 +317,6 @@ namespace VpNet.Abstract
                 UseCellCache = true;
             lock (this)
             {
-                _autowaitWasUsed = UseAutoWaitTimer.Copy();
                 var l = CreateQueryList(start, end);
                 foreach (TCell cell in l)
                 {
@@ -342,7 +339,6 @@ namespace VpNet.Abstract
                             QueryCell(_cache[0].X, _cache[0].Z);
                             _cache.Remove(_cache[0]);
                         }
-                        UseAutoWaitTimer = false;
                     }
                 }
                 return l.Count();
@@ -374,7 +370,6 @@ namespace VpNet.Abstract
                 throw new Exception("Can not issue a cell query before the other range query has ended.");
             if (!UseCellCache)
                 UseCellCache = true;
-            _autowaitWasUsed = UseAutoWaitTimer.Copy();
 
             lock (this)
             {
@@ -384,7 +379,6 @@ namespace VpNet.Abstract
                     if (!_isScanning)
                     {
                         _isScanning = true;
-                        UseAutoWaitTimer = false;
                         QueryCell(cell.X, cell.Z);
                     }
                 }

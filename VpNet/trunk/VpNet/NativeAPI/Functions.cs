@@ -34,7 +34,7 @@ namespace VpNet.NativeApi
         public static extern int vp_init(int build);
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr vp_create();
+        public static extern IntPtr vp_create(ref NetConfig netConfig);
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_destroy(IntPtr instance);
@@ -233,6 +233,9 @@ namespace VpNet.NativeApi
 
         [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vp_world_setting_set(IntPtr instance, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string setting, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringToNative))] string value, int session_to);
+
+        [DllImport("vpsdk", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int vp_net_notify(IntPtr vpConnection, int type, int status);
 
     }
 }

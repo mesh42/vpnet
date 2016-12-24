@@ -23,21 +23,23 @@ ____   ___.__         __               .__    __________                        
 */
 #endregion
 
+using System.Threading.Tasks;
+
 namespace VpNet.Interfaces
 {
-    public interface IWorldFunctions<out TRc, in TWorld, in TWorldAttributes> 
+    public interface IWorldFunctions<TRc, in TWorld, in TWorldAttributes> 
         where TRc: class, IRc, new()
         where TWorld : class, IWorld, new()
         where TWorldAttributes : class, IWorldAttributes,new()
     {
         TRc Wait(int milliseconds=0);
-        TRc Enter(TWorld world);
-        TRc Enter(string world);
+        Task<TRc> Enter(TWorld world);
+        Task<TRc> Enter(string world);
         /// <summary>
         /// Enter world using instance configuration.
         /// </summary>
         /// <returns></returns>
-        TRc Enter();
+        Task<TRc> Enter();
         TRc ListWorlds();
         TRc Leave();
     }

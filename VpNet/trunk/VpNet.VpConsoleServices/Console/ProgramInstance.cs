@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using VpNet.Abstract;
 using VpNet.Extensions;
 using VpNet.NativeApi;
@@ -45,15 +46,17 @@ ____   ____.__         __               .__    __________                       
            // Console.WriteLine("VP SDK Version: {0}", System.Reflection.Assembly.GetAssembly(typeof(Instance)).GetName().Version.ToString());
            // Console.WriteLine("VP Console Version: {0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
            // Console.WriteLine("Copyright (c) 2012-2016 CUBE3 (Cit:36) under LGPL license\n");
-            Connect();
-
         }
 
-        private void Reset()
+        public async Task Run()
+        {
+            await Connect();
+        }
+
+        private async Task Reset()
         {
             // ignore any other exceptions (system wide)
             RcDefault.IgnoreExceptions = true;
-            Vp.UseAutoWaitTimer = false;
             // turn of system wide exception handling.
             RcDefault.OnVpException -= RcDefault_OnVpException;
             // unload all active plugins
@@ -67,8 +70,7 @@ ____   ____.__         __               .__    __________                       
             Vp.Configuration.IsChildInstance = false;
             Vp.Dispose();
             Vp = new Instance();
-            Connect();
-
+            await Connect();
         }
 
         /// <summary>
@@ -117,12 +119,12 @@ ____   ____.__         __               .__    __________                       
             }
         }
 
-        private void Connect()
+        private async Task Connect()
         {
             Cli.WriteLine(ConsoleMessageType.Information, "Connecting...");
             try
             {
-                Vp.Connect();
+                await Vp.Connect();
                 Cli.WriteLine(ConsoleMessageType.Information, "Connected to universe.\n");
                 if (File.Exists(AutoLogin.LoginconfigurationXmlPath))
                 {
@@ -130,8 +132,8 @@ ____   ____.__         __               .__    __________                       
                     var config = SerializableExtensions.Deserialize<InstanceConfiguration<World>>(AutoLogin.LoginconfigurationXmlPath);
                     try
                     {
-                        Vp.Login(config.UserName, config.Password, config.BotName);
-                        Vp.Enter(config.World.Name);
+                        await Vp.Login(config.UserName, config.Password, config.BotName);
+                        await Vp.Enter(config.World.Name);
                         _world = config.World.Name;
                         Vp.UpdateAvatar();
                         ProceedAfterLogin(true);
@@ -143,7 +145,7 @@ ____   ____.__         __               .__    __________                       
                         {
                             // strange native vpsdk bug, after reating a new native instance, upon first time 
                             // the sdk does not seem to connect properly.
-                            Connect();
+                            await Connect();
                         }
                         Cli.WriteLine(ConsoleMessageType.Information,
                             "Autologin failed. Reason" + ex.Reason.ToString() + " " + ex.Message);
@@ -163,9 +165,9 @@ ____   ____.__         __               .__    __________                       
             }
         }
 
-        private void Reconnect(object state)
+        private async void Reconnect(object state)
         {
-            Connect();
+            await Connect();
         }
 
         protected bool IsAutoReconnect = true;
@@ -185,7 +187,7 @@ ____   ____.__         __               .__    __________                       
             Cli.IsMaskedInput = false;
             try
             {
-                Vp.Login(_userName, password, "vpnetconsole");
+                Vp.Login(_userName, password, "vpnetconsole").GetAwaiter().GetResult();
             }
             catch (VpException ex)
             {
@@ -206,7 +208,6 @@ ____   ____.__         __               .__    __________                       
             Vp.OnWorldList += Vp_OnWorldList;
             Vp.OnAvatarEnter += Vp_OnAvatarEnter;
             Vp.OnAvatarLeave += Vp_OnAvatarLeave;
-            Vp.UseAutoWaitTimer = true;
             Vp.ListWorlds();
             if (enteredWorld)
             {
@@ -224,10 +225,10 @@ ____   ____.__         __               .__    __________                       
             Cli.ReadLine();
         }
 
-        private void Vp_OnUniverseDisconnect(Instance sender, UniverseDisconnectEventArgs args)
+        private async void Vp_OnUniverseDisconnect(Instance sender, UniverseDisconnectEventArgs args)
         {
             Cli.WriteLine(ConsoleMessageType.Error, "Disconnected from universe, reconnecting.");
-            Reset();
+            await Reset();
         }
 
         private void Vp_OnAvatarLeave(Instance sender, AvatarLeaveEventArgsT<Avatar<Vector3>, Vector3> args)
@@ -250,7 +251,7 @@ ____   ____.__         __               .__    __________                       
             _world = world;
             try
             {
-                Vp.Enter(world);
+                Vp.Enter(world).GetAwaiter().GetResult();
             }
             catch (VpException ex)
             {

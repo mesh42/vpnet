@@ -42,8 +42,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <Reference Include="VpNet, Version=1.0.9.2030, Culture=neutral, PublicKeyToken=59c6dba8997fd469, processorArchitecture=MSIL">
-      <HintPath>..\packages\VpNet.1.0.9.2030-alpha\lib\net461\VpNet.dll</HintPath>
+    <Reference Include="VpNet, Version=1.0.9.2197, Culture=neutral, PublicKeyToken=59c6dba8997fd469, processorArchitecture=MSIL">
+      <HintPath>..\packages\VpNet.1.0.9.2197-alpha4\lib\net461\VpNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -69,7 +69,9 @@
       <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
     </None>
     <None Include="libvpsdk.so" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="VpNet.VpConsoleServices.nuspec">
       <SubType>Designer</SubType>
     </None>

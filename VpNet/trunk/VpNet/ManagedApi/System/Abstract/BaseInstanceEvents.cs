@@ -67,18 +67,10 @@ namespace VpNet.Abstract
         internal abstract event CallbackDelegate OnGetFriendsCallbackNativeEvent;
 
         internal abstract event CallbackDelegate OnObjectLoadCallbackNativeEvent;
-        internal abstract event CallbackDelegate OnLoginCallbackNativeEvent;
-        internal abstract event CallbackDelegate OnEnterCallbackNativeEvent;
         internal abstract event CallbackDelegate OnJoinCallbackNativeEvent;
-        internal abstract event CallbackDelegate OnConnectUniverseCallbackNativeEvent;
         internal abstract event CallbackDelegate OnWorldPermissionUserSetCallbackNativeEvent;
         internal abstract event CallbackDelegate OnWorldPermissionSessionSetCallbackNativeEvent;
         internal abstract event CallbackDelegate OnWorldSettingsSetCallbackNativeEvent;
-
-
-
-
-
         #endregion
     }
 }

@@ -217,6 +217,7 @@
     <Compile Include="Math\Vector2.cs" />
     <Compile Include="Math\Vector3.cs" />
     <Compile Include="Math\Vector4.cs" />
+    <Compile Include="ManagedApi\System\Connection.cs" />
     <Compile Include="NativeApi\DataConverters.cs" />
     <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseAvatarChangeEventArgs.cs" />
     <Compile Include="ManagedApi\Events\Avatar\Abstract\BaseAvatarEnterEventArgs.cs" />
@@ -291,8 +292,11 @@
     <Compile Include="NativeApi\Delegates.cs" />
     <Compile Include="NativeApi\Events.cs" />
     <Compile Include="NativeApi\Functions.cs" />
+    <Compile Include="NativeApi\NetworkNotification.cs" />
+    <Compile Include="NativeApi\NetworkReturnCode.cs" />
     <Compile Include="NativeApi\ReasonCode.cs" />
     <Compile Include="ManagedApi\Scene\Enumerations\TextEffectTypes.cs" />
+    <Compile Include="NativeApi\Structures.cs" />
     <Compile Include="NativeApi\Utf8Marshaler.cs" />
     <Compile Include="Math\PlaneHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
